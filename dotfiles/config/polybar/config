@@ -70,7 +70,7 @@ modules-center = cpu i3 memory
 modules-right = pulseaudio x filesystem date
 
 
-tray-position = none
+tray-position = left
 tray-maxsize = 16
 tray-padding = 8
 tray-transparent = false
