@@ -1,8 +1,7 @@
 fish_vi_key_bindings
 
 # custom theme
-set SPACEFISH_VI_MODE_SHOW false
-#set SPACEFISH_CHAR_SYMBOL ">"
+set fish_greeting
 
 # alias
 alias v="nvim"
