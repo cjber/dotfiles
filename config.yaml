@@ -14,8 +14,66 @@ dotfiles:
   f_renviron:
     src: Renviron
     dst: ~/.Renviron
+  d_kitty:
+    src: config/kitty
+    dst: ~/.config/kitty
+  d_configs:
+    src: config/nvim/configs
+    dst: ~/.config/nvim/configs
+  f_init.vim:
+    src: config/nvim/init.vim
+    dst: ~/.config/nvim/init.vim
+  f_coc-settings.json:
+    src: config/nvim/coc-settings.json
+    dst: ~/.config/nvim/coc-settings.json
+  d_ftplugin:
+    src: config/nvim/ftplugin
+    dst: ~/.config/nvim/ftplugin
+  f_picom.conf:
+    src: config/picom.conf
+    dst: ~/.config/picom.conf
+  d_autostart:
+    src: config/autostart
+    dst: ~/.config/autostart
+  d_cmus:
+    src: config/cmus
+    dst: ~/.config/cmus
+  d_nitrogen:
+    src: config/nitrogen
+    dst: ~/.config/nitrogen
+  d_rofi:
+    src: config/rofi
+    dst: ~/.config/rofi
+  d_zathura:
+    src: config/zathura
+    dst: ~/.config/zathura
+  d_fish:
+    src: config/fish
+    dst: ~/.config/fish
+  d_polybar:
+    src: config/polybar
+    dst: ~/.config/polybar
+  d_pypoetry:
+    src: config/pypoetry
+    dst: ~/.config/pypoetry
 profiles:
   home:
     dotfiles:
     - f_rprofile
     - f_renviron
+  cjber:
+    dotfiles:
+    - d_kitty
+    - d_configs
+    - f_init.vim
+    - f_coc-settings.json
+    - d_ftplugin
+    - f_picom.conf
+    - d_autostart
+    - d_cmus
+    - d_nitrogen
+    - d_rofi
+    - d_zathura
+    - d_fish
+    - d_polybar
+    - d_pypoetry
