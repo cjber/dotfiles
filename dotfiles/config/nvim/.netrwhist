@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/cjber/dotfiles'
+let g:netrw_dirhist_1='/home/cjber/.config'
+let g:netrw_dirhist_0='/home/cjber/.config/polybar'
+let g:netrw_dirhist_9='/home/cjber/.FAHClient'
+let g:netrw_dirhist_8='/home/cjber/.config/spicetify/Themes'
+let g:netrw_dirhist_7='/home/cjber/.config/nvim/ftplugin'
+let g:netrw_dirhist_6='/home/cjber/.config'
+let g:netrw_dirhist_5='/home/cjber/.config/kitty'
+let g:netrw_dirhist_4='/home/cjber/.i3'
+let g:netrw_dirhist_3='/home/cjber/.ipython/profile_default'

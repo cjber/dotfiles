@@ -17,18 +17,6 @@ dotfiles:
   d_kitty:
     src: config/kitty
     dst: ~/.config/kitty
-  d_configs:
-    src: config/nvim/configs
-    dst: ~/.config/nvim/configs
-  f_init.vim:
-    src: config/nvim/init.vim
-    dst: ~/.config/nvim/init.vim
-  f_coc-settings.json:
-    src: config/nvim/coc-settings.json
-    dst: ~/.config/nvim/coc-settings.json
-  d_ftplugin:
-    src: config/nvim/ftplugin
-    dst: ~/.config/nvim/ftplugin
   f_picom.conf:
     src: config/picom.conf
     dst: ~/.config/picom.conf
@@ -56,18 +44,22 @@ dotfiles:
   d_pypoetry:
     src: config/pypoetry
     dst: ~/.config/pypoetry
+  d_ipython:
+    src: ipython
+    dst: ~/.ipython
+  d_i3:
+    src: i3
+    dst: ~/.i3
+  d_nvim:
+    src: config/nvim
+    dst: ~/.config/nvim
+    link: link_children
 profiles:
   home:
     dotfiles:
     - f_rprofile
     - f_renviron
-  cjber:
-    dotfiles:
     - d_kitty
-    - d_configs
-    - f_init.vim
-    - f_coc-settings.json
-    - d_ftplugin
     - f_picom.conf
     - d_autostart
     - d_cmus
@@ -77,3 +69,6 @@ profiles:
     - d_fish
     - d_polybar
     - d_pypoetry
+    - d_ipython
+    - d_i3
+    - d_nvim
