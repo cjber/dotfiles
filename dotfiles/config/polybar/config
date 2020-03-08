@@ -59,7 +59,13 @@ font-2 = FontAwesome5Free:style=Regular:size=10;4
 font-3 = FontAwesome5Brands:style=Regular:size=10;4
 font-4 = Unifont:stype=Medium
 
+{%@@ if profile == "home" @@%}
 modules-left = system-nvidia-system system-nvidia-temp x temperature 
+{%@@ elif profile == "uni" @@%}
+modules-left = temperature 
+{%@@ elif profile == "laptop" @@%}
+modules-left = temperature 
+{%@@ endif @@%}
 modules-center = cpu i3 memory 
 modules-right = pulseaudio x filesystem date
 
@@ -140,8 +146,10 @@ bar-volume-empty-foreground = #444444
 [module/temperature]
 type = internal/temperature
 units = false
+{%@@ if profile == "home" @@%}
 thermal-zone = 0
 hwmon-path = /sys/devices/platform/it87.2656/hwmon/hwmon2/temp1_input
+{%@@ endif @@%}
 format = <ramp> <label>
 ramp-indicator = 
 ramp-width = 20
