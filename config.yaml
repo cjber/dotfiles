@@ -1,0 +1,21 @@
+config:
+  backup: true
+  banner: true
+  create: true
+  dotpath: dotfiles
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+dotfiles:
+  f_rprofile:
+    src: Rprofile
+    dst: ~/.Rprofile
+  f_renviron:
+    src: Renviron
+    dst: ~/.Renviron
+profiles:
+  home:
+    dotfiles:
+    - f_rprofile
+    - f_renviron
