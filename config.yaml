@@ -11,45 +11,59 @@ dotfiles:
   f_rprofile:
     src: Rprofile
     dst: ~/.Rprofile
+    link: link
   f_renviron:
     src: Renviron
     dst: ~/.Renviron
+    link: link
   d_kitty:
     src: config/kitty
     dst: ~/.config/kitty
+    link: link
   f_picom.conf:
     src: config/picom.conf
     dst: ~/.config/picom.conf
+    link: link
   d_autostart:
     src: config/autostart
     dst: ~/.config/autostart
+    link: link
   d_cmus:
     src: config/cmus
     dst: ~/.config/cmus
+    link: link
   d_nitrogen:
     src: config/nitrogen
     dst: ~/.config/nitrogen
+    link: link
   d_rofi:
     src: config/rofi
     dst: ~/.config/rofi
+    link: link
   d_zathura:
     src: config/zathura
     dst: ~/.config/zathura
+    link: link
   d_fish:
     src: config/fish
     dst: ~/.config/fish
+    link: link_children
   d_polybar:
     src: config/polybar
     dst: ~/.config/polybar
+    link: link
   d_pypoetry:
     src: config/pypoetry
     dst: ~/.config/pypoetry
+    link: link
   d_ipython:
     src: ipython
     dst: ~/.ipython
+    link: link
   d_i3:
     src: i3
     dst: ~/.i3
+    link: link
   d_nvim:
     src: config/nvim
     dst: ~/.config/nvim
@@ -57,18 +71,10 @@ dotfiles:
 profiles:
   home:
     dotfiles:
-    - f_rprofile
-    - f_renviron
-    - d_kitty
-    - f_picom.conf
-    - d_autostart
-    - d_cmus
-    - d_nitrogen
-    - d_rofi
-    - d_zathura
-    - d_fish
-    - d_polybar
-    - d_pypoetry
-    - d_ipython
-    - d_i3
-    - d_nvim
+    - ALL
+  laptop:
+    dotfiles:
+    - ALL
+  uni:
+    dotfiles:
+    - ALL
