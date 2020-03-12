@@ -36,3 +36,5 @@ export DOTREPO="/home/cjber/dotfiles"
 
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull && dotgit add -A && dotgit commit && dotgit push; dotdrop install"
+
+zoxide init fish | source
