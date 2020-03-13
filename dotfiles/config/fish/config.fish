@@ -34,6 +34,7 @@ starship init fish | source
 # Your dotdrop git repository location
 export DOTREPO="/home/cjber/dotfiles"
 
+alias dotdrop='dotdrop --cfg=/home/cjber/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
 
