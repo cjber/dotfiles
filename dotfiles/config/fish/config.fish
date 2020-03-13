@@ -35,6 +35,6 @@ starship init fish | source
 export DOTREPO="/home/cjber/dotfiles"
 
 alias dotgit="git -C $DOTREPO"
-alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push; dotdrop install"
+alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
 
 zoxide init fish | source
