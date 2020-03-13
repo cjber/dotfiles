@@ -41,15 +41,15 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
-Plug 'jalvesaq/vimcmdline'
+Plug 'cjber/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
 
 " r plugs
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-pandoc/vim-rmarkdown'
-Plug 'jalvesaq/Nvim-R'
-Plug 'jalvesaq/R-Vim-runtime'
+"Plug 'jalvesaq/Nvim-R'
+"Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'Vimjas/vim-python-pep8-indent'
@@ -93,7 +93,7 @@ autocmd! ColorScheme onedark call s:patch_onedark_colors()
 
 colorscheme onedark
 
-let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmarkdown', 'markdown', 'pandoc']
+let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmd', 'markdown', 'pandoc']
 
 " Extensive spelling check for all written documents, toplevel is required
 autocmd BufNewFile,BufRead *rnw :set spell
@@ -187,6 +187,7 @@ imap <C-l> <Plug>(coc-snippets-expand)
 autocmd BufRead,BufNewFile *.rmd set filetype=rmarkdown
 
 let g:pandoc#keyboard#use_default_mappings=0
+let g:pandoc#modules#disabled = ["command", "formatting", "templates", "menu", "keyboard", "bibliographies", "completion", "autocomplete"]
 
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
