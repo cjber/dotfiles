@@ -48,8 +48,8 @@ Plug 'chrisbra/Nrrwrgn'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-pandoc/vim-rmarkdown'
-"Plug 'jalvesaq/Nvim-R'
-"Plug 'jalvesaq/R-Vim-runtime'
+Plug 'jalvesaq/Nvim-R'
+Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'Vimjas/vim-python-pep8-indent'
@@ -187,5 +187,6 @@ imap <C-l> <Plug>(coc-snippets-expand)
 autocmd BufRead,BufNewFile *.rmd set filetype=rmarkdown
 
 let g:pandoc#keyboard#use_default_mappings=0
+
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
