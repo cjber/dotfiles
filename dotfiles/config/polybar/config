@@ -60,7 +60,7 @@ font-3 = FontAwesome5Brands:style=Regular:size=10;4
 font-4 = Unifont:stype=Medium
 
 {%@@ if profile == "home" @@%}
-modules-left = system-nvidia-system system-nvidia-temp x temperature cpu_cores
+modules-left = system-nvidia-system system-nvidia-temp x cpu_cores temperature
 {%@@ elif profile == "uni" @@%}
 modules-left = temperature cpu_cores
 {%@@ elif profile == "laptop" @@%}
@@ -150,17 +150,12 @@ thermal-zone = 0
 hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
 {%@@ endif @@%}
 format = <label>
-ramp-indicator = 
-ramp-width = 20
-ramp-0 = %{F#55aa55}:::::%{F#444444}::::::::::::::
-ramp-1 = %{F#55AA55}:::::%{F#557755}:::::%{F#444444}:::::::::
-ramp-2 = %{F#55AA55}:::::%{F#557755}:::::%{F#F5A70A}:::::%{F#444444}::::
-ramp-3 = %{F#55AA55}:::::%{F#557755}:::::%{F#F5A70A}:::::%{F#FF5555}::::
 
 base-temperature = 40
 warn-temperature = 80
 format-warn = <label-warn>
-label = %{F#5F8DBBBA} %temperature-c:3:3%
+
+label = cpu temp %temperature-c:3:3%
 label-warn = %temperature-c%
 label-warn-foreground = #f00
 
