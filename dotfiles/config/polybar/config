@@ -197,7 +197,7 @@ format = <ramp-coreload>
 label = %percentage:3:3%
 format-foreground = #5f
 
-ramp-coreload-foreground = #55aa55
+ramp-coreload-foreground = #557755
 ; Spacing between individual per-core ramps
 ramp-coreload-spacing = 0
 ramp-coreload-0 = ▁
