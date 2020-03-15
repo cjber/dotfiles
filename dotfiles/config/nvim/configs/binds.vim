@@ -102,12 +102,8 @@ nmap k gk
 vmap j gj
 vmap k gk
 
-
-" shift zz to remove all windows (use this for when I have an open repl)
-nnoremap <S-Z><S-Z> :xa!<CR>
-
 " Command mode shortcut
-" emables ctrl navigation in menus
+" enables ctrl navigation in menus
 cnoremap <C-h> <BS>
 cnoremap <C-j> <Down>
 cnoremap <C-k> <Up>
@@ -170,8 +166,17 @@ inoremap <c-c> <ESC>
 " When the <Enter> key is pressed while the popup menu is visible, it only
 " hides the menu. Use this mapping to close the menu and also start a new
 " line.
-" inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
 " navigate popup menu with ctrl j and k
 inoremap <expr> <c-j> pumvisible() ? "\<C-N>" : "j"
 inoremap <expr> <c-k> pumvisible() ? "\<C-P>" : "k"
+
+" swap windows
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+nnoremap <C-H> <C-W>h
+
+
+inoremap <expr> <C-L> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
