@@ -155,8 +155,7 @@ base-temperature = 40
 warn-temperature = 80
 format-warn = <label-warn>
 
-label = temp %temperature-c:3:3%
-label-foreground = #f5
+label = %{F#5F8DBBBA} temp %temperature-c:3:3%
 label-warn = %temperature-c%
 label-warn-foreground = #f00
 
@@ -194,7 +193,7 @@ bar-load-empty-foreground = #444444
 [module/cpu_cores]
 type = internal/cpu
 interval = 0.5
-format = <label> <ramp-coreload>
+format = <ramp-coreload>
 label = cores
 format-foreground = #5f
 
