@@ -151,7 +151,6 @@ hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
 {%@@ endif @@%}
 format = <label>
 
-label =  %percentage_used:3:3% ram
 base-temperature = 40
 warn-temperature = 80
 format-warn = <label-warn>
