@@ -73,7 +73,6 @@ modules-right = pulseaudio x filesystem date
 tray-position = left
 tray-maxsize = 16
 tray-padding = 8
-tray-transparent = false
 tray-background = #282C34
 tray-detached = false
 
@@ -148,7 +147,7 @@ type = internal/temperature
 units = false
 {%@@ if profile == "home" @@%}
 thermal-zone = 0
-hwmon-path = /sys/devices/platform/it87.2656/hwmon/hwmon2/temp1_input
+hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
 {%@@ endif @@%}
 format = <ramp> <label>
 ramp-indicator = 
@@ -182,7 +181,7 @@ ramp-capacity-3 = %{F#55AA55}:::::%{F#557755}:::::%{F#F5A70A}:::::%{F#FF5555}:::
 [module/cpu]
 type = internal/cpu
 interval = 0.5
-format = <ramp_coreload> <label> <bar-load>
+format = <ramp-coreload> <label> <bar-load>
 label = %percentage:3:3%
 format-foreground = #5f
 
