@@ -21,7 +21,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'markonm/traces.vim'
-Plug 'honza/vim-snippets'
+"Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -30,7 +30,7 @@ Plug 'tpope/vim-repeat'
 Plug 'thaerkh/vim-indentguides'
 Plug 'roxma/nvim-yarp'
 Plug 'ap/vim-buftabline'
-Plug 'ervandew/supertab'
+"Plug 'ervandew/supertab'
 Plug 'kkoomen/vim-doge'
 Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
@@ -181,8 +181,9 @@ endfunction
 
 let g:coc_snippet_next = '<tab>'
 
-" Use <C-l> for trigger snippet expand.
+" Use <C-l> for trigger snippet expand and enter for others (not always needed)
 imap <C-l> <Plug>(coc-snippets-expand)
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmarkdown
