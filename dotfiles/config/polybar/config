@@ -60,11 +60,11 @@ font-3 = FontAwesome5Brands:style=Regular:size=10;4
 font-4 = Unifont:stype=Medium
 
 {%@@ if profile == "home" @@%}
-modules-left = system-nvidia-system system-nvidia-temp x temperature 
+modules-left = system-nvidia-system system-nvidia-temp x temperature cpu_cores
 {%@@ elif profile == "uni" @@%}
-modules-left = temperature 
+modules-left = temperature cpu_cores
 {%@@ elif profile == "laptop" @@%}
-modules-left = temperature 
+modules-left = temperature cpu_cores
 {%@@ endif @@%}
 modules-center = cpu i3 memory 
 modules-right = pulseaudio x filesystem date
@@ -149,7 +149,7 @@ units = false
 thermal-zone = 0
 hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
 {%@@ endif @@%}
-format = <ramp> <label>
+format = <label>
 ramp-indicator = 
 ramp-width = 20
 ramp-0 = %{F#55aa55}:::::%{F#444444}::::::::::::::
@@ -181,7 +181,24 @@ ramp-capacity-3 = %{F#55AA55}:::::%{F#557755}:::::%{F#F5A70A}:::::%{F#FF5555}:::
 [module/cpu]
 type = internal/cpu
 interval = 0.5
-format = <ramp-coreload> <label> <bar-load>
+format =  <label> <bar-load>
+label = %percentage:3:3%
+format-foreground = #5f
+
+bar-load-indicator =
+bar-load-width = 20
+bar-load-foreground-0 = #55aa55
+bar-load-foreground-1 = #557755
+bar-load-foreground-2 = #f5a70a
+bar-load-foreground-3 = #ff5555
+bar-load-fill = :
+bar-load-empty = :
+bar-load-empty-foreground = #444444
+
+[module/cpu_cores]
+type = internal/cpu
+interval = 0.5
+format = <ramp-coreload>
 label = %percentage:3:3%
 format-foreground = #5f
 
@@ -195,17 +212,6 @@ ramp-coreload-4 = ▅
 ramp-coreload-5 = ▆
 ramp-coreload-6 = ▇
 ramp-coreload-7 = █
-
-bar-load-indicator =
-bar-load-width = 20
-bar-load-foreground-0 = #55aa55
-bar-load-foreground-1 = #557755
-bar-load-foreground-2 = #f5a70a
-bar-load-foreground-3 = #ff5555
-bar-load-fill = :
-bar-load-empty = :
-bar-load-empty-foreground = #444444
-
 
 [module/memory]
 type = internal/memory
