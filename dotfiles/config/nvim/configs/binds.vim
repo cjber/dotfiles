@@ -175,4 +175,3 @@ inoremap <c-c> <ESC>
 " navigate popup menu with ctrl j and k
 inoremap <expr> <c-j> pumvisible() ? "\<C-N>" : "j"
 inoremap <expr> <c-k> pumvisible() ? "\<C-P>" : "k"
-" let space toggle buffers
