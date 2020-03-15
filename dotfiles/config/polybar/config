@@ -128,7 +128,7 @@ sink = alsa_output.pci-0000_0b_00.3.analog-stereo
 use-ui-max = true
 interval = 5
 format-volume = <label-volume> <bar-volume>
-label-volume = %{F#5F8DBBBA} %percentage:3:3%
+label-volume = %{F#5F8DBBBA} vol %percentage:3:3%
 label-muted = %{F#5F8DBBBA} muted :::::::::::::::::::
 label-muted-foreground = #666
 bar-volume-indicator =
@@ -177,7 +177,7 @@ ramp-capacity-3 = %{F#55AA55}:::::%{F#557755}:::::%{F#F5A70A}:::::%{F#FF5555}:::
 type = internal/cpu
 interval = 0.5
 format =  <label> <bar-load>
-label = %percentage:3:3%
+label = cpu %percentage:3:3%
 format-foreground = #5f
 
 bar-load-indicator =
@@ -211,7 +211,7 @@ ramp-coreload-7 = █
 [module/memory]
 type = internal/memory
 interval = 2
-label = %{F#5F8DBBBA}%percentage_used:3:3%
+label = %{F#5F8DBBBA} ram %percentage_used:3:3%
 format-foreground = #5f
 format = <bar-used> <label>
 
