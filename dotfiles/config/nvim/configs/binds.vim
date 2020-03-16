@@ -38,16 +38,17 @@ let g:which_key_map.o = {
 " exit only one buffer
 nnoremap <silent> <leader>bq :w\|bd<cr>
 nnoremap <silent> <leader>bb :Clap buffers<CR>
+nnoremap <silent> <leader>bo :Bdelete other<CR>
 let g:which_key_map.b = {
       \ 'name' : '+buffer'      ,
       \ 'd'    : ['bd'          , 'delete-buffer']   ,
-      \ 'o'    : ['on'          , 'delete-other']    ,
       \ 'f'    : ['bfirst'      , 'first-buffer']    ,
       \ 'l'    : ['blast'       , 'last-buffer']     ,
       \ 'n'    : ['bnext'       , 'next-buffer']     ,
       \ 'p'    : ['bprevious'   , 'previous-buffer'] ,
       \ 'b'    : 'list-buffers' ,
-      \ 'q'    : 'quit-one' ,
+      \ 'q'    : 'quit-one'     ,
+      \ 'o'    : 'delete-other' ,
       \ }
 
 " language commands
@@ -180,3 +181,4 @@ nnoremap <C-H> <C-W>h
 
 
 inoremap <expr> <C-L> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
