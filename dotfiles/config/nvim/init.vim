@@ -14,7 +14,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'segeljakt/vim-silicon'
 
 " Startify
-"Plug 'mhinz/vim-startify'
+Plug 'mhinz/vim-startify'
 "Plug 'scrooloose/nerdtree'
 
 " IDE Stuff
