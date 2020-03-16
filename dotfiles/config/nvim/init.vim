@@ -94,7 +94,7 @@ autocmd! ColorScheme onedark call s:patch_onedark_colors()
 
 colorscheme onedark
 
-let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmd', 'markdown', 'pandoc']
+let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmarkdown', 'markdown', 'pandoc']
 
 " Extensive spelling check for all written documents, toplevel is required
 autocmd BufNewFile,BufRead *rnw :set spell
