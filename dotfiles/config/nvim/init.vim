@@ -34,9 +34,10 @@ Plug 'ap/vim-buftabline'
 Plug 'kkoomen/vim-doge'
 Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
+Plug 'Asheq/close-buffers.vim'
 
 "lang stuff
-Plug 'prabirshrestha/vim-lsp'
+"Plug 'prabirshrestha/vim-lsp'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
@@ -146,19 +147,10 @@ let g:rmd_fenced_languages = ['r', 'python']
 " language server
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_serverCommands = {
-\   'julia': ['julia', '--startup-file=no', '--history-file=no', '-e', '
-\       using LanguageServer;
-\       using Pkg;
-\       import StaticLint;
-\       import SymbolServer;
-\       env_path = dirname(Pkg.Types.Context().env.project_file);
-\       debug = false; 
-\       
-\       server = LanguageServer.LanguageServerInstance(stdin, stdout, debug, env_path, "", Dict());
-\       server.runlinter = true;
-\       run(server);
-\   ']
+\   'python': ['pyls', '-v'],
+\ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
 \ }
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 
 function! Syn()
