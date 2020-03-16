@@ -11,7 +11,7 @@ Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
 " theme
 Plug 'joshdick/onedark.vim'
-"Plug 'segeljakt/vim-silicon'
+Plug 'segeljakt/vim-silicon'
 
 " Startify
 "Plug 'mhinz/vim-startify'
