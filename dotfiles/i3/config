@@ -191,7 +191,6 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 # assign [class="Skype"] $ws5
 
 # Open specific applications in floating mode
-for_window []
 for_window [title="alsamixer"] floating enable border pixel 3
 for_window [class="Matplotlib"] floating enable border pixel 3
 for_window [class="matplotlib"] floating enable border pixel 3
