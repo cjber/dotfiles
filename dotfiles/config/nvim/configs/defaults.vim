@@ -23,7 +23,7 @@ set cmdheight=1
 set noshowmode
 set noruler
 set noshowcmd
-set laststatus=0
+set laststatus=2
 set autochdir
 
 set ignorecase     " Case insensitive search

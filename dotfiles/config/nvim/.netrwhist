@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =9
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/home/cjber/drive/phd/modules/comp527/a1/201374125/__pycache__'
 let g:netrw_dirhist_9='/home/cjber/.pyenv/versions/3.8.1'
 let g:netrw_dirhist_8='/home/cjber/.pyenv/versions'
 let g:netrw_dirhist_7='/home/cjber/.pyenv'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_4='/home/cjber/.config/nvim'
 let g:netrw_dirhist_3='/home/cjber/drive/phd/modules/envs615/assessment1'
 let g:netrw_dirhist_2='/home/cjber/dotfiles'
 let g:netrw_dirhist_1='/home/cjber/.config'
-let g:netrw_dirhist_0='/home/cjber/.config/polybar'

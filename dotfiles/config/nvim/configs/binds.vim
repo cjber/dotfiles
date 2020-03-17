@@ -38,7 +38,7 @@ let g:which_key_map.o = {
 " exit only one buffer
 nnoremap <silent> <leader>bq :w\|bd<cr>
 nnoremap <silent> <leader>bb :Clap buffers<CR>
-nnoremap <silent> <leader>bo :Bdelete other<CR>
+nnoremap <silent> <leader>bo :Bdelete! other<CR>
 let g:which_key_map.b = {
       \ 'name' : '+buffer'      ,
       \ 'd'    : ['bd'          , 'delete-buffer']   ,
