@@ -1,9 +1,9 @@
-function! Rlint()
-    Dispatch R -e 'styler::style_file("'%'")'
+function Rlint()
+    Dispatch Rscript -e 'styler::style_file("'%'")'
 endfunction
 
-function! RmdRender()
-    Dispatch R -e 'rmarkdown::render("'%'")'
+function RmdRender()
+    Dispatch Rscript -e 'rmarkdown::render("'%'", quiet=T)'
 endfunction
 
 function RmdPdf()

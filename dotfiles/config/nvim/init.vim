@@ -29,8 +29,6 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'tpope/vim-repeat'
 Plug 'thaerkh/vim-indentguides'
 Plug 'roxma/nvim-yarp'
-"Plug 'ap/vim-buftabline'
-Plug 'itchyny/lightline.vim'
 "Plug 'ervandew/supertab'
 Plug 'kkoomen/vim-doge'
 Plug 'dstein64/vim-win'
@@ -83,9 +81,9 @@ colorscheme onedark
     hi Visual ctermbg=8
     hi ColorColumn ctermbg=8
     hi PMenu ctermbg=8
-    hi Folded ctermfg=59
+    hi Folded ctermfg=2
     hi WhichKeyFloating ctermbg=0
-    hi Conceal ctermfg=59
+    hi Conceal ctermfg=2
     hi StatusLine ctermbg=0 ctermfg=59
     hi LanguageToolGrammarError ctermfg=214
     hi texItalBoldStyle cterm=bold ctermfg=3
