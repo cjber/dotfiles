@@ -68,6 +68,9 @@ dotfiles:
     src: config/polybar
     dst: ~/.config/polybar
     link: link
+  d_dunst:
+    src: config/dunst
+    dst: ~/.config/dunst
 profiles:
   home:
     dotfiles:
