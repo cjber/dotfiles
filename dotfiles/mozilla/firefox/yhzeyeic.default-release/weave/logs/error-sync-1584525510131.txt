@@ -1,0 +1,590 @@
+1584525476884	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525476884	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525476887	Sync.Service	DEBUG	User-Agent: Firefox/74.0 (Linux x86_64) FxSync/1.76.0.20200310120528.desktop
+1584525476887	Sync.Service	INFO	Starting sync at 2020-03-18 09:57:56 in browser session RMvc8LAtWSJ3
+1584525476887	Sync.SyncScheduler	DEBUG	Clearing sync triggers and the global score.
+1584525476891	Sync.Status	INFO	Resetting Status.
+1584525476891	Sync.Status	DEBUG	Status.service: success.status_ok => success.status_ok
+1584525476892	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525476892	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525476893	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477062	Sync.Resource	DEBUG	GET success 200 https://sync-525-us-west-2.sync.services.mozilla.com/1.5/111939923/info/collections
+1584525477063	Sync.Service	DEBUG	Fetching server configuration: https://sync-525-us-west-2.sync.services.mozilla.com/1.5/111939923/info/configuration
+1584525477063	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477230	Sync.Resource	DEBUG	GET success 200 https://sync-525-us-west-2.sync.services.mozilla.com/1.5/111939923/info/configuration
+1584525477230	Sync.Service	DEBUG	Fetching global metadata record
+1584525477230	Sync.Service	DEBUG	Weave Version: 1.76.0 Local Storage: 5 Remote Storage: 5
+1584525477230	Sync.Service	DEBUG	Fetching and verifying -- or generating -- symmetric keys.
+1584525477230	Sync.Service	INFO	Testing info/collections: {"passwords":1584525400.16,"tabs":1584525463.78,"clients":1584525249.05,"crypto":1542474943.13,"forms":1584525464.32,"meta":1570639505.77,"prefs":1584524550.99,"bookmarks":1584524508.7,"addons":1584525401.29,"history":1584525464.54}
+1584525477230	Sync.CollectionKeyManager	INFO	Testing for updateNeeded. Last modified: 1542474943.13
+1584525477230	Sync.Synchronizer	DEBUG	Refreshing client list.
+1584525477230	Sync.Engine.Clients	INFO	0 outgoing items pre-reconciliation
+1584525477230	Sync.Engine.Clients	DEBUG	Resetting clients last sync time
+1584525477231	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477398	Sync.Collection	DEBUG	GET success 200 https://sync-525-us-west-2.sync.services.mozilla.com/1.5/111939923/storage/clients?full=1&limit=1000
+1584525477400	Sync.Engine.Clients	INFO	Records: 0 applied, 0 successfully, 0 failed to apply, 0 newly failed to apply, 2 reconciled.
+1584525477400	Sync.Engine.Clients	DEBUG	Refreshing the known stale clients list
+1584525477401	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for undefined
+1584525477402	Sync.Engine.Clients	INFO	Hiding stale client FpgdzNjDPykz with age 837287.649999857
+1584525477404	Sync.Synchronizer	INFO	Updating enabled engines: 1 clients.
+1584525477405	Sync.Synchronizer	INFO	Syncing all enabled engines.
+1584525477405	Sync.Engine.Prefs	INFO	0 outgoing items pre-reconciliation
+1584525477406	Sync.Engine.Prefs	INFO	Records: 0 applied, 0 successfully, 0 failed to apply, 0 newly failed to apply, 0 reconciled.
+1584525477406	Sync.Engine.Passwords	INFO	0 outgoing items pre-reconciliation
+1584525477406	Sync.Engine.Passwords	INFO	Records: 0 applied, 0 successfully, 0 failed to apply, 0 newly failed to apply, 0 reconciled.
+1584525477407	Sync.Engine.Tabs	INFO	1 outgoing items pre-reconciliation
+1584525477407	Sync.Engine.Tabs	INFO	Records: 0 applied, 0 successfully, 0 failed to apply, 0 newly failed to apply, 0 reconciled.
+1584525477411	Sync.Engine.Tabs.Store	WARN	Failed to fetch favicon for https://github.com/cjber/dotfiles/edit/master/config.yaml
+1584525477411	Sync.Engine.Tabs	INFO	Posting 1 records of 1081 bytes with batch=true
+1584525477412	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477412	Sync.Collection	DEBUG	POST Length: 1081
+1584525477582	Sync.Collection	DEBUG	POST success 200 https://sync-525-us-west-2.sync.services.mozilla.com/1.5/111939923/storage/tabs?batch=true&commit=true
+1584525477585	Sync.Engine.Bookmarks	DEBUG	Checking if server sync ID 6FQANOmuoLyG matches existing
+1584525477586	Sync.Engine.Bookmarks	INFO	0 outgoing items pre-reconciliation
+1584525477588	Sync.Engine.Bookmarks	INFO	Records: 0 applied, 0 successfully, 0 failed to apply, 0 newly failed to apply, 0 reconciled.
+1584525477589	Sync.Engine.Bookmarks.Mirror	DEBUG	Merging bookmarks in Rust
+1584525477591	Sync.Engine.Bookmarks.Mirror	DEBUG	Building local tree
+1584525477593	Sync.Engine.Bookmarks.Mirror	DEBUG	Building remote tree
+1584525477595	Sync.Engine.Bookmarks.Mirror	DEBUG	Building merged tree
+1584525477595	Sync.Engine.Bookmarks.Mirror	DEBUG	Applying merged tree
+1584525477596	Sync.Engine.Bookmarks.Mirror	DEBUG	Merging bookmarks in Rust took 6.330ms
+1584525477596	Sync.Engine.Bookmarks.Mirror	DEBUG	No changes detected in both mirror and Places
+1584525477597	Sync.Engine.Bookmarks.BookmarkSyncUtils	DEBUG	pushChanges: Processed change records: {"weak":0,"skipped":0,"updated":0}
+1584525477598	Sync.Engine.Addons	DEBUG	Refreshing reconciler state
+1584525477598	Sync.AddonsReconciler	INFO	Refreshing global state from AddonManager.
+1584525477601	Sync.AddonsReconciler	DEBUG	Rectifying state for addon DoH Roll-Out (version=1.3.0, id=doh-rollout@mozilla.org)
+1584525477601	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Form Autofill (version=1.0, id=formautofill@mozilla.org)
+1584525477601	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Firefox Screenshots (version=39.0.0, id=screenshots@mozilla.org)
+1584525477601	Sync.AddonsReconciler	DEBUG	Rectifying state for addon WebCompat Reporter (version=1.1.0, id=webcompat-reporter@mozilla.org)
+1584525477601	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Web Compat (version=7.0.0, id=webcompat@mozilla.org)
+1584525477601	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Default (version=1.0, id=default-theme@mozilla.org)
+1584525477601	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Light (version=1.0, id=firefox-compact-light@mozilla.org)
+1584525477601	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Dark (version=1.0, id=firefox-compact-dark@mozilla.org)
+1584525477602	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Google (version=1.0, id=google@search.mozilla.org)
+1584525477602	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Amazon.com (version=1.1, id=amazondotcom@search.mozilla.org)
+1584525477602	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Bing (version=1.1, id=bing@search.mozilla.org)
+1584525477602	Sync.AddonsReconciler	DEBUG	Rectifying state for addon DuckDuckGo (version=1.0, id=ddg@search.mozilla.org)
+1584525477602	Sync.AddonsReconciler	DEBUG	Rectifying state for addon eBay (version=1.0, id=ebay@search.mozilla.org)
+1584525477602	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Twitter (version=1.0, id=twitter@search.mozilla.org)
+1584525477603	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Wikipedia (en) (version=1.0, id=wikipedia@search.mozilla.org)
+1584525477603	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Amazon.co.uk (version=1.1, id=amazon@search.mozilla.org)
+1584525477603	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Matte Black (White) (version=2019.12.27, id={bcf9bb24-1417-4c9e-b901-1ffa328ba873})
+1584525477603	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Matte Black (Blue) (version=2019.12.27, id={c01b4916-eb9f-403d-9931-9d7cb152c729})
+1584525477603	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Reddit Enhancement Suite (version=5.18.11, id=jid1-xUfzOsOFlzSOXg@jetpack)
+1584525477603	Sync.AddonsReconciler	DEBUG	Rectifying state for addon uBlock Origin (version=1.25.2, id=uBlock0@raymondhill.net)
+1584525477603	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Arc Darker Theme (version=2019.8.4, id=arc-darker-theme@afnankhan)
+1584525477603	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Complete Black Theme for Firefox (version=1.0.2.0, id={c161a71c-fb42-4608-b001-5634b3f59a8b})
+1584525477603	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Honey (version=11.11.4, id=jid1-93CWPmRbVPjRQA@jetpack)
+1584525477604	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Unpaywall (version=3.91, id={f209234a-76f0-4735-9920-eb62507a54cd})
+1584525477604	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Google Scholar Button (version=2.0, id=button@scholar.google.com)
+1584525477604	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Dark theme for Firefox (version=1.0.2.0, id={1afaee19-8dde-4b0e-8c84-f46ca0f02f06})
+1584525477604	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Blueish (version=1.0, id={99b6f274-9ba9-4a77-969e-83635279e5d8})
+1584525477604	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Bitwarden - Free Password Manager (version=1.43.3, id={446900e4-71c2-419f-a6a7-df9c091e268b})
+1584525477605	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Vimium (version=1.66, id={d7742d87-e61d-4b78-b8a1-b469842139fa})
+1584525477605	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Firenvim (version=0.1.23, id=firenvim@lacamb.re)
+1584525477605	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Dark Reader (version=4.9.0, id=addon@darkreader.org)
+1584525477605	Sync.AddonsReconciler	DEBUG	Rectifying state for addon OpenH264 Video Codec provided by Cisco Systems, Inc. (version=1.8.1.1, id=gmp-gmpopenh264)
+1584525477605	Sync.AddonsReconciler	DEBUG	Rectifying state for addon Widevine Content Decryption Module provided by Google Inc. (version=4.10.1582.2, id=gmp-widevinecdm)
+1584525477606	Sync.AddonsReconciler	INFO	Saving reconciler state to file: addonsreconciler
+1584525477608	Sync.Engine.Addons	INFO	0 outgoing items pre-reconciliation
+1584525477609	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477787	Sync.Collection	DEBUG	GET success 200 https://sync-525-us-west-2.sync.services.mozilla.com/1.5/111939923/storage/addons?full=1&sort=newest&ids={6c72b049-2a23-4850-a893-405d7dcf17e3}&limit=1000
+1584525477956	Sync.AddonUtils	INFO	Found 0 / 1 add-ons during repository search.
+1584525477956	Sync.Engine.Addons.Store	WARN	Failed to apply incoming record {6c72b049-2a23-4850-a893-405d7dcf17e3}: Error: Add-on not found after install: {363147eb-453a-4818-90ca-4fd58b79f0e0}(resource://services-sync/engines/addons.js:378:13) JS Stack trace: create@addons.js:378:13
+1584525477956	Sync.Engine.Addons	INFO	Records: 1 applied, 0 successfully, 1 failed to apply, 0 newly failed to apply, 0 reconciled.
+1584525477958	Sync.Engine.Forms	INFO	0 outgoing items pre-reconciliation
+1584525477959	Sync.Engine.Forms	INFO	Records: 0 applied, 0 successfully, 0 failed to apply, 0 newly failed to apply, 0 reconciled.
+1584525477960	Sync.Engine.History	DEBUG	Checking if server sync ID acXxPbBmdX7K matches existing
+1584525477961	Sync.Engine.History	INFO	0 outgoing items pre-reconciliation
+1584525477962	Sync.Engine.History	INFO	Records: 0 applied, 0 successfully, 0 failed to apply, 0 newly failed to apply, 0 reconciled.
+1584525477965	Sync.Engine.Extension-Storage	DEBUG	Syncing extension settings for ["{d7742d87-e61d-4b78-b8a1-b469842139fa}","uBlock0@raymondhill.net","addon@darkreader.org","jid1-93CWPmRbVPjRQA@jetpack","firenvim@lacamb.re"]
+1584525477967	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525477967	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525477967	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525477967	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525477967	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525477967	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525477968	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525477968	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525477968	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525477968	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525477968	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525477968	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525477968	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525477968	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525477968	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525477969	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525477969	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525477969	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525477969	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525477969	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525477969	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525477969	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525477969	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525477969	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525477970	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525477970	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525477970	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525477970	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477980	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477980	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477980	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477980	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477980	FirefoxAccounts	TRACE	not checking freshness of profile as it remains recent
+1584525477982	FirefoxAccounts	DEBUG	getOAuthToken enter
+1584525477983	FirefoxAccounts	TRACE	getCachedToken returning cached token
+1584525477983	FirefoxAccounts	DEBUG	getOAuthToken returning a cached token
+1584525477985	FirefoxAccounts	DEBUG	getOAuthToken enter
+1584525477985	FirefoxAccounts	TRACE	getCachedToken returning cached token
+1584525477986	FirefoxAccounts	DEBUG	getOAuthToken returning a cached token
+1584525477988	FirefoxAccounts	DEBUG	getOAuthToken enter
+1584525477988	FirefoxAccounts	TRACE	getCachedToken returning cached token
+1584525477988	FirefoxAccounts	DEBUG	getOAuthToken returning a cached token
+1584525477991	FirefoxAccounts	DEBUG	getOAuthToken enter
+1584525477991	FirefoxAccounts	TRACE	getCachedToken returning cached token
+1584525477991	FirefoxAccounts	DEBUG	getOAuthToken returning a cached token
+1584525477993	FirefoxAccounts	DEBUG	getOAuthToken enter
+1584525477993	FirefoxAccounts	TRACE	getCachedToken returning cached token
+1584525477993	FirefoxAccounts	DEBUG	getOAuthToken returning a cached token
+1584525480611	Sync.Engine.Extension-Storage	INFO	Successfully synced 'uBlock0@raymondhill.net'
+1584525481009	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525481009	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525481009	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525481009	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525481009	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525481009	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525481010	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525481010	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525481010	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525481010	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525481010	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525481010	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525481010	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525481011	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525481011	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525481011	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525481011	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525481011	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525481011	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525481011	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525481011	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525481012	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525481012	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525481012	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525481012	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525481012	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525481012	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525481015	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525481015	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525481015	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525481015	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525481015	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525481015	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525481015	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525481015	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525481015	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525481016	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525481016	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525481016	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525481016	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525481016	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525481016	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525481016	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525481016	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525481017	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525481017	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525481017	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525481017	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525481017	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525481017	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525481017	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525481018	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525481018	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525481018	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525481019	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525481019	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525481019	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525481019	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525481020	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525481020	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525481020	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525481020	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525481020	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525481020	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525481020	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525481020	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525481020	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525481021	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525481021	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525481021	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525481021	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525481021	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525481021	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525481022	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525481022	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525481022	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525481022	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525481022	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525481022	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525481022	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525481022	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525481039	Sync.Engine.Extension-Storage	INFO	Successfully synced '{d7742d87-e61d-4b78-b8a1-b469842139fa}'
+1584525481622	Sync.Engine.Extension-Storage	INFO	Successfully synced 'jid1-93CWPmRbVPjRQA@jetpack'
+1584525486058	Sync.SyncScheduler	DEBUG	Next sync in 3600000 ms. (why=schedule)
+1584525486532	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486532	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486532	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486532	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486532	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486532	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486532	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486532	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486532	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486532	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486532	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486533	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486533	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486533	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486533	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486533	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486533	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486533	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486533	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486534	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486534	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486534	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486534	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486534	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486534	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486534	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486534	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486536	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486536	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486536	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486536	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486536	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486537	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486537	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486537	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486537	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486537	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486537	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486537	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486537	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486537	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486538	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486539	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486539	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486539	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486540	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486540	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486540	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486540	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486541	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486542	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486542	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486542	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486542	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486542	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486542	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486542	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486542	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486542	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486542	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486542	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486544	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486544	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486544	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486545	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486545	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486545	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486545	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486545	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486545	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486545	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486545	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486545	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486546	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486546	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486546	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486546	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486546	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486547	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486547	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486547	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486547	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486548	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486549	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486549	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486549	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486549	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486549	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486549	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486549	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486549	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486549	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486549	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486550	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486555	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486555	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486556	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486556	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486557	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486557	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486557	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486558	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486560	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486560	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486561	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486561	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486562	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486562	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486562	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486562	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486562	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486562	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486562	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486562	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486562	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486562	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486562	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486562	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486564	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486564	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486564	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486564	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486564	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486564	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486564	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486564	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486564	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486565	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486566	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486566	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486566	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486566	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486566	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486568	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486568	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486568	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486568	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486568	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486568	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486568	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486568	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486568	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486568	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486569	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486569	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486569	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486569	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486569	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486569	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486569	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486569	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486570	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486570	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486570	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486570	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486570	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486570	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486570	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486570	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486570	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486572	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486572	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486572	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486572	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486572	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486572	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486572	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486572	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486572	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486572	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486572	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486573	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486574	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486574	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486574	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486574	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486574	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486574	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486576	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486576	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486576	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486577	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486577	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486577	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486577	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486577	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486577	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486577	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486577	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486578	Sync.CollectionKeyManager	INFO	Setting collection keys contents. Our last modified: 0, input modified: 1584524543654.
+1584525486578	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for [default]
+1584525486578	Sync.CollectionKeyManager	INFO	Processing downloaded per-collection keys.
+1584525486578	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}
+1584525486578	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for side-view@mozilla.org
+1584525486578	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for chrome-gnome-shell@gnome.org
+1584525486578	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for @min-vid
+1584525486578	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for enhancerforyoutube@maximerf.addons.mozilla.org
+1584525486578	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for gte@melalawi.com
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for new-window-without-toolbar@tkrkt.com
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for jid1-93CWPmRbVPjRQA@jetpack
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {174b2d58-b983-4501-ab4b-07e71203cb43}
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {d7742d87-e61d-4b78-b8a1-b469842139fa}
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {46551EC9-40F0-4e47-8E18-8E5CF550CFB8}
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for PopupVideoWebExt@ettoolong
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for addon@darkreader.org
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for verticaltabsreloaded@go-dev.de
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for treestyletab@piro.sakura.ne.jp
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for newtabtools@darktrojan.net
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {c28e42b2-28b5-45f0-bdc8-6989ae7e6a7e}
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}
+1584525486579	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for {10e7d273-2e63-47c9-82af-76c45dc1b624}
+1584525486580	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for firenvim@lacamb.re
+1584525486580	Sync.BulkKeyBundle	INFO	BulkKeyBundle being created for uBlock0@raymondhill.net
+1584525486580	Sync.CollectionKeyManager	INFO	Clearing collection keys...
+1584525486580	Sync.CollectionKeyManager	INFO	Saving downloaded keys.
+1584525486580	Sync.CollectionKeyManager	INFO	Bumping last modified to 1584524543654
+1584525486594	Sync.Engine.Extension-Storage	INFO	Successfully synced 'addon@darkreader.org'
+1584525487057	Sync.AddonsReconciler	DEBUG	Add-on change: onUninstalled to firenvim@lacamb.re
+1584525487057	Sync.AddonsReconciler	DEBUG	Adding change because of uninstall listener: firenvim@lacamb.re
+1584525487057	Sync.AddonsReconciler	INFO	Change recorded for firenvim@lacamb.re
+1584525487057	Sync.Engine.Addons.Tracker	DEBUG	changeListener invoked: 2 firenvim@lacamb.re
+1584525487058	Sync.AddonsReconciler	INFO	Saving reconciler state to file: addonsreconciler
+1584525510125	Sync.Engine.Extension-Storage	ERROR	Syncing firenvim@lacamb.re: request failed: Error: Timeout while trying to access https://webextensions.settings.services.mozilla.com/v1/buckets/default/collections/ext-RIg-ak0xQsGXifaqLMAzm3SQ0gKkNXLoB6zrcDs8ERQ/records?_sort=-last_modified&_since=1577981506320 with {"headers":{"Accept":"application/json","Content-Type":"application/json","Authorization":"**** (suppressed)"},"mode":"cors"}(resource://services-common/kinto-http-client.js:2691:5) JS Stack trace: NetworkTimeoutError@kinto-http-client.js:2691:5
+[13]</timedFetch/</_timeoutId<@kinto-http-client.js:2883:18
+notify@Timer.jsm:62:17
+1584525510125	Sync.Engine.Extension-Storage	WARN	Syncing failed: Error: Timeout while trying to access https://webextensions.settings.services.mozilla.com/v1/buckets/default/collections/ext-RIg-ak0xQsGXifaqLMAzm3SQ0gKkNXLoB6zrcDs8ERQ/records?_sort=-last_modified&_since=1577981506320 with {"headers":{"Accept":"application/json","Content-Type":"application/json","Authorization":"**** (suppressed)"},"mode":"cors"}(resource://services-common/kinto-http-client.js:2691:5) JS Stack trace: NetworkTimeoutError@kinto-http-client.js:2691:5
+[13]</timedFetch/</_timeoutId<@kinto-http-client.js:2883:18
+notify@Timer.jsm:62:17
+1584525510126	Sync.Status	DEBUG	Status for engine extension-storage: error.engine.reason.unknown_fail
+1584525510126	Sync.Status	DEBUG	Status.service: success.status_ok => error.sync.failed_partial
+1584525510126	Sync.ErrorHandler	DEBUG	extension-storage failed: Error: Timeout while trying to access https://webextensions.settings.services.mozilla.com/v1/buckets/default/collections/ext-RIg-ak0xQsGXifaqLMAzm3SQ0gKkNXLoB6zrcDs8ERQ/records?_sort=-last_modified&_since=1577981506320 with {"headers":{"Accept":"application/json","Content-Type":"application/json","Authorization":"**** (suppressed)"},"mode":"cors"}(resource://services-common/kinto-http-client.js:2691:5) JS Stack trace: NetworkTimeoutError@kinto-http-client.js:2691:5
+[13]</timedFetch/</_timeoutId<@kinto-http-client.js:2883:18
+notify@Timer.jsm:62:17
+1584525510126	Sync.Doctor	INFO	Skipping check of prefs - disabled via preferences
+1584525510126	Sync.Doctor	INFO	Skipping check of passwords - disabled via preferences
+1584525510126	Sync.Doctor	INFO	Skipping check of tabs - disabled via preferences
+1584525510126	Sync.Doctor	INFO	Skipping check of bookmarks - disabled via preferences
+1584525510126	Sync.Doctor	INFO	Skipping check of addons - disabled via preferences
+1584525510126	Sync.Doctor	INFO	Skipping check of forms - disabled via preferences
+1584525510126	Sync.Doctor	INFO	Skipping check of history - disabled via preferences
+1584525510126	Sync.Doctor	INFO	Skipping check of extension-storage - disabled via preferences
+1584525510126	Sync.Doctor	INFO	Skipping validation: no engines qualify
+1584525510127	Sync.Synchronizer	INFO	Sync completed at 2020-03-18 09:58:30 after 33.24 secs.
+1584525510127	Sync.Declined	DEBUG	Handling remote declined: []
+1584525510127	Sync.Declined	DEBUG	Handling local declined: []
+1584525510127	Sync.Declined	DEBUG	Declined changed? false
+1584525510127	Sync.Service	INFO	No change to declined engines. Not reuploading meta/global.
+1584525510127	Sync.ErrorHandler	ERROR	Some engines did not sync correctly.
+1584525510128	Sync.SyncScheduler	DEBUG	Next sync in 3600000 ms. (why=schedule)
