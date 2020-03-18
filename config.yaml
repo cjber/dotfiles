@@ -74,6 +74,9 @@ dotfiles:
   d_mozilla:
     src: mozilla
     dst: ~/.mozilla
+  f_mimeapps.list:
+    src: config/mimeapps.list
+    dst: ~/.config/mimeapps.list
 profiles:
   home:
     dotfiles:
