@@ -8,8 +8,7 @@
 
 [colors]
 my_background	= #282c34
-;my_foreground	= #8fbcbb
-my_foreground = #6A6C71
+my_foreground	= #8fbcbb
 base00 = #2E3440
 base01 = #3B4252
 base02 = #434C5E
