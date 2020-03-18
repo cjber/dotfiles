@@ -71,9 +71,6 @@ dotfiles:
   d_dunst:
     src: config/dunst
     dst: ~/.config/dunst
-  d_mozilla:
-    src: mozilla
-    dst: ~/.mozilla
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: ~/.config/mimeapps.list
