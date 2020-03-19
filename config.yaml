@@ -74,9 +74,6 @@ dotfiles:
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: ~/.config/mimeapps.list
-  d_conky:
-    src: conky
-    dst: ~/.conky
 profiles:
   home:
     dotfiles:
