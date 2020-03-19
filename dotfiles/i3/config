@@ -10,7 +10,6 @@ set $mod Mod4
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 new_window pixel 3
 new_float pixel 3
-new_float title_format pixel 3
 for_window [class=".*"] title_format "<b>%title</b>"
 
 # Hide borders
