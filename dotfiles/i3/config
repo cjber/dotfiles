@@ -283,7 +283,7 @@ bindsym $mod+9 exec --no-startup-id mantablockscreen -cc
 
 # Autostart applications
 exec_always --no-startup-id /$HOME/.config/polybar/launch.sh
-exec_always --no-startup-id conky -c $HOME/.conky/*
+exec_always --no-startup-id conky -c $HOME/.conky/conky_aur.conf
 exec_always --no-startup-id megasync
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id nitrogen --restore; sleep 1; picom -b
