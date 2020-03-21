@@ -4,7 +4,8 @@ call plug#begin('~/.config/nvim/pack')
 " set better defaults
 Plug 'vim-scripts/vim-auto-save'
 Plug 'djoshea/vim-autoread'
-Plug 'Konfekt/FastFold'
+Plug 'Konfekt/FastFold' 
+Plug 'justinmk/vim-sneak'
 
 " Emacs style which key
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
@@ -88,6 +89,7 @@ colorscheme onedark
     hi LanguageToolGrammarError ctermfg=214
     hi texItalBoldStyle cterm=bold ctermfg=3
     hi ClapPreview ctermbg=8
+    hi Sneak ctermbg=8 ctermfg=3
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
@@ -184,3 +186,6 @@ let g:pandoc#modules#disabled = ["command", "formatting", "templates", "menu", "
 
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
+
+let g:sneak#s_next = 1
+let g:sneak#label = 1

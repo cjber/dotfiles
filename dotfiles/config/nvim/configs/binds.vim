@@ -80,7 +80,7 @@ let g:which_key_map.s = {
 
 " window movement
 " quick window manager
-nnoremap s :Win<CR>
+"nnoremap s :Win<CR>
 
 nnoremap <Leader>rr :wincmd H<CR>
 nnoremap <Leader>re :wincmd J<CR>
@@ -181,3 +181,9 @@ nnoremap <C-H> <C-W>h
 
 
 inoremap <expr> <C-L> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" one char sneak
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
