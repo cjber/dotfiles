@@ -38,4 +38,4 @@ alias dotdrop='dotdrop --cfg=/home/cjber/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
 
-alias "docker killall"="bash docker kill $(docker ps -q)"
+alias "dockerkill"="bash docker kill $(docker ps -q)"
