@@ -77,6 +77,9 @@ dotfiles:
   d_conky:
     src: conky
     dst: ~/.conky
+  d_ranger:
+    src: config/ranger
+    dst: ~/.config/ranger
 profiles:
   home:
     dotfiles:
