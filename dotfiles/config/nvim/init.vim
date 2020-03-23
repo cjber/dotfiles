@@ -151,7 +151,7 @@ let g:LanguageClient_serverCommands = {
 \   'python': ['pyls', '-v'],
 \ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
 \ }
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+
 
 
 function! Syn()
