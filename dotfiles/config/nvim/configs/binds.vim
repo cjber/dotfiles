@@ -52,6 +52,16 @@ let g:which_key_map.b = {
       \ }
 
 " language commands
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent><leader>la <Plug>(coc-definition)
+nmap <silent><leader>ly <Plug>(coc-type-definition)
+nmap <silent><leader>li <Plug>(coc-implementation)
+nmap <silent><leader>lr <Plug>(coc-references)
+nmap <silent><leader>lc <Plug>(coc-rename)
 let g:doge_mapping= '<Leader>ld'
 nnoremap <silent> <leader>lss :CocList snippets<CR>
 nnoremap <silent> <leader>lsc :CocCommand snippets.editSnippets<CR>
@@ -60,7 +70,14 @@ nnoremap <silent> <leader>lt :Clap tags<CR>
 let g:which_key_map.l = {
       \ 'name' : '+lsp'                 ,
       \ 'f'    : ['CocAction("format")' , 'formatting']       ,
+      \ 't'    : 'tags'            ,
+      \ 'e'    : 'errors'            ,
       \ 'd'    : 'docstring'            ,
+      \ 'a'    : 'definition'           ,
+      \ 'y'    : 'type definition'      ,
+      \ 'i'    : 'implementation'       ,
+      \ 'r'    : 'references'           ,
+      \ 'c'    : 'rename'               ,
       \ 's'    : {
       \ 'name' : '+snippets'            ,
       \ 's'    : 'list'                 ,
@@ -167,7 +184,7 @@ inoremap <c-c> <ESC>
 " When the <Enter> key is pressed while the popup menu is visible, it only
 " hides the menu. Use this mapping to close the menu and also start a new
 " line.
-"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
 " navigate popup menu with ctrl j and k
 inoremap <expr> <c-j> pumvisible() ? "\<C-N>" : "j"
