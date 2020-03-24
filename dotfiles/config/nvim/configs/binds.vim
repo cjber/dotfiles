@@ -82,7 +82,6 @@ let g:which_key_map.l = {
       \ 'name' : '+snippets'            ,
       \ 's'    : 'list'                 ,
       \ 'c'    : 'coc-edit'             ,
-      \ 'u'    : 'ultisnips-edit'       ,
       \},
       \ }
 
@@ -181,10 +180,11 @@ nnoremap Q :w\|bd<cr>
 " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
 inoremap <c-c> <ESC>
 
-" When the <Enter> key is pressed while the popup menu is visible, it only
-" hides the menu. Use this mapping to close the menu and also start a new
-" line.
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
 
 " navigate popup menu with ctrl j and k
 inoremap <expr> <c-j> pumvisible() ? "\<C-N>" : "j"
@@ -195,9 +195,6 @@ nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
 nnoremap <C-H> <C-W>h
-
-
-inoremap <expr> <C-L> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " one char sneak
 map f <Plug>Sneak_f

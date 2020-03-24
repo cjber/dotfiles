@@ -19,11 +19,10 @@ Plug 'mhinz/vim-startify'
 "Plug 'scrooloose/nerdtree'
 
 " IDE Stuff
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'markonm/traces.vim'
-"Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -91,6 +90,7 @@ colorscheme onedark
     hi texItalBoldStyle cterm=bold ctermfg=3
     hi ClapPreview ctermbg=8
     hi Sneak ctermbg=8 ctermfg=3
+    hi markdownCodeBlockBG ctermbg=8
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
@@ -177,22 +177,16 @@ let g:coc_snippet_next = '<tab>'
 
 " Use <C-l> for trigger snippet expand and enter for others (not always needed)
 imap <C-l> <Plug>(coc-snippets-expand)
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " fix annoying difference between .rmd and .Rmd
-autocmd BufRead,BufNewFile *.rmd set filetype=rmarkdown
+autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 
 let g:pandoc#keyboard#use_default_mappings=0
 let g:pandoc#modules#disabled = ["command", "formatting", "templates", "menu", "keyboard", "bibliographies", "completion", "autocomplete"]
+let g:pandoc#syntax#conceal#blacklist = ['codeblock_start', 'codeblock_delim']
 
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
 
 let g:sneak#s_next = 1
 let g:sneak#label = 1
-
-
-if exists('g:started_by_firenvim')
-    set guifont=Monaco:h10
-else
-endif
