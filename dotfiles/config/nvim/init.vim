@@ -19,6 +19,7 @@ Plug 'mhinz/vim-startify'
 "Plug 'scrooloose/nerdtree'
 
 " IDE Stuff
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'markonm/traces.vim'
@@ -189,3 +190,9 @@ autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#han
 
 let g:sneak#s_next = 1
 let g:sneak#label = 1
+
+
+if exists('g:started_by_firenvim')
+    set guifont=Monaco:h10
+else
+endif
