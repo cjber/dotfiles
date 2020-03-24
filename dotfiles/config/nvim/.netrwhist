@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =2
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/home/cjber/drive/phd/spacy/walks_labelling/data/pre_labelled'
 let g:netrw_dirhist_2='/home/cjber/drive/phd/literature/template'
 let g:netrw_dirhist_1='/home/cjber/dotfiles/dotfiles/config/nvim/configs'
 let g:netrw_dirhist_0='/home/cjber/drive/phd/modules/comp527/a1/201374125/__pycache__'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_7='/home/cjber/.pyenv'
 let g:netrw_dirhist_6='/home/cjber/.pyenv/shims'
 let g:netrw_dirhist_5='/home/cjber/.pyenv'
 let g:netrw_dirhist_4='/home/cjber/.config/nvim'
-let g:netrw_dirhist_3='/home/cjber/drive/phd/modules/envs615/assessment1'
