@@ -16,7 +16,6 @@ Plug 'segeljakt/vim-silicon'
 
 " Startify
 Plug 'mhinz/vim-startify'
-"Plug 'scrooloose/nerdtree'
 
 " IDE Stuff
 Plug 'liuchengxu/vista.vim'
@@ -30,14 +29,12 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'tpope/vim-repeat'
 Plug 'thaerkh/vim-indentguides'
 Plug 'roxma/nvim-yarp'
-"Plug 'ervandew/supertab'
 Plug 'kkoomen/vim-doge'
 Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
 
 "lang stuff
-"Plug 'prabirshrestha/vim-lsp'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
@@ -51,7 +48,7 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 "Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'jalvesaq/Nvim-R'
-"Plug 'jalvesaq/R-Vim-runtime'
+Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'kalekundert/vim-coiled-snake'
@@ -153,8 +150,6 @@ let g:LanguageClient_serverCommands = {
 \ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
 \ }
 
-
-
 function! Syn()
   for id in synstack(line("."), col("."))
     echo synIDattr(id, "name")
@@ -183,8 +178,6 @@ autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 
 let g:pandoc#keyboard#use_default_mappings=0
 let g:pandoc#modules#disabled = ["command", "formatting", "templates", "menu", "bibliographies", "completion", "autocomplete", "folding"]
-
-
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
 
