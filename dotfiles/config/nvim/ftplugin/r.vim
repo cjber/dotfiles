@@ -1,8 +1,6 @@
 nnoremap <silent> <Leader>lr :call Rlint()<CR>
 nnoremap <silent> <Leader>kk :call RnwPDF()<CR>
 nnoremap <silent> <Leader>kd :call RShowPDF()<CR>
-"nmap <CR> <Plug>RDSendLine
-"vmap <CR> <Plug>RDSendSelection
 
 inoremap <buffer> >> <Esc>:normal! a %>%<CR>a 
 inoremap <buffer> >> <Esc>:normal! a %>%<CR>a 

@@ -4,7 +4,7 @@ call plug#begin('~/.config/nvim/pack')
 " set better defaults
 Plug 'vim-scripts/vim-auto-save'
 Plug 'djoshea/vim-autoread'
-Plug 'Konfekt/FastFold' 
+Plug 'Konfekt/FastFold'
 Plug 'justinmk/vim-sneak'
 
 " Emacs style which key
@@ -42,18 +42,17 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
-Plug 'cjber/vimcmdline'
+Plug 'jalvesaq/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
 
 " r plugs
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'vim-pandoc/vim-rmarkdown'
-"Plug 'jalvesaq/Nvim-R'
-"Plug 'jalvesaq/R-Vim-runtime'
+"Plug 'vim-pandoc/vim-rmarkdown'
+Plug 'jalvesaq/Nvim-R'
+Plug 'jalvesaq/R-Vim-runtime'
 
 " python
-Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'kalekundert/vim-coiled-snake'
 
 
@@ -90,7 +89,7 @@ colorscheme onedark
     hi texItalBoldStyle cterm=bold ctermfg=3
     hi ClapPreview ctermbg=8
     hi Sneak ctermbg=8 ctermfg=3
-    hi markdownCodeBlockBG ctermbg=8
+    hi markdownCodeBlockBG ctermbg=15
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
@@ -182,8 +181,8 @@ imap <C-l> <Plug>(coc-snippets-expand)
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 
 let g:pandoc#keyboard#use_default_mappings=0
-let g:pandoc#modules#disabled = ["command", "formatting", "templates", "menu", "keyboard", "bibliographies", "completion", "autocomplete"]
-let g:pandoc#syntax#conceal#blacklist = ['codeblock_start', 'codeblock_delim']
+let g:pandoc#modules#disabled = ["command", "formatting", "templates", "menu", "bibliographies", "completion", "autocomplete", "folding"]
+
 
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
