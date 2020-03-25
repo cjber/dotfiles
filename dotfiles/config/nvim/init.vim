@@ -44,13 +44,14 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ }
 Plug 'jalvesaq/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
+Plug 'gaalcaras/ncm-R'
 
 " r plugs
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 "Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'jalvesaq/Nvim-R'
-Plug 'jalvesaq/R-Vim-runtime'
+"Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'kalekundert/vim-coiled-snake'
@@ -189,3 +190,5 @@ autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#han
 
 let g:sneak#s_next = 1
 let g:sneak#label = 1
+
+tnoremap <Esc><Esc> <C-\><C-n>
