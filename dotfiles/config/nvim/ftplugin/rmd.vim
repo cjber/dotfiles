@@ -33,19 +33,19 @@ hi pandocEmphasis ctermfg=3
 hi pandocStrong ctermfg=3
 
 nnoremap <Leader>rn :RNrrw<CR>
-let g:pandoc#folding#fold_yaml=1
-let g:pandoc#folding#fold_fenced_codeblocks=1
-let g:pandoc#folding#fastfolds=1
+
+nmap zj <Plug>(pandoc-keyboard-next-header)
+nmap zk <Plug>(pandoc-keyboard-prev-header)
 
 " Nvim R
-"let r_syntax_folding=1
-"let R_assign = 2
-"let R_show_args = 1
-""let R_latexcmd = ['xelatex']
-"let R_app = "radian"
-"let R_cmd = "R"
-"let R_hl_term = 0
-"let R_args = []
-"let R_bracketed_paste = 1
+let r_syntax_folding=1
+let R_assign = 2
+let R_show_args = 1
+let R_latexcmd = ['xelatex']
+let R_app = "radian"
+let R_cmd = "R"
+let R_hl_term = 0
+let R_args = []
+let R_bracketed_paste = 1
 
 let rmd_syn_hl_chunk=1
