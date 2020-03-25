@@ -102,16 +102,16 @@ let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmarkdown', 'markdown'
 " Extensive spelling check for all written documents, toplevel is required
 autocmd BufNewFile,BufRead *rnw :set spell
 autocmd BufNewFile,BufRead *.rnw :syntax spell toplevel
-autocmd BufNewFile,BufRead *rmd :set spell
+autocmd BufNewFile,BufRead *.rmd :set spell
 autocmd BufNewFile,BufRead *.rmd :syntax spell toplevel
+autocmd BufNewFile,BufRead *.Rmd :set spell
+autocmd BufNewFile,BufRead *.Rmd :syntax spell toplevel
 
 " set harder defaults for improving shortcut use
-let g:hardtime_default_on = 1
+let g:hardtime_default_on = 0
 let g:hardtime_maxcount = 1000
 
 let g:doge_doc_standard_python = 'google'
-
-set thesaurus+=/home/cjber/drive/other/thesaurii.txt
 
 let g:silicon = {
       \ 'background':         '#09121a',
