@@ -8,7 +8,7 @@ Plug 'Konfekt/FastFold'
 Plug 'justinmk/vim-sneak'
 
 " Emacs style which key
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+Plug 'liuchengxu/vim-which-key'
 
 " theme
 Plug 'joshdick/onedark.vim'
