@@ -27,7 +27,6 @@ else
     end
 end
 
-status --is-interactive; and source (pyenv init -|psub)
 
 starship init fish | source
 
@@ -37,3 +36,8 @@ export DOTREPO="/home/cjber/dotfiles"
 alias dotdrop='dotdrop --cfg=/home/cjber/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
+
+# pyenv
+status --is-interactive; and source (pyenv init -|psub)
+status --is-interactive; and pyenv init - | source
+status --is-interactive; and pyenv virtualenv-init - | source
