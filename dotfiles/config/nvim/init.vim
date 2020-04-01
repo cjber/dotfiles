@@ -35,10 +35,10 @@ Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
 
 "lang stuff
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+"Plug 'autozimu/LanguageClient-neovim', {
+"    \ 'branch': 'next',
+"    \ 'do': 'bash install.sh',
+"    \ }
 Plug 'jalvesaq/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
 Plug 'gaalcaras/ncm-R'
@@ -65,9 +65,6 @@ runtime configs/rconf.vim
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:auto_save_silent = 1
-
-let g:SuperTabDefaultCompletionType = "<c-n>"
-
 
 function! s:patch_onedark_colors()
 colorscheme onedark
@@ -103,10 +100,6 @@ autocmd BufNewFile,BufRead *.rmd :set spell
 autocmd BufNewFile,BufRead *.rmd :syntax spell toplevel
 autocmd BufNewFile,BufRead *.Rmd :set spell
 autocmd BufNewFile,BufRead *.Rmd :syntax spell toplevel
-
-" set harder defaults for improving shortcut use
-let g:hardtime_default_on = 0
-let g:hardtime_maxcount = 1000
 
 let g:doge_doc_standard_python = 'google'
 
@@ -144,11 +137,11 @@ let g:markdown_fenced_languages = ['r', 'python']
 let g:rmd_fenced_languages = ['r', 'python']
 
 " language server
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_serverCommands = {
-\   'python': ['pyls', '-v'],
-\ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
-\ }
+"let g:LanguageClient_autoStart = 1
+"let g:LanguageClient_serverCommands = {
+"\   'python': ['pyls', '-v'],
+"\ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
+"\ }
 
 function! Syn()
   for id in synstack(line("."), col("."))
