@@ -56,7 +56,7 @@ let g:which_key_map.b = {
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" GoTo code navigation.
+nnoremap <silent> <leader>lh :call <SID>show_documentation()<CR>
 nmap <silent><leader>la <Plug>(coc-definition)
 nmap <silent><leader>ly <Plug>(coc-type-definition)
 nmap <silent><leader>li <Plug>(coc-implementation)
@@ -67,17 +67,19 @@ nnoremap <silent> <leader>lss :CocList snippets<CR>
 nnoremap <silent> <leader>lsc :CocCommand snippets.editSnippets<CR>
 nnoremap <silent> <leader>le :Clap loclist<CR>
 nnoremap <silent> <leader>lt :Clap tags<CR>
+
 let g:which_key_map.l = {
       \ 'name' : '+lsp'                 ,
       \ 'f'    : ['CocAction("format")' , 'formatting']       ,
-      \ 't'    : 'tags'            ,
-      \ 'e'    : 'errors'            ,
+      \ 't'    : 'tags'                 ,
+      \ 'e'    : 'errors'               ,
       \ 'd'    : 'docstring'            ,
       \ 'a'    : 'definition'           ,
       \ 'y'    : 'type definition'      ,
       \ 'i'    : 'implementation'       ,
       \ 'r'    : 'references'           ,
       \ 'c'    : 'rename'               ,
+      \ 'h'    : 'documentation'        ,
       \ 's'    : {
       \ 'name' : '+snippets'            ,
       \ 's'    : 'list'                 ,
