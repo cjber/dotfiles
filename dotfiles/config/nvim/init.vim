@@ -1,4 +1,3 @@
-"Plugin Manager
 call plug#begin('~/.config/nvim/pack')
 
 " set better defaults
@@ -71,7 +70,6 @@ function! s:patch_onedark_colors()
 colorscheme onedark
     hi Comment guifg=#5C6370 ctermfg=59
     hi Normal ctermbg=none guibg=none
-    hi CursorLine ctermbg=8 guibg=#09121a
     hi StatusLineNC ctermbg=8 guibg=#09121a
     hi StatusLine ctermbg=8 guibg=#09121a
     hi Visual ctermbg=8 guibg=#09121a
@@ -164,7 +162,7 @@ imap <C-l> <Plug>(coc-snippets-expand)
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 
 let g:pandoc#keyboard#use_default_mappings=0
-let g:pandoc#modules#disabled = ["command", "formatting", "templates", "menu", "bibliographies", "completion", "autocomplete", "folding"]
+let g:pandoc#modules#disabled = ["command","formatting","templates","menu","bibliographies","completion","autocomplete","folding"]
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
 autocmd CursorHold * silent call CocActionAsync('highlight')

@@ -51,3 +51,32 @@ let R_latexcmd = ['xelatex']
 let R_clear_line = 1
 
 let rmd_syn_hl_chunk=1
+
+setl signcolumn=no
+
+hi markdownCodeBlockBG guibg=#2C343C
+sign define codeblock linehl=markdownCodeBlockBG
+
+function! MarkdownBlocks()
+    let l:continue = 0
+    execute "sign unplace * file=".expand("%")
+
+    " iterate through each line in the buffer
+    for l:lnum in range(1, len(getline(1, "$")))
+        " detect the start fo a code block
+        if getline(l:lnum) =~ "^```.*$" || l:continue
+            " continue placing signs, until the block stops
+            let l:continue = 1
+            " place sign
+            execute "sign place ".l:lnum." line=".l:lnum." name=codeblock file=".expand("%")
+            " stop placing signs
+            if getline(l:lnum) =~ "^```$"
+                let l:continue = 0
+            endif
+        endif
+    endfor
+endfunction
+
+" Use signs to highlight code blocks
+" Set signs on loading the file, leaving insert mode, and after writing it
+call MarkdownBlocks()
