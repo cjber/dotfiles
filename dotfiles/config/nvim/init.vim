@@ -12,6 +12,7 @@ Plug 'liuchengxu/vim-which-key'
 " theme
 Plug 'joshdick/onedark.vim'
 Plug 'segeljakt/vim-silicon'
+Plug 'vimwiki/vimwiki'
 
 " Startify
 Plug 'mhinz/vim-startify'
@@ -86,13 +87,14 @@ colorscheme onedark
     hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
     hi markdownCodeBlockBG ctermbg=15
     hi CocHighlightText ctermbg=8 guibg=#09121a
+    hi VimwikiLink gui=underline guifg=#50AECD
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
 
 colorscheme onedark
 
-let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmarkdown', 'markdown', 'pandoc']
+let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmarkdown', 'markdown', 'pandoc', 'vimwiki']
 
 " Extensive spelling check for all written documents, toplevel is required
 autocmd BufNewFile,BufRead *rnw :set spell
@@ -171,3 +173,6 @@ let g:sneak#s_next = 1
 let g:sneak#label = 1
 
 tnoremap <Esc><Esc> <C-\><C-n>
+
+let g:vimwiki_list = [{'path':'~/drive/wiki'}]
+map <leader>vv <Plug>VimwikiIndex
