@@ -41,3 +41,6 @@ alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && do
 status --is-interactive; and source (pyenv init -|psub)
 status --is-interactive; and pyenv init - | source
 status --is-interactive; and pyenv virtualenv-init - | source
+
+#vim wiki
+alias vw="nvim ~/drive/wiki/index.wiki"

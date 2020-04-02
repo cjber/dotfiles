@@ -88,6 +88,8 @@ colorscheme onedark
     hi markdownCodeBlockBG ctermbg=15
     hi CocHighlightText ctermbg=8 guibg=#09121a
     hi VimwikiLink gui=underline guifg=#50AECD
+    hi VimwikiHeader1 guifg=#e5c07b
+    hi VimwikiPre guifg=#5C6370
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
@@ -95,14 +97,6 @@ autocmd! ColorScheme onedark call s:patch_onedark_colors()
 colorscheme onedark
 
 let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmarkdown', 'markdown', 'pandoc', 'vimwiki']
-
-" Extensive spelling check for all written documents, toplevel is required
-autocmd BufNewFile,BufRead *rnw :set spell
-autocmd BufNewFile,BufRead *.rnw :syntax spell toplevel
-autocmd BufNewFile,BufRead *.rmd :set spell
-autocmd BufNewFile,BufRead *.rmd :syntax spell toplevel
-autocmd BufNewFile,BufRead *.Rmd :set spell
-autocmd BufNewFile,BufRead *.Rmd :syntax spell toplevel
 
 let g:doge_doc_standard_python = 'google'
 
@@ -176,3 +170,4 @@ tnoremap <Esc><Esc> <C-\><C-n>
 
 let g:vimwiki_list = [{'path':'~/drive/wiki'}]
 map <leader>vv <Plug>VimwikiIndex
+let g:vimwiki_folding='syntax:quick'
