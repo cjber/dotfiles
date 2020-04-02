@@ -52,6 +52,7 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'kalekundert/vim-coiled-snake'
+Plug 'szymonmaszke/vimpyter'
 
 
 call plug#end()
