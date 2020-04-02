@@ -70,22 +70,24 @@ let g:auto_save_silent = 1
 function! s:patch_onedark_colors()
 colorscheme onedark
     hi Comment guifg=#5C6370 ctermfg=59
-    hi Normal ctermbg=none
-    hi CursorLine ctermbg=8
-    hi StatusLineNC ctermbg=8
-    hi StatusLine ctermbg=8
-    hi Visual ctermbg=8
-    hi ColorColumn ctermbg=8
-    hi PMenu ctermbg=8
-    hi Folded ctermfg=2
-    hi WhichKeyFloating ctermbg=0
-    hi Conceal ctermfg=2
-    hi StatusLine ctermbg=0 ctermfg=59
-    hi LanguageToolGrammarError ctermfg=214
-    hi texItalBoldStyle cterm=bold ctermfg=3
-    hi ClapPreview ctermbg=8
-    hi Sneak ctermbg=8 ctermfg=3
+    hi Normal ctermbg=none guibg=none
+    hi CursorLine ctermbg=8 guibg=#09121a
+    hi StatusLineNC ctermbg=8 guibg=#09121a
+    hi StatusLine ctermbg=8 guibg=#09121a
+    hi Visual ctermbg=8 guibg=#09121a
+    hi ColorColumn ctermbg=8 guibg=#09121a
+    hi PMenu ctermbg=8 guibg=#09121a
+    hi Folded ctermfg=2 guifg=#98C379
+    hi WhichKeyFloating ctermbg=0 guibg=#282c34
+    hi Conceal ctermfg=2 guifg=#98C379
+    hi StatusLine ctermbg=0 guibg=#282c34 ctermfg=59 guifg=#5C6370
+    hi LanguageToolGrammarError ctermfg=214 guifg=#d19a66
+    hi pandocEmphasis gui=italic guifg=#e5c07b
+    hi pandocStrong gui=bold guifg=#e5c07b
+    hi ClapPreview ctermbg=8 guibg=#09121a
+    hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
     hi markdownCodeBlockBG ctermbg=15
+    hi CocHighlightText ctermbg=8 guibg=#09121a
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
@@ -131,7 +133,9 @@ let g:coc_global_extensions = [
             \ 'coc-json',
             \ 'coc-r-lsp',
             \ 'coc-python',
-            \ 'coc-snippets'
+            \ 'coc-snippets',
+            \ 'coc-yank',
+            \ 'coc-highlight'
             \ ]
 
 let g:markdown_fenced_languages = ['r', 'python']
@@ -163,6 +167,7 @@ let g:pandoc#keyboard#use_default_mappings=0
 let g:pandoc#modules#disabled = ["command", "formatting", "templates", "menu", "bibliographies", "completion", "autocomplete", "folding"]
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 let g:sneak#s_next = 1
 let g:sneak#label = 1
