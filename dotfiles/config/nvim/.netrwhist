@@ -1,5 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =5
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/home/cjber/drive/wiki'
+let g:netrw_dirhist_6='/home/cjber/drive/wiki/phd_wiki'
 let g:netrw_dirhist_5='/home/cjber/drive/phd/literature'
 let g:netrw_dirhist_4='/home/cjber/ward-lifetimes/.git'
 let g:netrw_dirhist_3='/home/cjber/drive/phd/spacy/walks_labelling/data/pre_labelled'
@@ -8,5 +10,3 @@ let g:netrw_dirhist_1='/home/cjber/dotfiles/dotfiles/config/nvim/configs'
 let g:netrw_dirhist_0='/home/cjber/drive/phd/modules/comp527/a1/201374125/__pycache__'
 let g:netrw_dirhist_9='/home/cjber/.pyenv/versions/3.8.1'
 let g:netrw_dirhist_8='/home/cjber/.pyenv/versions'
-let g:netrw_dirhist_7='/home/cjber/.pyenv'
-let g:netrw_dirhist_6='/home/cjber/.pyenv/shims'
