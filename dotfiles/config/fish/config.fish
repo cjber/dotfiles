@@ -10,7 +10,7 @@ set fish_cursor_visual      block
 
 # alias
 alias v="nvim"
-alias lf="ranger"
+alias lf="source ranger"
 alias vinit="nvim ~/.config/nvim/init.vim"
 alias r="radian"
 alias la="ncdu"
@@ -44,3 +44,4 @@ status --is-interactive; and pyenv virtualenv-init - | source
 
 #vim wiki
 alias vw="nvim ~/drive/wiki/index.wiki"
+
