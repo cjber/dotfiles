@@ -37,6 +37,7 @@ hi pandocStrong ctermfg=3
 
 nnoremap <Leader>rn :RNrrw<CR>
 
+" presudo fold navigation without slow folds
 nmap zj <Plug>(pandoc-keyboard-next-header)
 nmap zk <Plug>(pandoc-keyboard-prev-header)
 
@@ -54,6 +55,7 @@ let R_latexcmd = ['xelatex']
 
 let rmd_syn_hl_chunk=1
 
+" highlight code blocks in rmd documents
 setl signcolumn=no
 
 hi markdownCodeBlockBG guibg=#2C343C

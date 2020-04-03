@@ -85,7 +85,6 @@ colorscheme onedark
     hi pandocStrong gui=bold guifg=#e5c07b
     hi ClapPreview ctermbg=8 guibg=#09121a
     hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
-    hi markdownCodeBlockBG ctermbg=15
     hi CocHighlightText ctermbg=8 guibg=#09121a
     hi VimwikiLink gui=underline guifg=#50AECD
     hi VimwikiHeader1 guifg=#e5c07b
@@ -168,6 +167,6 @@ let g:sneak#label = 1
 
 tnoremap <Esc><Esc> <C-\><C-n>
 
-let g:vimwiki_list = [{'path':'~/drive/wiki'}]
+let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 1, 'auto_toc': 1, 'path_html': '~/drive/wiki/html/'}]
 map <leader>vv <Plug>VimwikiIndex
 let g:vimwiki_folding='syntax:quick'
