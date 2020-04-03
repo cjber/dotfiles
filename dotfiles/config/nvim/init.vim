@@ -18,13 +18,13 @@ Plug 'vimwiki/vimwiki'
 Plug 'mhinz/vim-startify'
 
 " IDE Stuff
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'markonm/traces.vim'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'tpope/vim-repeat'
 Plug 'thaerkh/vim-indentguides'
@@ -150,8 +150,9 @@ command! -nargs=0 Syn call Syn()
 
 let g:coc_snippet_next = '<tab>'
 
-" Use <C-l> for trigger snippet expand and enter for others (not always needed)
+" Use <C-l> for trigger snippet expand and for others (not always needed)
 imap <C-l> <Plug>(coc-snippets-expand)
+inoremap <expr> <C-l> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
