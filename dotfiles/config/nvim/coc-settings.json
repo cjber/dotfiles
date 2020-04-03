@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/home/cjber/.pyenv/shims/python"
+    "python.pythonPath": "/home/cjber/.pyenv/shims/python",
+    "suggest.snippetIndicator": " ::"
 }
