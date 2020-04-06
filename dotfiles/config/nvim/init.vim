@@ -12,13 +12,13 @@ Plug 'liuchengxu/vim-which-key'
 " theme
 Plug 'joshdick/onedark.vim'
 Plug 'segeljakt/vim-silicon'
-Plug 'vimwiki/vimwiki'
 
 " Startify
 Plug 'mhinz/vim-startify'
 
 " IDE Stuff
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neovim/nvim-lsp'
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'markonm/traces.vim'
@@ -33,12 +33,13 @@ Plug 'kkoomen/vim-doge'
 Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
+Plug 'vimwiki/vimwiki'
 
 "lang stuff
-"Plug 'autozimu/LanguageClient-neovim', {
-"    \ 'branch': 'next',
-"    \ 'do': 'bash install.sh',
-"    \ }
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 Plug 'jalvesaq/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
 Plug 'gaalcaras/ncm-R'
@@ -82,13 +83,16 @@ colorscheme onedark
     hi StatusLine ctermbg=0 guibg=#282c34 ctermfg=59 guifg=#5C6370
     hi LanguageToolGrammarError ctermfg=214 guifg=#d19a66
     hi pandocEmphasis gui=italic guifg=#e5c07b
+    hi markdownItalic gui=italic guifg=#e5c07b
+    hi markdownBold gui=italic guifg=#e5c07b
     hi pandocStrong gui=bold guifg=#e5c07b
     hi ClapPreview ctermbg=8 guibg=#09121a
     hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
-    hi CocHighlightText ctermbg=8 guibg=#09121a
+    hi CocHighlightText gui=bold ctermbg=8 guibg=#2C323C guifg=#e6e6e6
     hi VimwikiLink gui=underline guifg=#50AECD
     hi VimwikiHeader1 guifg=#e5c07b
     hi VimwikiPre guifg=#5C6370
+    hi Search gui=bold guibg=#2C323C guifg=#e6e6e6
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
@@ -135,11 +139,11 @@ let g:markdown_fenced_languages = ['r', 'python']
 let g:rmd_fenced_languages = ['r', 'python']
 
 " language server
-"let g:LanguageClient_autoStart = 1
-"let g:LanguageClient_serverCommands = {
-"\   'python': ['pyls', '-v'],
-"\ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
-"\ }
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_serverCommands = {
+\   'python': ['pyls', '-v'],
+\ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
+\ }
 
 function! Syn()
   for id in synstack(line("."), col("."))

@@ -44,3 +44,5 @@ status --is-interactive; and pyenv virtualenv-init - | source
 
 #vim wiki
 alias vw="nvim ~/drive/wiki/index.wiki"
+
+alias enc="encfs ~/drive/data_enc ~/data"

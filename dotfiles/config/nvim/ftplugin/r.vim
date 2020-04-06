@@ -24,4 +24,3 @@ let R_assign = 2
 let R_show_args = 1
 let R_esc_term = 0
 let R_latexcmd = ['xelatex']
-let R_clear_line = 1
