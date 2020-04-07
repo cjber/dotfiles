@@ -174,4 +174,5 @@ tnoremap <Esc><Esc> <C-\><C-n>
 
 let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 1, 'auto_toc': 1, 'path_html': '~/drive/wiki/html/'}]
 map <leader>vv <Plug>VimwikiIndex
+#map <leader>vl <Plug>VimwikiListToggle
 let g:vimwiki_folding='syntax:quick'
