@@ -1,2 +1,2 @@
 syn keyword pythonSelf self
-highlight def link pythonSelf Special
+highlight def link pythonSelf Identifier
