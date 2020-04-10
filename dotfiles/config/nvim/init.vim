@@ -16,9 +16,16 @@ Plug 'segeljakt/vim-silicon'
 " Startify
 Plug 'mhinz/vim-startify'
 
-" IDE Stuff
+" Languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'neovim/nvim-lsp'
+Plug 'neovim/nvim-lsp'
+"Plug 'haorenW1025/completion-nvim'
+"Plug 'autozimu/LanguageClient-neovim', {
+"    \ 'branch': 'next',
+"    \ 'do': 'bash install.sh',
+"    \ }
+
+" IDE Stuff
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'markonm/traces.vim'
@@ -36,10 +43,6 @@ Plug 'Asheq/close-buffers.vim'
 Plug 'vimwiki/vimwiki'
 
 "lang stuff
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
 Plug 'jalvesaq/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
 Plug 'gaalcaras/ncm-R'
@@ -155,8 +158,6 @@ command! -nargs=0 Syn call Syn()
 let g:coc_snippet_next = '<tab>'
 
 " Use <C-l> for trigger snippet expand and for others (not always needed)
-imap <C-l> <Plug>(coc-snippets-expand)
-inoremap <expr> <C-l> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
@@ -165,7 +166,7 @@ let g:pandoc#keyboard#use_default_mappings=0
 let g:pandoc#modules#disabled = ["command","formatting","templates","menu","bibliographies","completion","autocomplete","folding"]
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "let g:sneak#s_next = 1
 let g:sneak#label = 1
@@ -176,3 +177,8 @@ let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 1, 'auto_toc': 1, '
 map <leader>vv <Plug>VimwikiIndex
 map <leader>vl <Plug>VimwikiListToggle
 let g:vimwiki_folding='syntax:quick'
+
+
+"lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
+" Use completion-nvim in every buffer
+"autocmd BufEnter * lua require'completion'.on_attach()
