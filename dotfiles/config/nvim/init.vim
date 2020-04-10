@@ -167,7 +167,7 @@ let g:pandoc#modules#disabled = ["command","formatting","templates","menu","bibl
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-let g:sneak#s_next = 1
+"let g:sneak#s_next = 1
 let g:sneak#label = 1
 
 tnoremap <Esc><Esc> <C-\><C-n>
