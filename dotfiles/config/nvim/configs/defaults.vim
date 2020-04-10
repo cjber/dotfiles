@@ -99,3 +99,5 @@ set concealcursor=
 
 " auto close preview window
 autocmd CompleteDone * if !pumvisible() | pclose | endif
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
