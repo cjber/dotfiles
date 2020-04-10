@@ -56,7 +56,7 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'kalekundert/vim-coiled-snake'
-Plug 'szymonmaszke/vimpyter'
+Plug 'anosillus/vim-ipynb'
 
 
 call plug#end()
@@ -182,3 +182,5 @@ let g:vimwiki_folding='syntax:quick'
 "lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
 " Use completion-nvim in every buffer
 "autocmd BufEnter * lua require'completion'.on_attach()
+
+let g:vimpyter_view_directory='%:p:h'
