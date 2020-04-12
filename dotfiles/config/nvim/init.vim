@@ -1,5 +1,6 @@
 call plug#begin('~/.config/nvim/pack')
 
+
 " set better defaults
 Plug 'vim-scripts/vim-auto-save'
 Plug 'djoshea/vim-autoread'
@@ -184,3 +185,5 @@ let g:vimwiki_folding='syntax:quick'
 "autocmd BufEnter * lua require'completion'.on_attach()
 
 let g:vimpyter_view_directory='%:p:h'
+
+"imap jk <Esc>
