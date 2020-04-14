@@ -28,7 +28,6 @@ Plug 'neovim/nvim-lsp'
 
 " IDE Stuff
 Plug 'liuchengxu/vista.vim'
-Plug 'tpope/vim-dispatch'
 Plug 'markonm/traces.vim'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
@@ -186,4 +185,4 @@ let g:vimwiki_folding='syntax:quick'
 
 let g:vimpyter_view_directory='%:p:h'
 
-let g:python3_host_prog = $HOME.'/.pyenv/shims/python'
+let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
