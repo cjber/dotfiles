@@ -2,15 +2,15 @@ set spell
 syntax spell toplevel
 
 function Rlint()
-    Dispatch Rscript -e 'styler::style_file("'%'")'
+    !Rscript -e 'styler::style_file("'%'")'
 endfunction
 
 function RmdRender()
-    Dispatch Rscript -e 'rmarkdown::render("'%'", quiet=T)'
+    !Rscript -e 'rmarkdown::render("'%'", quiet=T)'
 endfunction
 
 function RmdPdf()
-    Dispatch zathura "%:r:t".pdf &
+    !zathura "%:r:t".pdf &
 endfunction
 
 nnoremap <silent> <Leader>ll :call Rlint()<CR>
@@ -29,7 +29,6 @@ set nonumber
 set norelativenumber
 set concealcursor=
 set conceallevel=2
-set signcolumn=yes
 
 hi FoldColumn ctermfg=238
 hi pandocEmphasis ctermfg=3

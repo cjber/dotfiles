@@ -186,4 +186,4 @@ let g:vimwiki_folding='syntax:quick'
 
 let g:vimpyter_view_directory='%:p:h'
 
-"imap jk <Esc>
+let g:python3_host_prog = $HOME.'/.pyenv/shims/python'
