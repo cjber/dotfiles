@@ -96,6 +96,7 @@ colorscheme onedark
     hi VimwikiHeader1 guifg=#e5c07b
     hi VimwikiPre guifg=#5C6370
     hi VimwikiItalic gui=italic guifg=#e5c07b
+    hi VimwikiBold gui=bold guifg=#e5c07b
     hi Search gui=bold guibg=#2C323C guifg=#e6e6e6
 endfunction
 
