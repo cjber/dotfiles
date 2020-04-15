@@ -173,10 +173,9 @@ let g:sneak#label = 1
 
 tnoremap <Esc><Esc> <C-\><C-n>
 
-let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 1, 'auto_toc': 1, 'path_html': '~/drive/wiki/html/'}]
+let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 0, 'auto_toc': 0, 'path_html': '~/drive/wiki/html/'}]
 map <leader>vv <Plug>VimwikiIndex
 map <leader>vl <Plug>VimwikiListToggle
-let g:vimwiki_folding='syntax:quick'
 
 
 "lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
