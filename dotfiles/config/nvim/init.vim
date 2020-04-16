@@ -55,6 +55,7 @@ Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
 
 " python
+Plug 'coyotebush/vim-pweave'
 Plug 'kalekundert/vim-coiled-snake'
 Plug 'anosillus/vim-ipynb'
 
