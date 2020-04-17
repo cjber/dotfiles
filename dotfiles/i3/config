@@ -50,8 +50,8 @@ bindsym $mod+z exec --no-startup-id morc_menu
 bindsym $mod+Ctrl+m exec pavucontrol
 
 {%@@ if profile == "home" @@%}
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_0b_00.3.analog-stereo +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_0b_00.3.analog-stereo -5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_0b_00.3.analog-surround-51 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_0b_00.3.analog-surround-51 -5%
 {%@@ endif @@%}
 
 ################################################################################################
