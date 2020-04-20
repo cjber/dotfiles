@@ -122,8 +122,6 @@ let cmdline_app = {}
 let cmdline_app['python'] = 'ipython'
 let cmdline_app['r'] = 'radian'
 let cmdline_app['rmd'] = 'radian'
-let cmdline_external_term_cmd = 'kitty --single-instance %s &'
-let cmdline_in_buffer   = 0
 
 " Set all terminal defaults
 augroup TerminalStuff
