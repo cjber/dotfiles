@@ -66,7 +66,6 @@ call plug#end()
 """""""""""""" External Scripts
 runtime configs/defaults.vim
 runtime configs/binds.vim
-runtime configs/rconf.vim
 """"""""""""""
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
