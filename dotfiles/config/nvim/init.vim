@@ -60,6 +60,9 @@ Plug 'coyotebush/vim-pweave'
 Plug 'kalekundert/vim-coiled-snake'
 "Plug 'szymonmaszke/vimpyter'
 
+" spar
+Plug 'vim-scripts/sparql.vim'
+
 
 call plug#end()
 
@@ -164,6 +167,7 @@ let g:coc_snippet_next = '<tab>'
 
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
+autocmd BufRead,BufNewFile *.rq set filetype=sparql
 
 let g:pandoc#keyboard#use_default_mappings=0
 let g:pandoc#modules#disabled = ["command","formatting","templates","menu","bibliographies","completion","autocomplete","folding"]
@@ -188,4 +192,3 @@ map <leader>vl <Plug>VimwikiListToggle
 let g:vimpyter_view_directory='%:p:h'
 
 let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
-
