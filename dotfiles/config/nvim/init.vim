@@ -61,6 +61,7 @@ Plug 'kalekundert/vim-coiled-snake'
 
 " spar
 Plug 'vim-scripts/sparql.vim'
+Plug 'neo4j-contrib/cypher-vim-syntax'
 
 
 call plug#end()
