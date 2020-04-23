@@ -19,7 +19,7 @@ Plug 'mhinz/vim-startify'
 
 " Languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neovim/nvim-lsp'
+"Plug 'neovim/nvim-lsp'
 "Plug 'haorenW1025/completion-nvim'
 "Plug 'autozimu/LanguageClient-neovim', {
 "    \ 'branch': 'next',
@@ -34,7 +34,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'tpope/vim-repeat'
-Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'thaerkh/vim-indentguides'
 Plug 'roxma/nvim-yarp'
 Plug 'kkoomen/vim-doge'
@@ -173,7 +172,7 @@ let g:pandoc#keyboard#use_default_mappings=0
 let g:pandoc#modules#disabled = ["command","formatting","templates","menu","bibliographies","completion","autocomplete","folding"]
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "let g:sneak#s_next = 1
 let g:sneak#label = 1
@@ -192,3 +191,5 @@ map <leader>vl <Plug>VimwikiListToggle
 let g:vimpyter_view_directory='%:p:h'
 
 let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
+
+"lua require'nvim_lsp'.pyls_ms.setup{}
