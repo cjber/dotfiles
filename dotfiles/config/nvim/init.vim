@@ -55,9 +55,9 @@ Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
 
 " python
-Plug 'coyotebush/vim-pweave'
 Plug 'kalekundert/vim-coiled-snake'
 "Plug 'szymonmaszke/vimpyter'
+Plug 'goerz/jupytext.vim'
 
 " spar
 Plug 'vim-scripts/sparql.vim'
