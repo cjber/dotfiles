@@ -56,8 +56,7 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'kalekundert/vim-coiled-snake'
-"Plug 'szymonmaszke/vimpyter'
-Plug 'goerz/jupytext.vim'
+Plug 'szymonmaszke/vimpyter'
 
 " spar
 Plug 'vim-scripts/sparql.vim'
@@ -189,8 +188,4 @@ map <leader>vl <Plug>VimwikiListToggle
 " Use completion-nvim in every buffer
 "autocmd BufEnter * lua require'completion'.on_attach()
 
-let g:vimpyter_view_directory='%:p:h'
-
-let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
-
-"lua require'nvim_lsp'.pyls_ms.setup{}
+let g:python3_host_prog = $HOME.'/.pyenv/shims/python'
