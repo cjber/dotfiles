@@ -43,7 +43,7 @@ Plug 'Asheq/close-buffers.vim'
 Plug 'vimwiki/vimwiki'
 
 "lang stuff
-Plug 'jalvesaq/vimcmdline'
+"Plug 'jalvesaq/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
 Plug 'gaalcaras/ncm-R'
 
@@ -56,7 +56,8 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'kalekundert/vim-coiled-snake'
-Plug 'szymonmaszke/vimpyter'
+Plug 'bfredl/nvim-ipy'
+"Plug 'szymonmaszke/vimpyter'
 
 " spar
 Plug 'vim-scripts/sparql.vim'
