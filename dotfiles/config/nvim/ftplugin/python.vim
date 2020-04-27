@@ -1,7 +1,7 @@
 set colorcolumn=80
 
 command! -nargs=0 RunQtConsole
-    call jobstart("jupyter qtconsole --JupyterWidget.include_other_output=True")
+            \call jobstart("jupyter qtconsole --JupyterWidget.include_other_output=True --stylesheet='~/.jupyter/onedark.css'")
 
 let g:ipy_celldef = '^##' " regex for cell start and end
 
