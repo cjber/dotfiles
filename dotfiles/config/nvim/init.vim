@@ -43,7 +43,7 @@ Plug 'Asheq/close-buffers.vim'
 Plug 'vimwiki/vimwiki'
 
 "lang stuff
-"Plug 'jalvesaq/vimcmdline'
+Plug 'jalvesaq/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
 Plug 'gaalcaras/ncm-R'
 
