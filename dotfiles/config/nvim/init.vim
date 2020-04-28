@@ -188,4 +188,4 @@ map <leader>vl <Plug>VimwikiListToggle
 " Use completion-nvim in every buffer
 "autocmd BufEnter * lua require'completion'.on_attach()
 
-let g:python3_host_prog = $HOME.'/.pyenv/shims/python'
+let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
