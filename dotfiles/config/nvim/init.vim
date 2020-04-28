@@ -56,8 +56,7 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'kalekundert/vim-coiled-snake'
-Plug 'bfredl/nvim-ipy'
-"Plug 'szymonmaszke/vimpyter'
+Plug 'szymonmaszke/vimpyter'
 
 " spar
 Plug 'vim-scripts/sparql.vim'
