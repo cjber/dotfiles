@@ -10,7 +10,7 @@ function RmdRender()
 endfunction
 
 function RmdPdf()
-    !zathura "%:r:t".pdf &
+    !zathura %:r.pdf &
 endfunction
 
 nnoremap <silent> <Leader>ll :call Rlint()<CR>
