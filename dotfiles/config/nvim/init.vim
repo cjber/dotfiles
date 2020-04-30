@@ -89,7 +89,7 @@ colorscheme onedark
     hi LanguageToolGrammarError ctermfg=214 guifg=#d19a66
     hi pandocEmphasis gui=italic guifg=#e5c07b
     hi markdownItalic gui=italic guifg=#e5c07b
-    hi markdownBold gui=italic guifg=#e5c07b
+    hi markdownBold gui=bold guifg=#e5c07b
     hi pandocStrong gui=bold guifg=#e5c07b
     hi ClapPreview ctermbg=8 guibg=#09121a
     hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
