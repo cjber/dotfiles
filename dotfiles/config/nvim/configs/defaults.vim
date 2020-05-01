@@ -101,3 +101,5 @@ set concealcursor=
 autocmd CompleteDone * if !pumvisible() | pclose | endif
 " Set completeopt to have a better completion experience
 set completeopt=menuone,noinsert,noselect
+
+let g:netrw_banner = 0
