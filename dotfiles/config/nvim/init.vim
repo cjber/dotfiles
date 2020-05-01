@@ -56,6 +56,7 @@ Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
 
 " python
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'kalekundert/vim-coiled-snake'
 Plug 'szymonmaszke/vimpyter'
 
@@ -102,6 +103,10 @@ colorscheme onedark
     hi VimwikiItalic gui=italic guifg=#e5c07b
     hi VimwikiBold gui=bold guifg=#e5c07b
     hi Search gui=bold guibg=#2C323C guifg=#e6e6e6
+    hi semshiImported guifg=#50AECD gui=bold
+    hi semshiSelected guibg=#2c323c guifg=#e6e6e6
+    hi semshiSelected guibg=#2c323c guifg=#e6e6e6
+    hi semshiAttribute guifg=#accf93 gui=bold
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
