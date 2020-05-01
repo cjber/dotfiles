@@ -13,7 +13,8 @@ let g:which_key_map =  {}
 call which_key#register('<Space>', 'g:which_key_map')
 
 " file commands
-nnoremap <silent> <leader>ff :Clap filer<CR>
+nnoremap <silent> <leader>ff :Clap files<CR>
+nnoremap <silent> <leader>fo :Clap filer<CR>
 nnoremap <silent> <leader>fe :e $MYVIMRC<CR>
 nnoremap <Leader>fg :Clap grep<CR>
 " :W sudo saves the file
