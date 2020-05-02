@@ -64,6 +64,9 @@ Plug 'szymonmaszke/vimpyter'
 Plug 'vim-scripts/sparql.vim'
 Plug 'neo4j-contrib/cypher-vim-syntax'
 
+" csv
+Plug 'chrisbra/csv.vim'
+
 
 call plug#end()
 
@@ -196,3 +199,7 @@ map <leader>vl <Plug>VimwikiListToggle
 "autocmd BufEnter * lua require'completion'.on_attach()
 
 let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
+
+let g:startify_custom_header = ''
+let &colorcolumn=join(range(81,999),",")
+highlight ColorColumn guibg=#2c323c
