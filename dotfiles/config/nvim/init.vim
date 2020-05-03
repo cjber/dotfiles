@@ -111,6 +111,7 @@ colorscheme onedark
     hi semshiSelected guibg=#2c323c guifg=#e6e6e6
     hi semshiAttribute guifg=#accf93 gui=bold
     hi semshiSelf guifg=#e06c75
+    hi pythonString guifg=#accf93 gui=italic
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
