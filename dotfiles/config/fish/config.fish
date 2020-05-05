@@ -49,3 +49,4 @@ alias enc="encfs ~/drive/data_enc ~/data"
 set PATH /home/cjber/.gem/ruby/2.7.0/bin $PATH
 
 set FZF_LEGACY_KEYBINDINGS 0
+set FZF_DEFAULT_OPTS "--height 40"
