@@ -1,5 +1,5 @@
 let g:mapleader = "\<Space>"
-let g:maplocalleader = ','
+let g:maplocalleader = '\'
 
 
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
