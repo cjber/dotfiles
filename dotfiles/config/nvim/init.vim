@@ -194,13 +194,13 @@ let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 0, 'auto_toc': 0, '
 map <leader>vv <Plug>VimwikiIndex
 map <leader>vl <Plug>VimwikiListToggle
 
-
-"lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
-" Use completion-nvim in every buffer
-"autocmd BufEnter * lua require'completion'.on_attach()
-
 let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
 
 let g:startify_custom_header = ''
 let &colorcolumn=join(range(81,999),",")
 highlight ColorColumn guibg=#2c323c
+
+" lua <<END
+" local nvim_lsp = require'nvim_lsp'
+" nvim_lsp.pyls.setup{}
+" END
