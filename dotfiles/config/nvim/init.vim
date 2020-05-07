@@ -204,3 +204,4 @@ highlight ColorColumn guibg=#2c323c
 " local nvim_lsp = require'nvim_lsp'
 " nvim_lsp.pyls.setup{}
 " END
+let g:sneak#use_ic_scs = 1
