@@ -10,6 +10,7 @@ set fish_cursor_visual      block
 
 # alias
 alias v="nvim"
+alias f="nvim (fzf)"
 alias lf="ranger"
 alias vinit="nvim ~/.config/nvim/init.vim"
 alias r="radian"
@@ -49,4 +50,3 @@ alias enc="encfs ~/drive/data_enc ~/data"
 set PATH /home/cjber/.gem/ruby/2.7.0/bin $PATH
 
 set FZF_LEGACY_KEYBINDINGS 0
-set FZF_DEFAULT_OPTS "--height 40"
