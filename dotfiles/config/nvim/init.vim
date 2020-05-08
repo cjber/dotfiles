@@ -88,7 +88,7 @@ colorscheme onedark
     hi Visual ctermbg=8 guibg=#09121a
     hi ColorColumn ctermbg=8 guibg=#09121a
     hi PMenu ctermbg=8 guibg=#09121a
-    hi Folded ctermfg=2 gui=italic guifg=#5c6370
+    hi Folded ctermfg=2 gui=italic guifg=#5c6370 guibg=#262830
     hi WhichKeyFloating ctermbg=0 guibg=#282c34
     hi Conceal ctermfg=2 guifg=#98C379
     hi StatusLine ctermbg=0 guibg=#282c34 ctermfg=59 guifg=#5C6370
