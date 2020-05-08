@@ -2,7 +2,16 @@ nnoremap <leader>lc :Semshi rename<CR>
 nnoremap <leader>lvv :call PandasViewDF()<CR>
 nnoremap <leader>lvc :call PandasViewCols()<CR>
 nnoremap <leader>lvi :call PandasViewInfo()<CR>
-nnoremap <localleader>ch :call IPyRunCell()<CR>
+
+nnoremap <localleader>cc :call IPyRunCell()<CR>
+nnoremap <localleader>b :?# %%<CR>
+nnoremap <localleader>a :/# %%<CR>
+nnoremap zk :?# %%<CR>
+nnoremap zj :/# %%<CR>
+nnoremap <silent> <localleader>pp :!ipynb-py-convert % %:r.ipynb<CR>
+
+nnoremap <localleader>m I# %%<CR>"""<CR>"""<CR># --<Esc>kO
+nnoremap <localleader>, I# %%<CR># --<Esc>O
 
 function PandasViewDF()
     let df = expand('<cword>')
@@ -56,3 +65,62 @@ function! IPyRunCell()
     call VimCmdLineSendCmd(join(lines, "\n"))
     return 1
 endfunction
+
+
+" highlight code blocks in rmd documents
+setl signcolumn=no
+
+hi markdownCodeBlockBG guibg=#2C323C
+sign define codeblock linehl=markdownCodeBlockBG
+
+function! MarkdownBlocks()
+    let l:continue = 0
+    execute "sign unplace * file=".expand("%")
+
+    " iterate through each line in the buffer
+    for l:lnum in range(1, len(getline(1, "$")))
+        " detect the start fo a code block
+        if getline(l:lnum) =~ "^# %%$" && getline(l:lnum+1) != "'''" || l:continue
+            " continue placing signs, until the block stops
+            let l:continue = 1
+            " place sign
+            execute "sign place ".l:lnum." line=".l:lnum." name=codeblock file=".expand("%")
+            " stop placing signs
+            if getline(l:lnum) =~ "^# --$"
+                let l:continue = 0
+            endif
+        endif
+    endfor
+endfunction
+
+" Use signs to highlight code blocks
+" Set signs on loading the file, leaving insert mode, and after writing it
+call MarkdownBlocks()
+
+function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
+  let ft=toupper(a:filetype)
+  let group='textGroup'.ft
+  if exists('b:current_syntax')
+    let s:current_syntax=b:current_syntax
+    " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
+    " do nothing if b:current_syntax is defined.
+    unlet b:current_syntax
+  endif
+  execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
+  try
+    execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
+  catch
+  endtry
+  if exists('s:current_syntax')
+    let b:current_syntax=s:current_syntax
+  else
+    unlet b:current_syntax
+  endif
+  execute 'syntax region textSnip'.ft.'
+  \ matchgroup='.a:textSnipHl.'
+  \ keepend
+  \ start="'.a:start.'" end="'.a:end.'"
+  \ contains=@'.group
+endfunction
+
+au BufEnter *.py :call TextEnableCodeSnip('markdown', "'''", "'''", 'SpecialComment')
