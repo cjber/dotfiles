@@ -56,8 +56,7 @@ let rmd_syn_hl_chunk=1
 
 " highlight code blocks in rmd documents
 setl signcolumn=no
-
-hi markdownCodeBlockBG guibg=#2C323C
+hi markdownCodeBlockBG guibg=#262830
 sign define codeblock linehl=markdownCodeBlockBG
 
 function! MarkdownBlocks()
