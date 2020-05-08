@@ -35,7 +35,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'tpope/vim-repeat'
-Plug 'thaerkh/vim-indentguides'
+"Plug 'thaerkh/vim-indentguides'
 Plug 'roxma/nvim-yarp'
 Plug 'kkoomen/vim-doge'
 Plug 'dstein64/vim-win'
@@ -183,7 +183,7 @@ let g:pandoc#keyboard#use_default_mappings=0
 let g:pandoc#modules#disabled = ["command","formatting","templates","menu","bibliographies","completion","autocomplete","folding"]
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
-"autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "let g:sneak#s_next = 1
 let g:sneak#label = 1
