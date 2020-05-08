@@ -10,7 +10,7 @@ nnoremap zk :?# %%<CR>
 nnoremap zj :/# %%<CR>
 nnoremap <silent> <localleader>pp :!ipynb-py-convert % %:r.ipynb<CR>
 
-nnoremap <localleader>m I# %%<CR>"""<CR>"""<CR># --<Esc>kO
+nnoremap <localleader>m I# %%<CR>'''<CR>'''<CR><Esc>kO
 nnoremap <localleader>, I# %%<CR># --<Esc>O
 
 function PandasViewDF()
@@ -70,7 +70,7 @@ endfunction
 " highlight code blocks in rmd documents
 setl signcolumn=no
 
-hi markdownCodeBlockBG guibg=#2C323C
+hi markdownCodeBlockBG guibg=#262830
 sign define codeblock linehl=markdownCodeBlockBG
 
 function! MarkdownBlocks()

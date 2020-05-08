@@ -58,7 +58,7 @@ Plug 'jalvesaq/R-Vim-runtime'
 " python
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'kalekundert/vim-coiled-snake'
-Plug 'szymonmaszke/vimpyter'
+"Plug 'szymonmaszke/vimpyter'
 
 " spar
 Plug 'vim-scripts/sparql.vim'
@@ -118,7 +118,7 @@ autocmd! ColorScheme onedark call s:patch_onedark_colors()
 
 colorscheme onedark
 
-let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmarkdown', 'markdown', 'pandoc', 'vimwiki']
+"let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmarkdown', 'markdown', 'pandoc', 'vimwiki']
 
 let g:doge_doc_standard_python = 'google'
 
@@ -197,8 +197,10 @@ map <leader>vl <Plug>VimwikiListToggle
 let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
 
 let g:startify_custom_header = ''
-let &colorcolumn=join(range(81,999),",")
-highlight ColorColumn guibg=#2c323c
+" let &colorcolumn=join(range(81,999),",")
+" highlight ColorColumn guibg=#2c323c
+" set colorcolumn=81
+" hi ColorColumn guibg=NONE guifg=#BE5046
 
 " lua <<END
 " local nvim_lsp = require'nvim_lsp'
