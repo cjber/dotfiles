@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =4
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/home/cjber/drive/phd/modules/envs801_understanding_data/coursework/a1_report/sales-data'
 let g:netrw_dirhist_4='/home/cjber/apps/qmk_firmware/lib/lufa/Bootloaders/DFU'
 let g:netrw_dirhist_3='/home/cjber/temp'
 let g:netrw_dirhist_2='/home/cjber/.newsboat'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_9='/tmp'
 let g:netrw_dirhist_8='/home/cjber/drive/phd/modules/envs801/coursework/a1_report/sales-data'
 let g:netrw_dirhist_7='/home/cjber/dotfiles/dotfiles/config/kitty'
 let g:netrw_dirhist_6='/home/cjber/dotfiles/dotfiles/config/nvim/after/syntax'
-let g:netrw_dirhist_5='/home/cjber/dotfiles/dotfiles/config/nvim/after'

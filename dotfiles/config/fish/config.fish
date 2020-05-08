@@ -11,6 +11,7 @@ set fish_cursor_visual      block
 # alias
 alias v="nvim"
 alias f="nvim (fzf --height 40% --border --layout=reverse)"
+alias c="cd (fd --type d | fzf --height 40% --border --layout=reverse)"
 alias lf="ranger"
 alias vinit="nvim ~/.config/nvim/init.vim"
 alias r="radian"
