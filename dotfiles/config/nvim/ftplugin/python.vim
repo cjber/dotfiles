@@ -8,7 +8,7 @@ nnoremap <localleader>b :?# %%<CR>
 nnoremap <localleader>a :/# %%<CR>
 nnoremap zk :?# %%<CR>
 nnoremap zj :/# %%<CR>
-nnoremap <silent> <localleader>pp :!ipynb-py-convert % %:r.ipynb<CR>
+nnoremap <silent> <localleader>kk :!ipynb-py-convert % %:r.ipynb<CR>
 
 nnoremap <localleader>m I# %%<CR>'''<CR>'''<CR><Esc>kO
 nnoremap <localleader>, I# %%<CR># --<Esc>O
