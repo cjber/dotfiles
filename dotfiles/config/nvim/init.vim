@@ -3,7 +3,7 @@ call plug#begin('~/.config/nvim/pack')
 " set better defaults
 Plug 'vim-scripts/vim-auto-save'
 Plug 'djoshea/vim-autoread'
-Plug 'Konfekt/FastFold'
+"Plug 'Konfekt/FastFold'
 Plug 'justinmk/vim-sneak'
 
 " Emacs style which key
@@ -57,7 +57,7 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-Plug 'kalekundert/vim-coiled-snake'
+"Plug 'kalekundert/vim-coiled-snake'
 "Plug 'szymonmaszke/vimpyter'
 
 " spar
