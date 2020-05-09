@@ -95,6 +95,8 @@ set spellsuggest=10
 set shortmess+=c
 
 " dont conceal cursor on lines
+" but do conceal otherwise
+set coneallevel=2
 set concealcursor=
 
 " auto close preview window
