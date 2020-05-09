@@ -95,7 +95,10 @@ endfunction
 
 " Use signs to highlight code blocks
 " Set signs on loading the file, leaving insert mode, and after writing it
+" note that this triples startup time for documents with a lot of blocks
+" might not be worth keeping
 call MarkdownBlocks()
+au BufWrite *.py :call MarkdownBlocks()
 
 function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
   let ft=toupper(a:filetype)
