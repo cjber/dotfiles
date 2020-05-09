@@ -98,7 +98,7 @@ endfunction
 " note that this triples startup time for documents with a lot of blocks
 " might not be worth keeping
 call MarkdownBlocks()
-au BufWrite *.py :call MarkdownBlocks()
+" au BufWrite *.py :call MarkdownBlocks()
 
 function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
   let ft=toupper(a:filetype)
@@ -126,4 +126,4 @@ function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
   \ contains=@'.group
 endfunction
 
-au BufEnter *.py :call TextEnableCodeSnip('markdown', "'''", "'''", 'SpecialComment')
+syntax region markdown start="'''" end="'''"
