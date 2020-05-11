@@ -158,11 +158,11 @@ let g:markdown_fenced_languages = ['r', 'python']
 let g:rmd_fenced_languages = ['r', 'python']
 
 " language server
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_serverCommands = {
-\   'python': ['pyls', '-v'],
-\ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
-\ }
+" let g:LanguageClient_autoStart = 1
+" let g:LanguageClient_serverCommands = {
+" \   'python': ['pyls', '-v'],
+" \ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
+" \ }
 
 function! Syn()
   for id in synstack(line("."), col("."))
@@ -187,6 +187,7 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "let g:sneak#s_next = 1
 let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
 
 tnoremap <Esc><Esc> <C-\><C-n>
 
@@ -198,12 +199,11 @@ let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
 
 let g:startify_custom_header = ''
 " let &colorcolumn=join(range(81,999),",")
-" highlight ColorColumn guibg=#2c323c
-" set colorcolumn=81
+hi ColorColumn guibg=#2c323c
+set colorcolumn=81
 " hi ColorColumn guibg=NONE guifg=#BE5046
 
 " lua <<END
 " local nvim_lsp = require'nvim_lsp'
 " nvim_lsp.pyls.setup{}
 " END
-let g:sneak#use_ic_scs = 1
