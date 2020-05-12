@@ -29,7 +29,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " IDE Stuff
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'laher/fuzzymenu.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'markonm/traces.vim'
 Plug 'honza/vim-snippets'
