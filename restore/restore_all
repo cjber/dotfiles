@@ -1,0 +1,4 @@
+#!/bin/bash
+sudo pacman -Syyuu
+sudo pacman -S yay --needed --noconfirm
+yay -S --needed --noconfirm - < applist
