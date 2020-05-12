@@ -23,22 +23,15 @@ inoremap <buffer> >> <Esc>:normal! a %>%<CR>a
 inoremap <buffer> >> <Esc>:normal! a %>%<CR>a 
 inoremap <buffer> >> <Esc>:normal! a %>%<CR>a 
 
+nnoremap zk :?^#<CR>
+nnoremap zj :/^#<CR>
+
 let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '"""':'"""', "'''":"'''"}
 
 set nonumber
 set norelativenumber
-set concealcursor=
-set conceallevel=2
-
-hi FoldColumn ctermfg=238
-hi pandocEmphasis ctermfg=3
-hi pandocStrong ctermfg=3
 
 nnoremap <Leader>rn :RNrrw<CR>
-
-" presudo fold navigation without slow folds
-nmap zj <Plug>(pandoc-keyboard-next-header)
-nmap zk <Plug>(pandoc-keyboard-prev-header)
 
 " Nvim R
 let R_app = "radian"
