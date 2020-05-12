@@ -1,5 +1,6 @@
 call plug#begin('~/.config/nvim/pack')
 
+
 " set better defaults
 Plug 'vim-scripts/vim-auto-save'
 Plug 'djoshea/vim-autoread'
