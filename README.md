@@ -8,8 +8,8 @@ bash restore_all.sh
 bash dots.sh
 ```
 
-![Neovim][./screenshots/nvim_python.png]
-![Desktop][./screenshots/desktop.png]
+![Neovim](./screenshots/nvim_python.png)
+![Desktop](./screenshots/desktop.png)
 
 
 
