@@ -21,7 +21,7 @@ lutris
 mathpix-snipping-tool
 megasync-git
 mpv
-neovim
+neovim-nightly
 nerd-fonts-complete
 nitrogen
 nodejs
@@ -38,7 +38,6 @@ pyenv-virtualenv
 pygmentize
 python-i3ipc
 python-language-server
-python-notedown
 python-poetry
 qbittorrent
 r
