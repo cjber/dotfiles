@@ -2,6 +2,5 @@
 cd ~/
 echo 'export DOTDROP_PROFILE=home'
 echo 'export DOTDROP_PROFILE=home' >> .profile
-git clone git@github.com:cjber/dotfiles.git ~/dotfiles
 cd dotfiles
 dotdrop install
