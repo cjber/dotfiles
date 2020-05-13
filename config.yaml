@@ -71,9 +71,6 @@ dotfiles:
   d_dunst:
     src: config/dunst
     dst: ~/.config/dunst
-  f_mimeapps.list:
-    src: config/mimeapps.list
-    dst: ~/.config/mimeapps.list
   d_ranger:
     src: config/ranger
     dst: ~/.config/ranger
