@@ -14,8 +14,6 @@ nnoremap <localleader>m I# %%<CR>'''<CR>'''<CR><Esc>kO
 nnoremap <localleader>, I# %%<CR># --<Esc>O
 
 
-nnoremap <localleader>dd ?# %%<CR>V/# --<CR>:call VimCmdLineSendSelection()<CR>
-
 function PandasViewDF()
     let df = expand('<cword>')
     call VimCmdLineSendCmd(df . '.head(50).to_csv("/tmp/_' . df . '.csv")')
