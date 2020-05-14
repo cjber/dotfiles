@@ -108,7 +108,7 @@ class alias(Command):
     resolve_macros = False
 
     def execute(self):
-        if not self.arg(1) or not self.arg(2):
+        if not (self.arg(1) and self.arg(2)):
             self.fm.notify('Syntax: alias <newcommand> <oldcommand>', bad=True)
             return
 
@@ -163,10 +163,7 @@ class cd(Command):
 
         if dest:
             head, tail = os.path.split(os.path.expanduser(dest))
-            if head:
-                dest_exp = os.path.join(os.path.normpath(head), tail)
-            else:
-                dest_exp = tail
+            dest_exp = os.path.join(os.path.normpath(head), tail) if head else tail
         else:
             dest_exp = ''
         return (start, dest_exp, os.path.join(self.fm.thisdir.path, dest_exp),
@@ -222,7 +219,7 @@ class cd(Command):
                     continue
                 matches += [os.path.join(path, d) for d in directories
                             if self._tab_match(token, d)]
-            if not tokens or not matches:
+            if not (tokens and matches):
                 return matches
             paths = matches
 
@@ -415,7 +412,7 @@ class open_with(Command):
         return app, flags, int(mode)
 
     def _is_app(self, arg):
-        return not self._is_flags(arg) and not arg.isdigit()
+        return not (self._is_flags(arg) or arg.isdigit())
 
     @staticmethod
     def _is_flags(arg):
@@ -493,7 +490,7 @@ class setlocal(set_):
         if not match:
             return None
         path = os.path.expanduser(match.group(1))
-        for _ in range(len(path.split())):
+        for item in path.split():
             self.shift()
         return path
 
@@ -697,7 +694,7 @@ class delete(Command):
         return self._tab_directory_content()
 
     def _question_callback(self, files, answer):
-        if answer == 'y' or answer == 'Y':
+        if answer in ['y', 'Y']:
             self.fm.delete(files)
 
 
@@ -755,7 +752,7 @@ class trash(Command):
         return self._tab_directory_content()
 
     def _question_callback(self, files, answer):
-        if answer == 'y' or answer == 'Y':
+        if answer in ['y', 'Y']:
             self.fm.execute_file(files, label='trash')
 
 
@@ -813,7 +810,7 @@ class mark_tag(Command):
     def execute(self):
         cwd = self.fm.thisdir
         tags = self.rest(1).replace(" ", "")
-        if not self.fm.tags or not cwd.files:
+        if not (self.fm.tags and cwd.files):
             return
         for fileobj in cwd.files:
             try:
@@ -863,8 +860,7 @@ class load_copy_buffer(Command):
             return self.fm.notify(
                 "Cannot open %s" % (fname or self.copy_buffer_filename), bad=True)
 
-        self.fm.copy_buffer = set(File(g)
-                                  for g in fobj.read().split("\n") if exists(g))
+        self.fm.copy_buffer = {File(g) for g in fobj.read().split("\n") if exists(g)}
         fobj.close()
         self.fm.ui.redraw_main_column()
         return None
@@ -1152,11 +1148,11 @@ class bulkrename(Command):
 
         # Generate script
         with tempfile.NamedTemporaryFile() as cmdfile:
-            script_lines = []
-            script_lines.append("# This file will be executed when you close"
-                                " the editor.")
-            script_lines.append("# Please double-check everything, clear the"
-                                " file to abort.")
+            script_lines = [
+                '# This file will be executed when you close the editor.',
+                '# Please double-check everything, clear the file to abort.',
+            ]
+
             new_dirs = []
             for old, new in zip(filenames, new_filenames):
                 if old != new:
@@ -1277,7 +1273,7 @@ class copymap(Command):
     context = 'browser'
 
     def execute(self):
-        if not self.arg(1) or not self.arg(2):
+        if not (self.arg(1) and self.arg(2)):
             return self.fm.notify("Not enough arguments", bad=True)
 
         for arg in self.args[2:]:
@@ -1399,7 +1395,7 @@ class map_(Command):
     resolve_macros = False
 
     def execute(self):
-        if not self.arg(1) or not self.arg(2):
+        if not (self.arg(1) and self.arg(2)):
             self.fm.notify("Syntax: {0} <keysequence> <command>".format(self.get_name()), bad=True)
             return
 
@@ -1492,11 +1488,10 @@ class scout(Command):
 
         if (self.MARK in flags or self.UNMARK in flags) and thisdir.files:
             value = flags.find(self.MARK) > flags.find(self.UNMARK)
-            if self.FILTER in flags:
-                for fobj in thisdir.files:
+            for fobj in thisdir.files:
+                if self.FILTER in flags:
                     thisdir.mark_item(fobj, value)
-            else:
-                for fobj in thisdir.files:
+                else:
                     if regex.search(fobj.relative_path):
                         thisdir.mark_item(fobj, value)
 
@@ -1537,9 +1532,7 @@ class scout(Command):
             self.fm.thisdir.filter = self._build_regex()
         if self.FILTER in self.flags or self.PERM_FILTER in self.flags:
             self.fm.thisdir.refilter()
-        if self._count(move=asyoutype) == 1 and self.AUTO_OPEN in self.flags:
-            return True
-        return False
+        return self._count(move=asyoutype) == 1 and self.AUTO_OPEN in self.flags
 
     def tab(self, tabnum):
         self._count(move=True, offset=tabnum)
@@ -1597,7 +1590,7 @@ class scout(Command):
         cwd = self.fm.thisdir
         pattern = self.pattern
 
-        if not pattern or not cwd.files:
+        if not (pattern and cwd.files):
             return 0
         if pattern == '.':
             return 0
@@ -1650,10 +1643,7 @@ class filter_inode_type(Command):
     """
 
     def execute(self):
-        if not self.arg(1):
-            self.fm.thisdir.inode_type_filter = ""
-        else:
-            self.fm.thisdir.inode_type_filter = self.arg(1)
+        self.fm.thisdir.inode_type_filter = '' if not self.arg(1) else self.arg(1)
         self.fm.thisdir.refilter()
 
 
@@ -1720,8 +1710,7 @@ class grep(Command):
 
     def execute(self):
         if self.rest(1):
-            action = ['grep', '--line-number']
-            action.extend(['-e', self.rest(1), '-r'])
+            action = ['grep', '--line-number', *['-e', self.rest(1), '-r']]
             action.extend(f.path for f in self.fm.thistab.get_selection())
             self.fm.execute_command(action, flags='p')
 
@@ -1835,10 +1824,7 @@ class prompt_metadata(Command):
 
     def _fill_console(self, key):
         metadata = self.fm.metadata.get_metadata(self.fm.thisfile.path)
-        if key in metadata and metadata[key]:
-            existing_value = metadata[key]
-        else:
-            existing_value = ""
+        existing_value = metadata[key] if key in metadata and metadata[key] else ''
         text = "%s %s %s" % (self._command_name, key, existing_value)
         self.fm.open_console(text, position=len(text))
 
@@ -1852,8 +1838,7 @@ class meta(prompt_metadata):
 
     def execute(self):
         key = self.arg(1)
-        update_dict = dict()
-        update_dict[key] = self.rest(2)
+        update_dict = {key: self.rest(2)}
         selection = self.fm.thistab.get_selection()
         for fobj in selection:
             self.fm.metadata.set_metadata(fobj.path, update_dict)
