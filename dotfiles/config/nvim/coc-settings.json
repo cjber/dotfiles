@@ -1,4 +1,5 @@
 {
     "python.venvPath": "~/.pyenv",
-    "suggest.snippetIndicator": " ::"
+    "suggest.snippetIndicator": " ::",
+    "python.linting.mypyEnabled": true
 }
