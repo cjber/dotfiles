@@ -13,6 +13,9 @@ nnoremap <silent> <localleader>kk :!ipynb-py-convert % %:r.ipynb<CR>
 nnoremap <localleader>m I# %%<CR>'''<CR>'''<CR><Esc>kO
 nnoremap <localleader>, I# %%<CR># --<Esc>O
 
+
+nnoremap <localleader>dd ?# %%<CR>V/# --<CR>:call VimCmdLineSendSelection()<CR>
+
 function PandasViewDF()
     let df = expand('<cword>')
     call VimCmdLineSendCmd(df . '.head(50).to_csv("/tmp/_' . df . '.csv")')
@@ -62,7 +65,10 @@ function! IPyRunCell()
     while len(lines) > 0 && match(lines[0], '^\s*$') > -1
         let lines = lines[1:]
     endwhile
+    call VimCmdLineSendCmd('%cpaste -q')
+    sleep 50m
     call VimCmdLineSendCmd(join(lines, "\n"))
+    call VimCmdLineSendCmd('--')
     return 1
 endfunction
 
