@@ -5,6 +5,6 @@
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
 PATH="/bin:/usr/bin:/usr/local/bin"
-export DOTDROP_PROFILE=home
+
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
