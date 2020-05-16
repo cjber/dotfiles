@@ -80,6 +80,9 @@ dotfiles:
   f_xprofile:
     src: xprofile
     dst: ~/.xprofile
+  f_starship.toml:
+    src: config/starship.toml
+    dst: ~/.config/starship.toml
 profiles:
   home:
     dotfiles:
@@ -94,3 +97,4 @@ profiles:
     dotfiles:
     - f_bash_profile
     - f_xprofile
+    - f_starship.toml
