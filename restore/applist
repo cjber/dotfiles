@@ -1,11 +1,10 @@
 autotiling
-pulseaudio
-pulseaudio-alsa
 cmus
 cuda
 detox
 docker
 dotdrop
+encfs
 etcher
 fd
 fish
@@ -25,8 +24,8 @@ lutris
 mathpix-snipping-tool
 megasync-git
 mpv
+ncdu
 neovim-nightly
-nerd-fonts-complete
 nitrogen
 nodejs
 noto-fonts
@@ -38,6 +37,9 @@ pandoc-citeproc
 pavucontrol
 picom
 polybar
+pulseaudio
+pulseaudio-alsa
+pv
 pyenv
 pyenv-virtualenv
 pygmentize
