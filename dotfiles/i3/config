@@ -287,9 +287,6 @@ exec --no-startup-id pamac-tray
 exec --no-startup-id /home/cjber/.config/autostart/mouse.sh
 exec_always --no-startup-id /home/cjber/.i3/resize.py
 
-# send signal
-bindsym $mod+shift+p exec /home/cjber/.i3/tray_toggle.sh
-
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
 # https://i3wm.org/docs/userguide.html#xresources
