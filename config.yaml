@@ -74,6 +74,12 @@ dotfiles:
   d_ranger:
     src: config/ranger
     dst: ~/.config/ranger
+  f_bash_profile:
+    src: bash_profile
+    dst: ~/.bash_profile
+  f_xprofile:
+    src: xprofile
+    dst: ~/.xprofile
 profiles:
   home:
     dotfiles:
@@ -84,3 +90,7 @@ profiles:
   uni:
     dotfiles:
     - ALL
+  arch:
+    dotfiles:
+    - f_bash_profile
+    - f_xprofile
