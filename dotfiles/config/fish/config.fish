@@ -48,4 +48,5 @@ status --is-interactive; and pyenv virtualenv-init - | source
 alias vw="nvim ~/drive/wiki/index.md"
 alias enc="encfs ~/drive/data_enc ~/data"
 
+set PATH /bin:/usr/bin:/usr/local/bin
 set PATH /home/cjber/.gem/ruby/2.7.0/bin $PATH
