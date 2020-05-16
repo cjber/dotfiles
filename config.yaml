@@ -93,9 +93,3 @@ profiles:
   uni:
     dotfiles:
     - ALL
-  arch:
-    dotfiles:
-    - f_bash_profile
-    - f_xprofile
-    - f_starship.toml
-    - f_kitty.conf
