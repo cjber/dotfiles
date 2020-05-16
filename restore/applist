@@ -1,4 +1,6 @@
 autotiling
+pulseaudio
+pulseaudio-alsa
 cmus
 cuda
 detox
