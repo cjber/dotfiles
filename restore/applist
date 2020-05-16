@@ -1,6 +1,4 @@
 autotiling
-hsetroot
-i3exit
 cmus
 cuda
 detox
@@ -14,8 +12,10 @@ fzf
 gcc-fortran
 gdal
 github-cli
+hsetroot
 hunspell
 hunspell-en_GB
+i3exit
 julia
 kitty
 lm_sensors
@@ -34,6 +34,7 @@ pandoc
 pandoc-attributes
 pandoc-citeproc
 pavucontrol
+picom
 polybar
 pyenv
 pyenv-virtualenv
