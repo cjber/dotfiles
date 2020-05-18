@@ -50,8 +50,8 @@ Plug 'chrisbra/Nrrwrgn'
 Plug 'gaalcaras/ncm-R'
 
 " r plugs
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
+"Plug 'vim-pandoc/vim-pandoc'
+"Plug 'vim-pandoc/vim-pandoc-syntax'
 "Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
@@ -196,7 +196,7 @@ let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 0, 'auto_toc': 0, '
 map <leader>vv <Plug>VimwikiIndex
 map <leader>vl <Plug>VimwikiListToggle
 
-let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim/bin/python'
+let g:python3_host_prog = '/home/cjber/.pyenv/versions/neovim/bin/python'
 
 let g:startify_custom_header = ''
 " let &colorcolumn=join(range(81,999),",")

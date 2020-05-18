@@ -195,6 +195,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 for_window [title="alsamixer"] floating enable border pixel 3
 for_window [class="Matplotlib"] floating enable border pixel 3
 for_window [class="matplotlib"] floating enable border pixel 3
+for_window [title="^Figure ", class="^ $"] floating enable border pixel 3
 for_window [class="kite"] floating enable border pixel 3
 for_window [class="Kite"] floating enable border pixel 3
 for_window [class="R_x11"] floating enable border pixel 3

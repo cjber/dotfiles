@@ -1,5 +1,6 @@
 {
     "python.venvPath": "~/.pyenv",
+    "python.pythonPath": "/home/cjber/.pyenv/shims/python",
     "suggest.snippetIndicator": " ::",
     "python.linting.mypyEnabled": true
 }

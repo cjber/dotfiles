@@ -1,8 +1,6 @@
-autotiling
-lxappearance
-breeze
 arc-gtk-theme
-kvantum-qt5
+autotiling
+breeze
 cmus
 cuda
 detox
@@ -23,8 +21,10 @@ hunspell-en_GB
 i3exit
 julia
 kitty
+kvantum-qt5
 lm_sensors
 lutris
+lxappearance
 mathpix-snipping-tool
 megasync-git
 mpv
@@ -35,6 +35,7 @@ nodejs
 noto-fonts
 npm
 openblas
+otf-xcharter
 pandoc
 pandoc-attributes
 pandoc-citeproc
