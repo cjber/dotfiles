@@ -19,8 +19,8 @@ Plug 'mhinz/vim-startify'
 
 " Languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'neovim/nvim-lsp'
-"Plug 'haorenW1025/completion-nvim'
+Plug 'neovim/nvim-lsp'
+Plug 'haorenW1025/completion-nvim'
 "Plug 'autozimu/LanguageClient-neovim', {
 "    \ 'branch': 'next',
 "    \ 'do': 'bash install.sh',
@@ -47,6 +47,9 @@ Plug 'vimwiki/vimwiki'
 "lang stuff
 Plug 'jalvesaq/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
 Plug 'gaalcaras/ncm-R'
 
 " r plugs
@@ -58,6 +61,7 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+"Plug 'deoplete-plugins/deoplete-jedi'
 "Plug 'kalekundert/vim-coiled-snake'
 "Plug 'szymonmaszke/vimpyter'
 
@@ -174,7 +178,6 @@ command! -nargs=0 Syn call Syn()
 
 let g:coc_snippet_next = '<tab>'
 
-" Use <C-l> for trigger snippet expand and for others (not always needed)
 
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
@@ -184,7 +187,7 @@ let g:pandoc#keyboard#use_default_mappings=0
 let g:pandoc#modules#disabled = ["command","formatting","templates","menu","bibliographies","completion","autocomplete","folding"]
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "let g:sneak#s_next = 1
 let g:sneak#label = 1
@@ -202,9 +205,11 @@ let g:startify_custom_header = ''
 " let &colorcolumn=join(range(81,999),",")
 hi ColorColumn guibg=#2c323c
 set colorcolumn=81
-" hi ColorColumn guibg=NONE guifg=#BE5046
 
 " lua <<END
 " local nvim_lsp = require'nvim_lsp'
 " nvim_lsp.pyls.setup{}
 " END
+
+" map trigger key
+"inoremap <silent><expr> <m-space> coc#refresh()
