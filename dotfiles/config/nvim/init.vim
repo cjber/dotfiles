@@ -159,7 +159,7 @@ let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 0, 'auto_toc': 0, '
 map <leader>vv <Plug>VimwikiIndex
 map <leader>vl <Plug>VimwikiListToggle
 
-let g:python3_host_prog = '/home/cjber/.pyenv/shims/python'
+let g:python3_host_prog = '/home/cjber/.pyenv/versions/pyds/bin/python'
 
 hi ColorColumn guibg=#2c323c
 set colorcolumn=81

@@ -175,7 +175,7 @@ ramp-capacity-3 = %{F#55AA55}:::::%{F#557755}:::::%{F#F5A70A}:::::%{F#FF5555}:::
 
 [module/cpu]
 type = internal/cpu
-interval = 0.5
+interval = 2
 format =  <label> <bar-load>
 label = cpu %percentage:3:3%
 format-foreground = #5f
@@ -192,7 +192,7 @@ bar-load-empty-foreground = #444444
 
 [module/cpu_cores]
 type = internal/cpu
-interval = 0.5
+interval = 2
 format = <ramp-coreload>
 label = cores
 format-foreground = #5f
