@@ -4,27 +4,13 @@ call plug#begin('~/.config/nvim/pack')
 " set better defaults
 Plug 'vim-scripts/vim-auto-save'
 Plug 'djoshea/vim-autoread'
-"Plug 'Konfekt/FastFold'
+Plug 'Konfekt/FastFold'
 Plug 'justinmk/vim-sneak'
-
-" Emacs style which key
 Plug 'liuchengxu/vim-which-key'
 
 " theme
 Plug 'joshdick/onedark.vim'
 Plug 'segeljakt/vim-silicon'
-
-" Startify
-Plug 'mhinz/vim-startify'
-
-" Languages
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neovim/nvim-lsp'
-Plug 'haorenW1025/completion-nvim'
-"Plug 'autozimu/LanguageClient-neovim', {
-"    \ 'branch': 'next',
-"    \ 'do': 'bash install.sh',
-"    \ }
 
 " IDE Stuff
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -36,7 +22,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'tpope/vim-repeat'
-"Plug 'thaerkh/vim-indentguides'
 Plug 'roxma/nvim-yarp'
 Plug 'kkoomen/vim-doge'
 Plug 'dstein64/vim-win'
@@ -45,25 +30,20 @@ Plug 'Asheq/close-buffers.vim'
 Plug 'vimwiki/vimwiki'
 
 "lang stuff
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
 Plug 'chrisbra/Nrrwrgn'
 Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
-Plug 'gaalcaras/ncm-R'
 
 " r plugs
-"Plug 'vim-pandoc/vim-pandoc'
-"Plug 'vim-pandoc/vim-pandoc-syntax'
-"Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
+Plug 'gaalcaras/ncm-R'
 
 " python
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-"Plug 'deoplete-plugins/deoplete-jedi'
-"Plug 'kalekundert/vim-coiled-snake'
-"Plug 'szymonmaszke/vimpyter'
 
 " spar
 Plug 'vim-scripts/sparql.vim'
@@ -120,12 +100,7 @@ colorscheme onedark
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
-
 colorscheme onedark
-
-"let g:indentguides_ignorelist = ['rnoweb', 'tex', 'rmd', 'rmarkdown', 'markdown', 'pandoc', 'vimwiki']
-
-let g:doge_doc_standard_python = 'google'
 
 let g:silicon = {
       \ 'background':         '#09121a',
@@ -155,19 +130,8 @@ let g:coc_global_extensions = [
             \ 'coc-r-lsp',
             \ 'coc-python',
             \ 'coc-snippets',
-            \ 'coc-yank',
             \ 'coc-highlight'
             \ ]
-
-let g:markdown_fenced_languages = ['r', 'python']
-let g:rmd_fenced_languages = ['r', 'python']
-
-" language server
-" let g:LanguageClient_autoStart = 1
-" let g:LanguageClient_serverCommands = {
-" \   'python': ['pyls', '-v'],
-" \ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
-" \ }
 
 function! Syn()
   for id in synstack(line("."), col("."))
@@ -178,16 +142,12 @@ command! -nargs=0 Syn call Syn()
 
 let g:coc_snippet_next = '<tab>'
 
-
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 autocmd BufRead,BufNewFile *.rq set filetype=sparql
 
-let g:pandoc#keyboard#use_default_mappings=0
-let g:pandoc#modules#disabled = ["command","formatting","templates","menu","bibliographies","completion","autocomplete","folding"]
-
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
-"autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "let g:sneak#s_next = 1
 let g:sneak#label = 1
@@ -199,17 +159,10 @@ let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 0, 'auto_toc': 0, '
 map <leader>vv <Plug>VimwikiIndex
 map <leader>vl <Plug>VimwikiListToggle
 
-let g:python3_host_prog = '/home/cjber/.pyenv/versions/neovim/bin/python'
+let g:python3_host_prog = '/home/cjber/.pyenv/shims/python'
 
-let g:startify_custom_header = ''
-" let &colorcolumn=join(range(81,999),",")
 hi ColorColumn guibg=#2c323c
 set colorcolumn=81
 
-" lua <<END
-" local nvim_lsp = require'nvim_lsp'
-" nvim_lsp.pyls.setup{}
-" END
-
-" map trigger key
-"inoremap <silent><expr> <m-space> coc#refresh()
+let g:markdown_fenced_languages = ['r', 'python']
+let g:rmd_fenced_languages = ['r', 'python']
