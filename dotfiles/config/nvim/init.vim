@@ -1,6 +1,5 @@
 call plug#begin('~/.config/nvim/pack')
 
-
 " set better defaults
 Plug 'vim-scripts/vim-auto-save'
 Plug 'djoshea/vim-autoread'
@@ -28,6 +27,7 @@ Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
 Plug 'vimwiki/vimwiki'
+Plug 'tpope/vim-dispatch'
 
 "lang stuff
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -41,6 +41,8 @@ Plug 'ncm2/ncm2-path'
 Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
 Plug 'gaalcaras/ncm-R'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+"Plug 'vim-pandoc/vim-rmarkdown'
 
 " python
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
@@ -51,7 +53,6 @@ Plug 'neo4j-contrib/cypher-vim-syntax'
 
 " csv
 Plug 'chrisbra/csv.vim'
-
 
 call plug#end()
 
@@ -147,7 +148,6 @@ autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 autocmd BufRead,BufNewFile *.rq set filetype=sparql
 
 autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
-autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "let g:sneak#s_next = 1
 let g:sneak#label = 1
@@ -166,3 +166,5 @@ set colorcolumn=81
 
 let g:markdown_fenced_languages = ['r', 'python']
 let g:rmd_fenced_languages = ['r', 'python']
+
+let g:pandoc#folding#fastfolds = 1
