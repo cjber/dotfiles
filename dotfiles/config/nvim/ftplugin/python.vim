@@ -70,40 +70,6 @@ function! IPyRunCell()
     return 1
 endfunction
 
-
-" highlight code blocks in rmd documents
-setl signcolumn=no
-
-hi markdownCodeBlockBG guibg=#262830
-sign define codeblock linehl=markdownCodeBlockBG
-
-function! MarkdownBlocks()
-    let l:continue = 0
-    execute "sign unplace * file=".expand("%")
-
-    " iterate through each line in the buffer
-    for l:lnum in range(1, len(getline(1, "$")))
-        " detect the start fo a code block
-        if getline(l:lnum) =~ "^# %%$" && getline(l:lnum+1) != "'''" || l:continue
-            " continue placing signs, until the block stops
-            let l:continue = 1
-            " place sign
-            execute "sign place ".l:lnum." line=".l:lnum." name=codeblock file=".expand("%")
-            " stop placing signs
-            if getline(l:lnum) =~ "^# --$"
-                let l:continue = 0
-            endif
-        endif
-    endfor
-endfunction
-
-" Use signs to highlight code blocks
-" Set signs on loading the file, leaving insert mode, and after writing it
-" note that this triples startup time for documents with a lot of blocks
-" might not be worth keeping
-call MarkdownBlocks()
-au BufWrite *.py :call MarkdownBlocks()
-
 function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
   let ft=toupper(a:filetype)
   let group='textGroup'.ft
@@ -132,3 +98,38 @@ endfunction
 
 au BufWinEnter *.py :call TextEnableCodeSnip('markdown', "^'''", "^'''", 'Comment')
 au BufWrite *.py :syn sync fromstart
+
+
+" " highlight code blocks in rmd documents
+" setl signcolumn=no
+
+" hi markdownCodeBlockBG guibg=#262830
+" sign define codeblock linehl=markdownCodeBlockBG
+
+" function! MarkdownBlocks()
+"     let l:continue = 0
+"     execute "sign unplace * file=".expand("%")
+
+"     " iterate through each line in the buffer
+"     for l:lnum in range(1, len(getline(1, "$")))
+"         " detect the start fo a code block
+"         if getline(l:lnum) =~ "^# %%$" && getline(l:lnum+1) != "'''" || l:continue
+"             " continue placing signs, until the block stops
+"             let l:continue = 1
+"             " place sign
+"             execute "sign place ".l:lnum." line=".l:lnum." name=codeblock file=".expand("%")
+"             " stop placing signs
+"             if getline(l:lnum) =~ "^# --$"
+"                 let l:continue = 0
+"             endif
+"         endif
+"     endfor
+" endfunction
+
+" " Use signs to highlight code blocks
+" " Set signs on loading the file, leaving insert mode, and after writing it
+" " note that this triples startup time for documents with a lot of blocks
+" " might not be worth keeping
+" call MarkdownBlocks()
+" au BufWrite *.py :call MarkdownBlocks()
+

@@ -30,7 +30,7 @@ bindsym $mod+Return exec kitty --single-instance
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun
 bindsym $mod+x exec --no-startup-id dmenu_run
 
 # window switcher
@@ -282,7 +282,6 @@ mode "resize" {
 # Autostart applications
 exec_always --no-startup-id /$HOME/.config/polybar/launch.sh
 exec_always --no-startup-id autotiling
-exec --no-startup-id cryptkeeper
 exec_always --no-startup-id megasync
 exec_always --no-startup-id picom -b
 exec --no-startup-id pamac-tray
