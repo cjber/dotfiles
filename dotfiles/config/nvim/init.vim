@@ -47,9 +47,9 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 " python
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
-" spar
-Plug 'vim-scripts/sparql.vim'
-Plug 'neo4j-contrib/cypher-vim-syntax'
+" " spar
+" Plug 'vim-scripts/sparql.vim'
+" Plug 'neo4j-contrib/cypher-vim-syntax'
 
 " csv
 Plug 'chrisbra/csv.vim'
