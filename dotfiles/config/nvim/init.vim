@@ -130,7 +130,8 @@ let g:coc_global_extensions = [
             \ 'coc-r-lsp',
             \ 'coc-python',
             \ 'coc-snippets',
-            \ 'coc-highlight'
+            \ 'coc-highlight',
+            \ 'coc-tabnine'
             \ ]
 
 function! Syn()
