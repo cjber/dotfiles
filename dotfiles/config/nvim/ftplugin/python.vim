@@ -132,4 +132,3 @@ au BufWrite *.py :syn sync fromstart
 " " might not be worth keeping
 " call MarkdownBlocks()
 " au BufWrite *.py :call MarkdownBlocks()
-
