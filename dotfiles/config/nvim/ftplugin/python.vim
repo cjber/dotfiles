@@ -8,10 +8,23 @@ nnoremap <localleader>b :?# %%<CR>
 nnoremap <localleader>a :/# %%<CR>
 nnoremap zk :?# %%<CR>
 nnoremap zj :/# %%<CR>
-nnoremap <silent> <localleader>kk :!ipynb-py-convert % %:r.ipynb<CR>
+nnoremap <silent> <localleader>kk :call ConvertToIpy()<CR>
 
 nnoremap <localleader>m I# %%<CR>'''<CR>'''<CR><Esc>kO
 nnoremap <localleader>, I# %%<CR># --<Esc>O
+
+function ConvertToIpy()
+    Dispatch ipynb-py-convert % %:r.ipynb
+    sleep 200m
+    execute "e %:r.ipynb"
+    sleep 200m
+    Dispatch jupytext % --out %:r.Rmd
+    sleep 200m
+    execute "e %:r.Rmd"
+    sleep 200m
+    execute '%s/# --//g'
+endfunction
+    
 
 
 function PandasViewDF()
