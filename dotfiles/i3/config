@@ -142,6 +142,7 @@ for_window [title="alsamixer"] floating enable border pixel 3
 for_window [class="Matplotlib"] floating enable border pixel 3
 for_window [class="matplotlib"] floating enable border pixel 3
 for_window [title="^Figure " class="^ $"] floating enable border pixel 3
+for_window [class="MEGAsync"] floating enable border pixel 3
 for_window [class="megasync"] floating enable border pixel 3
 for_window [class="kite"] floating enable border pixel 3
 for_window [class="Kite"] floating enable border pixel 3

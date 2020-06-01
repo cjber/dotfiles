@@ -67,7 +67,7 @@ modules-left = temperature cpu_cores
 modules-left = temperature cpu_cores
 {%@@ endif @@%}
 modules-center = cpu i3 memory 
-modules-right = pulseaudio x filesystem date
+modules-right = network-traffic pulseaudio x filesystem date
 
 
 tray-position = left
@@ -235,3 +235,8 @@ interval = 10
 type = custom/script
 exec = ~/.config/polybar/system-nvidia-smi.sh
 interval = 10
+
+[module/network-traffic]
+type = custom/script
+exec = ~/home/cjber/dotfiles/dotfiles/config/polybar/network.sh
+tail = true
