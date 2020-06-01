@@ -41,7 +41,7 @@ Plug 'ncm2/ncm2-path'
 Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
 Plug 'gaalcaras/ncm-R'
-Plug 'vim-pandoc/vim-pandoc-syntax'
+"Plug 'vim-pandoc/vim-pandoc-syntax'
 "Plug 'vim-pandoc/vim-rmarkdown'
 
 " python
