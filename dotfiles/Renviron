@@ -1,2 +1,2 @@
 R_LIBS_USER=/home/cjber/.r
-RETICULATE_PYTHON=/home/cjber/.pyenv/versions/pyds
+RETICULATE_PYTHON=/home/cjber/.pyenv/versions/pyds/bin/python

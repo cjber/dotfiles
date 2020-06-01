@@ -14,12 +14,7 @@ set foldmethod=syntax
 " Nvim R
 let r_syntax_folding = 1
 
-let R_app = "radian"
-let R_cmd = "R"
-let R_hl_term = 0
-let R_args = []  " if you had set any
-let R_bracketed_paste = 1
-
+let R_cmd = "R --quiet"
 let R_assign = 2
 let R_show_args = 1
 let R_esc_term = 0
