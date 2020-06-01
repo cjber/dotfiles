@@ -14,7 +14,7 @@ set foldmethod=syntax
 " Nvim R
 let r_syntax_folding = 1
 
-let R_cmd = "R --quiet"
+let R_args = ['--no-save', '--quiet']
 let R_assign = 2
 let R_show_args = 1
 let R_esc_term = 0
