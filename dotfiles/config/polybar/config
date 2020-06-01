@@ -238,5 +238,5 @@ interval = 10
 
 [module/network-traffic]
 type = custom/script
-exec = ~/home/cjber/dotfiles/dotfiles/config/polybar/network.sh
+exec = ~/.config/polybar/network.sh
 tail = true
