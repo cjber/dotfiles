@@ -48,5 +48,4 @@ status --is-interactive; and pyenv virtualenv-init - | source
 alias vw="nvim ~/drive/wiki/index.md"
 alias enc="encfs ~/drive/data_enc ~/data"
 
-# set PYENV_ROOT $HOME/.pyenv
-# set PATH /.pyenv/bin:/.pyenv/shims:/bin:/usr/bin:/usr/local/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin
+export PYTHON_CONFIGURE_OPTS="--enable-shared"

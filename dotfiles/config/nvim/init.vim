@@ -114,8 +114,6 @@ let cmdline_follow_colorscheme = 1
 let cmdline_map_send           = '<CR>'
 let cmdline_app = {}
 let cmdline_app['python'] = 'ipython'
-let cmdline_app['r'] = 'radian'
-let cmdline_app['rmd'] = 'radian'
 
 " Set all terminal defaults
 augroup TerminalStuff
