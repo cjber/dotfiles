@@ -73,7 +73,6 @@ set fillchars=vert:│,stl:\ ,stlnc:\
 " Annoying temporary files
 set directory=/tmp//,.
 set backupdir=/tmp//,.
-set undodir=/tmp//,.
 
 set clipboard=unnamedplus " allow using clipboard
 
