@@ -1,6 +1,6 @@
 config:
   backup: true
-  banner: true
+  banner: false
   create: true
   dotpath: dotfiles
   keepdot: false
