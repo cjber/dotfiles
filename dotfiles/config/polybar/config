@@ -244,5 +244,5 @@ tail = true
 
 [module/updates-pacman-aurhelper]
 type = custom/script
-exec = ~/polybar-scripts/updates-pacman-aurhelper.sh
+exec = ~/.config/polybar/updates.sh
 interval = 600
