@@ -60,7 +60,7 @@ font-3 = FontAwesome5Brands:style=Regular:size=10;4
 font-4 = Unifont:stype=Medium
 
 {%@@ if profile == "home" @@%}
-modules-left = system-nvidia-system system-nvidia-temp x cpu_cores temperature
+modules-left = system-nvidia-system system-nvidia-temp x cpu_cores temperature updates-pacman-aurhelper
 {%@@ elif profile == "uni" @@%}
 modules-left = temperature cpu_cores
 {%@@ elif profile == "laptop" @@%}
@@ -241,3 +241,8 @@ type = custom/script
 exec = ~/.config/polybar/network.sh
 format-foreground = #5f
 tail = true
+
+[module/updates-pacman-aurhelper]
+type = custom/script
+exec = ~/polybar-scripts/updates-pacman-aurhelper.sh
+interval = 600
