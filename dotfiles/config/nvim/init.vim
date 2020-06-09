@@ -32,7 +32,6 @@ Plug 'tpope/vim-dispatch'
 "lang stuff
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
-Plug 'chrisbra/Nrrwrgn'
 Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
