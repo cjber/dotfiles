@@ -54,3 +54,5 @@ set recolor-keephue             "false"
 
 set render-loading "false"
 set scroll-step 50
+
+set selection-clipboard clipboard
