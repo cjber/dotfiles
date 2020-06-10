@@ -12,6 +12,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'segeljakt/vim-silicon'
 
 " IDE Stuff
+Plug 'ervandew/supertab'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
@@ -167,3 +168,7 @@ let g:markdown_fenced_languages = ['r', 'python']
 let g:rmd_fenced_languages = ['r', 'python']
 
 let g:pandoc#folding#fastfolds = 1
+
+let g:win_resize_height=5
+let g:win_resize_width=10
+let g:SuperTabDefaultCompletionType = "<c-n>"
