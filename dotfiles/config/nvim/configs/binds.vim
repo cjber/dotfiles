@@ -135,8 +135,10 @@ cnoremap <C-d> <Delete>
 vnoremap v <Esc>
 " Move to the start of line
 nnoremap H ^
+vnoremap H ^
 " Move to the end of line
 nnoremap L $
+vnoremap L $
 " Redo
 nnoremap U <C-r>
 
