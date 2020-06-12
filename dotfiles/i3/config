@@ -230,6 +230,7 @@ exec_always --no-startup-id env QT_SCALE_FACTOR=1 megasync
 exec_always --no-startup-id picom -b
 exec --no-startup-id /home/cjber/.config/autostart/mouse.sh
 exec --no-startup-id /home/cjber/.i3/resize.py
+exec_always --no-startup-id nm-applet
 
 # Same logic applied to everything else.
 set_from_resource $term_background background
