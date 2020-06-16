@@ -9,10 +9,10 @@ inoremap <buffer> >> <Esc>:normal! a %>%<CR>a
 inoremap <buffer> >> <Esc>:normal! a %>%<CR>a 
 
 set colorcolumn=80
-set foldmethod=syntax
+" set foldmethod=syntax
 
 " Nvim R
-let r_syntax_folding = 1
+"let r_syntax_folding = 1
 
 let R_args = ['--no-save', '--quiet']
 let R_assign = 2
