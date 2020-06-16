@@ -5,3 +5,4 @@ local({
 })
 
 options(editor = "vim")
+options(browser = "brave")
