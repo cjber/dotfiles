@@ -31,6 +31,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-dispatch'
 
 "lang stuff
+Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
 Plug 'ncm2/ncm2'
