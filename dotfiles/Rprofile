@@ -4,5 +4,5 @@ local({
     options(repos = r)
 })
 
-options(editor = "vim")
+options(editor = "nvim")
 options(browser = "brave")
