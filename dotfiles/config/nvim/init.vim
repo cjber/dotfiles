@@ -31,6 +31,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-dispatch'
 
 "lang stuff
+Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
 Plug 'ncm2/ncm2'
@@ -45,7 +46,7 @@ Plug 'gaalcaras/ncm-R'
 "Plug 'vim-pandoc/vim-rmarkdown'
 
 " python
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+"Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 " " spar
 " Plug 'vim-scripts/sparql.vim'
@@ -64,6 +65,8 @@ runtime configs/binds.vim
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:auto_save_silent = 1
+
+let g:polyglot_disabled = ['R', 'rmarkdown']
 
 function! s:patch_onedark_colors()
 colorscheme onedark
