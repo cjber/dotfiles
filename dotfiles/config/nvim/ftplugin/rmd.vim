@@ -24,8 +24,8 @@ vmap <CR> <Plug>RDSendSelection
 inoremap <buffer> >> <Esc>:normal! a %>%<CR>a 
 inoremap <buffer> __ <Esc>:normal! a <-<CR>a 
 
-nnoremap zk :?^#<CR>
-nnoremap zj :/^#<CR>
+nnoremap zk ?^#\\|^```{<CR>:noh<CR>
+nnoremap zj /^#\\|^```{<CR>:noh<CR>
 
 let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '"""':'"""', "'''":"'''"}
 

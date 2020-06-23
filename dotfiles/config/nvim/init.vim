@@ -42,8 +42,10 @@ Plug 'ncm2/ncm2-path'
 Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
 Plug 'gaalcaras/ncm-R'
-"Plug 'vim-pandoc/vim-pandoc-syntax'
-"Plug 'vim-pandoc/vim-rmarkdown'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-rmarkdown'
+Plug 'chrisbra/NrrwRgn'
 
 " python
 "Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
@@ -66,7 +68,7 @@ let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:auto_save_silent = 1
 
-let g:polyglot_disabled = ['R', 'rmarkdown']
+let g:pandoc#modules#disabled = ["folding"]
 
 function! s:patch_onedark_colors()
 colorscheme onedark
