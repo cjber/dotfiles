@@ -27,8 +27,6 @@ function ConvertToIpy()
     execute '%s/# --//g'
 endfunction
     
-
-
 function PandasViewDF()
     let df = expand('<cword>')
     call VimCmdLineSendCmd(df . '.head(50).to_csv("/tmp/_' . df . '.csv")')
@@ -113,7 +111,6 @@ endfunction
 
 au BufWinEnter *.py :call TextEnableCodeSnip('markdown', "^'''", "^'''", 'Comment')
 au BufWrite *.py :syn sync fromstart
-
 
 " highlight code blocks in rmd documents
 setl signcolumn=no
