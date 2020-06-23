@@ -15,6 +15,7 @@ alias c="cd (fd --type d | fzf --height 40% --border --layout=reverse)"
 alias lf="ranger"
 alias vinit="nvim ~/.config/nvim/init.vim"
 alias r="radian"
+alias py="ipython"
 alias la="ncdu"
 alias rm="trashf"
 alias empty='echo -n Emptying the Bin | pv -qL 10 && command rm -rf ~/.local/share/Trash/files/*'

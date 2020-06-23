@@ -83,6 +83,9 @@ dotfiles:
   f_starship.toml:
     src: config/starship.toml
     dst: ~/.config/starship.toml
+  f_radian_profile:
+    src: radian_profile
+    dst: ~/.radian_profile
 profiles:
   home:
     dotfiles:

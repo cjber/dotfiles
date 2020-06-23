@@ -177,3 +177,5 @@ let g:pandoc#folding#fastfolds = 1
 let g:win_resize_height=5
 let g:win_resize_width=10
 let g:SuperTabDefaultCompletionType = "<c-n>"
+
+let R_user_maps_only = 1
