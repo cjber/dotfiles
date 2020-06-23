@@ -15,9 +15,14 @@ function RmdPdf()
     Dispatch zathura %:r.pdf &
 endfunction
 
+function RmdHTML()
+    Dispatch brave %:r.html &
+endfunction
+
 nnoremap <silent> <Leader>ll :call Rlint()<CR>
 nnoremap <silent> <Leader>kk :call RmdRender()<CR>
 nnoremap <silent> <Leader>kp :call RmdPdf()<CR>
+nnoremap <silent> <Leader>kh :call RmdHTML()<CR>
 nmap <CR> <Plug>RDSendLine
 vmap <CR> <Plug>RDSendSelection
 
@@ -100,3 +105,5 @@ endfunction
 
 au BufWinEnter *.rmd,*.Rmd :call TextEnableCodeSnip('tex', '<!-- tex -->', '<!-- tex -->', 'texStatement')
 au BufWinEnter *.rmd,*.Rmd :call TextEnableCodeSnip('tex', '\$', '\$', 'texStatement')
+
+let g:disable_r_ftplugin=1
