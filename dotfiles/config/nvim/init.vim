@@ -186,3 +186,13 @@ let R_user_maps_only = 1
 let g:fzf_preview_window = 'right:60%'
 
 let g:startify_custom_header = []
+
+function! g:Show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+nnoremap <silent> <Leader>lk :call Show_documentation()<CR>
