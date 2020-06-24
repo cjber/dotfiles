@@ -2,6 +2,6 @@
     "python.venvPath": "~/.pyenv",
     "python.pythonPath": "/home/cjber/.pyenv/versions/pyds/bin/python",
     "suggest.snippetIndicator": " ::",
-    "python.linting.mypyEnabled": true,
+    "python.linting.mypyEnabled": false,
     "python.jediEnabled": true
 }
