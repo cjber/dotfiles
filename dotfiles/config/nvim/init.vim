@@ -1,15 +1,15 @@
 call plug#begin('~/.config/nvim/pack')
 
-" set better defaults
+" auto read and save
 Plug 'vim-scripts/vim-auto-save'
 Plug 'djoshea/vim-autoread'
-Plug 'Konfekt/FastFold'
+
+" improved navigation
 Plug 'justinmk/vim-sneak'
 Plug 'liuchengxu/vim-which-key'
 
 " theme
 Plug 'joshdick/onedark.vim'
-Plug 'segeljakt/vim-silicon'
 
 " IDE Stuff
 Plug 'ervandew/supertab'
@@ -46,6 +46,9 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'chrisbra/NrrwRgn'
+
+" nightly stuff
+"Plug 'nvim-treesitter/nvim-treesitter'
 
 " python
 "Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
