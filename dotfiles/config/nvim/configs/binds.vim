@@ -12,10 +12,10 @@ let g:which_key_map =  {}
 call which_key#register('<Space>', 'g:which_key_map')
 
 " file commands
-nnoremap <silent> <leader>ff :Clap files<CR>
-nnoremap <silent> <leader>fo :Clap filer<CR>
+nnoremap <silent> <leader>ff :Files ~<CR>
+nnoremap <silent> <leader>fo :Files<CR>
 nnoremap <silent> <leader>fe :e $MYVIMRC<CR>
-nnoremap <Leader>fg :Clap grep<CR>
+nnoremap <Leader>fg :Rg<CR>
 " :W sudo saves the file
 nnoremap <silent> <leader>fs  :w !sudo tee % > /dev/null
 let g:which_key_map.f = {

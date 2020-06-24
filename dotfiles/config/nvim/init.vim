@@ -10,8 +10,9 @@ Plug 'liuchengxu/vim-which-key'
 
 " theme
 Plug 'joshdick/onedark.vim'
+Plug 'mhinz/vim-startify'
 
-" IDE Stuff
+" IDE configuration
 Plug 'ervandew/supertab'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -20,7 +21,6 @@ Plug 'markonm/traces.vim'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'tpope/vim-repeat'
 Plug 'roxma/nvim-yarp'
 Plug 'kkoomen/vim-doge'
@@ -182,3 +182,7 @@ let g:win_resize_width=10
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
 let R_user_maps_only = 1
+" Always enable preview window on the right with 60% width
+let g:fzf_preview_window = 'right:60%'
+
+let g:startify_custom_header = []
