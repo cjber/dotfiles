@@ -62,11 +62,11 @@ nmap <silent><leader>ly <Plug>(coc-type-definition)
 nmap <silent><leader>li <Plug>(coc-implementation)
 nmap <silent><leader>lr <Plug>(coc-references)
 nmap <silent><leader>lc <Plug>(coc-rename)
+nmap <silent><leader>le :CocList diagnostics<CR>
 let g:doge_mapping= '<Leader>ld'
 nnoremap <silent> <leader>lss :CocList snippets<CR>
 nnoremap <silent> <leader>lsc :CocCommand snippets.editSnippets<CR>
-nnoremap <silent> <leader>le :Clap loclist<CR>
-nnoremap <silent> <leader>lt :Clap tags<CR>
+nnoremap <silent> <leader>lt :CocList outline<CR>
 
 let g:which_key_map.l = {
       \ 'name' : '+lsp'                 ,
