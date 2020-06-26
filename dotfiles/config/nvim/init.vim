@@ -47,16 +47,6 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'chrisbra/NrrwRgn'
 
-" nightly stuff
-"Plug 'nvim-treesitter/nvim-treesitter'
-
-" python
-"Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-
-" " spar
-" Plug 'vim-scripts/sparql.vim'
-" Plug 'neo4j-contrib/cypher-vim-syntax'
-
 " csv
 Plug 'chrisbra/csv.vim'
 
@@ -91,7 +81,7 @@ colorscheme onedark
     hi markdownItalic gui=italic guifg=#e5c07b
     hi markdownBold gui=bold guifg=#e5c07b
     hi pandocStrong gui=bold guifg=#e5c07b
-    hi ClapPreview ctermbg=8 guibg=#09121a
+    " hi ClapPreview ctermbg=8 guibg=#09121a
     hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
     hi CocHighlightText gui=bold ctermbg=8 guibg=#2C323C guifg=#e6e6e6
     hi VimwikiLink gui=underline guifg=#50AECD
@@ -100,11 +90,11 @@ colorscheme onedark
     hi VimwikiItalic gui=italic guifg=#e5c07b
     hi VimwikiBold gui=bold guifg=#e5c07b
     hi Search gui=bold guibg=#2C323C guifg=#e6e6e6
-    hi semshiImported guifg=#50AECD gui=bold
-    hi semshiSelected guibg=#2c323c guifg=#e6e6e6
-    hi semshiSelected guibg=#2c323c guifg=#e6e6e6
-    hi semshiAttribute guifg=#accf93 gui=bold
-    hi semshiSelf guifg=#e06c75
+    " hi semshiImported guifg=#50AECD gui=bold
+    " hi semshiSelected guibg=#2c323c guifg=#e6e6e6
+    " hi semshiSelected guibg=#2c323c guifg=#e6e6e6
+    " hi semshiAttribute guifg=#accf93 gui=bold
+    " hi semshiSelf guifg=#e06c75
     hi pythonString guifg=#accf93 gui=italic
     hi SpellBad gui=undercurl
 endfunction
@@ -112,11 +102,11 @@ endfunction
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
 colorscheme onedark
 
-let g:silicon = {
-      \ 'background':         '#09121a',
-      \ 'round-corner':          v:false,
-      \ 'window-controls':       v:false,
-      \ }
+" let g:silicon = {
+"       \ 'background':         '#09121a',
+"       \ 'round-corner':          v:false,
+"       \ 'window-controls':       v:false,
+"       \ }
 
 let cmdline_follow_colorscheme = 1
 let cmdline_map_send           = '<CR>'
