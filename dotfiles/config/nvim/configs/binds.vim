@@ -207,3 +207,5 @@ map T <Plug>Sneak_T
 
 nnoremap <Tab> %
 nnoremap <S-Tab> *
+
+nnoremap <Leader>lm V:s/[,)]/&\r/g <cr>='<

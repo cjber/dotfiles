@@ -7,6 +7,7 @@ Plug 'djoshea/vim-autoread'
 " improved navigation
 Plug 'justinmk/vim-sneak'
 Plug 'liuchengxu/vim-which-key'
+Plug 'wellle/targets.vim'
 
 " theme
 Plug 'joshdick/onedark.vim'
@@ -49,6 +50,8 @@ Plug 'chrisbra/NrrwRgn'
 
 " csv
 Plug 'chrisbra/csv.vim'
+
+Plug 'google/vim-jsonnet'
 
 call plug#end()
 
