@@ -181,17 +181,17 @@ nnoremap Y y$
 " exit only one buffer
 nnoremap Q :w\|bd<cr>
 
-" Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+" " Use <C-l> for trigger snippet expand.
+" imap <C-l> <Plug>(coc-snippets-expand)
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " Use <C-j> for select text for visual placeholder of snippet.
 vmap <C-j> <Plug>(coc-snippets-select)
 
-" navigate popup menu with ctrl j and k
-inoremap <expr> <c-j> pumvisible() ? "\<C-N>" : "j"
-inoremap <expr> <c-k> pumvisible() ? "\<C-P>" : "k"
+" " navigate popup menu with ctrl j and k
+" inoremap <expr> <c-j> pumvisible() ? "\<C-N>" : "j"
+" inoremap <expr> <c-k> pumvisible() ? "\<C-P>" : "k"
 
 " swap windows
 nnoremap <C-J> <C-W>j
