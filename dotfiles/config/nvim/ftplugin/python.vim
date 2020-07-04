@@ -4,6 +4,7 @@ nnoremap <leader>lvc :call PandasViewCols()<CR>
 nnoremap <leader>lvi :call PandasViewInfo()<CR>
 
 nnoremap <leader>li :CocCommand python.sortImports<CR>
+nnoremap <leader>lT oimport ipdb;ipdb.set_trace()
 
 function PandasViewCols()
     let df = expand('<cword>')
