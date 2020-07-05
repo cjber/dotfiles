@@ -48,6 +48,9 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'chrisbra/NrrwRgn'
 
+" python
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| :UpdateRemotePlugins' }
+
 " csv
 Plug 'chrisbra/csv.vim'
 
