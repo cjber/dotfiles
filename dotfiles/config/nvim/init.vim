@@ -8,6 +8,8 @@ Plug 'djoshea/vim-autoread'
 Plug 'justinmk/vim-sneak'
 Plug 'liuchengxu/vim-which-key'
 Plug 'wellle/targets.vim'
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim'
 
 " theme
 Plug 'joshdick/onedark.vim'
@@ -227,3 +229,8 @@ if exists('*complete_info')
 else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
+
+let g:ranger_map_keys = 0
+map <leader>fr :Ranger<CR>
+let g:ranger_replace_netrw = 1
+set shell=bash
