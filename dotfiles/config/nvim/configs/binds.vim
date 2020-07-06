@@ -12,7 +12,7 @@ let g:which_key_map =  {}
 call which_key#register('<Space>', 'g:which_key_map')
 
 " file commands
-nnoremap <silent> <leader>ff :Files ~<CR>
+nnoremap <silent> <leader>ff :Files ../<CR>
 nnoremap <silent> <leader>fo :Files<CR>
 nnoremap <silent> <leader>fe :e $MYVIMRC<CR>
 nnoremap <Leader>fg :Rg<CR>
@@ -37,7 +37,7 @@ let g:which_key_map.o = {
 " buffer commands
 " exit only one buffer
 nnoremap <silent> <leader>bq :w\|bd<cr>
-nnoremap <silent> <leader>bb :Clap buffers<CR>
+nnoremap <silent> <leader>bb :Buffers<CR>
 nnoremap <silent> <leader>bo :Bdelete! other<CR>
 let g:which_key_map.b = {
       \ 'name' : '+buffer'      ,
