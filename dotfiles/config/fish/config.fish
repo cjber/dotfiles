@@ -20,6 +20,7 @@ alias la="ncdu"
 alias rm="trashf"
 alias empty='echo -n Emptying the Bin | pv -qL 10 && command rm -rf ~/.local/share/Trash/files/*'
 alias conf="cd ~/dotfiles/dotfiles/"
+alias bat="bat --style=grid,numbers --theme TwoDark"
 
 function sudo --description "Replacement for Bash 'sudo !!' command to run last command using sudo."
     if test "$argv" = !!
