@@ -45,13 +45,10 @@ Plug 'ncm2/ncm2-path'
 Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
 Plug 'gaalcaras/ncm-R'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-rmarkdown'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'vim-pandoc/vim-pandoc'
+" Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'chrisbra/NrrwRgn'
-
-" python
-Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| :UpdateRemotePlugins' }
 
 " csv
 Plug 'chrisbra/csv.vim'
@@ -64,7 +61,7 @@ call plug#end()
 runtime configs/defaults.vim
 runtime configs/binds.vim
 """"""""""""""
-
+let g:polyglot_disabled = ['markdown'] " issues with rmd
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:auto_save_silent = 1
