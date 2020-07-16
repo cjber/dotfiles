@@ -52,7 +52,6 @@ Plug 'chrisbra/NrrwRgn'
 
 " csv
 Plug 'chrisbra/csv.vim'
-
 Plug 'google/vim-jsonnet'
 
 call plug#end()
