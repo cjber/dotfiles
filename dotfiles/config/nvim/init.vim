@@ -157,9 +157,19 @@ let g:sneak#use_ic_scs = 1
 
 tnoremap <Esc><Esc> <C-\><C-n>
 
-let g:vimwiki_list = [{'path':'~/drive/wiki', 'auto_export': 0, 'auto_toc': 0, 'path_html': '~/drive/wiki/html/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{
+  \ 'auto_export': 1,
+  \ 'automatic_nested_syntaxes': 1,
+  \ 'path_html': '$HOME/drive/wiki/_site',
+  \ 'path': '$HOME/drive/wiki/',
+  \ 'template_path': '$HOME/drive/wiki/templates/',
+  \ 'syntax': 'markdown',
+  \ 'ext':'.md',
+  \ 'template_default':'markdown',
+  \ 'custom_wiki2html': '$HOME/dotfiles/scripts/wiki2html.sh',
+  \ 'template_ext':'.html'
+\}]
 map <leader>vv <Plug>VimwikiIndex
-map <leader>vl <Plug>VimwikiListToggle
 
 let g:python3_host_prog = '/home/cjber/.pyenv/versions/pyds/bin/python'
 
