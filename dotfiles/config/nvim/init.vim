@@ -65,6 +65,7 @@ let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:auto_save_silent = 1
 
+" i find this very slow even with fast folds
 let g:pandoc#modules#disabled = ["folding"]
 
 function! s:patch_onedark_colors()
@@ -85,7 +86,6 @@ colorscheme onedark
     hi markdownItalic gui=italic guifg=#e5c07b
     hi markdownBold gui=bold guifg=#e5c07b
     hi pandocStrong gui=bold guifg=#e5c07b
-    " hi ClapPreview ctermbg=8 guibg=#09121a
     hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
     hi CocHighlightText gui=bold ctermbg=8 guibg=#2C323C guifg=#e6e6e6
     hi VimwikiLink gui=underline guifg=#50AECD
@@ -94,11 +94,6 @@ colorscheme onedark
     hi VimwikiItalic gui=italic guifg=#e5c07b
     hi VimwikiBold gui=bold guifg=#e5c07b
     hi Search gui=bold guibg=#2C323C guifg=#e6e6e6
-    " hi semshiImported guifg=#50AECD gui=bold
-    " hi semshiSelected guibg=#2c323c guifg=#e6e6e6
-    " hi semshiSelected guibg=#2c323c guifg=#e6e6e6
-    " hi semshiAttribute guifg=#accf93 gui=bold
-    " hi semshiSelf guifg=#e06c75
     hi pythonString guifg=#accf93 gui=italic
     hi SpellBad gui=undercurl
 endfunction
@@ -106,18 +101,14 @@ endfunction
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
 colorscheme onedark
 
-" let g:silicon = {
-"       \ 'background':         '#09121a',
-"       \ 'round-corner':          v:false,
-"       \ 'window-controls':       v:false,
-"       \ }
-
+" repl settings
 let cmdline_follow_colorscheme = 1
-let cmdline_map_send           = '<CR>'
+let cmdline_map_send = '<CR>'
 let cmdline_app = {}
 let cmdline_app['python'] = 'ipython'
 
 " Set all terminal defaults
+" no numbers or spell check
 augroup TerminalStuff
   autocmd TermOpen * setlocal nonumber norelativenumber nospell
 augroup END
@@ -135,7 +126,10 @@ let g:coc_global_extensions = [
             \ 'coc-highlight',
             \ 'coc-tabnine'
             \ ]
+" tab between snippet place markers
+let g:coc_snippet_next = '<tab>'
 
+" use :call Syn() to find highlight group under cursor
 function! Syn()
   for id in synstack(line("."), col("."))
     echo synIDattr(id, "name")
@@ -143,15 +137,10 @@ function! Syn()
 endfunction
 command! -nargs=0 Syn call Syn()
 
-let g:coc_snippet_next = '<tab>'
-
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
-autocmd BufRead,BufNewFile *.rq set filetype=sparql
 
-autocmd FileType clap_input nnoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
-
-"let g:sneak#s_next = 1
+" use labels in sneak
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 
