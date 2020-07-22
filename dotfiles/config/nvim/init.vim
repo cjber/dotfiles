@@ -16,7 +16,6 @@ Plug 'joshdick/onedark.vim'
 Plug 'mhinz/vim-startify'
 
 " IDE configuration
-"Plug 'ervandew/supertab'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
@@ -47,7 +46,6 @@ Plug 'jalvesaq/R-Vim-runtime'
 Plug 'gaalcaras/ncm-R'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-pandoc/vim-pandoc'
-" Plug 'vim-pandoc/vim-rmarkdown'
 Plug 'chrisbra/NrrwRgn'
 
 " csv
@@ -96,6 +94,7 @@ colorscheme onedark
     hi Search gui=bold guibg=#2C323C guifg=#e6e6e6
     hi pythonString guifg=#accf93 gui=italic
     hi SpellBad gui=undercurl
+    hi ColorColumn guibg=#2c323c
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
@@ -113,6 +112,7 @@ augroup TerminalStuff
   autocmd TermOpen * setlocal nonumber norelativenumber nospell
 augroup END
 
+""" COC SETTINGS
 " coc extensions to auto install
 let g:coc_global_extensions = [
             \ 'coc-pairs',
@@ -128,24 +128,41 @@ let g:coc_global_extensions = [
             \ ]
 " tab between snippet place markers
 let g:coc_snippet_next = '<tab>'
-
-" use :call Syn() to find highlight group under cursor
-function! Syn()
-  for id in synstack(line("."), col("."))
-    echo synIDattr(id, "name")
-  endfor
+" use lk to show doc for function under cursor 
+function! g:Show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
-command! -nargs=0 Syn call Syn()
+nnoremap <silent> <Leader>lk :call Show_documentation()<CR>
+" use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" Use <cr> to confirm completion
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+"""
 
-" fix annoying difference between .rmd and .Rmd
-autocmd BufRead,BufNewFile *.rmd set filetype=rmd
-
+""" VIM SNEAK
 " use labels in sneak
 let g:sneak#label = 1
-let g:sneak#use_ic_scs = 1
+let g:sneak#use_ic_scs = 1 " use ignorecase/smartcase
+"""
 
-tnoremap <Esc><Esc> <C-\><C-n>
-
+""" VIM WIKI
+" this needs fixing for hugo wiki
 let g:vimwiki_list = [{
   \ 'auto_export': 1,
   \ 'automatic_nested_syntaxes': 1,
@@ -159,73 +176,68 @@ let g:vimwiki_list = [{
   \ 'template_ext':'.html'
 \}]
 map <leader>vv <Plug>VimwikiIndex
+"""
 
-let g:python3_host_prog = '/home/cjber/.pyenv/versions/pyds/bin/python'
-
-hi ColorColumn guibg=#2c323c
-set colorcolumn=81
-
-let g:markdown_fenced_languages = ['r', 'python']
-let g:rmd_fenced_languages = ['r', 'python']
-
-let g:pandoc#folding#fastfolds = 1
-
+""" VIM WIN
+" larger vim win increments
 let g:win_resize_height=5
 let g:win_resize_width=10
-let g:SuperTabDefaultCompletionType = "<c-n>"
+"""
 
-let R_user_maps_only = 1
-" Always enable preview window on the right with 60% width
+""" NVIM R
+" there are a lot i don't use but some are useful
+" plan to write all my own
+"let R_user_maps_only = 1
+" include python and r syntax in markdown and rmd
+let g:markdown_fenced_languages = ['r', 'python']
+let g:rmd_fenced_languages = ['r', 'python']
+"""
+
+""" FZF
+" Always enable fzf preview window on the right with 60% width
 let g:fzf_preview_window = 'right:60%'
+"""
 
+""" STARTIFY
+" remove the donkey
 let g:startify_custom_header = []
+"""
 
-function! g:Show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-nnoremap <silent> <Leader>lk :call Show_documentation()<CR>
-
-" netrw
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-nnoremap <leader>fa :Vexplore<CR>
-let g:netrw_list_hide = &wildignore
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
+""" RANGER VIM
 let g:ranger_map_keys = 0
 map <leader>fr :Ranger<CR>
 let g:ranger_replace_netrw = 1
-set shell=bash
+set shell=bash " fix errors with using fish
+"""
+
+
+""" MISC SETTINGS
+" use :call Syn() to find highlight group under cursor
+function! Syn()
+  for id in synstack(line("."), col("."))
+    echo synIDattr(id, "name")
+  endfor
+endfunction
+command! -nargs=0 Syn call Syn()
+
+" fix annoying difference between .rmd and .Rmd
+autocmd BufRead,BufNewFile *.rmd set filetype=rmd
+
+" use :call Syn() to find highlight group under cursor
+function! Syn()
+  for id in synstack(line("."), col("."))
+    echo synIDattr(id, "name")
+  endfor
+endfunction
+command! -nargs=0 Syn call Syn()
+
+" fix annoying difference between .rmd and .Rmd
+autocmd BufRead,BufNewFile *.rmd set filetype=rmd
+
+" use esc esc to exit insert mode in terminal
+tnoremap <Esc><Esc> <C-\><C-n>
+
+" use one big python env for jedi completions
+" honestly this is probably not the best way
+let g:python3_host_prog = '/home/cjber/.pyenv/versions/pyds/bin/python'
+"""

@@ -27,6 +27,7 @@ set laststatus=0
 set autochdir
 set updatetime=300
 set termguicolors
+set colorcolumn=81
 
 set ignorecase     " Case insensitive search
 set smartcase      " ... but case sensitive when uc present
