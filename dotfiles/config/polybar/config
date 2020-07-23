@@ -60,14 +60,14 @@ font-3 = FontAwesome5Brands:style=Regular:size=10;4
 font-4 = Unifont:stype=Medium
 
 {%@@ if profile == "home" @@%}
-modules-left = system-nvidia-system system-nvidia-temp x temperature cpu_cores  updates-pacman-aurhelper
+modules-left = x system-nvidia-system system-nvidia-temp x temperature cpu_cores x updates-pacman-aurhelper
 {%@@ elif profile == "uni" @@%}
-modules-left = temperature cpu_cores
+modules-left = x temperature cpu_cores
 {%@@ elif profile == "laptop" @@%}
-modules-left = temperature cpu_cores
+modules-left = x temperature cpu_cores
 {%@@ endif @@%}
 modules-center = cpu i3 memory 
-modules-right = network-traffic pulseaudio x filesystem date
+modules-right = pulseaudio x filesystem x date
 
 
 tray-position = left
@@ -235,12 +235,6 @@ interval = 10
 type = custom/script
 exec = ~/.config/polybar/system-nvidia-smi.sh
 interval = 10
-
-[module/network-traffic]
-type = custom/script
-exec = ~/.config/polybar/network.sh
-format-foreground = #5f
-tail = true
 
 [module/updates-pacman-aurhelper]
 type = custom/script
