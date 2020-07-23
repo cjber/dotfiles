@@ -4,8 +4,6 @@ nnoremap <silent> <localleader>q :call RQuit("R")<CR>
 set spell
 syntax spell toplevel
 
-"nnoremap <localleader>, I```{r}<CR>```<Esc>O
-
 function Rlint()
     Dispatch Rscript -e 'styler::style_file("'%'")'
 endfunction
@@ -106,4 +104,3 @@ function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
 endfunction
 
 au BufWinEnter *.rmd,*.Rmd :call TextEnableCodeSnip('tex', '<!-- tex -->', '<!-- tex -->', 'texStatement')
-au BufWinEnter *.rmd,*.Rmd :call TextEnableCodeSnip('tex', '\$', '\$', 'texStatement')
