@@ -7,6 +7,9 @@ nnoremap <silent> <localleader> :<c-u>WhichKey ','<CR>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
 vnoremap <silent> <localleader> :<c-u>WhichKeyVisual ','<CR>
 
+" use esc esc to exit insert mode in terminal
+tnoremap <Esc><Esc> <C-\><C-n>
+
 " Define prefix dictionary
 let g:which_key_map =  {}
 call which_key#register('<Space>', 'g:which_key_map')

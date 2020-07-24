@@ -123,8 +123,7 @@ let g:coc_global_extensions = [
             \ 'coc-r-lsp',
             \ 'coc-python',
             \ 'coc-snippets',
-            \ 'coc-highlight',
-            \ 'coc-tabnine'
+            \ 'coc-highlight'
             \ ]
 " tab between snippet place markers
 let g:coc_snippet_next = '<tab>'
@@ -234,8 +233,6 @@ command! -nargs=0 Syn call Syn()
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 
-" use esc esc to exit insert mode in terminal
-tnoremap <Esc><Esc> <C-\><C-n>
 
 " use one big python env for jedi completions
 " honestly this is probably not the best way
