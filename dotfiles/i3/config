@@ -182,8 +182,6 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
-bindsym $mod+Shift+Return nop kitti3
-
 # Set shut down, restart and locking features
 bindsym $mod+0 mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
@@ -234,7 +232,6 @@ exec_always --no-startup-id picom -b
 exec --no-startup-id /home/cjber/.config/autostart/mouse.sh
 exec --no-startup-id /home/cjber/.i3/resize.py
 exec_always --no-startup-id nm-applet
-exec_always --no-startup-id kitti3
 
 # Same logic applied to everything else.
 set_from_resource $term_background background
