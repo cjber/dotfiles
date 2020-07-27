@@ -123,7 +123,8 @@ let g:coc_global_extensions = [
             \ 'coc-r-lsp',
             \ 'coc-python',
             \ 'coc-snippets',
-            \ 'coc-highlight'
+            \ 'coc-highlight',
+            \ 'coc-yank'
             \ ]
 " tab between snippet place markers
 let g:coc_snippet_next = '<tab>'
