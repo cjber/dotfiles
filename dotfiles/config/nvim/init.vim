@@ -48,6 +48,8 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'chrisbra/NrrwRgn'
 
+Plug 'petobens/poet-v'
+
 " csv
 Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
@@ -238,4 +240,5 @@ autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 " use one big python env for jedi completions
 " honestly this is probably not the best way
 let g:python3_host_prog = '/home/cjber/.pyenv/versions/pyds/bin/python'
+let g:poetv_auto_activate = 1
 """
