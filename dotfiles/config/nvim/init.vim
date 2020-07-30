@@ -36,9 +36,6 @@ Plug 'tpope/vim-dispatch'
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
-Plug 'ncm2/ncm2'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
 
 " r plugs
 Plug 'jalvesaq/Nvim-R'
@@ -48,6 +45,7 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'chrisbra/NrrwRgn'
 
+" python
 Plug 'petobens/poet-v'
 
 " csv
@@ -67,6 +65,7 @@ let g:auto_save_silent = 1
 
 " i find this very slow even with fast folds
 let g:pandoc#modules#disabled = ["folding"]
+let g:pandoc#keyboard#use_default_mappings = 0
 
 function! s:patch_onedark_colors()
 colorscheme onedark
