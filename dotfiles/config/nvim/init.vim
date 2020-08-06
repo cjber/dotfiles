@@ -29,7 +29,7 @@ Plug 'kkoomen/vim-doge'
 Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-dispatch'
 
 "lang stuff
@@ -58,7 +58,6 @@ call plug#end()
 runtime configs/defaults.vim
 runtime configs/binds.vim
 """"""""""""""
-let g:polyglot_disabled = ['markdown'] " issues with rmd
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:auto_save_silent = 1
