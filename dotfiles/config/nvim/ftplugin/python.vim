@@ -3,7 +3,7 @@ nnoremap <leader>lvv :call PandasViewDF()<CR>
 nnoremap <leader>lvc :call PandasViewCols()<CR>
 nnoremap <leader>lvi :call PandasViewInfo()<CR>
 
-nnoremap <leader>li :CocCommand python.sortImports<CR>
+nnoremap <leader>lp :CocCommand python.sortImports<CR>
 nnoremap <leader>lT oimport ipdb;ipdb.set_trace()<ESC>
 
 function PandasViewCols()
