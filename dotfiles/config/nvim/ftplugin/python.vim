@@ -1,4 +1,5 @@
-"nnoremap <leader>lc :Semshi rename<CR>
+let g:SimpylFold_docstring_preview = 1
+
 nnoremap <leader>lvv :call PandasViewDF()<CR>
 nnoremap <leader>lvc :call PandasViewCols()<CR>
 nnoremap <leader>lvi :call PandasViewInfo()<CR>
