@@ -47,6 +47,9 @@ Plug 'chrisbra/NrrwRgn'
 
 " python
 Plug 'petobens/poet-v'
+Plug 'jupyter-vim/jupyter-vim'
+Plug 'tmhedberg/SimpylFold'
+Plug 'Konfekt/FastFold'
 
 " csv
 Plug 'chrisbra/csv.vim'

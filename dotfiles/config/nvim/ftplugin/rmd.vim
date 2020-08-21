@@ -46,7 +46,7 @@ let R_assign = 2
 let R_esc_term = 0
 let R_latexcmd = ['xelatex'] " allows using system fonts
 let rmd_syn_hl_chunk=1
-let g:disable_r_ftplugin=1
+"let g:disable_r_ftplugin=1
 
 " highlight code blocks in rmd documents
 " setl signcolumn=no
