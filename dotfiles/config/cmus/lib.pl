@@ -52,11 +52,9 @@
 /home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/06 I Cannot Let You Leave.mp3
 /home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/07 The Banks of the Sansretour.mp3
 /home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/08 Wine Wars.mp3
-/home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/09 The Musty Scent of Fresh Pâté.mp3
 /home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/10 Vivienne.mp3
 /home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/11 Titans of Infamy.mp3
 /home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/12 What Lies Unseen.mp3
-/home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/13 On the Champs-Désolés.mp3
 /home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/14 Beyond Hill and Dale....mp3
 /home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/15 The Moon over Mount Gorgon.mp3
 /home/cjber/drive/music/the_witcher_3_blood_and_wine_ost/16 The Mandragora.mp3
