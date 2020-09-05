@@ -47,7 +47,6 @@ Plug 'chrisbra/NrrwRgn'
 
 " python
 Plug 'petobens/poet-v'
-Plug 'jupyter-vim/jupyter-vim'
 Plug 'tmhedberg/SimpylFold'
 Plug 'Konfekt/FastFold'
 
@@ -240,6 +239,6 @@ autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 
 " use one big python env for jedi completions
 " honestly this is probably not the best way
-let g:python3_host_prog = '/home/cjber/.pyenv/versions/pyds/bin/python'
+"let g:python3_host_prog = '/home/cjber/.pyenv/versions/pyds/bin/python'
 let g:poetv_auto_activate = 1
 """
