@@ -1,14 +1,2 @@
 #!/bin/bash
-# Install yay (for building AUR dependencies):
-git clone https://aur.archlinux.org/yay.git && \
-    cd yay && \
-    makepkg --noconfirm && \
-    sudo pacman -U yay*.pkg.* --noconfirm && \
-    cd && \
-    git clone https://github.com/cjber/dotfiles.git && \
-    cd dotfiles/restore && \
-    chmod +x * && \
-    bash restore_all && \
-    bash dots
-
 yay -S --needed --noconfirm - < applist
