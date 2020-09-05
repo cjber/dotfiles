@@ -1,21 +1,4 @@
 #!/bin/bash
-useradd -m cjber
-
-# Generally, refreshing without sync'ing is discouraged, but we've a clean
-# environment here.
-pacman -Sy --noconfirm archlinux-keyring && \
-    pacman -Sy --noconfirm base-devel git go && \
-    pacman -Syu --noconfirm
-
-echo "cjber ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/cjber
-su cjber
-
-
-# Auto-fetch GPG keys (for checking signatures):
-mkdir .gnupg && \
-    touch .gnupg/gpg.conf && \
-    echo "keyserver-options auto-key-retrieve" > .gnupg/gpg.conf
-
 # Install yay (for building AUR dependencies):
 git clone https://aur.archlinux.org/yay.git && \
     cd yay && \
