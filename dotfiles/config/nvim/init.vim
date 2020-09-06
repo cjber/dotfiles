@@ -29,11 +29,10 @@ Plug 'kkoomen/vim-doge'
 Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
-" Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-dispatch'
 
 "lang stuff
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
 
@@ -47,13 +46,10 @@ Plug 'chrisbra/NrrwRgn'
 
 " python
 Plug 'petobens/poet-v'
-Plug 'tmhedberg/SimpylFold'
-Plug 'Konfekt/FastFold'
 
 " csv
 Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
-
 call plug#end()
 
 """""""""""""" External Scripts
@@ -236,9 +232,9 @@ command! -nargs=0 Syn call Syn()
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 
-
 " use one big python env for jedi completions
 " honestly this is probably not the best way
-"let g:python3_host_prog = '/home/cjber/.pyenv/versions/pyds/bin/python'
+let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
+let g:loaded_python_provider = 0
 let g:poetv_auto_activate = 1
 """

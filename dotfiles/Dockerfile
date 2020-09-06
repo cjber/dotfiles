@@ -27,7 +27,12 @@ WORKDIR /home/cjber
 RUN git clone https://aur.archlinux.org/fisher.git && \
         cd fisher && \
         makepkg -si --noconfirm && \
-        sudo pacman -U fisher*.pkg.* --noconfirm
+        sudo pacman -U fisher*.pkg.* --noconfirm && \
+        cd && \
+        git clone https://aur.archlinux.org/pyenv-virtualenv.git && \
+        cd pyenv-virtualenv && \
+        makepkg -si --noconfirm && \
+        sudo pacman -U pyenv-virtualenv*.pkg.* --noconfirm 
 USER root
 WORKDIR /root
 
@@ -38,3 +43,18 @@ RUN ./starship.sh --yes
 COPY /config/ranger .config/ranger
 COPY /config/fish .config/fish
 COPY /config/starship.toml .config/starship.toml
+COPY /run/entrypoint.sh /run/entrypoint.sh
+RUN pip install pynvim \
+        wheel \
+        python-language-server[all] \
+        seaborn \
+        matplotlib \
+        pandas \
+        numpy \
+        statsmodels \
+        allennlp \
+        allennlp-models
+RUN echo 'let g:python3_host_prog = "/sbin/python"' >> /root/.config/nvim/init.vim
+
+RUN chmod +x /run/entrypoint.sh
+ENTRYPOINT ["/run/entrypoint.sh"]
