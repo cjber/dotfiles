@@ -28,7 +28,6 @@ RUN git clone https://aur.archlinux.org/fisher.git && \
         cd fisher && \
         makepkg -si --noconfirm && \
         sudo pacman -U fisher*.pkg.* --noconfirm
-
 USER root
 WORKDIR /root
 
