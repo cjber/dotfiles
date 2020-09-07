@@ -32,7 +32,7 @@ Plug 'Asheq/close-buffers.vim'
 Plug 'tpope/vim-dispatch'
 
 "lang stuff
-" Plug 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
 
