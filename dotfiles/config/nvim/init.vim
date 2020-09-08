@@ -14,10 +14,12 @@ Plug 'rbgrouleff/bclose.vim'
 " theme
 Plug 'joshdick/onedark.vim'
 Plug 'mhinz/vim-startify'
+Plug 'mg979/vim-xtabline'
 
 " IDE configuration
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
 Plug 'liuchengxu/vista.vim'
 Plug 'markonm/traces.vim'
 Plug 'honza/vim-snippets'
@@ -237,4 +239,15 @@ autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
 let g:loaded_python_provider = 0
 let g:poetv_auto_activate = 1
+
+" change dirs for projects
+let g:rooter_change_directory_for_non_project_files = 'current'
+let g:rooter_silent_chdir = 1
+let g:xtabline_settings = {}
+
+let g:xtabline_settings.enable_mappings = 0
+let g:xtabline_settings.tabline_modes = ['buffers', 'tabs']
+let g:xtabline_lazy = 1
+let g:xtabline_settings.show_right_corner = 0
+let g:xtabline_settings.enable_persistance = 0
 """
