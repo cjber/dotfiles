@@ -42,8 +42,8 @@ Plug 'jalvesaq/vimcmdline'
 Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
 Plug 'gaalcaras/ncm-R'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'vim-pandoc/vim-pandoc'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'vim-pandoc/vim-pandoc'
 Plug 'chrisbra/NrrwRgn'
 
 " python
@@ -242,12 +242,15 @@ let g:poetv_auto_activate = 1
 
 " change dirs for projects
 let g:rooter_change_directory_for_non_project_files = 'current'
+let g:rooter_targets = '*.py'
 let g:rooter_silent_chdir = 1
-let g:xtabline_settings = {}
 
+let g:xtabline_settings = {}
 let g:xtabline_settings.enable_mappings = 0
 let g:xtabline_settings.tabline_modes = ['buffers', 'tabs']
 let g:xtabline_lazy = 1
 let g:xtabline_settings.show_right_corner = 0
 let g:xtabline_settings.enable_persistance = 0
+
+let g:polyglot_disabled = ['markdown']
 """
