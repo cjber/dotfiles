@@ -1,3 +1,5 @@
+let g:polyglot_disabled = ['markdown']
+
 call plug#begin('~/.config/nvim/pack')
 
 " auto read and save
@@ -10,16 +12,14 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'wellle/targets.vim'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
+Plug 'dylanaraps/root.vim'
 
 " theme
 Plug 'joshdick/onedark.vim'
-Plug 'mhinz/vim-startify'
-Plug 'mg979/vim-xtabline'
 
 " IDE configuration
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-rooter'
 Plug 'liuchengxu/vista.vim'
 Plug 'markonm/traces.vim'
 Plug 'honza/vim-snippets'
@@ -198,18 +198,11 @@ let g:rmd_fenced_languages = ['r', 'python']
 let g:fzf_preview_window = 'right:60%'
 """
 
-""" STARTIFY
-" remove the donkey
-let g:startify_custom_header = []
-"""
-
 """ RANGER VIM
 let g:ranger_map_keys = 0
-map <leader>fr :Ranger<CR>
 let g:ranger_replace_netrw = 1
 set shell=bash " fix errors with using fish
 """
-
 
 """ MISC SETTINGS
 " use :call Syn() to find highlight group under cursor
@@ -240,17 +233,10 @@ let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
 let g:loaded_python_provider = 0
 let g:poetv_auto_activate = 1
 
-" change dirs for projects
-let g:rooter_change_directory_for_non_project_files = 'current'
-let g:rooter_targets = '*.py'
-let g:rooter_silent_chdir = 1
+autocmd BufEnter * if (winnr("$") == 1 && &buftype == 'terminal') | q | endif
 
-let g:xtabline_settings = {}
-let g:xtabline_settings.enable_mappings = 0
-let g:xtabline_settings.tabline_modes = ['buffers', 'tabs']
-let g:xtabline_lazy = 1
-let g:xtabline_settings.show_right_corner = 0
-let g:xtabline_settings.enable_persistance = 0
-
-let g:polyglot_disabled = ['markdown']
+let g:root#patterns = ['.git', '.toml']
+let g:root#autocmd_patterns = "*.py"
+let g:root#auto = 1
+let g:root#echo = 0
 """
