@@ -17,7 +17,7 @@ call which_key#register('<Space>', 'g:which_key_map')
 " file commands
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fo :Files<CR>
-nnoremap <silent> <leader>fe :e $MYVIMRC<CR>
+nnoremap <silent> <leader>fe :Ranger<CR>
 nnoremap <Leader>fg :Rg<CR>
 " :W sudo saves the file
 nnoremap <silent> <leader>fs  :w !sudo tee % > /dev/null
