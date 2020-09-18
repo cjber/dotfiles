@@ -15,10 +15,9 @@ let g:which_key_map =  {}
 call which_key#register('<Space>', 'g:which_key_map')
 
 " file commands
-nnoremap <silent> <leader>ff :Files<CR>
+nnoremap <silent> <leader>ff :Rg<CR>
 nnoremap <silent> <leader>fo :Files<CR>
 nnoremap <silent> <leader>fe :Ranger<CR>
-nnoremap <Leader>fg :Rg<CR>
 " :W sudo saves the file
 nnoremap <silent> <leader>fs  :w !sudo tee % > /dev/null
 let g:which_key_map.f = {
