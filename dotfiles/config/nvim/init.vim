@@ -86,11 +86,6 @@ colorscheme onedark
     hi pandocStrong gui=bold guifg=#e5c07b
     hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
     hi CocHighlightText gui=bold ctermbg=8 guibg=#2C323C guifg=#e6e6e6
-    hi VimwikiLink gui=underline guifg=#50AECD
-    hi VimwikiHeader1 guifg=#e5c07b
-    hi VimwikiPre guifg=#5C6370
-    hi VimwikiItalic gui=italic guifg=#e5c07b
-    hi VimwikiBold gui=bold guifg=#e5c07b
     hi Search gui=bold guibg=#2C323C guifg=#e6e6e6
     hi pythonString guifg=#accf93 gui=italic
     hi SpellBad gui=undercurl
@@ -159,23 +154,6 @@ endif
 " use labels in sneak
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1 " use ignorecase/smartcase
-"""
-
-""" VIM WIKI
-" this needs fixing for hugo wiki
-let g:vimwiki_list = [{
-  \ 'auto_export': 1,
-  \ 'automatic_nested_syntaxes': 1,
-  \ 'path_html': '$HOME/drive/wiki/_site',
-  \ 'path': '$HOME/drive/wiki/',
-  \ 'template_path': '$HOME/drive/wiki/templates/',
-  \ 'syntax': 'markdown',
-  \ 'ext':'.md',
-  \ 'template_default':'markdown',
-  \ 'custom_wiki2html': '$HOME/dotfiles/scripts/wiki2html.sh',
-  \ 'template_ext':'.html'
-\}]
-map <leader>vv <Plug>VimwikiIndex
 """
 
 """ VIM WIN
