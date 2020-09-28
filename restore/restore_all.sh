@@ -5,4 +5,4 @@ git clone https://aur.archlinux.org/yay.git && \
     sudo pacman -U yay*.pkg.* --noconfirm && \
     cd && \
     rm -rf yay
-#yay -S --needed --noconfirm - < applist
+yay -S --needed --noconfirm - < applist
