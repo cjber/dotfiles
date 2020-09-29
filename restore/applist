@@ -2,7 +2,6 @@ arc-gtk-theme
 breeze
 cmus
 cronie
-cuda
 detox
 docker
 dotdrop
@@ -18,6 +17,7 @@ github-cli
 hsetroot
 hunspell
 hunspell-en_GB
+i3-gaps
 i3exit
 julia
 kitty
@@ -26,7 +26,6 @@ lm_sensors
 lutris
 lxappearance
 mathpix-snipping-tool
-megasync-git
 mpv
 ncdu
 neovim-nightly
@@ -57,11 +56,9 @@ radian
 ranger
 rcm
 rofi
-spotify
 starship-bin
 sxiv
 texinfo
-texlive-full
 trashf
 ttf-bitstream-vera
 ttf-dejavu
@@ -81,3 +78,6 @@ youtube-dl
 zathura
 zathura-pdf-mupdf
 zotero
+ly
+xorg
+python-pipenv
