@@ -44,7 +44,7 @@ COPY /config/ranger .config/ranger
 COPY /config/fish .config/fish
 COPY /config/starship.toml .config/starship.toml
 COPY /run/entrypoint.sh /run/entrypoint.sh
-RUN pip install pynvim \
+RUN pip install neovim \
         wheel \
         python-language-server[all] \
         seaborn \
