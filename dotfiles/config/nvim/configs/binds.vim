@@ -22,9 +22,9 @@ nnoremap <silent> <leader>fe :Ranger<CR>
 nnoremap <silent> <leader>fs  :w !sudo tee % > /dev/null
 let g:which_key_map.f = {
             \ 'name' : '+file'        ,
-            \ 'f'    : 'file-browser' ,
-            \ 'e'    : 'edit-vimrc'   ,
-            \ 'g'    : 'grep-files'   ,
+            \ 'f'    : 'rip-grep' ,
+            \ 'e'    : 'ranger'   ,
+            \ 'o'    : 'file-browser'   ,
             \}
 
 " open commands

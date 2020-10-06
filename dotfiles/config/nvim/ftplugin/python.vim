@@ -3,6 +3,7 @@ let g:SimpylFold_docstring_preview = 1
 nnoremap <leader>lvv :call PandasViewDF()<CR>
 nnoremap <leader>lvc :call PandasViewCols()<CR>
 nnoremap <leader>lvi :call PandasViewInfo()<CR>
+nnoremap <leader>lvl :call Vdir()<CR>
 
 nnoremap <leader>lp :CocCommand python.sortImports<CR>
 nnoremap <leader>lT oimport ipdb;ipdb.set_trace()<ESC>
@@ -10,6 +11,11 @@ nnoremap <leader>lT oimport ipdb;ipdb.set_trace()<ESC>
 function PandasViewCols()
     let df = expand('<cword>')
     call VimCmdLineSendCmd(df . '.columns')
+endfunction
+
+function Vdir()
+    let w = expand('<cword>')
+    call VimCmdLineSendCmd('[x for x in dir(' . w . ') if not x.startswith("__")]')
 endfunction
 
 function PandasViewInfo()

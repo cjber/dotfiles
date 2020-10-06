@@ -42,8 +42,8 @@ Plug 'jalvesaq/vimcmdline'
 Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
 Plug 'gaalcaras/ncm-R'
-" Plug 'vim-pandoc/vim-pandoc-syntax'
-" Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-pandoc'
 Plug 'chrisbra/NrrwRgn'
 
 " python
@@ -119,7 +119,8 @@ let g:coc_global_extensions = [
             \ 'coc-python',
             \ 'coc-snippets',
             \ 'coc-highlight',
-            \ 'coc-yank'
+            \ 'coc-yank',
+            \ 'coc-sql'
             \ ]
 " tab between snippet place markers
 let g:coc_snippet_next = '<tab>'

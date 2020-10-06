@@ -9,7 +9,7 @@ function Rlint()
 endfunction
 
 function RmdRender()
-    Dispatch Rscript -e 'rmarkdown::render("'%'", quiet=T)'
+    Dispatch Rscript -e 'rmarkdown::render("'%'", quiet=F)'
 endfunction
 
 function RmdPdf()
