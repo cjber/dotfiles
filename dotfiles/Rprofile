@@ -5,4 +5,4 @@ local({
 })
 
 options(editor = "nvim")
-options(browser = "brave")
+options(browser = "chromium")

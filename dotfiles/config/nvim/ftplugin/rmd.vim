@@ -1,6 +1,9 @@
 nnoremap <silent> <localleader>s :call StartR("R")<CR>
 nnoremap <silent> <localleader>q :call RQuit("R")<CR>
 
+set foldmethod=marker
+set foldmarker=```{,```
+
 set spell
 syntax spell toplevel
 
@@ -9,7 +12,7 @@ function Rlint()
 endfunction
 
 function RmdRender()
-    Dispatch Rscript -e 'rmarkdown::render("'%'", quiet=F)'
+    Dispatch Rscript -e 'rmarkdown::render("'%'", quiet=T)'
 endfunction
 
 function RmdPdf()

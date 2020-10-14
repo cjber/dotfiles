@@ -6,7 +6,8 @@ set fish_cursor_default     block      blink
 set fish_cursor_insert      line       blink
 set fish_cursor_replace_one underscore blink
 set fish_cursor_visual      block
-set fish_ambiguous_width    1
+
+set fish_ambiguous_width    2
 
 
 # alias
@@ -52,3 +53,9 @@ alias vw="nvim ~/drive/wiki/index.md"
 alias enc="encfs ~/drive/data_enc ~/data"
 
 export PYTHON_CONFIGURE_OPTS="--enable-shared"
+
+export SPARK_HOME=/usr/local/spark
+export PYSPARK_DRIVER_PYTHON=ptpython
+export PYSPARK_PYTHON=python
+
+set PATH /usr/local/spark/bin $PATH

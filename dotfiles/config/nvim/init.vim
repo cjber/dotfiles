@@ -1,4 +1,3 @@
-let g:polyglot_disabled = ['markdown']
 
 call plug#begin('~/.config/nvim/pack')
 
@@ -34,24 +33,26 @@ Plug 'Asheq/close-buffers.vim'
 Plug 'tpope/vim-dispatch'
 
 "lang stuff
-Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
 
 " r plugs
 Plug 'jalvesaq/Nvim-R'
 Plug 'jalvesaq/R-Vim-runtime'
-Plug 'gaalcaras/ncm-R'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'chrisbra/NrrwRgn'
+" Plug 'gaalcaras/ncm-R'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'vim-pandoc/vim-pandoc'
+" Plug 'vim-pandoc/vim-rmarkdown'
+" Plug 'chrisbra/NrrwRgn'
 
 " python
 Plug 'petobens/poet-v'
+Plug 'vim-python/python-syntax'
 
 " csv
 Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
+
 call plug#end()
 
 """""""""""""" External Scripts
@@ -99,7 +100,7 @@ colorscheme onedark
 let cmdline_follow_colorscheme = 1
 let cmdline_map_send = '<CR>'
 let cmdline_app = {}
-let cmdline_app['python'] = 'ipython'
+let cmdline_app['python'] = 'ptipython'
 
 " Set all terminal defaults
 " no numbers or spell check
@@ -115,7 +116,7 @@ let g:coc_global_extensions = [
             \ 'coc-html',
             \ 'coc-css',
             \ 'coc-json',
-            \ 'coc-r-lsp',
+"\ 'coc-r-lsp',
             \ 'coc-python',
             \ 'coc-snippets',
             \ 'coc-highlight',
@@ -218,4 +219,6 @@ let g:root#patterns = ['.git', '.toml']
 let g:root#autocmd_patterns = "*.py"
 let g:root#auto = 1
 let g:root#echo = 0
+
+let g:python_highlight_all = 1
 """
