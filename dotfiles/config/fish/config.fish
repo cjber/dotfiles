@@ -9,10 +9,11 @@ set fish_cursor_visual      block
 
 set fish_ambiguous_width    2
 
+# fzf
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=sharp'
 
 # alias
 alias v="nvim"
-alias f="nvim (fzf --height 40% --border --layout=reverse)"
 alias c="cd (fd --type d | fzf --height 40% --border --layout=reverse)"
 alias lf="ranger"
 alias vinit="nvim ~/.config/nvim/init.vim"
@@ -23,15 +24,6 @@ alias rm="trashf"
 alias empty='echo -n Emptying the Bin | pv -qL 10 && command rm -rf ~/.local/share/Trash/files/*'
 alias conf="cd ~/dotfiles/dotfiles/"
 alias bat="bat --style=grid,numbers --theme TwoDark"
-
-function sudo --description "Replacement for Bash 'sudo !!' command to run last command using sudo."
-    if test "$argv" = !!
-    eval command sudo $history[1]
-else
-    command sudo $argv
-    end
-end
-
 
 starship init fish | source
 

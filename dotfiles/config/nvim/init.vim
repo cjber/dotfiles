@@ -1,4 +1,3 @@
-
 call plug#begin('~/.config/nvim/pack')
 
 " auto read and save
@@ -35,6 +34,7 @@ Plug 'tpope/vim-dispatch'
 "lang stuff
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
+Plug 'nvim-treesitter/nvim-treesitter'
 
 " r plugs
 Plug 'jalvesaq/Nvim-R'
@@ -47,12 +47,14 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'petobens/poet-v'
-Plug 'vim-python/python-syntax'
+Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'anosillus/vim-ipynb'
 
 " csv
 Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
 
+Plug 'inkarkat/vim-SyntaxRange'
 call plug#end()
 
 """""""""""""" External Scripts
@@ -174,8 +176,9 @@ let g:rmd_fenced_languages = ['r', 'python']
 """
 
 """ FZF
-" Always enable fzf preview window on the right with 60% width
-let g:fzf_preview_window = 'right:60%'
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'horizontal' } }
+let g:fzf_preview_window = ''
+let g:fzf_border = 'sharp'
 """
 
 """ RANGER VIM
@@ -221,4 +224,15 @@ let g:root#auto = 1
 let g:root#echo = 0
 
 let g:python_highlight_all = 1
+"""
+""" LUA stuff
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "all",     -- one of "all", "language", or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = {},  -- list of language that will be disabled
+  },
+}
+EOF
 """
