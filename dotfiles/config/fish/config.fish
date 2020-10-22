@@ -51,3 +51,4 @@ export PYSPARK_DRIVER_PYTHON=ptpython
 export PYSPARK_PYTHON=python
 
 set PATH /usr/local/spark/bin $PATH
+set PATH /home/cjber/.cargo/bin $PATH
