@@ -13,7 +13,7 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'dylanaraps/root.vim'
 
 " theme
-Plug 'joshdick/onedark.vim'
+Plug 'christianchiarulli/nvcode-color-schemes.vim'
 
 " IDE configuration
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -30,6 +30,8 @@ Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
 Plug 'tpope/vim-dispatch'
+"Plug 'romgrk/nvim-treesitter-context' laggy :(
+"Plug 'nvim-treesitter/nvim-treesitter-refactor'
 
 "lang stuff
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -70,29 +72,29 @@ let g:pandoc#modules#disabled = ["folding"]
 let g:pandoc#keyboard#use_default_mappings = 0
 
 function! s:patch_onedark_colors()
-colorscheme onedark
-    hi Comment guifg=#5C6370 ctermfg=59
-    hi Normal ctermbg=none guibg=none
-    hi StatusLineNC ctermbg=8 guibg=#09121a
-    hi StatusLine ctermbg=8 guibg=#09121a
-    hi Visual ctermbg=8 guibg=#09121a
-    hi ColorColumn ctermbg=8 guibg=#09121a
-    hi PMenu ctermbg=8 guibg=#09121a
-    hi Folded ctermfg=2 gui=italic guifg=#5c6370 guibg=#262830
-    hi WhichKeyFloating ctermbg=0 guibg=#282c34
-    hi Conceal ctermfg=2 guifg=#98C379
-    hi StatusLine ctermbg=0 guibg=#282c34 ctermfg=59 guifg=#5C6370
-    hi LanguageToolGrammarError ctermfg=214 guifg=#d19a66
-    hi pandocEmphasis gui=italic guifg=#e5c07b
-    hi markdownItalic gui=italic guifg=#e5c07b
-    hi markdownBold gui=bold guifg=#e5c07b
-    hi pandocStrong gui=bold guifg=#e5c07b
-    hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
-    hi CocHighlightText gui=bold ctermbg=8 guibg=#2C323C guifg=#e6e6e6
-    hi Search gui=bold guibg=#2C323C guifg=#e6e6e6
-    hi pythonString guifg=#accf93 gui=italic
-    hi SpellBad gui=undercurl
-    hi ColorColumn guibg=#2c323c
+colorscheme nvcode
+    " hi Comment guifg=#5C6370 ctermfg=59
+    " hi Normal ctermbg=none guibg=none
+    " hi StatusLineNC ctermbg=8 guibg=#09121a
+    " hi StatusLine ctermbg=8 guibg=#09121a
+    " hi Visual ctermbg=8 guibg=#09121a
+    " hi ColorColumn ctermbg=8 guibg=#09121a
+    " hi PMenu ctermbg=8 guibg=#09121a
+    " hi Folded ctermfg=2 gui=italic guifg=#5c6370 guibg=#262830
+    " hi WhichKeyFloating ctermbg=0 guibg=#282c34
+    " hi Conceal ctermfg=2 guifg=#98C379
+    " hi StatusLine ctermbg=0 guibg=#282c34 ctermfg=59 guifg=#5C6370
+    " hi LanguageToolGrammarError ctermfg=214 guifg=#d19a66
+    " hi pandocEmphasis gui=italic guifg=#e5c07b
+    " hi markdownItalic gui=italic guifg=#e5c07b
+    " hi markdownBold gui=bold guifg=#e5c07b
+    " hi pandocStrong gui=bold guifg=#e5c07b
+    " hi Sneak ctermbg=8 guibg=#09121a ctermfg=3
+    " hi CocHighlightText gui=bold ctermbg=8 guibg=#2C323C guifg=#e6e6e6
+    " hi Search gui=bold guibg=#2C323C guifg=#e6e6e6
+    " hi pythonString guifg=#accf93 gui=italic
+    " hi SpellBad gui=undercurl
+    " hi ColorColumn guibg=#2c323c
 endfunction
 
 autocmd! ColorScheme onedark call s:patch_onedark_colors()
@@ -102,7 +104,7 @@ colorscheme onedark
 let cmdline_follow_colorscheme = 1
 let cmdline_map_send = '<CR>'
 let cmdline_app = {}
-let cmdline_app['python'] = 'ptipython'
+let cmdline_app['python'] = 'ipython'
 
 " Set all terminal defaults
 " no numbers or spell check
@@ -235,4 +237,11 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"   refactor = {
+"     highlight_definitions = { enable = true }
+"   },
+" }
+" EOF
 """
