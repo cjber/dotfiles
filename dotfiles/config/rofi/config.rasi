@@ -26,18 +26,22 @@
   spacing: 0;
   background-color: transparent;
 
-  font: "Knack Nerd Font 14";
+  font: "Jetbrains Mono 12";
   text-color: @text;
 }
 
 window {
   transparency: "real";
-  fullscreen: true;
+  fullscreen: false;
+  border: 3;
+  padding: 5;
   background-color: #282c34dd;
+  border-color: #4C566A;
+  width: 30%;
 }
 
 mainbox {
-  padding: 30% 30%;
+    padding: 5;
 }
 
 inputbar {

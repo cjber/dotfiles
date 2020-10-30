@@ -54,6 +54,11 @@ let g:which_key_map.b = {
       \ 'o'    : 'delete-other' ,
       \ }
 
+" sourcery
+nnoremap <leader>cl :CocDiagnostics<cr>
+nnoremap <leader>cf :CocFix<cr>
+nnoremap <leader>ch :call CocAction('doHover')<cr>
+
 " language commands
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)

@@ -4,7 +4,37 @@
     "explorer.icon.enableNerdfont": true,
     "explorer.previewAction.onHover": false,
     "explorer.keyMappings": {
-        "<cr>": ["expandable?", ["expanded?", "collapse", "expand"], "open"],
+        "<cr>": [
+            "expandable?",
+            [
+                "expanded?",
+                "collapse",
+                "expand"
+            ],
+            "open"
+        ],
         "v": "open:vsplit"
+    },
+    "languageserver": {
+        "sourcery": {
+            "command": "/home/cjber/.pyenv/shims/sourcery",
+            "args": [
+                "lsp"
+            ],
+            "filetypes": [
+                "python"
+            ],
+            "initializationOptions": {
+                "token": "user_kNkJzK_5wgWPOSAadDIftBuK3i7fLtmFRwZcMDwoHmh6pf02y9or10_kw5s",
+                "extension_version": "coc.vim",
+                "editor_version": "vim"
+            },
+            "settings": {
+                "sourcery": {
+                    "token": "user_kNkJzK_5wgWPOSAadDIftBuK3i7fLtmFRwZcMDwoHmh6pf02y9or10_kw5s",
+                    "metricsEnabled": true
+                }
+            }
+        }
     }
 }
