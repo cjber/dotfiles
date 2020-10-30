@@ -73,7 +73,7 @@ modules-right = pulseaudio x filesystem x date
 tray-position = left
 tray-maxsize = 16
 tray-padding = 8
-tray-background = #282C34
+tray-background = ${colors.my_background}
 tray-detached = false
 
 wm-restack = i3
@@ -82,7 +82,7 @@ override-redirect = true
 [module/space]
 type = custom/text
 content = " "
-content-background = #282c34
+content-background = ${colors.my_background}
 content-font = 0
 
 [module/x]
