@@ -30,13 +30,14 @@ Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
 Plug 'tpope/vim-dispatch'
-"Plug 'romgrk/nvim-treesitter-context' laggy :(
-"Plug 'nvim-treesitter/nvim-treesitter-refactor'
 
 "lang stuff
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jalvesaq/vimcmdline'
+Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'romgrk/nvim-treesitter-context'
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
 
 " r plugs
 Plug 'jalvesaq/Nvim-R'
@@ -229,12 +230,19 @@ let g:python_highlight_all = 1
 """
 """ LUA stuff
 lua <<EOF
+require'nvim_lsp'.pyls.setup{}
+require'nvim_lsp'.jedi_language_server.setup{}
+require'nvim_lsp'.r_language_server.setup{}
+
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",     -- one of "all", "language", or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = {},  -- list of language that will be disabled
   },
+  indent = {
+    enable = true
+  }
 }
 EOF
 " lua <<EOF
