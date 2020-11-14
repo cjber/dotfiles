@@ -1,5 +1,7 @@
 [character]
 success_symbol = '[::](bold green)'
+error_symbol = "[x](bold red) "
+vicmd_symbol = "[;;](bold blue) "
 
 [aws]
 symbol = " "
@@ -62,3 +64,6 @@ symbol = " "
 
 [rust]
 symbol = " "
+
+[gcloud]
+disabled = true

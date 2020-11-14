@@ -35,7 +35,6 @@ alias dotdrop='dotdrop --cfg=/home/cjber/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
 
-# pyenv
 status --is-interactive; and source (pyenv init -|psub)
 status --is-interactive; and pyenv init - | source
 status --is-interactive; and pyenv virtualenv-init - | source
@@ -47,8 +46,14 @@ alias enc="encfs ~/drive/data_enc ~/data"
 export PYTHON_CONFIGURE_OPTS="--enable-shared"
 
 export SPARK_HOME=/usr/local/spark
-export PYSPARK_DRIVER_PYTHON=ptpython
+export PYSPARK_DRIVER_PYTHON=ipython
 export PYSPARK_PYTHON=python
 
 set PATH /usr/local/spark/bin $PATH
 set PATH /home/cjber/.cargo/bin $PATH
+
+function poetry_shell --on-variable PWD
+    if test -f pyproject.toml
+        poetry shell
+    end
+end
