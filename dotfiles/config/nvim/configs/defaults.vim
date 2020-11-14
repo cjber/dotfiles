@@ -29,6 +29,8 @@ set updatetime=300
 set termguicolors
 set colorcolumn=81
 
+set exrc " allows using local init.vim with .exrc files
+
 set ignorecase     " Case insensitive search
 set smartcase      " ... but case sensitive when uc present
 set scrolljump=5   " Line to scroll when cursor leaves screen

@@ -1,20 +1,6 @@
 {
     "python.pythonPath": "/home/cjber/.pyenv/versions/py3nvim/bin/python",
     "suggest.snippetIndicator": " :s:",
-    "explorer.icon.enableNerdfont": true,
-    "explorer.previewAction.onHover": false,
-    "explorer.keyMappings": {
-        "<cr>": [
-            "expandable?",
-            [
-                "expanded?",
-                "collapse",
-                "expand"
-            ],
-            "open"
-        ],
-        "v": "open:vsplit"
-    },
     "languageserver": {
         "sourcery": {
             "command": "/home/cjber/.pyenv/shims/sourcery",

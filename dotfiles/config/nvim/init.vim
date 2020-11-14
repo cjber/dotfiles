@@ -12,6 +12,8 @@ Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'dylanaraps/root.vim'
 
+Plug 'bling/vim-bufferline'
+
 " theme
 Plug 'rakr/vim-one'
 
@@ -25,7 +27,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'roxma/nvim-yarp'
-Plug 'kkoomen/vim-doge'
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
@@ -49,14 +51,12 @@ Plug 'jalvesaq/R-Vim-runtime'
 " Plug 'chrisbra/NrrwRgn'
 
 " python
-Plug 'petobens/poet-v'
 Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'goerz/jupytext.vim'
 
 " csv
 Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
-
-Plug 'inkarkat/vim-SyntaxRange'
 call plug#end()
 
 """""""""""""" External Scripts
@@ -67,6 +67,8 @@ runtime configs/binds.vim
 colorscheme one
 call one#highlight('Normal', '', '1E2127', 'none')
 call one#highlight('SignColumn', '', '1E2127', 'none')
+hi markdownItalic gui='italic'
+
 let g:one_allow_italics = 1
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
@@ -79,6 +81,7 @@ let g:pandoc#keyboard#use_default_mappings = 0
 
 " repl settings
 let cmdline_follow_colorscheme = 1
+let cmdline_esc_term = 0
 let cmdline_map_send = '<CR>'
 let cmdline_app = {}
 let cmdline_app['python'] = 'ipython'
@@ -97,13 +100,15 @@ let g:coc_global_extensions = [
             \ 'coc-html',
             \ 'coc-css',
             \ 'coc-json',
-"\ 'coc-r-lsp',
+            \ 'coc-r-lsp',
             \ 'coc-python',
             \ 'coc-snippets',
             \ 'coc-highlight',
             \ 'coc-yank',
-            \ 'coc-sql'
+            \ 'coc-sql',
+            \ 'coc-tabnine'
             \ ]
+
 " tab between snippet place markers
 let g:coc_snippet_next = '<tab>'
 " use lk to show doc for function under cursor 
@@ -193,7 +198,6 @@ autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 " honestly this is probably not the best way
 let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
 let g:loaded_python_provider = 0
-let g:poetv_auto_activate = 1
 
 autocmd BufEnter * if (winnr("$") == 1 && &buftype == 'terminal') | q | endif
 
@@ -203,21 +207,25 @@ let g:root#auto = 1
 let g:root#echo = 0
 
 let g:python_highlight_all = 1
+
+let g:bufferline_show_bufnr = 0
+let g:bufferline_active_buffer_left = '[ '
+
+let g:jupytext_fmt = 'py:percent'
+
+let g:jupytext_meta = '{"jupytext": {"cell_markers": "\"\"\""}}'
+let g:jupytext_command = "jupytext --update-metadata " . "'" . jupytext_meta . "'"
 """
 """ LUA stuff
 lua <<EOF
 require'nvim_lsp'.pyls.setup{}
-require'nvim_lsp'.jedi_language_server.setup{}
 require'nvim_lsp'.r_language_server.setup{}
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",     -- one of "all", "language", or a list of languages
+ensure_installed = "all",
   highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = {},  -- list of language that will be disabled
+    enable = true,
+    use_languagetree = true,
   },
-  indent = {
-    enable = true
-  }
 }
 EOF
