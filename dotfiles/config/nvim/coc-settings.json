@@ -1,9 +1,8 @@
 {
-    "python.pythonPath": "/home/cjber/.pyenv/versions/py3nvim/bin/python",
     "suggest.snippetIndicator": " :s:",
     "languageserver": {
         "sourcery": {
-            "command": "/home/cjber/.pyenv/shims/sourcery",
+            "command": "/home/cjber/.pyenv/versions/3.8.6/envs/py3nvim/bin/sourcery",
             "args": [
                 "lsp"
             ],

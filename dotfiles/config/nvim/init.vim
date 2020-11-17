@@ -40,6 +40,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
+Plug 'iamcco/diagnostic-languageserver'
 
 " r plugs
 Plug 'jalvesaq/Nvim-R'
@@ -57,6 +58,7 @@ Plug 'goerz/jupytext.vim'
 " csv
 Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
+
 call plug#end()
 
 """""""""""""" External Scripts
@@ -102,11 +104,9 @@ let g:coc_global_extensions = [
             \ 'coc-json',
             \ 'coc-r-lsp',
             \ 'coc-python',
-            \ 'coc-snippets',
             \ 'coc-highlight',
             \ 'coc-yank',
-            \ 'coc-sql',
-            \ 'coc-tabnine'
+            \ 'coc-sql'
             \ ]
 
 " tab between snippet place markers
@@ -194,15 +194,13 @@ command! -nargs=0 Syn call Syn()
 " fix annoying difference between .rmd and .Rmd
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 
-" use one big python env for jedi completions
-" honestly this is probably not the best way
 let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
 let g:loaded_python_provider = 0
 
 autocmd BufEnter * if (winnr("$") == 1 && &buftype == 'terminal') | q | endif
 
 let g:root#patterns = ['.git', '.toml']
-let g:root#autocmd_patterns = "*.py"
+let g:root#autocmd_patterns = "*.py,*.R"
 let g:root#auto = 1
 let g:root#echo = 0
 
@@ -215,17 +213,20 @@ let g:jupytext_fmt = 'py:percent'
 
 let g:jupytext_meta = '{"jupytext": {"cell_markers": "\"\"\""}}'
 let g:jupytext_command = "jupytext --update-metadata " . "'" . jupytext_meta . "'"
+
+let g:netrw_browsex_viewer='xdg-open'
 """
+
 """ LUA stuff
 lua <<EOF
-require'nvim_lsp'.pyls.setup{}
-require'nvim_lsp'.r_language_server.setup{}
+require'lspconfig'.pyls.setup{}
+require'lspconfig'.r_language_server.setup{}
 
 require'nvim-treesitter.configs'.setup {
 ensure_installed = "all",
   highlight = {
     enable = true,
-    use_languagetree = true,
+    use_languagetree = false,
   },
 }
 EOF
