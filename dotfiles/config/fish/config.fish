@@ -35,13 +35,8 @@ alias dotdrop='dotdrop --cfg=/home/cjber/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
 
-status --is-interactive; and source (pyenv init -|psub)
 status --is-interactive; and pyenv init - | source
 status --is-interactive; and pyenv virtualenv-init - | source
-
-#vim wiki
-alias vw="nvim ~/drive/wiki/index.md"
-alias enc="encfs ~/drive/data_enc ~/data"
 
 export PYTHON_CONFIGURE_OPTS="--enable-shared"
 
@@ -49,8 +44,25 @@ export SPARK_HOME=/usr/local/spark
 export PYSPARK_DRIVER_PYTHON=ipython
 export PYSPARK_PYTHON=python
 
+function addpaths
+    contains -- $argv $fish_user_paths
+       or set -U fish_user_paths $fish_user_paths $argv
+    echo "Updated PATH: $PATH"
+end
+
+function removepath
+    if set -l index (contains -i $argv[1] $PATH)
+        set --erase --universal fish_user_paths[$index]
+        echo "Updated PATH: $PATH"
+    else
+        echo "$argv[1] not found in PATH: $PATH"
+    end
+end
+
 set PATH /usr/local/spark/bin $PATH
 set PATH /home/cjber/.cargo/bin $PATH
+set PATH /home/cjber/.poetry/bin $PATH
+set PATH /home/cjber/.local/bin $PATH
 
 function poetry_shell --on-variable PWD
     if test -f pyproject.toml
