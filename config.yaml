@@ -61,8 +61,8 @@ dotfiles:
     dst: ~/.config/nvim
     link: link_children
   d_i3:
-    src: i3
-    dst: ~/.i3
+    src: config/i3
+    dst: ~/.config/i3
     link: link
   d_polybar:
     src: config/polybar
