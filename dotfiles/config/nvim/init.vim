@@ -21,7 +21,6 @@ Plug 'rakr/vim-one'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
-Plug 'markonm/traces.vim'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -34,7 +33,7 @@ Plug 'Asheq/close-buffers.vim'
 Plug 'tpope/vim-dispatch'
 
 "lang stuff
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 Plug 'jalvesaq/vimcmdline'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter'
@@ -58,6 +57,7 @@ Plug 'goerz/jupytext.vim'
 " csv
 Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
+Plug 'cespare/vim-toml'
 
 call plug#end()
 
@@ -195,6 +195,12 @@ command! -nargs=0 Syn call Syn()
 autocmd BufRead,BufNewFile *.rmd set filetype=rmd
 
 let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
+
+" conda required for RAPIDS so switch if it's being used
+if has('nvim') && !empty($CONDA_PREFIX)
+  let g:python3_host_prog = $CONDA_PREFIX . '/bin/python'
+endif
+
 let g:loaded_python_provider = 0
 
 autocmd BufEnter * if (winnr("$") == 1 && &buftype == 'terminal') | q | endif

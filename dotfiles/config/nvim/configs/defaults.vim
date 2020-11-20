@@ -28,6 +28,7 @@ set autochdir
 set updatetime=300
 set termguicolors
 set colorcolumn=81
+set inccommand=nosplit
 
 set exrc " allows using local init.vim with .exrc files
 
@@ -57,7 +58,7 @@ set wildignore+=*swp,*.class,*.pyc,*.png,*.jpg,*.gif,*.zip
 set wildignore+=*/tmp/*,*.o,*.obj,*.so     " Unix
 set wildignore+=*\\tmp\\*,*.exe            " Windows
 set showtabline=0
-set signcolumn=yes
+set signcolumn=number
 
 set nobackup
 set noswapfile
