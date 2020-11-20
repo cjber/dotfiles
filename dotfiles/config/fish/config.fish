@@ -69,3 +69,10 @@ function poetry_shell --on-variable PWD
         poetry shell
     end
 end
+
+# use anaconda to source conda only when needed
+# I use this because anaconda slows shell startup
+function anaconda
+    eval /home/cjber/.bin/anaconda3/bin/conda "shell.fish" "hook" $argv | source
+end
+

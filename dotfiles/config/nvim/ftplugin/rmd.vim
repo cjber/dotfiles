@@ -20,7 +20,7 @@ function RmdPdf()
 endfunction
 
 function RmdHTML()
-    Dispatch brave %:r.html &
+    Dispatch chromium %:r.html &
 endfunction
 
 nnoremap <silent> <Leader>ll :call Rlint()<CR>
