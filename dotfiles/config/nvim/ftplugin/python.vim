@@ -5,6 +5,8 @@ nnoremap <leader>lvv :call PandasViewDF()<CR>
 nnoremap <leader>lvc :call PandasViewCols()<CR>
 nnoremap <leader>lvi :call PandasViewInfo()<CR>
 nnoremap <leader>lvl :call Vdir()<CR>
+nnoremap <leader>lr :call RunPythonFile()<CR>
+nnoremap <leader>lx :call ResetIPython()<CR>
 
 nnoremap <leader>lp :CocCommand python.sortImports<CR>
 nnoremap <leader>lT oimport ipdb;ipdb.set_trace()<ESC>
@@ -15,6 +17,14 @@ nnoremap zk :?# %%<CR>
 nnoremap zj :/# %%<CR>
 nnoremap <localleader>ia I# %%<CR>'''<CR>'''<CR><Esc>kO
 nnoremap <localleader>is I# %%<CR>
+
+function RunPythonFile()
+    call VimCmdLineSendCmd('%run ' . expand('%'))
+endfunction
+
+function ResetIPython()
+    call VimCmdLineSendCmd('%reset -f')
+endfunction
 
 function PandasViewCols()
     let df = expand('<cword>')

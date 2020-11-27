@@ -1,3 +1,8 @@
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
 call plug#begin('~/.config/nvim/pack')
 
 " auto read and save
@@ -13,6 +18,7 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'dylanaraps/root.vim'
 
 Plug 'bling/vim-bufferline'
+Plug 'mtdl9/vim-log-highlighting'
 
 " theme
 Plug 'rakr/vim-one'
@@ -31,6 +37,7 @@ Plug 'dstein64/vim-win'
 Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-abolish'
 
 "lang stuff
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
@@ -53,6 +60,9 @@ Plug 'jalvesaq/R-Vim-runtime'
 " python
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'goerz/jupytext.vim'
+" Plug 'mfussenegger/nvim-dap'
+" Plug 'theHamsta/nvim-dap-virtual-text'
+" Plug 'mfussenegger/nvim-dap-python'
 
 " csv
 Plug 'chrisbra/csv.vim'
@@ -69,6 +79,8 @@ runtime configs/binds.vim
 colorscheme one
 call one#highlight('Normal', '', '1E2127', 'none')
 call one#highlight('SignColumn', '', '1E2127', 'none')
+call one#highlight('CocErrorSign', 'D1666A', '', 'none')
+" one#highlight doesn't work for this
 hi markdownItalic gui='italic'
 
 let g:one_allow_italics = 1
@@ -111,15 +123,7 @@ let g:coc_global_extensions = [
 
 " tab between snippet place markers
 let g:coc_snippet_next = '<tab>'
-" use lk to show doc for function under cursor 
-function! g:Show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-nnoremap <silent> <Leader>lk :call Show_documentation()<CR>
+
 " use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -205,7 +209,7 @@ let g:loaded_python_provider = 0
 
 autocmd BufEnter * if (winnr("$") == 1 && &buftype == 'terminal') | q | endif
 
-let g:root#patterns = ['.git', '.toml']
+let g:root#patterns = ['.git', '.venv']
 let g:root#autocmd_patterns = "*.py,*.R"
 let g:root#auto = 1
 let g:root#echo = 0
@@ -236,3 +240,5 @@ ensure_installed = "all",
   },
 }
 EOF
+
+"require('dap-python').setup('~/.pyenv/versions/py3nvim/bin/python')
