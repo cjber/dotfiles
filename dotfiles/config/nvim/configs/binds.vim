@@ -64,6 +64,14 @@ nnoremap <leader>ch :call CocAction('doHover')<cr>
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocActionAsync('doHover')
+  endif
+endfunction
+
 nnoremap <silent> <leader>lh :call <SID>show_documentation()<CR>
 nmap <silent><leader>la <Plug>(coc-definition)
 nmap <silent><leader>ly <Plug>(coc-type-definition)
