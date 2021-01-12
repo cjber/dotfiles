@@ -73,6 +73,14 @@ end
 # use anaconda to source conda only when needed
 # I use this because anaconda slows shell startup
 function anaconda
-    eval /home/cjber/.bin/anaconda3/bin/conda "shell.fish" "hook" $argv | source
+    eval /home/cjber/.miniconda/bin/conda "shell.fish" "hook" $argv | source
+end
+
+function poetryreq
+    for item in (cat requirements.txt); poetry add $item; end
+end
+
+function poetry_reqs
+    for item in (cat requirements.txt); poetry add $item; end
 end
 

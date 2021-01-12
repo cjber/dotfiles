@@ -126,6 +126,9 @@ let g:which_key_map.r = {
             \ 'w'    : 'window-manager' ,
             \}
 
+" Configuration example
+nnoremap <Leader>pp :Skylight!<CR>
+
 """ end of which key
 
 " Visual shifting (does not exit Visual mode)

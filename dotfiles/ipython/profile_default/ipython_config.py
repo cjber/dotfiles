@@ -188,7 +188,7 @@ c.TerminalIPythonApp.display_banner = False
 c.InteractiveShell.color_info = True
 
 ## Set the color scheme (NoColor, Neutral, Linux, or LightBG).
-c.InteractiveShell.colors = 'Linux'
+c.InteractiveShell.colors = 'linux'
 
 ## 
 #c.InteractiveShell.debug = False
@@ -233,22 +233,6 @@ c.InteractiveShell.colors = 'Linux'
 
 ## Automatically call the pdb debugger after every exception.
 #c.InteractiveShell.pdb = False
-
-## Deprecated since IPython 4.0 and ignored since 5.0, set
-#  TerminalInteractiveShell.prompts object directly.
-#c.InteractiveShell.prompt_in1 = 'In [\\#]: '
-
-## Deprecated since IPython 4.0 and ignored since 5.0, set
-#  TerminalInteractiveShell.prompts object directly.
-#c.InteractiveShell.prompt_in2 = '   .\\D.: '
-
-## Deprecated since IPython 4.0 and ignored since 5.0, set
-#  TerminalInteractiveShell.prompts object directly.
-#c.InteractiveShell.prompt_out = 'Out[\\#]: '
-
-## Deprecated since IPython 4.0 and ignored since 5.0, set
-#  TerminalInteractiveShell.prompts object directly.
-#c.InteractiveShell.prompts_pad_left = True
 
 ## 
 #c.InteractiveShell.quiet = False
@@ -303,7 +287,7 @@ c.TerminalInteractiveShell.enable_history_search = True
 
 ## Enable vi (v) or Emacs (C-X C-E) shortcuts to open an external editor. This is
 #  in addition to the F2 binding, which is always enabled.
-c.TerminalInteractiveShell.extra_open_editor_shortcuts = False
+c.TerminalInteractiveShell.extra_open_editor_shortcuts = True
 
 ## Provide an alternative handler to be called when the user presses Return. This
 #  is an advanced option intended for debugging, which may be changed or removed
@@ -328,7 +312,7 @@ c.TerminalInteractiveShell.highlighting_style = 'native'
 #c.TerminalInteractiveShell.mouse_support = False
 
 ## Display the current vi mode (when using vi editing mode).
-#c.TerminalInteractiveShell.prompt_includes_vi_mode = True
+c.TerminalInteractiveShell.prompt_includes_vi_mode = True
 
 from IPython.terminal.prompts import Prompts
 from pygments.token import Token
@@ -340,7 +324,7 @@ class MyPrompt(Prompts):
         return [(Token.Prompt, '-> ')]
 
 ## Class used to generate Prompt token for prompt_toolkit
-c.TerminalInteractiveShell.prompts_class = MyPrompt
+#c.TerminalInteractiveShell.prompts_class = MyPrompt
 
 #c.TerminalInteractiveShell.prompts_class = 'IPython.terminal.prompts.Prompts'
 
@@ -367,7 +351,7 @@ c.TerminalInteractiveShell.prompts_class = MyPrompt
 ## Use 24bit colors instead of 256 colors in prompt highlighting. If your
 #  terminal supports true color, the following command should print 'TRUECOLOR'
 #  in orange: printf "\x1b[38;2;255;100;0mTRUECOLOR\x1b[0m\n"
-#c.TerminalInteractiveShell.true_color = False
+c.TerminalInteractiveShell.true_color = True
 
 #------------------------------------------------------------------------------
 # HistoryAccessor(HistoryAccessorBase) configuration
