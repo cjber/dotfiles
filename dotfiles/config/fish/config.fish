@@ -22,16 +22,15 @@ alias py="ipython"
 alias la="ncdu"
 alias rm="trashf"
 alias empty='echo -n Emptying the Bin | pv -qL 10 && command rm -rf ~/.local/share/Trash/files/*'
-alias conf="cd ~/dotfiles/dotfiles/"
+alias conf="cd $HOME/dotfiles/; nvim (fzf)"
 alias bat="bat --style=grid,numbers --theme TwoDark"
 
 starship init fish | source
 
 # Your dotdrop git repository location
-export DOTREPO="/home/cjber/dotfiles"
-export DOTDROP_PROFILE=home
+export DOTREPO=$HOME/dotfiles
 
-alias dotdrop='dotdrop --cfg=/home/cjber/dotfiles/config.yaml'
+alias dotdrop='dotdrop --cfg=$HOME/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
 
@@ -39,10 +38,6 @@ status --is-interactive; and pyenv init - | source
 status --is-interactive; and pyenv virtualenv-init - | source
 
 export PYTHON_CONFIGURE_OPTS="--enable-shared"
-
-export SPARK_HOME=/usr/local/spark
-export PYSPARK_DRIVER_PYTHON=ipython
-export PYSPARK_PYTHON=python
 
 function addpaths
     contains -- $argv $fish_user_paths
@@ -59,11 +54,6 @@ function removepath
     end
 end
 
-set PATH /usr/local/spark/bin $PATH
-set PATH /home/cjber/.cargo/bin $PATH
-set PATH /home/cjber/.poetry/bin $PATH
-set PATH /home/cjber/.local/bin $PATH
-
 function poetry_shell --on-variable PWD
     if test -f pyproject.toml
         poetry shell
@@ -73,14 +63,9 @@ end
 # use anaconda to source conda only when needed
 # I use this because anaconda slows shell startup
 function anaconda
-    eval /home/cjber/.miniconda/bin/conda "shell.fish" "hook" $argv | source
+    eval $HOME/.miniconda/bin/conda "shell.fish" "hook" $argv | source
 end
 
 function poetryreq
     for item in (cat requirements.txt); poetry add $item; end
 end
-
-function poetry_reqs
-    for item in (cat requirements.txt); poetry add $item; end
-end
-

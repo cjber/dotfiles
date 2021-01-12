@@ -28,14 +28,6 @@ dotfiles:
     src: config/autostart
     dst: ~/.config/autostart
     link: link
-  d_cmus:
-    src: config/cmus
-    dst: ~/.config/cmus
-    link: link
-  d_nitrogen:
-    src: config/nitrogen
-    dst: ~/.config/nitrogen
-    link: link
   d_rofi:
     src: config/rofi
     dst: ~/.config/rofi
@@ -48,6 +40,11 @@ dotfiles:
     src: config/fish
     dst: ~/.config/fish
     link: link_children
+    upignore:
+    - "*/completions"
+    - "*/conf.d"
+    - "*/functions"
+    - "*/fish_variables"
   d_pypoetry:
     src: config/pypoetry
     dst: ~/.config/pypoetry
@@ -60,6 +57,9 @@ dotfiles:
     src: config/nvim
     dst: ~/.config/nvim/
     link: link_children
+    upignore:
+    - "*/undodir"
+    - "*/pack"
   d_i3:
     src: config/i3
     dst: ~/.config/i3
