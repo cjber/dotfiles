@@ -96,3 +96,10 @@ profiles:
   uni:
     dotfiles:
     - ALL
+  docker:
+    dotfiles:
+    - d_fish
+    - d_nvim
+    - d_ranger
+    - f_starship.toml
+
