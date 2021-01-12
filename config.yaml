@@ -48,6 +48,11 @@ dotfiles:
     src: config/fish
     dst: ~/.config/fish
     link: link
+    upignore:
+    - "*/conf.d"
+    - "*/completions"
+    - "*/functions"
+    - "*/fish_variables"
   d_pypoetry:
     src: config/pypoetry
     dst: ~/.config/pypoetry
@@ -59,7 +64,10 @@ dotfiles:
   d_nvim:
     src: config/nvim
     dst: ~/.config/nvim
-    link: link_children
+    upignore:
+    - "*/undodir"
+    - "*/spell"
+    - "*/pack"
   d_i3:
     src: config/i3
     dst: ~/.config/i3
