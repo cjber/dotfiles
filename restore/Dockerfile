@@ -4,21 +4,18 @@ RUN useradd -m cjber
 RUN pacman -Sy --noconfirm archlinux-keyring && \
     pacman -Sy --noconfirm base-devel git go  && \
     pacman -Syu --noconfirm && \
-    pacman -S neovim python python-poetry python-pipenv python-neovim \
+    pacman -S python python-poetry python-pipenv python-neovim \
     nodejs npm fish ranger pyenv --noconfirm
 
 WORKDIR /root
 
 RUN git clone https://github.com/cjber/dotfiles && \
-        cd dotfiles/restore
-
-COPY /config/nvim .config/nvim
+        mkdir .config/ && \
+        cp -r dotfiles/dotfiles/config/nvim .config/nvim
 RUN mkdir .config/nvim/plug
-
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-RUN nvim +PlugInstall +qall
 
 # Allow notroot to run stuff as root (to install dependencies):
 RUN echo "cjber ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/cjber
@@ -32,7 +29,14 @@ RUN git clone https://aur.archlinux.org/fisher.git && \
         git clone https://aur.archlinux.org/pyenv-virtualenv.git && \
         cd pyenv-virtualenv && \
         makepkg -si --noconfirm && \
-        sudo pacman -U pyenv-virtualenv*.pkg.* --noconfirm 
+        sudo pacman -U pyenv-virtualenv*.pkg.* --noconfirm && \
+        cd && \
+        git clone https://aur.archlinux.org/neovim-git.git && \
+        cd neovim-git && \
+        makepkg -si --noconfirm && \
+        sudo pacman -U neovim*.pkg.* --noconfirm
+
+RUN nvim +PlugInstall +qall
 USER root
 WORKDIR /root
 
@@ -47,6 +51,9 @@ COPY /run/entrypoint.sh /run/entrypoint.sh
 RUN pip install neovim \
         wheel \
         python-language-server[all] \
+        autopep8 \
+        pylint \
+        sourcery-cli \
         seaborn \
         matplotlib \
         pandas \

@@ -19,6 +19,7 @@ Plug 'dylanaraps/root.vim'
 
 Plug 'bling/vim-bufferline'
 Plug 'mtdl9/vim-log-highlighting'
+Plug 'voldikss/vim-skylight'
 
 " theme
 Plug 'rakr/vim-one'
@@ -43,7 +44,7 @@ Plug 'tpope/vim-abolish'
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 Plug 'jalvesaq/vimcmdline'
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'iamcco/diagnostic-languageserver'
@@ -55,14 +56,11 @@ Plug 'jalvesaq/R-Vim-runtime'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-rmarkdown'
-" Plug 'chrisbra/NrrwRgn'
 
 " python
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'goerz/jupytext.vim'
-" Plug 'mfussenegger/nvim-dap'
-" Plug 'theHamsta/nvim-dap-virtual-text'
-" Plug 'mfussenegger/nvim-dap-python'
+Plug 'untitled-ai/jupyter_ascending.vim'
 
 " csv
 Plug 'chrisbra/csv.vim'
@@ -120,6 +118,8 @@ let g:coc_global_extensions = [
             \ 'coc-yank',
             \ 'coc-sql'
             \ ]
+
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " tab between snippet place markers
 let g:coc_snippet_next = '<tab>'
@@ -225,6 +225,12 @@ let g:jupytext_meta = '{"jupytext": {"cell_markers": "\"\"\""}}'
 let g:jupytext_command = "jupytext --update-metadata " . "'" . jupytext_meta . "'"
 
 let g:netrw_browsex_viewer='xdg-open'
+
+let g:skylight_borderchars = ['─', '', '─', '', '', '', '', '']
+" let g:skylight_width=1.0
+" let g:skylight_position='top'
+nnoremap <silent><expr> <C-f> skylight#float#has_scroll() ? skylight#float#scroll(1)
+nnoremap <silent><expr> <C-b> skylight#float#has_scroll() ? skylight#float#scroll(0)
 """
 
 """ LUA stuff
@@ -242,3 +248,4 @@ ensure_installed = "all",
 EOF
 
 "require('dap-python').setup('~/.pyenv/versions/py3nvim/bin/python')
+let g:jupyter_ascending_match_pattern='.sync.py'

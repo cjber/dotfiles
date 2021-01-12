@@ -21,10 +21,12 @@ SETUVAR _fish_abbr_za:zoxide\x20add
 SETUVAR _fish_abbr_zi:z\x20\x2di
 SETUVAR _fish_abbr_zq:zoxide\x20query
 SETUVAR _fish_abbr_zr:zoxide\x20remove
-SETUVAR _fisher_jethrokuan_2F_fzf_files:/home/cjber/\x2econfig/fish/functions/__fzf_cd\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_complete\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_complete_preview\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_find_file\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_get_dir\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_open\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_parse_commandline\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_reverse_isearch\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzfcmd\x2efish\x1e/home/cjber/\x2econfig/fish/conf\x2ed/fzf\x2efish\x1e/home/cjber/\x2econfig/fish/conf\x2ed/fzf_key_bindings\x2efish
+SETUVAR _fisher_jethrokuan_2F_fzf_files:/home/cjber/\x2econfig/fish/functions/__fzf_cd\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_complete\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_complete_preview\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_find_file\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_get_dir\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_open\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_parse_commandline\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzf_reverse_isearch\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__fzfcmd\x2efish\x1e/home/cjber/\x2econfig/fish/conf\x2ed/fzf\x2efish
 SETUVAR _fisher_jethrokuan_2F_z_files:/home/cjber/\x2econfig/fish/functions/__z\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__z_add\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__z_clean\x2efish\x1e/home/cjber/\x2econfig/fish/functions/__z_complete\x2efish\x1e/home/cjber/\x2econfig/fish/conf\x2ed/z\x2efish
-SETUVAR _fisher_laughedelic_2F_pisces_files:/home/cjber/\x2econfig/fish/functions/_pisces_append\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_backspace\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_bind_pair\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_complete\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_insert_identical\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_insert_left\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_insert_right\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_jump\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_lookup\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_remove\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_should_insert\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_skip\x2efish\x1e/home/cjber/\x2econfig/fish/functions/key_bindings\x2efish\x1e/home/cjber/\x2econfig/fish/functions/uninstall\x2efish
+SETUVAR _fisher_laughedelic_2F_pisces_files:/home/cjber/\x2econfig/fish/functions/_pisces_append\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_backspace\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_bind_pair\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_complete\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_insert_identical\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_insert_left\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_insert_right\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_jump\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_lookup\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_remove\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_should_insert\x2efish\x1e/home/cjber/\x2econfig/fish/functions/_pisces_skip\x2efish\x1e/home/cjber/\x2econfig/fish/conf\x2ed/pisces\x2efish
 SETUVAR _fisher_plugins:jethrokuan/z\x1ejethrokuan/fzf\x1elaughedelic/pisces
+SETUVAR async_prompt_functions:fish_right_prompt
+SETUVAR async_prompt_inherit_variables:all
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:005fd7
@@ -54,7 +56,7 @@ SETUVAR fish_pager_color_completion:\x1d
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
-SETUVAR fish_user_paths:/usr/local/spark/bin\x1e/home/cjber/\x2epoetry/bin\x1e/home/cjber/\x2ebin/anaconda3/bin/conda
+SETUVAR --export fish_user_paths:/home/cjber/\x2epyenv/bin\x1e/home/cjber/\x2epyenv/bin\x1e/home/cjber/bin
 SETUVAR pisces_pairs:\x28\x2c\x29\x1e\x5b\x2c\x5d\x1e\x7b\x2c\x7d\x1e\x22\x2c\x22\x1e\x27\x2c\x27
 SETUVAR pure_begin_prompt_with_current_directory:true
 SETUVAR pure_color_command_duration:pure_color_warning
