@@ -41,10 +41,10 @@ dotfiles:
     dst: ~/.config/fish
     link: link_children
     upignore:
-    - "*/completions"
-    - "*/conf.d"
-    - "*/functions"
-    - "*/fish_variables"
+    - '*/completions'
+    - '*/conf.d'
+    - '*/functions'
+    - '*/fish_variables'
   d_pypoetry:
     src: config/pypoetry
     dst: ~/.config/pypoetry
@@ -58,8 +58,8 @@ dotfiles:
     dst: ~/.config/nvim/
     link: link_children
     upignore:
-    - "*/undodir"
-    - "*/pack"
+    - '*/undodir'
+    - '*/pack'
   d_i3:
     src: config/i3
     dst: ~/.config/i3
@@ -102,4 +102,3 @@ profiles:
     - d_nvim
     - d_ranger
     - f_starship.toml
-
