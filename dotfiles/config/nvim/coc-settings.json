@@ -23,5 +23,7 @@
             }
         }
     },
-    "latex.build.executable": "pdftex"
+    "latex.build.executable": "pdftex",
+    "python.linting.flake8Enabled": true,
+    "python.analysis.stubPath": ".typings"
 }
