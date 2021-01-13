@@ -59,7 +59,6 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'jeetsukumaran/vim-pythonsense'
-Plug 'goerz/jupytext.vim'
 Plug 'untitled-ai/jupyter_ascending.vim'
 
 " csv
@@ -220,16 +219,9 @@ let g:python_highlight_all = 1
 let g:bufferline_show_bufnr = 0
 let g:bufferline_active_buffer_left = '[ '
 
-let g:jupytext_fmt = 'py:percent'
-
-let g:jupytext_meta = '{"jupytext": {"cell_markers": "\"\"\""}}'
-let g:jupytext_command = "jupytext --update-metadata " . "'" . jupytext_meta . "'"
-
 let g:netrw_browsex_viewer='xdg-open'
 
 let g:skylight_borderchars = ['─', '', '─', '', '', '', '', '']
-" let g:skylight_width=1.0
-" let g:skylight_position='top'
 nnoremap <silent><expr> <C-f> skylight#float#has_scroll() ? skylight#float#scroll(1)
 nnoremap <silent><expr> <C-b> skylight#float#has_scroll() ? skylight#float#scroll(0)
 """
