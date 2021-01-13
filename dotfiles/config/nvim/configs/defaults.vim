@@ -49,7 +49,7 @@ set matchtime=1    " Show matching time
 set linespace=0    " No extra spaces between rows
 set pumheight=10   " Avoid the pop up menu occupying the whole screen
 set expandtab      " Tabs are spaces, not tabs
-set t_ut=
+set t_ut=          " Disable background color erase
 set winminheight=0
 set whichwrap+=<,>,h,l  " Allow backspace and cursor keys to cross line boundaries
 set fileencoding=utf-8
@@ -58,8 +58,9 @@ set wildignore+=*swp,*.class,*.pyc,*.png,*.jpg,*.gif,*.zip
 set wildignore+=*/tmp/*,*.o,*.obj,*.so     " Unix
 set wildignore+=*\\tmp\\*,*.exe            " Windows
 set showtabline=0
-set signcolumn=number
+set signcolumn=number " Combine sign + number col
 
+" Dont use backups and swaps
 set nobackup
 set noswapfile
 set nowritebackup

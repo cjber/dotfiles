@@ -73,6 +73,7 @@ function! s:show_documentation()
 endfunction
 
 nnoremap <silent> <leader>lh :call <SID>show_documentation()<CR>
+nnoremap <silent> <leader>lp :CocCommand editor.action.organizeImport<CR>
 nmap <silent><leader>la <Plug>(coc-definition)
 nmap <silent><leader>ly <Plug>(coc-type-definition)
 nmap <silent><leader>li <Plug>(coc-implementation)
@@ -87,6 +88,7 @@ nnoremap <silent> <leader>lt :CocList outline<CR>
 let g:which_key_map.l = {
       \ 'name' : '+lsp'                 ,
       \ 'f'    : ['CocAction("format")' , 'formatting']       ,
+      \ 'p'    : 'imports'              ,
       \ 't'    : 'tags'                 ,
       \ 'e'    : 'errors'               ,
       \ 'd'    : 'docstring'            ,
