@@ -113,7 +113,8 @@ let g:coc_global_extensions = [
             \ 'coc-css',
             \ 'coc-json',
             \ 'coc-r-lsp',
-            \ 'coc-python',
+            \ 'coc-pyright',
+            \ 'coc-diagnostic',
             \ 'coc-highlight',
             \ 'coc-yank',
             \ 'coc-sql'
