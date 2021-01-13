@@ -202,7 +202,15 @@ let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
 
 " conda required for RAPIDS so switch if it's being used
 if has('nvim') && !empty($CONDA_PREFIX)
-  let g:python3_host_prog = $CONDA_PREFIX . '/bin/python'
+call coc#config('python', {
+\   'pythonPath': $CONDA_PREFIX . '/bin/python'
+\ })
+endif
+
+if !empty($PYENV_VIRTUAL_ENV)
+call coc#config('python', {
+\   'pythonPath': $PYENV_VIRTUAL_ENV . '/bin/python'
+\ })
 endif
 
 let g:loaded_python_provider = 0
@@ -222,20 +230,18 @@ let g:bufferline_active_buffer_left = '[ '
 let g:netrw_browsex_viewer='xdg-open'
 
 let g:skylight_borderchars = ['─', '', '─', '', '', '', '', '']
-nnoremap <silent><expr> <C-f> skylight#float#has_scroll() ? skylight#float#scroll(1)
-nnoremap <silent><expr> <C-b> skylight#float#has_scroll() ? skylight#float#scroll(0)
 """
 
+" require'lspconfig'.pyls.setup{}
+" require'lspconfig'.r_language_server.setup{}
 """ LUA stuff
-lua <<EOF
-require'lspconfig'.pyls.setup{}
-require'lspconfig'.r_language_server.setup{}
+lua << EOF
 
 require'nvim-treesitter.configs'.setup {
 ensure_installed = "all",
   highlight = {
     enable = true,
-    use_languagetree = false,
+    use_languagetree = true,
   },
 }
 EOF
