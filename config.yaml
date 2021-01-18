@@ -86,6 +86,9 @@ dotfiles:
   f_radian_profile:
     src: radian_profile
     dst: ~/.radian_profile
+  f_xinitrc:
+    src: xinitrc
+    dst: ~/.xinitrc
 profiles:
   home:
     dotfiles:
