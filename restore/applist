@@ -70,5 +70,6 @@ zathura
 zathura-pdf-mupdf
 zotero
 xorg
+xorg-xinit
 python-pipenv
 megasync-nopdfium
