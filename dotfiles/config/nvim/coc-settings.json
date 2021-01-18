@@ -25,5 +25,8 @@
     },
     "latex.build.executable": "pdftex",
     "python.linting.flake8Enabled": true,
-    "python.analysis.stubPath": ".typings"
+    "python.analysis.stubPath": ".typings",
+    "markdownlint.config": {
+        "line_length": false
+    }
 }

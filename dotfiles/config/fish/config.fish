@@ -14,6 +14,7 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=sharp'
 
 # alias
 alias v="nvim"
+alias vf="nvim (fzf)"
 alias c="cd (fd --type d | fzf --height 40% --border --layout=reverse)"
 alias lf="ranger"
 alias vinit="nvim ~/.config/nvim/init.vim"
