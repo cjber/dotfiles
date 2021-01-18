@@ -64,7 +64,6 @@ Plug 'untitled-ai/jupyter_ascending.vim'
 " csv
 Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
-Plug 'cespare/vim-toml'
 
 call plug#end()
 
@@ -79,6 +78,9 @@ call one#highlight('SignColumn', '', '1E2127', 'none')
 call one#highlight('CocErrorSign', 'D1666A', '', 'none')
 " one#highlight doesn't work for this
 hi markdownItalic gui='italic'
+hi DiffAdd guibg=None
+hi DiffDelete guibg=None
+hi DiffChange guibg=None
 
 let g:one_allow_italics = 1
 
@@ -116,7 +118,12 @@ let g:coc_global_extensions = [
             \ 'coc-diagnostic',
             \ 'coc-highlight',
             \ 'coc-yank',
-            \ 'coc-sql'
+            \ 'coc-sql',
+            "\ 'coc-git',
+            \ 'coc-markdownlint',
+            \ 'coc-toml',
+            \ 'coc-vimlsp',
+            \ 'coc-yaml'
             \ ]
 
 "autocmd CursorHold * silent call CocActionAsync('highlight')

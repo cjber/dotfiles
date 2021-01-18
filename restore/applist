@@ -23,7 +23,6 @@ julia
 kitty
 kvantum-qt5
 lm_sensors
-lutris
 lxappearance
 mathpix-snipping-tool
 mpv
@@ -34,7 +33,6 @@ nodejs
 noto-fonts
 npm
 openblas
-otf-xcharter
 pandoc
 pandoc-attributes
 pandoc-citeproc
@@ -48,8 +46,6 @@ pyenv
 pyenv-virtualenv
 pygmentize
 python-i3ipc
-python-language-server
-python-poetry
 qbittorrent
 r
 radian
@@ -81,3 +77,4 @@ zotero
 ly
 xorg
 python-pipenv
+megasync-nopdfium
