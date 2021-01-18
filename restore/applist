@@ -1,12 +1,9 @@
 arc-gtk-theme
 breeze
-cmus
 cronie
 detox
 docker
 dotdrop
-encfs
-etcher
 fd
 fish
 fisher
@@ -27,8 +24,7 @@ lxappearance
 mathpix-snipping-tool
 mpv
 ncdu
-neovim-nightly
-nitrogen
+neovim-nightly-bin
 nodejs
 noto-fonts
 npm
@@ -69,12 +65,10 @@ units
 unp
 windscribe-cli
 yarn
-yay
 youtube-dl
 zathura
 zathura-pdf-mupdf
 zotero
-ly
 xorg
 python-pipenv
 megasync-nopdfium
