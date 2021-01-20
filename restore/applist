@@ -1,4 +1,5 @@
 arc-gtk-theme
+systemd-swap
 chromium
 dunst
 lightdm
@@ -73,6 +74,5 @@ zathura
 zathura-pdf-mupdf
 zotero
 xorg
-xorg-xinit
 python-pipenv
 megasync-nopdfium
