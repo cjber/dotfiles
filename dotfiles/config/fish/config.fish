@@ -1,9 +1,11 @@
 # Start X at login
+{%@@ if profile != "docker" @@%}
 if status --is-interactive
   if test -z "$DISPLAY" -a $XDG_VTNR = 1
     exec startx -- -keeptty
   end
 end
+{%@@ endif @@%}
 
 fish_vi_key_bindings
 set fish_greeting

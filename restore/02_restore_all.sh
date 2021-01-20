@@ -12,3 +12,4 @@ pyenv activate py3nvim
 pip install \
     wheel \
     neovim
+#dotdrop --profile= install
