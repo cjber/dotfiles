@@ -3,7 +3,7 @@
     "suggest.snippetIndicator": " :s:",
     "languageserver": {
         "sourcery": {
-            "command": "/home/cjber/.pyenv/versions/3.8.6/envs/py3nvim/bin/sourcery",
+            "command": "/home/cjber/.pyenv/versions/py3nvim/bin/sourcery",
             "args": [
                 "lsp"
             ],
