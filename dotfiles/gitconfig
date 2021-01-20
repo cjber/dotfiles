@@ -1,0 +1,7 @@
+[user]
+	name = cjber
+	email = cjberragan@gmail.com
+[credential]
+	helper = cache
+[pull]
+	rebase = false
