@@ -8,10 +8,10 @@ yay -Rc go --noconfirm \
     && yes | yay -Scc \
     && yay -S --needed --noconfirm - < applist
 
-# pyenv install 3.8.6
-# pyenv virtualenv 3.8.6 py3nvim
-# pyenv activate py3nvim
-# pip install \
-#     wheel \
-#     neovim
-#dotdrop --profile= install
+pyenv install 3.8.6
+pyenv virtualenv 3.8.6 py3nvim
+pyenv activate py3nvim
+pip install \
+    wheel \
+    neovim
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
