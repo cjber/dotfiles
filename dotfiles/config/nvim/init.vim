@@ -46,8 +46,6 @@ Plug 'jalvesaq/vimcmdline'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'romgrk/nvim-treesitter-context'
-Plug 'nvim-treesitter/nvim-treesitter-refactor'
-Plug 'iamcco/diagnostic-languageserver'
 
 " r plugs
 Plug 'jalvesaq/Nvim-R'
