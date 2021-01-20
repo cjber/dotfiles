@@ -108,4 +108,3 @@ profiles:
     - d_nvim
     - d_ranger
     - f_starship.toml
-    - f_xinitrc
