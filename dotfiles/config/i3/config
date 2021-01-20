@@ -224,11 +224,11 @@ mode "resize" {
 }
 
 # Autostart applications
-exec --no-startup-id /$HOME/.config/polybar/launch.sh
-#exec --no-startup-id openrgb -p /home/cjber/.config/OpenRGB/gpu_off.orp
+exec --no-startup-id $HOME/.config/polybar/launch.sh
+#exec --no-startup-id openrgb -p $HOME/.config/OpenRGB/gpu_off.orp
 exec_always --no-startup-id env QT_SCALE_FACTOR=1 megasync
 exec_always --no-startup-id picom -b
-exec --no-startup-id /home/cjber/.config/autostart/mouse.sh
+exec --no-startup-id $HOME/.config/autostart/mouse.sh
 exec --no-startup-id $HOME/.config/i3/resize.py
 exec_always --no-startup-id nm-applet
 
