@@ -232,6 +232,10 @@ exec --no-startup-id $HOME/.config/autostart/mouse.sh
 exec --no-startup-id $HOME/.config/i3/resize.py
 exec_always --no-startup-id nm-applet
 
+
+{%@@ if profile == "home" @@%}
+exec --no-startup-id nvidia-settings --assign CurrentMedaMode="nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }"
+{%@@ endif @@%}
 # Same logic applied to everything else.
 set_from_resource $term_background background
 set_from_resource $term_foreground foreground
