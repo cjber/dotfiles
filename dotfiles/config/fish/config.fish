@@ -79,3 +79,7 @@ end
 function poetryreq
     for item in (cat requirements.txt); poetry add $item; end
 end
+
+function fish_right_prompt_loading_indicator
+    echo (set_color '#aaa')' … '(set_color normal)
+end
