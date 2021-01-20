@@ -83,9 +83,6 @@ dotfiles:
   f_nvidia-force-full-composition.desktop:
     src: config/autostart/nvidia-force-full-composition.desktop
     dst: ~/.config/autostart/nvidia-force-full-composition.desktop
-  f_xinitrc:
-    src: xinitrc
-    dst: ~/.xinitrc
   f_condarc:
     src: condarc
     dst: ~/.condarc
