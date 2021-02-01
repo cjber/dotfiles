@@ -16,7 +16,7 @@ set fish_cursor_insert      line       blink
 set fish_cursor_replace_one underscore blink
 set fish_cursor_visual      block
 
-set fish_ambiguous_width    2
+set fish_ambiguous_width    1
 
 # fzf
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=sharp'
