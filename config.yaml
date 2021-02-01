@@ -80,9 +80,6 @@ dotfiles:
   f_radian_profile:
     src: radian_profile
     dst: ~/.radian_profile
-  f_nvidia-force-full-composition.desktop:
-    src: config/autostart/nvidia-force-full-composition.desktop
-    dst: ~/.config/autostart/nvidia-force-full-composition.desktop
   f_condarc:
     src: condarc
     dst: ~/.condarc
