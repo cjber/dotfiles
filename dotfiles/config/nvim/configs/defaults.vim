@@ -23,7 +23,7 @@ set cmdheight=1
 set noshowmode
 set noruler
 set noshowcmd
-set laststatus=2
+set laststatus=1
 set autochdir
 set updatetime=300
 set termguicolors
