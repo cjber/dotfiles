@@ -46,6 +46,7 @@ Plug 'jalvesaq/vimcmdline'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'romgrk/nvim-treesitter-context'
+Plug 'KeitaNakamura/tex-conceal.vim'
 
 " r plugs
 Plug 'jalvesaq/Nvim-R'
@@ -59,7 +60,7 @@ Plug 'jalvesaq/R-Vim-runtime'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'untitled-ai/jupyter_ascending.vim'
 
-" csv
+" other
 Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
 
@@ -74,11 +75,15 @@ colorscheme one
 call one#highlight('Normal', '', '1E2127', 'none')
 call one#highlight('SignColumn', '', '1E2127', 'none')
 call one#highlight('CocErrorSign', 'D1666A', '', 'none')
+
 " one#highlight doesn't work for this
 hi markdownItalic gui='italic'
+
 hi DiffAdd guibg=None
 hi DiffDelete guibg=None
 hi DiffChange guibg=None
+hi Pmenu guibg=Normal
+hi PmenuSbar guibg=Normal
 
 let g:one_allow_italics = 1
 
@@ -115,7 +120,6 @@ let g:coc_global_extensions = [
             \ 'coc-pyright',
             \ 'coc-diagnostic',
             \ 'coc-highlight',
-            \ 'coc-yank',
             \ 'coc-sql',
             "\ 'coc-git',
             \ 'coc-markdownlint',
@@ -189,37 +193,32 @@ function! Syn()
 endfunction
 command! -nargs=0 Syn call Syn()
 
-" fix annoying difference between .rmd and .Rmd
-autocmd BufRead,BufNewFile *.rmd set filetype=rmd
-
-" use :call Syn() to find highlight group under cursor
-function! Syn()
-  for id in synstack(line("."), col("."))
-    echo synIDattr(id, "name")
-  endfor
-endfunction
-command! -nargs=0 Syn call Syn()
-
-" fix annoying difference between .rmd and .Rmd
-autocmd BufRead,BufNewFile *.rmd set filetype=rmd
-
 let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
 
-" conda required for RAPIDS so switch if it's being used
-if has('nvim') && !empty($CONDA_PREFIX)
-call coc#config('python', {
-\   'pythonPath': $CONDA_PREFIX . '/bin/python'
-\ })
-endif
+"" don't think this is needed with pyright...
+" if has('nvim') && !empty($CONDA_PREFIX)
+" call coc#config('python', {
+" \   'pythonPath': $CONDA_PREFIX . '/bin/python'
+" \ })
+" endif
 
-if !empty($PYENV_VIRTUAL_ENV)
-call coc#config('python', {
-\   'pythonPath': $PYENV_VIRTUAL_ENV . '/bin/python'
-\ })
-endif
+" " same for pyenv
+" if !empty($PYENV_VIRTUAL_ENV)
+" call coc#config('python', {
+" \   'pythonPath': $PYENV_VIRTUAL_ENV . '/bin/python'
+" \ })
+" endif
 
-let g:loaded_python_provider = 0
+" if !empty($VIRTUAL_ENV)
+" call coc#config('python', {
+" \ 'pythonPath': $VIRTUAL_ENV . '/bin/python'
+" \ })
+" endif
+""
 
+let g:loaded_python_provider = 0 " don't use python2
+
+" close if just repl left open
 autocmd BufEnter * if (winnr("$") == 1 && &buftype == 'terminal') | q | endif
 
 let g:root#patterns = ['.git', '.venv']
@@ -234,9 +233,10 @@ let g:bufferline_active_buffer_left = '[ '
 
 let g:netrw_browsex_viewer='xdg-open'
 
-let g:skylight_borderchars = ['─', '', '─', '', '', '', '', '']
+let g:skylight_borderchars = ['─', '│', '─', '│', '┌', '┐', '┘', '└']
 """
 
+" will use eventually, using coc for now
 " require'lspconfig'.pyls.setup{}
 " require'lspconfig'.r_language_server.setup{}
 """ LUA stuff
@@ -251,5 +251,9 @@ ensure_installed = "all",
 }
 EOF
 
-"require('dap-python').setup('~/.pyenv/versions/py3nvim/bin/python')
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
+augroup END
+
 let g:jupyter_ascending_match_pattern='.sync.py'

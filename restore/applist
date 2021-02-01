@@ -13,6 +13,7 @@ fzf
 gcc-fortran
 gdal
 github-cli
+handlr-bin
 hsetroot
 hunspell
 hunspell-en_GB
@@ -30,6 +31,7 @@ mpv
 ncdu
 neovim-nightly-bin
 nerd-fonts-complete
+network-manager-applet
 nodejs
 noto-fonts
 npm
@@ -77,4 +79,3 @@ youtube-dl
 zathura
 zathura-pdf-mupdf
 zotero
-network-manager-applet
