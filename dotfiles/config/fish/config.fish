@@ -64,11 +64,11 @@ function removepath
     end
 end
 
-function poetry_shell --on-variable PWD
-    if test -f pyproject.toml
-        poetry shell
-    end
-end
+# function poetry_shell --on-variable PWD
+#     if test -f pyproject.toml
+#         poetry shell
+#     end
+# end
 
 # use anaconda to source conda only when needed
 # I use this because anaconda slows shell startup
