@@ -24,9 +24,11 @@
         }
     },
     "latex.build.executable": "pdftex",
-    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "black",
     "python.analysis.stubPath": ".typings",
-    "python.sortImports.args": ["-m 3"],
+    "python.sortImports.args": [
+        "-m 3"
+    ],
     "markdownlint.config": {
         "line_length": false
     }

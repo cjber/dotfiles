@@ -27,7 +27,7 @@ set laststatus=1
 set autochdir
 set updatetime=300
 set termguicolors
-set colorcolumn=81
+set colorcolumn=89
 set inccommand=nosplit
 
 set exrc " allows using local init.vim with .exrc files
