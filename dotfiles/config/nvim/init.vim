@@ -10,7 +10,7 @@ Plug 'vim-scripts/vim-auto-save'
 Plug 'djoshea/vim-autoread'
 
 " improved navigation
-Plug 'justinmk/vim-sneak'
+Plug 'phaazon/hop.nvim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'wellle/targets.vim'
 Plug 'francoiscabrol/ranger.vim'
@@ -43,10 +43,7 @@ Plug 'tpope/vim-abolish'
 "lang stuff
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 Plug 'jalvesaq/vimcmdline'
-
 Plug 'neovim/nvim-lspconfig'
-Plug 'onsails/lspkind-nvim'
-Plug 'hrsh7th/nvim-compe'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'KeitaNakamura/tex-conceal.vim'
@@ -109,6 +106,7 @@ let cmdline_app['python'] = 'ipython'
 " no numbers or spell check
 augroup TerminalStuff
   autocmd TermOpen * setlocal nonumber norelativenumber nospell
+  autocmd TermClose * if getline('$') == '[Process exited 0]' | close | endif
 augroup END
 
 """ COC SETTINGS
@@ -208,6 +206,7 @@ let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
  \   'pythonPath': $PYENV_VIRTUAL_ENV . '/bin/python'
  \ })
  endif
+
  if !empty($VIRTUAL_ENV)
  call coc#config('python', {
  \ 'pythonPath': $VIRTUAL_ENV . '/bin/python'
@@ -235,10 +234,10 @@ let g:skylight_borderchars = ['─', '│', '─', '│', '┌', '┐', '┘', '
 """
 
 " will use eventually, using coc for now
+" require'lspconfig'.pyls.setup{}
+" require'lspconfig'.r_language_server.setup{}
 """ LUA stuff
 lua << EOF
-require'lspconfig'.pyls.setup{}
-require'lspconfig'.r_language_server.setup{}
 
 require'nvim-treesitter.configs'.setup {
 ensure_installed = "all",
@@ -247,32 +246,6 @@ ensure_installed = "all",
     use_languagetree = true,
   },
 }
--- commented options are defaults
-require('lspkind').init({
-    -- with_text = true,
-    -- symbol_map = {
-    --   Text = '',
-    --   Method = 'ƒ',
-    --   Function = '',
-    --   Constructor = '',
-    --   Variable = '',
-    --   Class = '',
-    --   Interface = 'ﰮ',
-    --   Module = '',
-    --   Property = '',
-    --   Unit = '',
-    --   Value = '',
-    --   Enum = '了',
-    --   Keyword = '',
-    --   Snippet = '﬌',
-    --   Color = '',
-    --   File = '',
-    --   Folder = '',
-    --   EnumMember = '',
-    --   Constant = '',
-    --   Struct = ''
-    -- },
-})
 EOF
 
 augroup highlight_yank
