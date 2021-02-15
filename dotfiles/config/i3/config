@@ -5,6 +5,10 @@ set $mod Mod4
 default_border pixel 3
 default_floating_border pixel 3
 
+# stop resizing
+bindsym --border button1 nop
+bindsym --whole-window $mod+button1 nop
+
 for_window [class=".*"] title_format "<b>%title</b>"
 # some programs e.g. teams don't have borders
 for_window [class=".*"] border pixel 3
