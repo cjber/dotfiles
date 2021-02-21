@@ -83,6 +83,3 @@ end
 function fish_right_prompt_loading_indicator
     echo (set_color '#aaa')' … '(set_color normal)
 end
-
-# might remove don't know why isn't working
-alias yay="yay --answerclean A --answerclean A --nodiffmenu"
