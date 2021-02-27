@@ -70,7 +70,7 @@ set nowritebackup
 " set foldlevelstart=0
 
 set background=dark         " Assume dark background
-set cursorline              " Highlight current line
+"set cursorline              " Highlight current line
 set fileformats=unix,dos,mac        " Use Unix as the standard file type
 set number relativenumber                  " Line numbers on
 set fillchars=vert:│,stl:\ ,stlnc:\ 
