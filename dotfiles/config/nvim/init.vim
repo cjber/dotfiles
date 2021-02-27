@@ -20,9 +20,13 @@ Plug 'dylanaraps/root.vim'
 Plug 'bling/vim-bufferline'
 Plug 'mtdl9/vim-log-highlighting'
 Plug 'voldikss/vim-skylight'
+Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
 
 " theme
 Plug 'rakr/vim-one'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
 
 " IDE configuration
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -39,6 +43,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'Asheq/close-buffers.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-abolish'
+Plug 'simnalamburt/vim-mundo'
 
 "lang stuff
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
@@ -75,6 +80,7 @@ colorscheme one
 call one#highlight('Normal', '', '1E2127', 'none')
 call one#highlight('SignColumn', '', '1E2127', 'none')
 call one#highlight('CocErrorSign', 'D1666A', '', 'none')
+call one#highlight('CursorLineNr', 'LineNr', 'LineNr', 'none')
 
 " one#highlight doesn't work for this
 hi markdownItalic gui='italic'
@@ -254,3 +260,13 @@ augroup highlight_yank
 augroup END
 
 let g:jupyter_ascending_match_pattern='.sync.py'
+
+let g:indent_blankline_char_highlight = 'SpecialKey'
+let g:indent_blankline_char = '┆'
+"let g:indent_blankline_use_treesitter = v:true
+let g:indent_blankline_show_first_indent_level = v:false
+
+lua require"hop".setup {}
+let g:mundo_preview_bottom=1
+let g:mundo_verbose_graph=0
+let g:mundo_width=32

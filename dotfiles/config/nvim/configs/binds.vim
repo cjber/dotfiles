@@ -18,8 +18,10 @@ call which_key#register('<Space>', 'g:which_key_map')
 nnoremap <silent> <leader>ff :Rg<CR>
 nnoremap <silent> <leader>fo :Files<CR>
 nnoremap <silent> <leader>fe :Ranger<CR>
+
 " :W sudo saves the file
 nnoremap <silent> <leader>fs  :w !sudo tee % > /dev/null
+nnoremap <silent> <leader>fu :MundoToggle<CR>
 let g:which_key_map.f = {
             \ 'name' : '+file'        ,
             \ 'f'    : 'rip-grep' ,
@@ -231,3 +233,4 @@ nnoremap <Tab> %
 nnoremap <S-Tab> *
 
 nnoremap <Leader>lm V:s/[,)]/&\r/g <cr>='<
+
