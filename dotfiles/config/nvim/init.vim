@@ -112,7 +112,6 @@ let cmdline_app['python'] = 'ipython'
 " no numbers or spell check
 augroup TerminalStuff
   autocmd TermOpen * setlocal nonumber norelativenumber nospell
-  autocmd TermClose * if getline('$') == '[Process exited 0]' | close | endif
 augroup END
 
 """ COC SETTINGS
