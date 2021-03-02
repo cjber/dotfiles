@@ -19,12 +19,12 @@ set fish_cursor_visual      block
 set fish_ambiguous_width    1
 
 # fzf
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=sharp'
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=sharp --preview "bat --color=always --style=numbers --line-range=:500 {}"'
 
 # alias
 alias v="nvim"
 alias vf="nvim (fzf)"
-alias c="cd (fd --type d | fzf --height 40% --border --layout=reverse)"
+alias c="cd (fd --type d | fzf)"
 alias lf="ranger"
 alias vinit="nvim ~/.config/nvim/init.vim"
 alias r="radian"
