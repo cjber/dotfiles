@@ -80,6 +80,7 @@ colorscheme one
 call one#highlight('Normal', '', '1E2127', 'none')
 call one#highlight('SignColumn', '', '1E2127', 'none')
 call one#highlight('CocErrorSign', 'D1666A', '', 'none')
+call one#highlight('CocUnderline', '', '', 'none')
 call one#highlight('CursorLineNr', 'LineNr', 'LineNr', 'none')
 
 " one#highlight doesn't work for this
@@ -127,7 +128,7 @@ let g:coc_global_extensions = [
             \ 'coc-diagnostic',
             \ 'coc-highlight',
             \ 'coc-sql',
-            "\ 'coc-git',
+            \ 'coc-lua',
             \ 'coc-markdownlint',
             \ 'coc-toml',
             \ 'coc-vimlsp',
@@ -264,6 +265,7 @@ let g:indent_blankline_char_highlight = 'SpecialKey'
 let g:indent_blankline_char = '┆'
 "let g:indent_blankline_use_treesitter = v:true
 let g:indent_blankline_show_first_indent_level = v:false
+let g:indent_blankline_buftype_exclude = ['terminal']
 
 lua require"hop".setup {}
 let g:mundo_preview_bottom=1
