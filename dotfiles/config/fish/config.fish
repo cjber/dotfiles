@@ -34,8 +34,6 @@ alias empty='echo -n Emptying the Bin | pv -qL 10 && command rm -rf ~/.local/sha
 alias conf="cd $HOME/dotfiles/; nvim (fzf)"
 alias bat="bat --style=grid,numbers --theme TwoDark"
 
-starship init fish | source
-
 # Your dotdrop git repository location
 export DOTREPO=$HOME/dotfiles
 

@@ -25,12 +25,15 @@
     },
     "latex.build.executable": "pdftex",
     "python.formatting.provider": "black",
-    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Enabled": false,
     "python.analysis.stubPath": ".typings",
     "python.sortImports.args": [
         "-m 3"
     ],
     "markdownlint.config": {
         "line_length": false
-    }
+    },
+    "diagnostic.errorSign": "••",
+    "diagnostic.warningSign": "•",
+    "diagnostic.hintSign": "•"
 }
