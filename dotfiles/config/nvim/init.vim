@@ -11,22 +11,21 @@ Plug 'djoshea/vim-autoread'
 
 " improved navigation
 Plug 'phaazon/hop.nvim'
-Plug 'liuchengxu/vim-which-key'
 Plug 'wellle/targets.vim'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'dylanaraps/root.vim'
 
-Plug 'bling/vim-bufferline'
+"Plug 'bling/vim-bufferline'
+Plug 'jose-elias-alvarez/buftabline.nvim'
 Plug 'mtdl9/vim-log-highlighting'
 Plug 'voldikss/vim-skylight'
 Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
 
 " theme
 Plug 'rakr/vim-one'
-
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
+Plug 'tjdevries/colorbuddy.vim'
+Plug 'sainnhe/edge'
 
 " IDE configuration
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -63,10 +62,10 @@ Plug 'jalvesaq/R-Vim-runtime'
 
 " python
 Plug 'jeetsukumaran/vim-pythonsense'
-Plug 'untitled-ai/jupyter_ascending.vim'
+"Plug 'untitled-ai/jupyter_ascending.vim'
 
 " other
-Plug 'chrisbra/csv.vim'
+"Plug 'chrisbra/csv.vim'
 Plug 'google/vim-jsonnet'
 
 call plug#end()
@@ -75,24 +74,22 @@ call plug#end()
 runtime configs/defaults.vim
 runtime configs/binds.vim
 """"""""""""""
+let g:edge_style = 'neon'
+let g:edge_enable_italic = 1
+let g:edge_better_performance = 1
 
-colorscheme one
-call one#highlight('Normal', '', '1E2127', 'none')
-call one#highlight('SignColumn', '', '1E2127', 'none')
-call one#highlight('CocErrorSign', 'D1666A', '', 'none')
-call one#highlight('CocUnderline', '', '', 'none')
-call one#highlight('CursorLineNr', 'LineNr', 'LineNr', 'none')
+colorscheme edge
 
-" one#highlight doesn't work for this
-hi markdownItalic gui='italic'
+hi link CocErrorSign Red
+hi link CocHintSign Green
+hi link TSConstructor Blue
+hi link TSNumber Yellow
+hi link TSInclude Purple
 
-hi DiffAdd guibg=None
-hi DiffDelete guibg=None
-hi DiffChange guibg=None
-hi Pmenu guibg=Normal
-hi PmenuSbar guibg=Normal
+hi Normal guibg=None
+hi TabLineFill guibg=None
+hi Fg guifg=#abb2bf
 
-let g:one_allow_italics = 1
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
@@ -134,7 +131,6 @@ let g:coc_global_extensions = [
             \ 'coc-vimlsp',
             \ 'coc-yaml'
             \ ]
-
 "autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " tab between snippet place markers
@@ -159,11 +155,6 @@ endif
 """
 
 """ VIM SNEAK
-" use labels in sneak
-let g:sneak#label = 1
-let g:sneak#use_ic_scs = 1 " use ignorecase/smartcase
-"""
-
 """ VIM WIN
 " larger vim win increments
 let g:win_resize_height=5
@@ -171,9 +162,7 @@ let g:win_resize_width=10
 """
 
 """ NVIM R
-" there are a lot i don't use but some are useful
-" plan to write all my own
-"let R_user_maps_only = 1
+let R_user_maps_only = 1
 " include python and r syntax in markdown and rmd
 let g:markdown_fenced_languages = ['r', 'python']
 let g:rmd_fenced_languages = ['r', 'python']
@@ -202,22 +191,22 @@ command! -nargs=0 Syn call Syn()
 
 let g:python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
 
- if has('nvim') && !empty($CONDA_PREFIX)
- call coc#config('python', {
- \   'pythonPath': $CONDA_PREFIX . '/bin/python'
- \ })
- endif
- if !empty($PYENV_VIRTUAL_ENV)
- call coc#config('python', {
- \   'pythonPath': $PYENV_VIRTUAL_ENV . '/bin/python'
- \ })
- endif
+ " if has('nvim') && !empty($CONDA_PREFIX)
+ " call coc#config('python', {
+ " \   'pythonPath': $CONDA_PREFIX . '/bin/python'
+ " \ })
+ " endif
+ " if !empty($PYENV_VIRTUAL_ENV)
+ " call coc#config('python', {
+ " \   'pythonPath': $PYENV_VIRTUAL_ENV . '/bin/python'
+ " \ })
+ " endif
 
- if !empty($VIRTUAL_ENV)
- call coc#config('python', {
- \ 'pythonPath': $VIRTUAL_ENV . '/bin/python'
- \ })
- endif
+ " if !empty($VIRTUAL_ENV)
+ " call coc#config('python', {
+ " \ 'pythonPath': $VIRTUAL_ENV . '/bin/python'
+ " \ })
+ " endif
 
 let g:loaded_python_provider = 0 " don't use python2
 
@@ -239,9 +228,9 @@ let g:netrw_browsex_viewer='xdg-open'
 let g:skylight_borderchars = ['─', '│', '─', '│', '┌', '┐', '┘', '└']
 """
 
-" will use eventually, using coc for now
-" require'lspconfig'.pyls.setup{}
+" require'lspconfig'.pyright.setup{}
 " require'lspconfig'.r_language_server.setup{}
+" will use eventually, using coc for now
 """ LUA stuff
 lua << EOF
 
@@ -261,9 +250,7 @@ augroup END
 
 let g:jupyter_ascending_match_pattern='.sync.py'
 
-let g:indent_blankline_char_highlight = 'SpecialKey'
 let g:indent_blankline_char = '┆'
-"let g:indent_blankline_use_treesitter = v:true
 let g:indent_blankline_show_first_indent_level = v:false
 let g:indent_blankline_buftype_exclude = ['terminal']
 
@@ -271,3 +258,4 @@ lua require"hop".setup {}
 let g:mundo_preview_bottom=1
 let g:mundo_verbose_graph=0
 let g:mundo_width=32
+lua require("buftabline").setup {}
