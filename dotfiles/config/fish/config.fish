@@ -7,6 +7,8 @@ if status --is-interactive
 end
 {%@@ endif @@%}
 
+source ("/usr/bin/starship" init fish --print-full-init | psub)
+
 fish_vi_key_bindings
 set fish_greeting
 
