@@ -1,1 +1,2 @@
 hsetroot -solid "#1E2127"
+xset r rate 500 60
