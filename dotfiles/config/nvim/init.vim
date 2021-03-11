@@ -51,6 +51,9 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'KeitaNakamura/tex-conceal.vim'
+Plug 'mfussenegger/nvim-dap'
+Plug 'mfussenegger/nvim-dap-python'
+Plug 'theHamsta/nvim-dap-virtual-text'
 
 " r plugs
 Plug 'jalvesaq/Nvim-R'
@@ -242,6 +245,8 @@ ensure_installed = "all",
   },
 }
 EOF
+lua require('dap-python').setup('/home/cjber/.pyenv/versions/py3nvim/py3nvim/bin/python')
+lua require('dap-python').test_runner = 'pytest'
 
 augroup highlight_yank
     autocmd!

@@ -65,10 +65,6 @@ set nobackup
 set noswapfile
 set nowritebackup
 
-" set foldenable
-" set foldlevel=0
-" set foldlevelstart=0
-
 set background=dark         " Assume dark background
 "set cursorline              " Highlight current line
 set fileformats=unix,dos,mac        " Use Unix as the standard file type
