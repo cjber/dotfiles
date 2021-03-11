@@ -7,8 +7,6 @@ if status --is-interactive
 end
 {%@@ endif @@%}
 
-xset r rate 500 60
-
 fish_vi_key_bindings
 set fish_greeting
 
