@@ -31,7 +31,7 @@
         "-m 3"
     ],
     "markdownlint.config": {
-        "line_length": false
+        "line_length": false, "no-inline-html": false
     },
     "diagnostic.errorSign": "••",
     "diagnostic.warningSign": "•",
