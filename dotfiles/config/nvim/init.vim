@@ -20,7 +20,7 @@ Plug 'dylanaraps/root.vim'
 Plug 'jose-elias-alvarez/buftabline.nvim'
 Plug 'mtdl9/vim-log-highlighting'
 Plug 'voldikss/vim-skylight'
-Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 " theme
 Plug 'rakr/vim-one'
@@ -84,6 +84,7 @@ let g:edge_better_performance = 1
 colorscheme edge
 
 hi link CocErrorSign Red
+hi link CocWarningSign Yellow
 hi link CocHintSign Green
 hi link TSConstructor Blue
 hi link TSNumber Yellow
