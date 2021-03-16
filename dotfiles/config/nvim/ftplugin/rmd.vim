@@ -24,8 +24,6 @@ function RmdHTML()
     Dispatch chromium %:r.html &
 endfunction
 
-let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '"""':'"""', "'''":"'''"}
-
 " Nvim R
 let R_args = ['--no-save', '--quiet']
 let R_assign = 2

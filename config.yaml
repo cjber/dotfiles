@@ -58,8 +58,7 @@ dotfiles:
     dst: ~/.config/nvim/
     link: link_children
     upignore:
-    - '*/undodir'
-    - '*/pack'
+    - '*/plugin'
   d_i3:
     src: config/i3
     dst: ~/.config/i3
