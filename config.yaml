@@ -88,6 +88,10 @@ dotfiles:
   f_profile:
     src: profile
     dst: ~/.profile
+  d_efm-langserver:
+    src: config/efm-langserver
+    dst: ~/.config/efm-langserver
+    chmod: '700'
 profiles:
   home:
     dotfiles:

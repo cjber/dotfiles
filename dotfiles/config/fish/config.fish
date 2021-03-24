@@ -27,7 +27,6 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=sharp'
 alias v="nvim"
 alias vf="nvim (fzf)"
 alias lf="ranger"
-alias vinit="cd ~/.config/nvim; nvim init.lua"
 alias r="radian"
 alias py="ipython"
 alias la="ncdu"
