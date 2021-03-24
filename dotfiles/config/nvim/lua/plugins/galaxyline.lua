@@ -23,18 +23,14 @@ local colors = {
 
 gls.left[1] = {
     leftRounded = {
-        provider = function()
-            return ""
-        end,
+        provider = function() return "" end,
         highlight = {colors.nord, colors.bg}
     }
 }
 
 gls.left[2] = {
     ViMode = {
-        provider = function()
-            return "  "
-        end,
+        provider = function() return "  " end,
         highlight = {colors.bg, colors.nord},
         separator = " ",
         separator_highlight = {colors.lightbg, colors.lightbg}
@@ -45,7 +41,10 @@ gls.left[3] = {
     FileIcon = {
         provider = "FileIcon",
         condition = buffer_not_empty,
-        highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, colors.lightbg}
+        highlight = {
+            require("galaxyline.provider_fileinfo").get_file_icon_color,
+            colors.lightbg
+        }
     }
 }
 
@@ -59,9 +58,7 @@ gls.left[4] = {
 
 gls.left[5] = {
     teech = {
-        provider = function()
-            return ""
-        end,
+        provider = function() return "" end,
         separator = " ",
         highlight = {colors.lightbg, colors.bg}
     }
@@ -69,9 +66,7 @@ gls.left[5] = {
 
 local checkwidth = function()
     local squeeze_width = vim.fn.winwidth(0) / 2
-    if squeeze_width > 40 then
-        return true
-    end
+    if squeeze_width > 40 then return true end
     return false
 end
 
@@ -104,9 +99,7 @@ gls.left[8] = {
 
 gls.left[9] = {
     LeftEnd = {
-        provider = function()
-            return " "
-        end,
+        provider = function() return " " end,
         separator = " ",
         separator_highlight = {colors.line_bg, colors.line_bg},
         highlight = {colors.line_bg, colors.line_bg}
@@ -123,9 +116,7 @@ gls.left[10] = {
 
 gls.left[11] = {
     Space = {
-        provider = function()
-            return " "
-        end,
+        provider = function() return " " end,
         highlight = {colors.line_bg, colors.line_bg}
     }
 }
@@ -140,44 +131,42 @@ gls.left[12] = {
 
 -- get output from shell command
 function os.capture(cmd, raw)
-  local f = assert(io.popen(cmd, 'r'))
-  local s = assert(f:read('*a'))
-  f:close()
-  if raw then return s end
-  s = string.gsub(s, '^%s+', '')
-  s = string.gsub(s, '%s+$', '')
-  s = string.gsub(s, '[\n\r]+', ' ')
-  return s
+    local f = assert(io.popen(cmd, 'r'))
+    local s = assert(f:read('*a'))
+    f:close()
+    if raw then return s end
+    s = string.gsub(s, '^%s+', '')
+    s = string.gsub(s, '%s+$', '')
+    s = string.gsub(s, '[\n\r]+', ' ')
+    return s
 end
 
-local CondaEnv = function ()
-  if vim.bo.filetype == 'python' then
-      conda = os.getenv('CONDA_PROMPT_MODIFIER')
-      venv = os.getenv('VIRTUAL_ENV')
-      python = os.capture('python -V')
-      if conda ~= nil then
-        return python .. ' ' .. conda .. ' '
-      elseif venv ~= nil then
-        return python .. ' ' .. '.venv '
-      else
-        return python .. ' '
-      end
-  end
+local CondaEnv = function()
+    if vim.bo.filetype == 'python' then
+        conda = os.getenv('CONDA_PROMPT_MODIFIER')
+        venv = os.getenv('VIRTUAL_ENV')
+        python = os.capture('python -V')
+        if conda ~= nil then
+            return python .. ' ' .. conda .. ' '
+        elseif venv ~= nil then
+            return python .. ' ' .. '.venv '
+        else
+            return python .. ' '
+        end
+    end
 end
 
 gls.right[1] = {
-  CondaEnv = {
-    provider = CondaEnv,
-    highlight = {colors.magenta, colors.bg},
-    event = 'BufEnter'
-  }
+    CondaEnv = {
+        provider = CondaEnv,
+        highlight = {colors.magenta, colors.bg},
+        event = 'BufEnter'
+    }
 }
 
 gls.right[2] = {
     GitIcon = {
-        provider = function()
-            return "  "
-        end,
+        provider = function() return "  " end,
         condition = require("galaxyline.provider_vcs").check_git_workspace,
         highlight = {colors.green, colors.line_bg}
     }
@@ -193,9 +182,7 @@ gls.right[3] = {
 
 gls.right[4] = {
     right_LeftRounded = {
-        provider = function()
-            return ""
-        end,
+        provider = function() return "" end,
         separator = " ",
         separator_highlight = {colors.bg, colors.bg},
         highlight = {colors.red, colors.bg}
@@ -231,9 +218,7 @@ gls.right[6] = {
 
 gls.right[7] = {
     rightRounded = {
-        provider = function()
-            return ""
-        end,
+        provider = function() return "" end,
         highlight = {colors.fg, colors.bg}
     }
 }

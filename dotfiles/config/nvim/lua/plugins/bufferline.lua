@@ -1,7 +1,7 @@
 vim.o.termguicolors = true
 
 -- colors for active , inactive buffer tabs 
-require "bufferline".setup {
+require"bufferline".setup {
     options = {
         buffer_close_icon = "x",
         modified_icon = "●",
@@ -17,38 +17,13 @@ require "bufferline".setup {
         separator_style = "thin"
     },
     highlights = {
-        background = {
-            guifg = comment_fg,
-            guibg = "#1E2127"
-        },
-        fill = {
-            guifg = comment_fg,
-            guibg = "#1E2127"
-        },
-        buffer_selected = {
-            guifg = normal_fg,
-            guibg = "#1E2127",
-            gui = "bold"
-        },
-        separator_visible = {
-            guifg = "#1E2127",
-            guibg = "#1E2127"
-        },
-        separator_selected = {
-            guifg = "#1E2127",
-            guibg = "#1E2127"
-        },
-        separator = {
-            guifg = "#1E2127",
-            guibg = "#1E2127"
-        },
-        indicator_selected = {
-            guifg = "#1E2127",
-            guibg = "#1E2127"
-        },
-        modified_selected = {
-            guifg = string_fg,
-            guibg = "#1E2127"
-        }
+        background = {guifg = comment_fg, guibg = "#1E2127"},
+        fill = {guifg = comment_fg, guibg = "#1E2127"},
+        buffer_selected = {guifg = normal_fg, guibg = "#1E2127", gui = "bold"},
+        separator_visible = {guifg = "#1E2127", guibg = "#1E2127"},
+        separator_selected = {guifg = "#1E2127", guibg = "#1E2127"},
+        separator = {guifg = "#1E2127", guibg = "#1E2127"},
+        indicator_selected = {guifg = "#1E2127", guibg = "#1E2127"},
+        modified_selected = {guifg = string_fg, guibg = "#1E2127"}
     }
 }

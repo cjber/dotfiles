@@ -57,3 +57,6 @@ g.win_resize_width = 10
 -- rooter
 g.rooter_patterns = {'.git', '*.toml'}
 g.rooter_targets = '*.py,*.R,*.Rmd'
+
+local icons = require "nvim-nonicons"
+icons.get("file")

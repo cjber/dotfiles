@@ -13,15 +13,15 @@ inoremap <buffer> >> <Esc>:normal! a %>%<CR>a
 inoremap <buffer> __ <Esc>:normal! a <-<CR>a 
 
 function RmdRender()
-    Dispatch Rscript -e 'rmarkdown::render("'%'", quiet=T)'
+    Dispatch! Rscript -e 'rmarkdown::render("'%'", quiet=T)'
 endfunction
 
 function RmdPdf()
-    Dispatch zathura %:r.pdf &
+    Dispatch! zathura %:r.pdf
 endfunction
 
 function RmdHTML()
-    Dispatch chromium %:r.html &
+    Dispatch! chromium %:r.html
 endfunction
 
 " Nvim R

@@ -3,9 +3,7 @@ local cmd = vim.cmd
 
 local function opt(scope, key, value)
     scopes[scope][key] = value
-    if scope ~= "o" then
-        scopes["o"][key] = value
-    end
+    if scope ~= "o" then scopes["o"][key] = value end
 end
 
 opt("o", "hidden", true)
@@ -47,7 +45,8 @@ cmd("set nobackup")
 cmd("set noswapfile")
 cmd("set nowritebackup")
 
-cmd("autocmd BufEnter * if (winnr('$') == 1 && &buftype == 'terminal') | q | endif")
+cmd(
+    "autocmd BufEnter * if (winnr('$') == 1 && &buftype == 'terminal') | q | endif")
 
 local M = {}
 
