@@ -31,6 +31,8 @@ cmd("hi! link TSNumber Yellow")
 cmd("hi! link TSInclude Purple")
 cmd("hi! link GreenSign Green")
 cmd("hi! link RedSign Red")
+cmd("hi! link BlueSign Blue")
+cmd("hi! link YellowSign Yellow")
 
 -- hop
 cmd("hi! link HopNextKey Green")

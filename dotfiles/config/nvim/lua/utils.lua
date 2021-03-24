@@ -37,6 +37,7 @@ opt("b", "softtabstop", 4)
 vim.bo.undofile = true
 vim.bo.undolevels = 1000
 
+cmd("set pumheight=10")
 cmd("set linebreak")
 cmd("set showbreak=¦")
 cmd("set conceallevel=2")
@@ -45,6 +46,8 @@ cmd("set concealcursor=")
 cmd("set nobackup")
 cmd("set noswapfile")
 cmd("set nowritebackup")
+
+cmd("autocmd BufEnter * if (winnr('$') == 1 && &buftype == 'terminal') | q | endif")
 
 local M = {}
 

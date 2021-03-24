@@ -7,7 +7,7 @@ require("telescope").setup {
             "--with-filename",
             "--line-number",
             "--column",
-            "--smart-case"
+            "--smart-case",
         },
         prompt_position = "bottom",
         prompt_prefix = "> ",
@@ -16,14 +16,15 @@ require("telescope").setup {
         initial_mode = "insert",
         selection_strategy = "reset",
         sorting_strategy = "descending",
-        layout_strategy = "horizontal",
+        layout_strategy = "vertical",
         layout_defaults = {
             horizontal = {
                 mirror = false,
                 preview_width = 0.5
             },
             vertical = {
-                mirror = false
+                mirror = false,
+                preview_height = 0.5,
             }
         },
         file_sorter = require "telescope.sorters".get_fuzzy_file,
@@ -32,7 +33,7 @@ require("telescope").setup {
         shorten_path = true,
         winblend = 0,
         width = 0.75,
-        preview_cutoff = 80,
+        preview_cutoff = 120,
         results_height = 1,
         results_width = 0.8,
         border = {},
@@ -49,7 +50,7 @@ require("telescope").setup {
     extensions = {
         media_files = {
             filetypes = {"png", "webp", "jpg", "jpeg"},
-            find_cmd = "rg" -- find command (defaults to `fd`)
+            find_cmd = "fd" -- find command (defaults to `fd`)
         }
     }
 }
@@ -60,16 +61,11 @@ local opt = {noremap = true, silent = true}
 
 vim.g.mapleader = " "
 
--- mappings 
-vim.api.nvim_set_keymap("n", "<Leader>ff", [[<Cmd>lua require('telescope.builtin').find_files()<CR>]], opt)
-vim.api.nvim_set_keymap(
-    "n",
-    "<Leader>fp",
-    [[<Cmd>lua require('telescope').extensions.media_files.media_files()<CR>]],
-    opt
-)
-vim.api.nvim_set_keymap("n", "<Leader>fb", [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], opt)
+-- mappings
+vim.api.nvim_set_keymap("n", "<Leader>ff", [[<Cmd>lua require('telescope.builtin').find_files{follow=true}<CR>]], opt)
+vim.api.nvim_set_keymap("n", "<Leader>fb", [[<Cmd>lua require('telescope.builtin').buffers{show_all_buffers=true}<CR>]], opt)
 vim.api.nvim_set_keymap("n", "<Leader>fh", [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], opt)
 vim.api.nvim_set_keymap("n", "<Leader>fo", [[<Cmd>lua require('telescope.builtin').oldfiles()<CR>]], opt)
+vim.api.nvim_set_keymap("n", "<Leader>fg", [[ <Cmd>lua require('telescope.builtin').live_grep()<CR>]], opt)
 
 vim.api.nvim_set_keymap("n", "<C-a>", [[ <Cmd> %y+<CR>]], opt)

@@ -42,3 +42,5 @@ require('plugins.textobjects') -- Move in functions etc
 
 require('kommentary.config').use_extended_mappings()
 require'colorizer'.setup({'*'}, {mode = 'foreground'})
+require('telescope').load_extension('dap')
+require('dap-python').setup('~/.pyenv/versions/py3nvim/bin/python')

@@ -1,6 +1,3 @@
-vim.cmd [[packadd nvim-lspconfig]]
-vim.cmd [[packadd nvim-compe]]
-
 local function map(mode, lhs, rhs, opts)
     local options = {noremap = true}
     if opts then
@@ -23,7 +20,7 @@ map("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
 map("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
 ]]
 
-map("n", "<Leader>lf", [[<Cmd> Neoformat<CR>]], opts)
+map("n", "<Leader>lf", [[<Cmd>lua vim.lsp.buf.formatting()<CR>]], opts)
 map("n", "<Leader>ld", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
 map("n", "<Leader>lk", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
 map("n", "<Leader>lr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
@@ -40,8 +37,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 local autocmds = {
 	todo = {
-		{"CursorHold",     "*", "lua vim.lsp.diagnostic.show_line_diagnostics()"};
-                {"FileType", "*", "setlocal formatoptions-=c formatoptions-=r formatoptions-=o"};
+		{"CursorHold", "*", "lua vim.lsp.diagnostic.show_line_diagnostics()"};
+        {"FileType", "*", "setlocal formatoptions-=c formatoptions-=r formatoptions-=o"};
+        {"TextYankPost", "*", "lua vim.highlight.on_yank{}"}
 	};
 }
 
@@ -62,4 +60,32 @@ end
 
 nvim_create_augroups(autocmds)
 
-require"lspconfig".pyright.setup{}
+-- python organize imports
+function organize_imports(bufnr)
+  local uri = vim.uri_from_bufnr(bufnr)
+  local params = {
+    command = 'pyright.organizeimports';
+    arguments = { uri }
+  }
+
+  local edits = vim.lsp.buf_request(bufnr, 'workspace/executeCommand', params, function(err, _, _)
+    if err then error(tostring(err)) end
+end)
+
+  if edits then
+    vim.lsp.util.apply_workspace_edit(edits)
+  end
+end
+
+--[[ require'lspconfig'.sunmenko_lua.setup {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
+    }
+} ]]
+
+require'lspconfig'.pyright.setup{}
+require'lspconfig'.efm.setup{filetypes={'python', 'markdown', 'yaml', 'json', 'vim', 'lua'}}
