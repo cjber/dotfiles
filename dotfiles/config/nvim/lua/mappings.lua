@@ -18,6 +18,9 @@ map('', 'U', '<C-r>')
 map('', 'Y', 'y$')
 map('', 'j', 'gj')
 map('', 'k', 'gk')
+map('v', '<', '<gv')
+map('v', '>', '>gv')
+map('t', '<ESC><ESC>', '<C-\\><C-n>')
 
 map('', '<C-Space>', ':bnext<CR>')
 map('', '<ESC><ESC>', ':noh<Return><ESC>')
@@ -37,3 +40,7 @@ map('', '<LocalLeader>s', '<Plug>RStart')
 
 -- mundu
 map('', '<Leader>fu', ':MundoToggle<CR>')
+
+-- windows
+map('', '<Leader>rr', ':wincmd H<CR>')
+map('', '<Leader>re', ':wincmd J<CR>')

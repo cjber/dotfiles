@@ -16,11 +16,7 @@ vim.g.nvim_tree_root_folder_modifier = ":~"
 vim.g.nvim_tree_tab_open = 1
 vim.g.nvim_tree_allow_resize = 1
 
-vim.g.nvim_tree_show_icons = {
-    git = 1,
-    folders = 1,
-    files = 1
-}
+vim.g.nvim_tree_show_icons = {git = 1, folders = 1, files = 1}
 
 vim.g.nvim_tree_icons = {
     default = " ",
@@ -32,28 +28,18 @@ vim.g.nvim_tree_icons = {
         renamed = "➜",
         untracked = "★"
     },
-    folder = {
-        default = "",
-        open = "",
-        symlink = ""
-    }
+    folder = {default = "", open = "", symlink = ""}
 }
 
 local get_lua_cb = function(cb_name)
-    return string.format(":lua require'nvim-tree'.on_keypress('%s')<CR>", cb_name)
+    return string.format(":lua require'nvim-tree'.on_keypress('%s')<CR>",
+                         cb_name)
 end
 
 -- Mappings for nvimtree
 
-vim.api.nvim_set_keymap(
-    "n",
-    "<C-n>",
-    ":NvimTreeToggle<CR>",
-    {
-        noremap = true,
-        silent = true
-    }
-)
+vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<CR>",
+                        {noremap = true, silent = true})
 
 vim.g.nvim_tree_bindings = {
     ["<CR>"] = get_lua_cb("edit"),

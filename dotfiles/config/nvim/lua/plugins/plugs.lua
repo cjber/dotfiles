@@ -16,7 +16,7 @@ return require("packer").startup(
         use {"907th/vim-auto-save"} -- auto save
         use {'lukas-reineke/indent-blankline.nvim', branch = 'lua'} -- indent guide
         use {"ryanoasis/vim-devicons"} -- more icons
-        use {"sbdchd/neoformat"} -- format different file types
+        -- use {"sbdchd/neoformat"} -- format different file types
         use {"neovim/nvim-lspconfig"} -- language servers
         use {"hrsh7th/nvim-compe"} -- lang completion
         use {"hrsh7th/vim-vsnip"} -- snippets
@@ -33,10 +33,15 @@ return require("packer").startup(
         use {"simnalamburt/vim-mundo"} -- see undo tree
         use {"tpope/vim-surround"} -- change surrounding "'< etc
         use {"airblade/vim-rooter"} -- auto change dir to project roots
-        use {"lervag/vimtex"}
-        use {"tpope/vim-dispatch"}
-        use {"dstein64/vim-win"}
+        use {"lervag/vimtex"} -- latex tools
+        use {"tpope/vim-dispatch"} -- dispate commands
+        use {"dstein64/vim-win"} -- window tools
+        use {"markonm/traces.vim"} -- highlight subs etc
 
-        use {"norcalli/nvim_utils"}
+        use {"nvim-telescope/telescope-dap.nvim"}
+        use {"mfussenegger/nvim-dap"}
+        use {"mfussenegger/nvim-dap-python"}
+        use {"theHamsta/nvim-dap-virtual-text"}
+        use {'glepnir/lspsaga.nvim'}
     end
 )

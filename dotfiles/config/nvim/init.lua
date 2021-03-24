@@ -1,5 +1,4 @@
 local cmd = vim.cmd
-
 local g = vim.g
 
 -- load plugins
@@ -44,13 +43,17 @@ g.cmdline_map_send = '<CR>'
 g.cmdline_app = {['python'] = 'ipython'}
 
 -- mundo
-g.mundo_preview_bottom=1
-g.mundo_verbose_graph=0
-g.mundo_width=32
+g.mundo_preview_bottom = 1
+g.mundo_verbose_graph = 0
+g.mundo_width = 32
 
 -- neoformat
 g.neoformat_enabled_python = {'black'}
 
 -- vimwin
-g.win_resize_height=5
-g.win_resize_width=10
+g.win_resize_height = 5
+g.win_resize_width = 10
+
+-- rooter
+g.rooter_patterns = {'.git', '*.toml'}
+g.rooter_targets = '*.py,*.R,*.Rmd'
