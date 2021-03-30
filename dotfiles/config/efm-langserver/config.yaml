@@ -40,7 +40,7 @@ tools:
     lint-stdin: true
 
   python-flake8: &python-flake8
-    lint-command: 'flake8 --ignore F401,F841 --stdin-display-name ${INPUT} -'
+    lint-command: 'flake8 --ignore F401,F841,W503,E501 --stdin-display-name ${INPUT} -'
     lint-stdin: true
     lint-formats:
       - '%f:%l:%c: %m'
@@ -118,7 +118,7 @@ tools:
     lint-command: 'csvlint'
 
   lua-lua-format: &lua-lua-format
-    format-command: 'lua-format -i'
+    format-command: 'lua-format -i --double-quote-to-single-quote --chop-down-table'
     format-stdin: true
 
   blade-blade-formatter: &blade-blade-formatter

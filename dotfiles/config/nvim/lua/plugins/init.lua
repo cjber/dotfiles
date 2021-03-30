@@ -2,7 +2,7 @@
 local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
 
 if not packer_exists then
-    if vim.fn.input("Install packer.nvim? (y for yes)") ~= "y" then return end
+    if vim.fn.input('Install packer.nvim? (y for yes)') ~= 'y' then return end
 
     local directory = string.format('%s/site/pack/packer/opt/',
                                     vim.fn.stdpath('data'))
@@ -14,7 +14,7 @@ if not packer_exists then
                                                           '/packer.nvim'))
 
     print(git_clone_cmd)
-    print("Installing packer.nvim...")
+    print('Installing packer.nvim...')
 
     return
 end
@@ -23,11 +23,11 @@ require('plugins.plugs')
 require('plugins.bufferline')
 require('plugins.galaxyline')
 require('plugins.treesitter')
-require('plugins.gitsigns')
 require('plugins.telescope')
 require('plugins.nvimtree')
 require('plugins.hop')
 require('plugins.autopairs')
+require('plugins.betterqf')
 
 -- lsp configs
 require('plugins.lspconfig') -- lsp config
