@@ -92,6 +92,9 @@ dotfiles:
     src: config/efm-langserver
     dst: ~/.config/efm-langserver
     chmod: '700'
+  f_zshrc:
+    src: zshrc
+    dst: ~/.zshrc
 profiles:
   home:
     dotfiles:
