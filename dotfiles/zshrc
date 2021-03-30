@@ -1,0 +1,123 @@
+bindkey -v
+
+export FZF_DEFAULT_OPTS='--height=40% --layout=reverse --border=sharp --color "border:#2b2d3a,bg+:#2b2d3a" --preview-window right:noborder'
+export EDITOR='nvim'
+
+zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors \
+  "di=34" "ln=35" "so=32" "pi=33" "ex=31" "bd=34;46" "cd=34;43" \
+  "su=30;41" "sg=30;46" "tw=30;42" "ow=30;43"
+zstyle ':completion:*' menu select
+zstyle ':completion:*' verbose true
+zstyle :compinstall filename '/home/cjber/.zshrc'
+
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
+zstyle ':fzf-tab:*' accept-line enter
+zstyle ':fzf-tab:*' fzf-pad 4
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+fpath+=~/.zfunc
+fpath+=~/.zshcompletions/conda-zsh-completion
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.cache/history
+HISTSIZE=100000
+SAVEHIST=100000
+# End of lines configured by zsh-newuser-install
+
+alias ls='ls --color=auto'
+alias v='nvim'
+alias t='todo.sh'
+alias todo='nvim $HOME/Dropbox/todo/todo.txt'
+alias ta='todo.sh add'
+alias lf="ranger"
+alias r="radian"
+alias py="ipython"
+alias la="ncdu"
+alias rm="trashf"
+alias empty='echo -n Emptying the Bin | pv -qL 10 && command rm -rf ~/.local/share/Trash/files/*'
+alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
+alias bat="bat --style=grid,numbers --theme TwoDark"
+
+export DOTREPO="$HOME/dotfiles"
+export DOTDROP_PROFILE='home'
+alias dotdrop='dotdrop --cfg=$HOME/dotfiles/config.yaml'
+alias dotgit="git -C $DOTREPO"
+alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select () {
+    case $KEYMAP in
+        vicmd) echo -ne '\e[1 q';;      # block
+        viins|main) echo -ne '\e[5 q';; # beam
+    esac
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+echo -ne '\e[5 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
+# prompt
+eval "$(starship init zsh)"
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node \
+    rupa/z \
+    changyuheng/fz \
+    zdharma/fast-syntax-highlighting \
+    Aloxaf/fzf-tab \
+    zsh-users/zsh-completions \
+    MichaelAquilina/zsh-autoswitch-virtualenv \
+    jeffreytse/zsh-vi-mode
+
+### End of Zinit's installer chunk
+export GOPATH="$HOME/.go"
+export PYENV_ROOT="$HOME/.pyenv"
+
+export PATH="$GOPATH/bin:$PATH"
+export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="/home/cjber/.cargo/bin:$PATH"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/cjber/.miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/cjber/.miniconda/etc/profile.d/conda.sh" ]; then
+        . "/home/cjber/.miniconda/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/cjber/.miniconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
