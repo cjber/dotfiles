@@ -55,6 +55,8 @@ set_options({
     {'colorcolumn', 88}
 })
 
+vim.o.shell = '/bin/zsh'
+
 vim.o.errorformat = vim.o.errorformat ..
                         [[\%*\\sFile\ \"%f\"\\,\ line\ %l\\,\ %m,]] ..
                         [[\%*\\sFile\ \"%f\"\\,\ line\ %l,]] .. [[\%f:%l:\ %m,]] ..

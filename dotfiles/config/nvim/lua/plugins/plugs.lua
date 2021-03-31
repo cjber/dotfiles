@@ -44,5 +44,17 @@ return require('packer').startup(function()
     use {'wbthomason/packer.nvim', opt = true}
     use {'windwp/nvim-autopairs'} -- auto close brackets
     use {'nvim-treesitter/playground'}
+    use {
+        'nvim-telescope/telescope-z.nvim',
+        requires = {
+            {'nvim-lua/plenary.nvim'},
+            {'nvim-lua/popup.nvim'},
+            {'nvim-telescope/telescope.nvim'}
+        },
+        config = function()
+            require'telescope'.load_extension 'z'
+            -- ... other telescope settings
+        end
+    }
 
 end)
