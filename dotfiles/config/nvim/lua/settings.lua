@@ -34,7 +34,7 @@ enable_options({
 set_options({
     {'scrolloff', 1},
     {'sidescrolloff', 5},
-    {'complete', '.,w,b,u,t,i,kspell'},
+    -- {'complete', '.,w,b,u,t,i,kspell'},
     {'wildmode', 'longest:full,full'},
     {'tabstop', 8},
     {'shiftwidth', 4},

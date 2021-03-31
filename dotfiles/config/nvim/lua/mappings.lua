@@ -14,6 +14,11 @@ end
 set_keymap('n', {noremap = true, silent = true}, {
     {' ', ''},
     {',', ''},
+    {'q:', ':q'},
+    {'Q', '<Nop>'},
+    {'M', ':join<CR>'},
+    {'n', 'nzzzv'},
+    {'N', 'Nzzzv'},
     {'J', '}'},
     {'K', '{'},
     {'H', '^'},
@@ -41,6 +46,7 @@ set_keymap('n', {noremap = true, silent = true}, {
 -- visual
 set_keymap('x', {noremap = true, silent = true}, {
     {'p', '""p:let @"=@0<CR>'},
+    {'M', ':join<CR>'},
     {'J', '}'},
     {'K', '{'},
     {'<', '<gv'},
@@ -65,7 +71,7 @@ local keymap = {
     f = {
         name = '+find',
         -- f = {'<Cmd>Telescope find_files<CR>', 'files'},
-        b = {'<Cmd>Telescope buffers<CR>', 'buffers'},
+        b = {'<Cmd>Telescope buffers show_all_buffers=true<CR>', 'buffers'},
         h = {'<Cmd>Telescope help_tags<CR>', 'help tags'},
         o = {'<Cmd>Telescope oldfiles<CR>', 'old files'},
         r = {'<Cmd>Telescope live_grep<Cr>', 'live grep'},
