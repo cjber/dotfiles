@@ -58,6 +58,7 @@ font-1 = FontAwesome5Free:style=Solid:size=10;4
 font-2 = FontAwesome5Free:style=Regular:size=10;4
 font-3 = FontAwesome5Brands:style=Regular:size=10;4
 font-4 = Unifont:stype=Medium
+font-5 = Weather Icons:size=12;1
 
 {%@@ if profile == "home" @@%}
 modules-left = x system-nvidia-system system-nvidia-temp x temperature cpu_cores x updates-pacman-aurhelper
@@ -241,3 +242,9 @@ type = custom/script
 exec = ~/.config/polybar/updates.sh
 format-foreground = #5f
 interval = 600
+
+[module/weather]
+type = custom/script
+exec = ~/dotfiles/dotfiles/config/polybar/weather.sh
+interval = 600
+label-font = 3

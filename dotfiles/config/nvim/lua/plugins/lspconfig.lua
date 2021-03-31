@@ -75,7 +75,7 @@ require'lspconfig'.efm.setup {
     filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua'}
 }
 require'lspconfig'.dockerls.setup {}
-require'lspconfig'.texlab.setup {}
+require'lspconfig'.r_language_server.setup {}
 require'lspconfig'.texlab.setup {}
 
 -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
