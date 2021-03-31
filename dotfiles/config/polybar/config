@@ -68,7 +68,7 @@ modules-left = x temperature cpu_cores
 modules-left = x temperature cpu_cores
 {%@@ endif @@%}
 modules-center = cpu i3 memory 
-modules-right = pulseaudio x filesystem x date
+modules-right = pulseaudio x weather x filesystem x date
 
 
 tray-position = left
