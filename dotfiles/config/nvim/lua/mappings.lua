@@ -88,7 +88,8 @@ local keymap = {
             c = {'<Cmd>Telescope git_bcommits<CR>', 'bcommits'},
             b = {'<Cmd>Telescope git_branches<CR>', 'branches'},
             s = {'<Cmd>Telescope git_status<CR>', 'status'}
-        }
+        },
+        z = {'<Cmd>Telescope z list<CR>', 'list z'}
     },
     w = {
         name = '+window',
