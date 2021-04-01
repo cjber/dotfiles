@@ -1,5 +1,4 @@
 local cmd = vim.cmd
-local g = vim.g
 
 -- normal stuff
 cmd('hi Normal guibg=None')

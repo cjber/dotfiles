@@ -17,8 +17,11 @@ return require('packer').startup(function()
     use {'kevinhwang91/nvim-bqf'}
     use {'kkoomen/vim-doge', run = ':call doge#install()'}
     use {'kyazdani42/nvim-tree.lua'} -- file tree
-    use {'kyazdani42/nvim-web-devicons'} -- icons
     use {'lervag/vimtex'} -- latex tools
+    use {
+        'yamatsum/nvim-web-nonicons',
+        requires = {'kyazdani42/nvim-web-devicons'}
+    }
     use {'lukas-reineke/indent-blankline.nvim', branch = 'lua'} -- indent guide
     use {'markonm/traces.vim'} -- highlight subs etc
     use {'mfussenegger/nvim-dap'}
@@ -51,10 +54,7 @@ return require('packer').startup(function()
             {'nvim-lua/popup.nvim'},
             {'nvim-telescope/telescope.nvim'}
         },
-        config = function()
-            require'telescope'.load_extension 'z'
-            -- ... other telescope settings
-        end
+        config = function() require'telescope'.load_extension 'z' end
     }
 
 end)
