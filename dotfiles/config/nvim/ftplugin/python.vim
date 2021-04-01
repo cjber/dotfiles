@@ -1,5 +1,5 @@
 " leader
-nnoremap <Leader>lp :lua organize_imports()<CR>
+nnoremap <Leader>lp :lua OrganizeImports()<CR>
 
 " localleader
 nnoremap <LocalLeader>l :call VimCmdLineSendCmd('%whos')<CR>

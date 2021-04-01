@@ -24,5 +24,6 @@ au.define_autocmds({
     BufEnter = {
         -- auto close terminal if last window
         ['*'] = {[[if (winnr('$') == 1 && &buftype == 'terminal') | q | endif]]}
-    }
+    },
+    CursorHold = {['*'] = {[[lua vim.lsp.diagnostic.show_line_diagnostics()]]}}
 })

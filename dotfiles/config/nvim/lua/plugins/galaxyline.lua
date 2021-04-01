@@ -1,48 +1,48 @@
-local gl = require("galaxyline")
+local gl = require('galaxyline')
 local gls = gl.section
-gl.short_line_list = {"LuaTree", "vista", "dbui"}
+gl.short_line_list = {'LuaTree', 'vista', 'dbui'}
 
 local colors = {
-    bg = "#1E2127",
-    line_bg = "#1E2127",
-    fg = "#D8DEE9",
-    fg_green = "#65a380",
-    yellow = "#A3BE8C",
-    cyan = "#22262C",
-    darkblue = "#61afef",
-    green = "#BBE67E",
-    orange = "#FF8800",
-    purple = "#252930",
-    magenta = "#c678dd",
-    blue = "#22262C",
-    red = "#DF8890",
-    lightbg = "#3C4048",
-    nord = "#81A1C1",
-    greenYel = "#EBCB8B"
+    bg = '#1E2127',
+    line_bg = '#1E2127',
+    fg = '#D8DEE9',
+    fg_green = '#65a380',
+    yellow = '#A3BE8C',
+    cyan = '#22262C',
+    darkblue = '#61afef',
+    green = '#BBE67E',
+    orange = '#FF8800',
+    purple = '#252930',
+    magenta = '#c678dd',
+    blue = '#22262C',
+    red = '#DF8890',
+    lightbg = '#3C4048',
+    nord = '#81A1C1',
+    greenYel = '#EBCB8B'
 }
 
 gls.left[1] = {
     leftRounded = {
-        provider = function() return "" end,
+        provider = function() return '' end,
         highlight = {colors.nord, colors.bg}
     }
 }
 
 gls.left[2] = {
     ViMode = {
-        provider = function() return "  " end,
+        provider = function() return '  ' end,
         highlight = {colors.bg, colors.nord},
-        separator = " ",
+        separator = ' ',
         separator_highlight = {colors.lightbg, colors.lightbg}
     }
 }
 
 gls.left[3] = {
     FileIcon = {
-        provider = "FileIcon",
+        provider = 'FileIcon',
         condition = buffer_not_empty,
         highlight = {
-            require("galaxyline.provider_fileinfo").get_file_icon_color,
+            require('galaxyline.provider_fileinfo').get_file_icon_color,
             colors.lightbg
         }
     }
@@ -50,7 +50,7 @@ gls.left[3] = {
 
 gls.left[4] = {
     FileName = {
-        provider = {"FileName", "FileSize"},
+        provider = {'FileName', 'FileSize'},
         condition = buffer_not_empty,
         highlight = {colors.fg, colors.lightbg}
     }
@@ -58,8 +58,8 @@ gls.left[4] = {
 
 gls.left[5] = {
     teech = {
-        provider = function() return "" end,
-        separator = " ",
+        provider = function() return '' end,
+        separator = ' ',
         highlight = {colors.lightbg, colors.bg}
     }
 }
@@ -72,35 +72,35 @@ end
 
 gls.left[6] = {
     DiffAdd = {
-        provider = "DiffAdd",
+        provider = 'DiffAdd',
         condition = checkwidth,
-        icon = "  ",
+        icon = '  ',
         highlight = {colors.greenYel, colors.line_bg}
     }
 }
 
 gls.left[7] = {
     DiffModified = {
-        provider = "DiffModified",
+        provider = 'DiffModified',
         condition = checkwidth,
-        icon = "•",
+        icon = '•',
         highlight = {colors.orange, colors.line_bg}
     }
 }
 
 gls.left[8] = {
     DiffRemove = {
-        provider = "DiffRemove",
+        provider = 'DiffRemove',
         condition = checkwidth,
-        icon = "-",
+        icon = '-',
         highlight = {colors.red, colors.line_bg}
     }
 }
 
 gls.left[9] = {
     LeftEnd = {
-        provider = function() return " " end,
-        separator = " ",
+        provider = function() return ' ' end,
+        separator = ' ',
         separator_highlight = {colors.line_bg, colors.line_bg},
         highlight = {colors.line_bg, colors.line_bg}
     }
@@ -108,23 +108,23 @@ gls.left[9] = {
 
 gls.left[10] = {
     DiagnosticError = {
-        provider = "DiagnosticError",
-        icon = "  ",
+        provider = 'DiagnosticError',
+        icon = '  ',
         highlight = {colors.red, colors.bg}
     }
 }
 
 gls.left[11] = {
     Space = {
-        provider = function() return " " end,
+        provider = function() return ' ' end,
         highlight = {colors.line_bg, colors.line_bg}
     }
 }
 
 gls.left[12] = {
     DiagnosticWarn = {
-        provider = "DiagnosticWarn",
-        icon = "  ",
+        provider = 'DiagnosticWarn',
+        icon = '  ',
         highlight = {colors.blue, colors.bg}
     }
 }
@@ -143,13 +143,13 @@ end
 
 local CondaEnv = function()
     if vim.bo.filetype == 'python' then
-        conda = os.getenv('CONDA_PROMPT_MODIFIER')
-        venv = os.getenv('VIRTUAL_ENV')
-        python = os.capture('python -V')
+        local conda = os.getenv('CONDA_PROMPT_MODIFIER')
+        local venv = os.getenv('VIRTUAL_ENV')
+        local python = os.capture('python -V')
         if conda ~= nil then
             return python .. ' ' .. conda .. ' '
         elseif venv ~= nil then
-            return python .. ' ' .. '.venv '
+            return python .. ' ' .. '(' .. venv:match('[^/]+$') .. ')' .. ' '
         else
             return python .. ' '
         end
@@ -166,24 +166,24 @@ gls.right[1] = {
 
 gls.right[2] = {
     GitIcon = {
-        provider = function() return " ⎇  " end,
-        condition = require("galaxyline.condition").check_git_workspace,
+        provider = function() return ' ⎇  ' end,
+        condition = require('galaxyline.condition').check_git_workspace,
         highlight = {colors.green, colors.line_bg}
     }
 }
 
 gls.right[3] = {
     GitBranch = {
-        provider = "GitBranch",
-        condition = require("galaxyline.condition").check_git_workspace,
+        provider = 'GitBranch',
+        condition = require('galaxyline.condition').check_git_workspace,
         highlight = {colors.green, colors.line_bg}
     }
 }
 
 gls.right[4] = {
     right_LeftRounded = {
-        provider = function() return "" end,
-        separator = " ",
+        provider = function() return '' end,
+        separator = ' ',
         separator_highlight = {colors.bg, colors.bg},
         highlight = {colors.red, colors.bg}
     }
@@ -193,13 +193,13 @@ gls.right[5] = {
     SiMode = {
         provider = function()
             local alias = {
-                n = "NORMAL",
-                i = "INSERT",
-                c = "COMMAND",
-                V = "VISUAL",
-                [""] = "VISUAL",
-                v = "VISUAL",
-                R = "REPLACE"
+                n = 'NORMAL',
+                i = 'INSERT',
+                c = 'COMMAND',
+                V = 'VISUAL',
+                [''] = 'VISUAL',
+                v = 'VISUAL',
+                R = 'REPLACE'
             }
             return alias[vim.fn.mode()]
         end,
@@ -209,8 +209,8 @@ gls.right[5] = {
 
 gls.right[6] = {
     PerCent = {
-        provider = "LinePercent",
-        separator = " ",
+        provider = 'LinePercent',
+        separator = ' ',
         separator_highlight = {colors.red, colors.red},
         highlight = {colors.bg, colors.fg}
     }
@@ -218,7 +218,7 @@ gls.right[6] = {
 
 gls.right[7] = {
     rightRounded = {
-        provider = function() return "" end,
+        provider = function() return '' end,
         highlight = {colors.fg, colors.bg}
     }
 }
