@@ -56,5 +56,6 @@ return require('packer').startup(function()
         },
         config = function() require'telescope'.load_extension 'z' end
     }
+    use {'yamatsum/nvim-cursorline'}
 
 end)
