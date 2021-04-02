@@ -166,7 +166,7 @@ gls.right[1] = {
 
 gls.right[2] = {
     GitIcon = {
-        provider = function() return ' ⎇  ' end,
+        provider = function() return ' ' end,
         condition = require('galaxyline.condition').check_git_workspace,
         highlight = {colors.green, colors.line_bg}
     }
