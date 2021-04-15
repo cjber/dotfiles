@@ -1,5 +1,7 @@
 local cmd = vim.cmd
 
+cmd("highlight! StatusLineNC gui=underline guibg=NONE guifg=#3e4451")
+
 -- normal stuff
 cmd('hi Normal guibg=None')
 cmd('hi Fg guibg=None guifg=#abb2bf')

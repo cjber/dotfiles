@@ -31,6 +31,7 @@ g.python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
 -- indentline
 g.indent_blankline_show_first_indent_level = false
 g.indent_blankline_buftype_exclude = {'terminal'}
+g.indent_blankline_bufname_exclude = {'', 'man:.*', 'NvimTree'}
 g.indent_blankline_char = '┆'
 
 -- nvim r
@@ -51,3 +52,9 @@ g.mundo_width = 32
 -- rooter
 g.rooter_patterns = {'.git', '*.toml'}
 g.rooter_targets = '*.py,*.R,*.Rmd'
+
+-- startify
+g.startify_lists = {
+    {type = 'dir', header = {'MRU ' .. vim.fn.getcwd()}},
+    {type = 'files', header = {'MRU'}}
+}
