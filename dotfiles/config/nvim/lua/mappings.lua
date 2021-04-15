@@ -110,6 +110,10 @@ local keymap = {
         c = {'<Cmd>lua vim.lsp.buf.rename()<CR>', 'rename'},
         e = {'<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', 'errors'},
         g = {'<Cmd>DogeGenerate<CR>', 'generate documentation'}
+    },
+    b = {
+        name = '+buffers',
+        o = {'<Cmd>%bdelete|edit #|normal `"<CR>', 'del others'}
     }
 }
 

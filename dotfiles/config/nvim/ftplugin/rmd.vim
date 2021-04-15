@@ -1,4 +1,4 @@
-set spell
+setlocal spell
 syntax spell toplevel
 
 nnoremap <silent> <localleader>s :call StartR("R")<CR>
@@ -13,7 +13,7 @@ inoremap <buffer> >> <Esc>:normal! a %>%<CR>a
 inoremap <buffer> __ <Esc>:normal! a <-<CR>a 
 
 function RmdRender()
-    Dispatch! Rscript -e 'rmarkdown::render("'%'", quiet=T)'
+    Dispatch Rscript -e 'rmarkdown::render("'%'", quiet=T)'
 endfunction
 
 function RmdPdf()

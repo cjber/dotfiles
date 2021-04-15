@@ -21,7 +21,6 @@ function OrganizeImports(bufnr)
 
     if edits then vim.lsp.util.apply_workspace_edit(edits) end
 end
-
 require'lspconfig'.pyright.setup {}
 require'lspconfig'.efm.setup {
     filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua'}
@@ -29,6 +28,8 @@ require'lspconfig'.efm.setup {
 require'lspconfig'.dockerls.setup {}
 require'lspconfig'.r_language_server.setup {}
 require'lspconfig'.texlab.setup {}
+require'lspconfig'.vimls.setup {}
+require'lspconfig'.yamlls.setup {}
 
 -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
 local sumneko_root_path = '/usr/lib/lua-language-server'
@@ -60,4 +61,3 @@ require'lspconfig'.sumneko_lua.setup {
         }
     }
 }
-

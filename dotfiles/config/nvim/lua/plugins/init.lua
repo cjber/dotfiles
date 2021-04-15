@@ -35,6 +35,7 @@ require('plugins.nvimcompe') -- completions
 require('plugins.lspkind') -- completion icons
 require('plugins.textobjects') -- Move in functions etc
 
+require('numb').setup()
 require('kommentary.config').use_extended_mappings()
 require'colorizer'.setup({'*'}, {mode = 'foreground'})
 require('telescope').load_extension('dap')

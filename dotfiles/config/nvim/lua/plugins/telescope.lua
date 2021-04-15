@@ -45,8 +45,6 @@ require('telescope').setup {
         media_files = {
             filetypes = {'png', 'webp', 'jpg', 'jpeg'},
             find_cmd = 'fd' -- find command (defaults to `fd`)
-        },
+        }
     }
 }
-
-require('telescope').load_extension('media_files')
