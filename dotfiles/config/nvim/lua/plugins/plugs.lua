@@ -51,4 +51,5 @@ return require('packer').startup(function()
         requires = {'kyazdani42/nvim-web-devicons'}
     }
     use {'mhinz/vim-startify'}
+    use {'kevinhwang91/nvim-hlslens'}
 end)

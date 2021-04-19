@@ -21,6 +21,7 @@ zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
 zstyle ':fzf-tab:*' accept-line enter
 zstyle ':fzf-tab:*' fzf-pad 4
 
+autoload -U zmv
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search

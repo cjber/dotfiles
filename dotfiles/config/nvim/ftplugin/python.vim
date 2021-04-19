@@ -1,6 +1,7 @@
 " leader
 nnoremap <Leader>lp :lua OrganizeImports()<CR>
 nnoremap <Leader>sb :Dispatch! python -m streambook %<CR>
+nnoremap <Leader>ps :Dispatch! pyright --createstub 
 
 " localleader
 nnoremap <LocalLeader>l :call VimCmdLineSendCmd('%whos')<CR>
