@@ -40,7 +40,11 @@ set_keymap('n', {noremap = true, silent = true}, {
     {'<Left>', ':vertical resize +2<CR>'},
     {'<Right>', ':vertical resize -2<CR>'},
     {'<C-Space>', ':bnext<CR>'},
-    {'<ESC><ESC>', ':noh<CR><ESC>'}
+    {'<ESC><ESC>', ':noh<CR><ESC>'},
+    {
+        'n',
+        '<Cmd>execute("normal! " . v:count1 . "n")<CR><Cmd>lua require("hlslens").start()<CR>'
+    }
 })
 
 -- visual
