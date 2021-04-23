@@ -94,7 +94,7 @@ profiles:
     - ALL
   docker:
     dotfiles:
-    - d_zshrc
+    - f_zshrc
     - d_nvim
     - d_ranger
     - f_starship.toml
