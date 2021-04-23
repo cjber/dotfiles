@@ -61,7 +61,7 @@ font-4 = Unifont:stype=Medium
 font-5 = Weather Icons:size=12;1
 
 {%@@ if profile == "home" @@%}
-modules-left = x system-nvidia-system system-nvidia-temp x temperature cpu_cores x updates-pacman-aurhelper x nano
+modules-left = x system-nvidia-system system-nvidia-temp x temperature cpu_cores x nano x updates-pacman-aurhelper
 {%@@ elif profile == "uni" @@%}
 modules-left = x temperature cpu_cores
 {%@@ elif profile == "laptop" @@%}
