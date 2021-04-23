@@ -61,7 +61,7 @@ font-4 = Unifont:stype=Medium
 font-5 = Weather Icons:size=12;1
 
 {%@@ if profile == "home" @@%}
-modules-left = x system-nvidia-system system-nvidia-temp x temperature cpu_cores x updates-pacman-aurhelper
+modules-left = x system-nvidia-system system-nvidia-temp x temperature cpu_cores x updates-pacman-aurhelper x nano
 {%@@ elif profile == "uni" @@%}
 modules-left = x temperature cpu_cores
 {%@@ elif profile == "laptop" @@%}
@@ -248,3 +248,8 @@ type = custom/script
 exec = ~/dotfiles/dotfiles/config/polybar/weather.sh
 interval = 600
 content-font = 0
+
+[module/nano]
+type = custom/script
+exec = curl rate.sx/1nano
+interval = 600
