@@ -32,7 +32,7 @@ g.python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
 g.indent_blankline_show_first_indent_level = false
 g.indent_blankline_buftype_exclude = {'terminal'}
 g.indent_blankline_bufname_exclude = {'', 'man:.*', 'NvimTree'}
-g.indent_blankline_char = '┆'
+g.indent_blankline_char = '┋'
 
 -- nvim r
 g.markdown_fenced_languages = {'r', 'python'}
