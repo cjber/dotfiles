@@ -36,19 +36,6 @@ dotfiles:
     src: config/zathura
     dst: ~/.config/zathura
     link: link
-  d_fish:
-    src: config/fish
-    dst: ~/.config/fish
-    link: link_children
-    upignore:
-    - '*/completions'
-    - '*/conf.d'
-    - '*/functions'
-    - '*/fish_variables'
-  d_pypoetry:
-    src: config/pypoetry
-    dst: ~/.config/pypoetry
-    link: link
   d_ipython:
     src: ipython
     dst: ~/.ipython
@@ -107,7 +94,7 @@ profiles:
     - ALL
   docker:
     dotfiles:
-    - d_fish
+    - d_zshrc
     - d_nvim
     - d_ranger
     - f_starship.toml
