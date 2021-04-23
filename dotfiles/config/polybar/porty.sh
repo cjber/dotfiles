@@ -8,3 +8,5 @@ OMG=$(curl -s rate.sx/32omg)
 
 echo -n "\$"
 echo $NANO + $BUX + $BAT + $BAN + $OMG | bc | xargs printf "%.2f"
+echo -n " XNO \$"
+echo $(curl -s rate.sx/1nano) | xargs printf "%.2f"
