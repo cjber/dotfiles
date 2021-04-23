@@ -2,9 +2,9 @@ local cmd = vim.cmd
 local g = vim.g
 
 -- load plugins
+require('plugins')
 require('settings')
 require('mappings')
-require('plugins')
 require('autocmds')
 
 -- colorscheme settings
