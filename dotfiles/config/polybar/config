@@ -251,5 +251,5 @@ content-font = 0
 
 [module/nano]
 type = custom/script
-exec = curl rate.sx/1nano
+exec = ~/dotfiles/dotfiles/config/polybar/porty.sh
 interval = 600
