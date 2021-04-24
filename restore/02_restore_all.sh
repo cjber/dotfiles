@@ -4,8 +4,8 @@ git clone https://aur.archlinux.org/yay.git \
         && makepkg -sri --needed --noconfirm \
         && cd .. \
         && rm -rf yay
-yay -Rc go --noconfirm \
-    && yes | yay -Scc \
+
+yes | yay -Scc \
     && yay -S --needed --noconfirm - < applist
 
 pyenv install 3.8.6
@@ -14,4 +14,3 @@ pyenv activate py3nvim
 pip install \
     wheel \
     neovim
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -

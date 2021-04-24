@@ -31,7 +31,6 @@ require'lspconfig'.texlab.setup {}
 require'lspconfig'.vimls.setup {}
 require'lspconfig'.yamlls.setup {}
 
--- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
 local sumneko_root_path = '/usr/lib/lua-language-server'
 local sumneko_binary = '/usr/bin/lua-language-server'
 

@@ -1,7 +1,6 @@
-local execute = vim.api.nvim_command
-local fn = vim.fn
+local execute = vim.api.nvim_command local fn = vim.fn
 
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({
@@ -12,6 +11,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
     })
     execute 'packadd packer.nvim'
 end
+vim.cmd("packadd packer.nvim")
 
 require('plugins.plugs')
 require('plugins.bufferline')
@@ -34,3 +34,5 @@ require('kommentary.config').use_extended_mappings()
 require'colorizer'.setup({'*'}, {mode = 'foreground'})
 require('telescope').load_extension('dap')
 require('dap-python').setup('~/.pyenv/versions/py3nvim/bin/python')
+require('spellsitter').setup()
+require('symbols-outline').setup()
