@@ -108,7 +108,6 @@ zinit light-mode for \
     Aloxaf/fzf-tab \
     zsh-users/zsh-completions \
     MichaelAquilina/zsh-autoswitch-virtualenv \
-    jeffreytse/zsh-vi-mode \
     zsh-users/zsh-autosuggestions
 
 ### End of Zinit's installer chunk
@@ -119,19 +118,20 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="/home/cjber/.cargo/bin:$PATH"
 export PATH="/home/cjber/bin:$PATH"
+export PATH="home/cjber/.local/bin:$PATH"
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#5c6370,bold"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/cjber/.miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/cjber/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/cjber/.miniconda/etc/profile.d/conda.sh" ]; then
-        . "/home/cjber/.miniconda/etc/profile.d/conda.sh"
+    if [ -f "/home/cjber/.miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/cjber/.miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/cjber/.miniconda/bin:$PATH"
+        export PATH="/home/cjber/.miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup

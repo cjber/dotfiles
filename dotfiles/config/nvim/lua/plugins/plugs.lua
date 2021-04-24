@@ -53,8 +53,10 @@ return require('packer').startup(function()
     use {'mhinz/vim-startify'}
     use {'kevinhwang91/nvim-hlslens'}
     use {
-        'lewis6991/spellsitter.nvim',
-        config = function() require('spellsitter').setup() end
+        'lewis6991/spellsitter.nvim'
     }
     use {'rhysd/vim-grammarous'}
+    use {
+       'simrat39/symbols-outline.nvim'
+    }
 end)
