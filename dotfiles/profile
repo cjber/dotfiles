@@ -1,4 +1,4 @@
-hsetroot -solid "#1E2127"
+hsetroot -solid "#1a1b26"
 xset r rate 500 60
 
 export PATH="$HOME/.poetry/bin:$PATH"
