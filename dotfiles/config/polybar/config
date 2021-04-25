@@ -7,16 +7,29 @@
 ;=====================================================
 
 [colors]
-my_background	= #1E2127
-my_foreground	= #8fbcbb
-base00 = #2E3440
-base01 = #3B4252
-base02 = #434C5E
-base03 = #4C566A
-base04 = #D8DEE9
-base05 = #E5E9F0
-base06 = #ECEFF4
-base07 = #8FBCBB
+
+color0 #414868
+color1 #f7768e
+color2 #9ece6a
+color3 #e0af68
+color4 #7aa2f7
+color5 #bb9af7
+color6 #7dcfff
+color7 #a9b1d6
+
+  background #1a1b26
+  foreground #c0caf5
+
+my_background	= #1a1b26
+my_foreground	= #c0caf5
+base00 = #414868
+base01 = #f7768e
+base02 = #9ece6a
+base03 = #e0af68
+base04 = #7aa2f7
+base05 = #bb9af7
+base06 = #9dcfff
+base07 = #a9b1d6
 base08 = #B48EAD
 base09 = #D08770
 base0A = #EBCB8B
