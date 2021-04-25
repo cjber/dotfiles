@@ -82,6 +82,9 @@ dotfiles:
   f_zshrc:
     src: zshrc
     dst: ~/.zshrc
+  f_todo.cfg:
+    src: todo.cfg
+    dst: ~/.todo.cfg
 profiles:
   home:
     dotfiles:

@@ -39,6 +39,7 @@ return require('packer').startup(function()
     use {'phaazon/hop.nvim', branch = 'pre-extmarks'} -- hop to words
     use {'ryanoasis/vim-devicons'} -- more icons
     use {'sainnhe/edge'} -- colorscheme
+    use {'folke/tokyonight.nvim'}
     use {'simnalamburt/vim-mundo'} -- see undo tree
     use {'theHamsta/nvim-dap-virtual-text'}
     use {'tpope/vim-dispatch'} -- dispate commands

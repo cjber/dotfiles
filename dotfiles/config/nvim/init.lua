@@ -8,14 +8,17 @@ require('mappings')
 require('autocmds')
 
 -- colorscheme settings
-g.edge_style = 'neon'
+--[[ g.edge_style = 'neon'
 g.edge_enable_italic = 1
-g.edge_better_performance = 1
+g.edge_better_performance = 1 ]]
 
-cmd 'colorscheme edge'
+g.tokyonight_style = 'night'
+
+cmd 'colorscheme tokyonight'
 cmd 'syntax enable'
 
-require('colorscheme')
+
+-- require('colorscheme')
 
 -- auto save
 g.auto_save = 1

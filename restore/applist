@@ -17,6 +17,7 @@ hunspell
 hunspell-en_GB
 i3-gaps
 i3exit
+jq
 kitty
 kvantum-qt5
 lightdm
@@ -40,7 +41,6 @@ pcmanfm
 picom
 polybar
 pulseaudio
-jq
 pulseaudio-alsa
 pv
 pyenv
@@ -59,6 +59,7 @@ starship-bin
 sxiv
 systemd-swap
 texinfo
+todotxt
 trashf
 ttf-jetbrains-mono
 udunits

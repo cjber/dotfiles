@@ -47,8 +47,8 @@ alias mkvenv='mkvenv --python=$(pyenv which python)'
 alias ls='ls --color=auto'
 alias v='nvim'
 alias vi='nvim'
-alias t='todo.sh'
-alias todo='nvim $HOME/Dropbox/todo/todo.txt'
+alias t='todo.sh list'
+alias td='nvim $HOME/Dropbox/todo/todo.txt'
 alias ta='todo.sh add'
 alias lf="ranger"
 alias r="radian"
@@ -120,7 +120,7 @@ export PATH="/home/cjber/.cargo/bin:$PATH"
 export PATH="/home/cjber/bin:$PATH"
 export PATH="home/cjber/.local/bin:$PATH"
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#5c6370,bold"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#5c6370,bold,underline"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
