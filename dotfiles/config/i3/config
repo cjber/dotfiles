@@ -243,34 +243,15 @@ exec_always --no-startup-id nm-applet
 {%@@ if profile == "home" @@%}
 exec --no-startup-id nvidia-settings --assign CurrentMedaMode="nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }"
 {%@@ endif @@%}
-# Same logic applied to everything else.
-set_from_resource $term_background background
-set_from_resource $term_foreground foreground
-set_from_resource $term_color0     color0
-set_from_resource $term_color1     color1
-set_from_resource $term_color2     color2
-set_from_resource $term_color3     color3
-set_from_resource $term_color4     color4
-set_from_resource $term_color5     color5
-set_from_resource $term_color6     color6
-set_from_resource $term_color7     color7
-set_from_resource $term_color8     color8
-set_from_resource $term_color9     color9
-set_from_resource $term_color10    color10
-set_from_resource $term_color11    color11
-set_from_resource $term_color12    color12
-set_from_resource $term_color13    color13
-set_from_resource $term_color14    color14
-set_from_resource $term_color15    color15
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-  client.focused          #E06C75 #282C34 #ABB2BF #ABB2BF       #E06C75
-  client.focused_inactive #4C566a #282C34 #1ABC9C #4C566a       #4C566a
-  client.unfocused        #4C566a #282C34 #1ABC9C #4C566a       #4c566a
-  client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
+  client.focused          #7aa2f7 #1a1b26 #ABB2BF #a9b1d6  #E06C75
+  client.focused_inactive #414868 #1a1b26 #9ece6a #a9b1d6 #4C566a
+  client.unfocused        #414868 #282C34 #9ece6a #a9b1d6 #4c566a
+  client.urgent           #ff9e64 #c0caf5 #9ece6a #a9b1d6
   client.placeholder      #000000 #0c0c0c #ffffff #000000
-  client.background       #282C34
+  client.background       #1a1b26
 
 #############################
 ### settings for i3-gaps: ###
