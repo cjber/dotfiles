@@ -1,8 +1,9 @@
 # cjber dotfiles
 
-Uses [Dotdrop](https://github.com/deadc0de6/dotdrop) for different configs depending on the host.
+Uses [Dotdrop](https://github.com/deadc0de6/dotdrop) for different
+configs depending on the host.
 
-```bash
+``` bash
 git clone https://github.com/cjber/dotfiles.git
 cd dotfiles/restore
 chmod +x *
