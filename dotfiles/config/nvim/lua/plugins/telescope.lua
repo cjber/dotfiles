@@ -40,11 +40,5 @@ require('telescope').setup {
         qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
         -- Developer configurations: Not meant for general override
         buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
-    },
-    extensions = {
-        media_files = {
-            filetypes = {'png', 'webp', 'jpg', 'jpeg'},
-            find_cmd = 'fd' -- find command (defaults to `fd`)
-        }
     }
 }

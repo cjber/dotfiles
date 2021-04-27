@@ -10,5 +10,4 @@ bash restore_all
 bash dots
 ```
 
-![Neovim](./screenshots/nvim_python.png)
-![Desktop](./screenshots/desktop.png)
+![Neovim](./screenshots/nvim.jpeg)

@@ -8,17 +8,14 @@ require('mappings')
 require('autocmds')
 
 -- colorscheme settings
---[[ g.edge_style = 'neon'
-g.edge_enable_italic = 1
-g.edge_better_performance = 1 ]]
-
 g.tokyonight_style = 'night'
+g.tokyonight_hide_inactive_statusline = true
+g.tokyonight_dark_sidebar = false
 
 cmd 'colorscheme tokyonight'
 cmd 'syntax enable'
 
-
--- require('colorscheme')
+require('colorscheme')
 
 -- auto save
 g.auto_save = 1
@@ -29,7 +26,7 @@ g.auto_save_silent = 1
 g.python_host_skip_check = 1
 g.loaded_python_provider = 0
 g.python3_host_skip_check = 1
-g.python3_host_prog = '/home/cjber/.pyenv/versions/py3nvim/bin/python'
+g.python3_host_prog = '/home/cjber/.virtualenvs/nvim/bin/python'
 
 -- indentline
 g.indent_blankline_show_first_indent_level = false
@@ -61,3 +58,8 @@ g.startify_lists = {
     {type = 'dir', header = {'MRU ' .. vim.fn.getcwd()}},
     {type = 'files', header = {'MRU'}}
 }
+
+-- focus
+require('focus').width = 1
+require('focus').height = 35
+require('focus').signcolumn = false

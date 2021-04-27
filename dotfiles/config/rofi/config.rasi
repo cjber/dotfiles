@@ -18,10 +18,10 @@
   mangenta:   #d886f3;
   cyan:       #6cdcf7;
   emphasis:   #50536b;
-  text:       #dfdfdf;
-  text-alt:   #b2b2b2;
-  fg:         #abb2bf;
-  bg:         #282c34;
+  text:       #c0caf5;
+  text-alt:   #a9b1d6;
+  fg:         #c0caf5;
+  bg:         #1a1b26;
 
   spacing: 0;
   background-color: transparent;
@@ -35,8 +35,8 @@ window {
   fullscreen: false;
   border: 3;
   padding: 5;
-  background-color: #282c34dd;
-  border-color: #4C566A;
+  background-color: #1a1b26dd;
+  border-color: #414868;
   width: 30%;
 }
 

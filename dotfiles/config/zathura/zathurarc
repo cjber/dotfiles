@@ -17,7 +17,7 @@ set scroll-step 100
 set zoom-min 10
 set guioptions ""
 
-set default-bg                  "#282C34"
+set default-bg                  "#1a1b26"
 set default-fg                  "#afafaf"
 
 set statusbar-fg                "#bdae93"

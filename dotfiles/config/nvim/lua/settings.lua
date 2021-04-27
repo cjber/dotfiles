@@ -28,7 +28,8 @@ enable_options({
     'linebreak',
     'nobackup',
     'noswapfile',
-    'nowritebackup'
+    'nowritebackup',
+    'noruler'
 })
 
 set_options({
@@ -52,7 +53,8 @@ set_options({
     {'pumheight', 10},
     {'cmdheight', 1},
     {'mouse', 'a'},
-    {'colorcolumn', 88}
+    {'colorcolumn', 88},
+    {'laststatus', 0}
 })
 
 vim.o.shell = '/bin/zsh'

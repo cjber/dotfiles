@@ -25,5 +25,10 @@ au.define_autocmds({
         -- auto close terminal if last window
         ['*'] = {[[if (winnr('$') == 1 && &buftype == 'terminal') | q | endif]]}
     },
-    CursorHold = {['*'] = {[[lua vim.lsp.diagnostic.show_line_diagnostics()]]}}
+    CursorHold = {
+        ['*'] = {[[lua require'lspsaga.diagnostic'.show_cursor_diagnostics()]]}
+    },
+    CursorHoldI = {
+        ['*'] = {[[lua require'lspsaga.signaturehelp'.signature_help()]]}
+    }
 })

@@ -1,4 +1,5 @@
-local execute = vim.api.nvim_command local fn = vim.fn
+local execute = vim.api.nvim_command
+local fn = vim.fn
 
 local install_path = fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
 
@@ -11,11 +12,10 @@ if fn.empty(fn.glob(install_path)) > 0 then
     })
     execute 'packadd packer.nvim'
 end
-vim.cmd("packadd packer.nvim")
+vim.cmd('packadd packer.nvim')
 
 require('plugins.plugs')
 require('plugins.bufferline')
-require('plugins.galaxyline')
 require('plugins.treesitter')
 require('plugins.telescope')
 require('plugins.nvimtree')
@@ -25,9 +25,11 @@ require('plugins.betterqf')
 
 -- lsp configs
 require('plugins.lspconfig') -- lsp config
+require('plugins.lspsaga')
 require('plugins.nvimcompe') -- completions
 require('plugins.lspkind') -- completion icons
 require('plugins.textobjects') -- Move in functions etc
+require('trouble').setup()
 
 require('numb').setup()
 require('kommentary.config').use_extended_mappings()
