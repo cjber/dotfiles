@@ -72,7 +72,7 @@ vim.g.maplocalleader = ','
 local keymap = {
     f = {
         name = '+find',
-        f = {'<Cmd>Telescope find_files', 'files'},
+        f = {'<Cmd>Telescope find_files<CR>', 'files'},
         b = {'<Cmd>Telescope buffers show_all_buffers=true<CR>', 'buffers'},
         h = {'<Cmd>Telescope help_tags<CR>', 'help tags'},
         o = {'<Cmd>Telescope oldfiles<CR>', 'old files'},
