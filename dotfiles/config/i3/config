@@ -246,9 +246,9 @@ exec --no-startup-id nvidia-settings --assign CurrentMedaMode="nvidia-auto-selec
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-  client.focused          #7aa2f7 #1a1b26 #ABB2BF #a9b1d6  #E06C75
+  client.focused          #7aa2f7 #1a1b26 #ABB2BF #a9b1d6  #7aa2f7
   client.focused_inactive #414868 #1a1b26 #9ece6a #a9b1d6 #4C566a
-  client.unfocused        #414868 #282C34 #9ece6a #a9b1d6 #4c566a
+  client.unfocused        #414868 #1a1b26 #9ece6a #a9b1d6 #4c566a
   client.urgent           #ff9e64 #c0caf5 #9ece6a #a9b1d6
   client.placeholder      #000000 #0c0c0c #ffffff #000000
   client.background       #1a1b26

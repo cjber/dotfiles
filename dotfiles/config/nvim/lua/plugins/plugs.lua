@@ -11,7 +11,6 @@ return require('packer').startup(function()
     } -- bufferline
     use {'b3nj5m1n/kommentary'} -- comment out code
     use {'dbeniamine/todo.txt-vim'}
-    use {'glepnir/galaxyline.nvim'} -- statusline
     use {'hrsh7th/nvim-compe'} -- lang completion
     use {'hrsh7th/vim-vsnip'} -- snippets
     use {'jalvesaq/Nvim-R'} -- R repl + utils
@@ -53,11 +52,10 @@ return require('packer').startup(function()
     }
     use {'mhinz/vim-startify'}
     use {'kevinhwang91/nvim-hlslens'}
-    use {
-        'lewis6991/spellsitter.nvim'
-    }
+    use {'lewis6991/spellsitter.nvim'}
     use {'rhysd/vim-grammarous'}
-    use {
-       'simrat39/symbols-outline.nvim'
-    }
+    use {'simrat39/symbols-outline.nvim'}
+    use {'glepnir/lspsaga.nvim'}
+    use {'beauwilliams/focus.nvim'}
+    use {'folke/lsp-trouble.nvim'}
 end)

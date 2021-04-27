@@ -1,4 +1,5 @@
 hsetroot -solid "#1a1b26"
 xset r rate 500 60
 
-export PATH="$HOME/.poetry/bin:$PATH"
+PATH="$HOME/.local/bin:$PATH"
+export npm_config_prefix="$HOME/.local"

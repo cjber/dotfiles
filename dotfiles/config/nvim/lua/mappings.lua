@@ -41,10 +41,10 @@ set_keymap('n', {noremap = true, silent = true}, {
     {'<Right>', ':vertical resize -2<CR>'},
     {'<C-Space>', ':bnext<CR>'},
     {'<ESC><ESC>', ':noh<CR><ESC>'},
-    {
-        'n',
-        '<Cmd>execute("normal! " . v:count1 . "n")<CR><Cmd>lua require("hlslens").start()<CR>'
-    }
+    {'<C-n>', ':NvimTreeToggle<CR>'},
+    {'<C-m>', ':SymbolsOutline<CR>'},
+    {'[e', ':Lspsaga diagnostic_jump_prev<CR>'},
+    {']e', ':Lspsaga diagnostic_jump_next<CR>'}
 })
 
 -- visual
@@ -68,17 +68,15 @@ local wk = require('whichkey_setup')
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
-vim.cmd(
-    [[nnoremap <silent> <expr> <Leader>ff ':Telescope find_files cwd='.FindRootDirectory().'<cr>']])
 
 local keymap = {
     f = {
         name = '+find',
-        -- f = {'<Cmd>Telescope find_files<CR>', 'files'},
+        f = {'<Cmd>Telescope find_files', 'files'},
         b = {'<Cmd>Telescope buffers show_all_buffers=true<CR>', 'buffers'},
         h = {'<Cmd>Telescope help_tags<CR>', 'help tags'},
         o = {'<Cmd>Telescope oldfiles<CR>', 'old files'},
-        r = {'<Cmd>Telescope live_grep<Cr>', 'live grep'},
+        r = {'<Cmd>Telescope live_grep<CR>', 'live grep'},
         u = {'<Cmd>MundoToggle<CR>', 'undotree'},
         c = {
             name = '+commands',
@@ -107,17 +105,31 @@ local keymap = {
     },
     l = {
         name = '+lang',
-        f = {'<Cmd>lua vim.lsp.buf.formatting()<CR>', 'format'},
-        d = {'<Cmd>lua vim.lsp.buf.definition()<CR>', 'definition'},
-        k = {'<Cmd>lua vim.lsp.buf.hover()<CR>', 'hover'},
-        r = {'<Cmd>lua vim.lsp.buf.references()<CR>', 'references'},
+        a = {'<Cmd>lua require("lspsaga.codeaction").code_action()<CR>'},
         c = {'<Cmd>lua vim.lsp.buf.rename()<CR>', 'rename'},
-        e = {'<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', 'errors'},
-        g = {'<Cmd>DogeGenerate<CR>', 'generate documentation'}
+        d = {'<Cmd>lua vim.lsp.buf.definition()<CR>', 'definition'},
+        e = {'<Cmd>:LspTroubleToggle<CR>', 'errors'},
+        f = {'<Cmd>lua vim.lsp.buf.formatting()<CR>', 'format'},
+        g = {'<Cmd>DogeGenerate<CR>', 'generate documentation'},
+        h = {'<Cmd>lua require("lspsaga.signaturehelp").signature_help()<CR>'},
+        k = {
+            '<Cmd>lua require("lspsaga.hover").render_hover_doc()<CR>',
+            'hover'
+        },
+        r = {'<Cmd>lua vim.lsp.buf.references()<CR>', 'references'},
+        z = {':LspRestart<CR>', 'restart lsp'}
     },
     b = {
         name = '+buffers',
         o = {'<Cmd>%bdelete|edit #|normal `"<CR>', 'del others'}
+    },
+    z = {
+        name = '+term',
+        z = {'<Cmd>lua require("lspsaga.floaterm").open_float_terminal()<CR>'},
+        l = {
+            '<Cmd>lua require("lspsaga.floaterm").open_float_terminal("lazygit")<CR>'
+        },
+        x = {'<Cmd>lua require("lspsaga.floaterm").close_float_terminal()<CR>'}
     }
 }
 
