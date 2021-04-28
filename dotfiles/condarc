@@ -2,4 +2,4 @@ auto_activate_base: false
 channels:
   - conda-forge
   - defaults
-channel_priority: disabled
+channel_priority: false

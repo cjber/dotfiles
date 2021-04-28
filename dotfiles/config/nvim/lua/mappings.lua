@@ -1,7 +1,3 @@
-vim.g.which_key_fallback_to_native_key = 1
-vim.g.which_key_display_names = {['<CR>'] = '↵', ['<TAB>'] = '⇆'}
-vim.g.which_key_sep = '→'
-vim.g.which_key_timeout = 100
 vim.g.doge_mapping = '' -- remove default mapping
 
 local function set_keymap(mode, opts, keymaps)
@@ -42,7 +38,7 @@ set_keymap('n', {noremap = true, silent = true}, {
     {'<C-Space>', ':bnext<CR>'},
     {'<ESC><ESC>', ':noh<CR><ESC>'},
     {'<C-n>', ':NvimTreeToggle<CR>'},
-    {'<C-m>', ':SymbolsOutline<CR>'},
+    {'<C-p>', ':SymbolsOutline<CR>'},
     {'[e', ':Lspsaga diagnostic_jump_prev<CR>'},
     {']e', ':Lspsaga diagnostic_jump_next<CR>'}
 })
@@ -64,12 +60,12 @@ set_keymap('i', {noremap = true, silent = true}, {})
 set_keymap('t', {noremap = true, silent = true},
            {{'<Esc><Esc>', [[<C-\><C-n>]]}})
 
-local wk = require('whichkey_setup')
+local wk = require('which-key')
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
-local keymap = {
+wk.register({
     f = {
         name = '+find',
         f = {'<Cmd>Telescope find_files<CR>', 'files'},
@@ -105,13 +101,19 @@ local keymap = {
     },
     l = {
         name = '+lang',
-        a = {'<Cmd>lua require("lspsaga.codeaction").code_action()<CR>'},
+        a = {
+            '<Cmd>lua require("lspsaga.codeaction").code_action()<CR>',
+            'code action'
+        },
         c = {'<Cmd>lua vim.lsp.buf.rename()<CR>', 'rename'},
         d = {'<Cmd>lua vim.lsp.buf.definition()<CR>', 'definition'},
         e = {'<Cmd>:LspTroubleToggle<CR>', 'errors'},
         f = {'<Cmd>lua vim.lsp.buf.formatting()<CR>', 'format'},
         g = {'<Cmd>DogeGenerate<CR>', 'generate documentation'},
-        h = {'<Cmd>lua require("lspsaga.signaturehelp").signature_help()<CR>'},
+        h = {
+            '<Cmd>lua require("lspsaga.signaturehelp").signature_help()<CR>',
+            'signature help'
+        },
         k = {
             '<Cmd>lua require("lspsaga.hover").render_hover_doc()<CR>',
             'hover'
@@ -121,19 +123,23 @@ local keymap = {
     },
     b = {
         name = '+buffers',
-        o = {'<Cmd>%bdelete|edit #|normal `"<CR>', 'del others'}
+        o = {'<Cmd>%bdelete|edit #|normal `"<CR>', 'del other buffers'}
     },
     z = {
         name = '+term',
-        z = {'<Cmd>lua require("lspsaga.floaterm").open_float_terminal()<CR>'},
-        l = {
-            '<Cmd>lua require("lspsaga.floaterm").open_float_terminal("lazygit")<CR>'
+        z = {
+            '<Cmd>lua require("lspsaga.floaterm").open_float_terminal()<CR>',
+            'open term'
         },
-        x = {'<Cmd>lua require("lspsaga.floaterm").close_float_terminal()<CR>'}
+        l = {
+            '<Cmd>lua require("lspsaga.floaterm").open_float_terminal("lazygit")<CR>',
+            'open lazygit'
+        },
+        x = {
+            '<Cmd>lua require("lspsaga.floaterm").close_float_terminal()<CR>',
+            'close term'
+        }
     }
-}
+}, {prefix = '<leader>'})
 
-wk.register_keymap('leader', keymap)
-
-local local_keymap = {['<Space>'] = {'', 'temp'}}
-wk.register_keymap('localleader', local_keymap)
+wk.register({['<Space>'] = {'', 'temp'}}, {prefix = '<localleader>'})

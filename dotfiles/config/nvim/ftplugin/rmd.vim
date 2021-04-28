@@ -21,7 +21,7 @@ function RmdPdf()
 endfunction
 
 function RmdHTML()
-    Dispatch! chromium %:r.html
+    Dispatch! firefox %:r.html
 endfunction
 
 " Nvim R
