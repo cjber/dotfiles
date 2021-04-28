@@ -1,9 +1,6 @@
 return require('packer').startup(function()
+    use {'folke/which-key.nvim'}
     use {'907th/vim-auto-save'} -- auto save
-    use {
-        'AckslD/nvim-whichkey-setup.lua',
-        requires = {'liuchengxu/vim-which-key'}
-    }
     use {'airblade/vim-rooter'} -- auto change dir to project roots
     use {
         'akinsho/nvim-bufferline.lua',
@@ -58,4 +55,5 @@ return require('packer').startup(function()
     use {'glepnir/lspsaga.nvim'}
     use {'beauwilliams/focus.nvim'}
     use {'folke/lsp-trouble.nvim'}
+    use {'chrisbra/NrrwRgn'}
 end)
