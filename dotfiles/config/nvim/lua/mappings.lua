@@ -8,6 +8,7 @@ end
 
 -- normal
 set_keymap('n', {noremap = true, silent = true}, {
+    {'<CR>', ''},
     {' ', ''},
     {',', ''},
     {'q:', ':q'},
@@ -97,7 +98,9 @@ wk.register({
     s = {
         name = '+spell',
         s = {'<Cmd>set invspell<CR>', 'toggle'},
-        f = {'mz[s1z=e`z', 'fix'}
+        f = {'mz[s1z=e`z', 'fix'},
+        g = {':GrammarousCheck<CR>', 'grammarous'},
+        r = {':GrammarousReset<CR>', 'kill grammarous'}
     },
     l = {
         name = '+lang',

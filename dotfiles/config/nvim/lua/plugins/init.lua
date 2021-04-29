@@ -12,9 +12,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
     })
     execute 'packadd packer.nvim'
 end
-vim.cmd('packadd packer.nvim')
 
-require('plugins.plugs')
 require('plugins.bufferline')
 require('plugins.treesitter')
 require('plugins.telescope')
