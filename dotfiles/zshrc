@@ -64,6 +64,7 @@ alias v='nvim'
 alias vi='nvim'
 
 export DOTREPO="$HOME/dotfiles"
+export npm_config_prefix="$HOME/.local"
 export DOTDROP_PROFILE='home'
 alias dotdrop='dotdrop --cfg=$HOME/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
@@ -101,7 +102,7 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-zinit for \
+zinit light-mode for \
     zinit-zsh/z-a-rust \
     zinit-zsh/z-a-as-monitor \
     zinit-zsh/z-a-patch-dl \
