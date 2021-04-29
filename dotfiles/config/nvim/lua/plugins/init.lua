@@ -32,7 +32,7 @@ require('trouble').setup()
 
 require('numb').setup()
 require('kommentary.config').use_extended_mappings()
-require'colorizer'.setup({'*'}, {mode = 'foreground'})
+require('colorizer').setup({'*'}, {mode = 'foreground'})
 require('telescope').load_extension('dap')
 require('dap-python').setup('~/.pyenv/versions/py3nvim/bin/python')
 require('spellsitter').setup()
