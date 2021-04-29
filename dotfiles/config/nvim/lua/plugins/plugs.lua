@@ -1,5 +1,7 @@
+vim.cmd [[packadd packer.nvim]]
+
 return require('packer').startup(function()
-    use {'wbthomason/packer.nvim', opt = true}
+    use {'wbthomason/packer.nvim'}
 
     use {'folke/which-key.nvim'}
     use {'907th/vim-auto-save'} -- auto save
