@@ -9,8 +9,6 @@ end
 -- normal
 set_keymap('n', {noremap = true, silent = true}, {
     {'<CR>', ''},
-    {' ', ''},
-    {',', ''},
     {'q:', ':q'},
     {'Q', '<Nop>'},
     {'M', ':join<CR>'},

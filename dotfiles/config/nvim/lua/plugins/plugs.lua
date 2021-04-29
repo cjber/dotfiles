@@ -59,4 +59,5 @@ return require('packer').startup(function()
     use {'beauwilliams/focus.nvim'}
     use {'folke/lsp-trouble.nvim'}
     use {'chrisbra/NrrwRgn'}
+    use {'AndrewRadev/splitjoin.vim'}
 end)
