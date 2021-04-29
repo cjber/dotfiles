@@ -1,4 +1,6 @@
 return require('packer').startup(function()
+    use {'wbthomason/packer.nvim', opt = true}
+
     use {'folke/which-key.nvim'}
     use {'907th/vim-auto-save'} -- auto save
     use {'airblade/vim-rooter'} -- auto change dir to project roots
@@ -41,7 +43,6 @@ return require('packer').startup(function()
     use {'tpope/vim-dispatch'} -- dispate commands
     use {'tpope/vim-surround'} -- change surrounding "'< etc
     use {'tweekmonster/startuptime.vim'} -- benchmark nvim startup
-    use {'wbthomason/packer.nvim', opt = true}
     use {'windwp/nvim-autopairs'} -- auto close brackets
     use {
         'yamatsum/nvim-web-nonicons',
