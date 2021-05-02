@@ -60,6 +60,6 @@ g.startify_lists = {
 }
 
 -- focus
-require('focus').width = 1
+require('focus').width = 89
 require('focus').height = 35
 require('focus').signcolumn = false
