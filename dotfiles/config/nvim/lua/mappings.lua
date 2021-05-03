@@ -108,7 +108,9 @@ wk.register({
         },
         c = {'<Cmd>lua vim.lsp.buf.rename()<CR>', 'rename'},
         d = {'<Cmd>lua vim.lsp.buf.definition()<CR>', 'definition'},
-        e = {'<Cmd>:LspTroubleToggle<CR>', 'errors'},
+        e = {'<Cmd>:LspTroubleToggle lsp_document_diagnostics<CR>', 'errors'},
+        q = {'<Cmd>:LspTroubleToggle quickfix<CR>', 'quickfix'},
+        l = {'<Cmd>:LspTroubleToggle loclist<CR>', 'loclist'},
         f = {'<Cmd>lua vim.lsp.buf.formatting()<CR>', 'format'},
         g = {'<Cmd>DogeGenerate<CR>', 'generate documentation'},
         h = {
@@ -119,7 +121,7 @@ wk.register({
             '<Cmd>lua require("lspsaga.hover").render_hover_doc()<CR>',
             'hover'
         },
-        r = {'<Cmd>lua vim.lsp.buf.references()<CR>', 'references'},
+        r = {'<Cmd>LspTroubleToggle lsp_references<CR>', 'references'},
         z = {':LspRestart<CR>', 'restart lsp'}
     },
     b = {

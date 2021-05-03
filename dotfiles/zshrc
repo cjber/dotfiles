@@ -33,9 +33,9 @@ function _mbenv() {
         micromamba activate $env_name
         py_version=$($(which python) --version)
         echo "Switching micromamba env: ${BOLD}${PURPLE}$env_name${NORMAL} ${GREEN}[🐍 $py_version]${NORMAL}"
-    else
-        echo "Deactivating: ${BOLD}${PURPLE}$env_name${NORMAL}"
-        micromamba deactivate
+    elif [[ -v CONDA_DEFAULT_ENV ]]; then
+            echo "Deactivating: ${BOLD}${PURPLE}$env_name${NORMAL}"
+            micromamba deactivate
     fi
 }
 
