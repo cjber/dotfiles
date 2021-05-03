@@ -26,6 +26,7 @@ g.auto_save_silent = 1
 g.python_host_skip_check = 1
 g.loaded_python_provider = 0
 g.python3_host_skip_check = 1
+
 g.python3_host_prog = '/home/cjber/.virtualenvs/nvim/bin/python'
 
 -- indentline
@@ -63,3 +64,7 @@ g.startify_lists = {
 require('focus').width = 89
 require('focus').height = 35
 require('focus').signcolumn = false
+
+-- vimtex
+g.vimtex_compiler_progname = 'nvr'
+g.vimtex_view_method = 'zathura'
