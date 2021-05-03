@@ -56,4 +56,5 @@ return require('packer').startup(function()
         requires = {'kyazdani42/nvim-web-devicons'}
     } -- icons
     use {'alexaandru/nvim-lspupdate', run = ':LspUpdate'}
+    use {'karb94/neoscroll.nvim'}
 end)
