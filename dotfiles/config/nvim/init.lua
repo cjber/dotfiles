@@ -9,7 +9,7 @@ require('autocmds')
 
 -- colorscheme settings
 g.tokyonight_style = 'night'
-g.tokyonight_hide_inactive_statusline = true
+g.tokyonight_hide_inactive_statusline = false
 g.tokyonight_dark_sidebar = false
 
 cmd 'colorscheme tokyonight'
@@ -68,3 +68,6 @@ require('focus').signcolumn = false
 -- vimtex
 g.vimtex_compiler_progname = 'nvr'
 g.vimtex_view_method = 'zathura'
+
+-- doge
+g.doge_doc_standard_python = 'numpy'

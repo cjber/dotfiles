@@ -54,7 +54,10 @@ set_options({
     {'cmdheight', 1},
     {'mouse', 'a'},
     {'colorcolumn', 88},
-    {'laststatus', 0}
+    {'laststatus', 0},
+    {'spelllang', 'en_gb'},
+    {'foldmethod', 'indent'},
+    {'foldlevelstart', 99}
 })
 
 vim.o.shell = '/bin/zsh'
