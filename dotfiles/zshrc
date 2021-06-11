@@ -67,8 +67,10 @@ bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+bindkey -v '^?' backward-delete-char
 
 if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
 fi
 fpath+=~/.zfunc
@@ -100,6 +102,8 @@ alias td='nvim $HOME/todo/Dropbox/todo/todo.txt'
 alias v='nvim'
 alias vi='nvim'
 alias mb='micromamba'
+alias mvr='rsync -a --progress --remove-source-files'
+alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs tldr"
 
 export DOTREPO="$HOME/dotfiles"
 export npm_config_prefix="$HOME/.local"
@@ -107,6 +111,7 @@ export DOTDROP_PROFILE='home'
 alias dotdrop='dotdrop --cfg=$HOME/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
+alias cb="/home/cjber/.games/battlenet/drive_c/Program\ Files\ \(x86\)/World\ of\ Warcraft/_classic_/CurseBreaker-linux"
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {
@@ -151,7 +156,6 @@ zinit light-mode for \
     zsh-users/zsh-completions \
     MichaelAquilina/zsh-autoswitch-virtualenv \
     zsh-users/zsh-autosuggestions \
-    joshskidmore/zsh-fzf-history-search \
     zsh-users/zsh-history-substring-search \
     zdharma/fast-syntax-highlighting
 
@@ -185,18 +189,4 @@ fi
 unset __mamba_setup
 # <<< mamba initialize <<<
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/cjber/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/cjber/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/cjber/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/cjber/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
+eval "$(atuin init zsh)"

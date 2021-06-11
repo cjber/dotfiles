@@ -270,5 +270,5 @@ exec --no-startup-id kitty --name dropdown &
 
 bindsym $mod+i [instance="dropdown"] scratchpad show, move position center
 
-for_window [instance="dropdown"] floating enable, resize set 800 600, \
+for_window [instance="dropdown"] floating enable, resize set 1600 1000, \
     move scratchpad

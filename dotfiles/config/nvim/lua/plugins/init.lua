@@ -14,13 +14,11 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 require('plugins.plugs')
-require('plugins.bufferline')
 require('plugins.treesitter')
 require('plugins.telescope')
 require('plugins.nvimtree')
-require('plugins.hop')
-require('plugins.autopairs')
 require('plugins.betterqf')
+require('plugins.bufferline')
 
 -- lsp configs
 require('plugins.lspconfig') -- lsp config
@@ -37,3 +35,6 @@ require('spellsitter').setup()
 require('symbols-outline').setup()
 require('which-key').setup()
 require('neoscroll').setup()
+require('zen-mode').setup()
+require('jupyter-nvim').setup()
+require('dap-python').setup('~/.virtualenvs/nvim/bin/python')

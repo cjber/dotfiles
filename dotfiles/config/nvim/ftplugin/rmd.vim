@@ -13,7 +13,7 @@ inoremap <buffer> >> <Esc>:normal! a %>%<CR>a
 inoremap <buffer> __ <Esc>:normal! a <-<CR>a 
 
 function RmdRender()
-    Dispatch Rscript -e 'rmarkdown::render("'%'", quiet=T)'
+    Dispatch Rscript -e 'rmarkdown::render("%", quiet=F)'
 endfunction
 
 function RmdPdf()

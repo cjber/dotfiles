@@ -85,6 +85,9 @@ dotfiles:
   f_todo.cfg:
     src: todo.cfg
     dst: ~/.todo.cfg
+  d_yay:
+    src: config/yay
+    dst: ~/.config/yay
 profiles:
   home:
     dotfiles:
@@ -108,3 +111,4 @@ profiles:
     - f_rprofile
     - f_gitconfig
     - d_ipython
+    - d_yay

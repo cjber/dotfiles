@@ -150,7 +150,8 @@ wk.register({
             '<Cmd>lua require("lspsaga.floaterm").close_float_terminal()<CR>',
             'close term'
         }
-    }
+    },
+    m = {name = '+mode', z = {'<Cmd>ZenMode<CR>', 'zen'}}
 }, {prefix = '<leader>'})
 
 wk.register({['<Space>'] = {'', 'temp'}}, {prefix = '<localleader>'})
