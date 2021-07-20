@@ -34,7 +34,17 @@ require('colorizer').setup({'*'}, {mode = 'foreground'})
 require('spellsitter').setup()
 require('symbols-outline').setup()
 require('which-key').setup()
-require('neoscroll').setup()
 require('zen-mode').setup()
 require('jupyter-nvim').setup()
 require('dap-python').setup('~/.virtualenvs/nvim/bin/python')
+require('lightspeed').setup {
+    jump_to_first_match = true,
+    jump_on_partial_input_safety_timeout = 400,
+    highlight_unique_chars = false,
+    grey_out_search_area = true,
+    match_only_the_start_of_same_char_seqs = true,
+    limit_ft_matches = 5,
+    full_inclusive_prefix_key = '<c-x>'
+}
+require('todo-comments').setup()
+require('autosave').setup()

@@ -17,11 +17,6 @@ cmd 'syntax enable'
 
 require('colorscheme')
 
--- auto save
-g.auto_save = 1
-g.auto_save_in_insert_mode = 0
-g.auto_save_silent = 1
-
 -- python config
 g.python_host_skip_check = 1
 g.loaded_python_provider = 0
@@ -30,6 +25,9 @@ g.python3_host_skip_check = 1
 g.python3_host_prog = '/home/cjber/.virtualenvs/nvim/bin/python'
 
 -- indentline
+g.indent_blankline_use_treesitter = true
+g.indent_blankline_show_current_context = true
+
 g.indent_blankline_show_first_indent_level = false
 g.indent_blankline_buftype_exclude = {'terminal'}
 g.indent_blankline_bufname_exclude = {'', 'man:.*', 'NvimTree'}
@@ -59,11 +57,6 @@ g.startify_lists = {
     {type = 'dir', header = {'MRU ' .. vim.fn.getcwd()}},
     {type = 'files', header = {'MRU'}}
 }
-
--- focus
-require('focus').width = 89
-require('focus').height = 35
-require('focus').signcolumn = false
 
 -- vimtex
 g.vimtex_compiler_progname = 'nvr'

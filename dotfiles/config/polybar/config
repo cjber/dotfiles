@@ -61,8 +61,10 @@ font-3 = FontAwesome5Brands:style=Regular:size=10;4
 font-4 = Unifont:stype=Medium
 font-5 = Weather Icons:size=12;1
 
+enable-ipc = true
+
 {%@@ if profile == "home" @@%}
-modules-left = x system-nvidia-system system-nvidia-temp x temperature cpu_cores x nano x updates-pacman-aurhelper
+modules-left = x system-nvidia-system system-nvidia-temp x temperature cpu_cores x nano x package-updates-trigger package-updates
 {%@@ elif profile == "uni" @@%}
 modules-left = x temperature cpu_cores
 {%@@ elif profile == "laptop" @@%}
@@ -126,7 +128,7 @@ format-foreground = #8fbcbb
 
 [module/pulseaudio]
 type = internal/pulseaudio
-sink = alsa_output.pci-0000_0b_00.4.analog-stereo
+sink = alsa_output.pci-0000_0b_00.4.iec958-stereo
 use-ui-max = true
 interval = 5
 format-volume = <label-volume> <bar-volume>
@@ -238,10 +240,14 @@ type = custom/script
 exec = ~/.config/polybar/system-nvidia-smi.sh
 interval = 10
 
-[module/updates-pacman-aurhelper]
+
+[module/package-updates]
+type = custom/ipc
+hook-0 = ~/.config/polybar/package-updates
+
+[module/package-updates-trigger]
 type = custom/script
-exec = ~/.config/polybar/updates.sh
-format-foreground = #5f
+exec = polybar-msg hook package-updates 1 &>/dev/null
 interval = 600
 
 [module/weather]

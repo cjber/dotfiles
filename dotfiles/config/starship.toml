@@ -3,8 +3,8 @@ success_symbol = '[::](bold green)'
 error_symbol = "[x](bold red) "
 vicmd_symbol = "[;;](bold blue) "
 
-# [lua]
-# symbol = " "
+[lua]
+symbol = " "
 # [aws]
 # symbol = " "
 
@@ -13,8 +13,8 @@ vicmd_symbol = "[;;](bold blue) "
 # charging_symbol = ""
 # discharging_symbol = ""
 
-# [conda]
-# symbol = " "
+[conda]
+symbol = " "
 
 # [docker]
 # symbol = " "
