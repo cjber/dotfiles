@@ -40,14 +40,8 @@ set_keymap('n', {noremap = true, silent = true}, {
     {'<C-p>', ':SymbolsOutline<CR>'},
     {'[e', ':Lspsaga diagnostic_jump_prev<CR>'},
     {']e', ':Lspsaga diagnostic_jump_next<CR>'},
-    {
-        '<M-j>',
-        '<Cmd>lua require("neoscroll").scroll(vim.wo.scroll, true, 8)<CR>'
-    },
-    {
-        '<M-k>',
-        '<Cmd>lua require("neoscroll").scroll(-vim.wo.scroll, true, 8)<CR>'
-    }
+    {'<M-j>', '<C-d>'},
+    {'<M-k>', '<C-u>'}
 })
 
 -- visual
@@ -135,6 +129,12 @@ wk.register({
     b = {
         name = '+buffers',
         o = {'<Cmd>%bdelete|edit #|normal `"<CR>', 'del other buffers'}
+    },
+    t = {
+        name = '+todo',
+        l = {'<Cmd>:TodoTelescope<CR>', 'todo telescope'},
+        t = {'<Cmd>:TodoTrouble<CR>', 'todo trouble'}
+
     },
     z = {
         name = '+term',

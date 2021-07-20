@@ -26,7 +26,8 @@ function OrganizeImports(bufnr)
 end
 
 require'lspconfig'.efm.setup {
-    filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua'}
+    filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua'},
+    on_attach = custom_attach
 }
 require'lspconfig'.pyright.setup {}
 require'lspconfig'.dockerls.setup {}
@@ -35,7 +36,9 @@ require'lspconfig'.texlab.setup {}
 require'lspconfig'.vimls.setup {}
 require'lspconfig'.yamlls.setup {}
 require'lspconfig'.jsonls.setup {}
+require'lspconfig'.rust_analyzer.setup {}
+require'lspconfig'.sqls.setup {}
 
-local luadev = require('lua-dev').setup()
+local luadev = require('lua-dev').setup({cmd = {'lua-language-server'}})
 
 require'lspconfig'.sumneko_lua.setup(luadev)

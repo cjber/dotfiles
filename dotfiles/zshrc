@@ -87,7 +87,7 @@ SAVEHIST=100000
 
 alias bat="bat --style=grid,numbers --theme TwoDark"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
-alias empty='echo -n Emptying the Bin | pv -qL 10 && command rm -rf ~/.local/share/Trash/files/*'
+alias empty='gio trash --empty'
 alias la="ncdu"
 alias lf="ranger"
 alias ls='ls --color=auto'
@@ -95,11 +95,12 @@ alias lg="lazygit"
 alias mkvenv='mkvenv --python=$(pyenv which python)'
 alias py="ipython"
 alias r="radian"
-alias rm="trashf"
+alias rm="gio trash"
 alias t='todo.sh list'
 alias ta='todo.sh add'
 alias td='nvim $HOME/todo/Dropbox/todo/todo.txt'
 alias v='nvim'
+alias vv='nvim $(fzf)'
 alias vi='nvim'
 alias mb='micromamba'
 alias mvr='rsync -a --progress --remove-source-files'

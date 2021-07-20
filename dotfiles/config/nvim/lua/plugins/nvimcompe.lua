@@ -1,4 +1,4 @@
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = 'menuone,noselect,noinsert,preview'
 vim.cmd [[ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>") ]]
 
 require'compe'.setup {
@@ -73,28 +73,9 @@ vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
 vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
 -- vim.api.nvim_set_keymap('i', '<CR>', 'compe#confirm("<CR>")', {expr = true})
 
-local remap = vim.api.nvim_set_keymap
 local npairs = require('nvim-autopairs')
-
--- skip it, if you use another global object
-_G.MUtils = {}
-
-vim.g.completion_confirm_key = ''
-MUtils.completion_confirm = function()
-    if vim.fn.pumvisible() ~= 0 then
-        if vim.fn.complete_info()['selected'] ~= -1 then
-            vim.fn['compe#confirm']()
-            return npairs.esc('<c-y>')
-        else
-            vim.defer_fn(function() vim.fn['compe#confirm']('<cr>') end, 20)
-            return npairs.esc('<c-n>')
-        end
-    else
-        return npairs.check_break_line_char()
-    end
-end
-
-remap('i', '<CR>', 'v:lua.MUtils.completion_confirm()',
-      {expr = true, noremap = true})
-
 npairs.setup({disable_filetype = {'TelescopePrompt'}})
+require('nvim-autopairs.completion.compe').setup({
+    map_cr = true,
+    map_complete = true
+})

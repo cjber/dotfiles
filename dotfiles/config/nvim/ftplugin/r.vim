@@ -5,6 +5,7 @@ nmap <CR> <Plug>RDSendLine
 vmap <CR> <Plug>RDSendSelection
 
 inoremap <buffer> >> <Esc>:normal! a %>%<CR>a 
+inoremap <buffer> << <Esc>:normal! a \|><CR>a 
 
 let R_assign = 2
 let R_esc_term = 0

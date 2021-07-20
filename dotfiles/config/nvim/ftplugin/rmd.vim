@@ -10,10 +10,11 @@ nmap <CR> <Plug>RDSendLine
 vmap <CR> <Plug>RDSendSelection
 
 inoremap <buffer> >> <Esc>:normal! a %>%<CR>a 
+inoremap <buffer> << <Esc>:normal! a \|><CR>a 
 inoremap <buffer> __ <Esc>:normal! a <-<CR>a 
 
 function RmdRender()
-    Dispatch Rscript -e 'rmarkdown::render("%", quiet=F)'
+    Dispatch Rscript -e 'rmarkdown::render("%:p", quiet=F)'
 endfunction
 
 function RmdPdf()
