@@ -59,7 +59,6 @@ return require('packer').startup(function()
     use {'tpope/vim-dispatch'} -- dispate commands
     use {'tpope/vim-surround'} -- change surrounding "'< etc
     use {'tweekmonster/startuptime.vim'} -- benchmark nvim startup
-    use {'wakatime/vim-wakatime'}
     use {'windwp/nvim-autopairs'} -- auto close brackets
     -- use {'winston0410/range-highlight.nvim'}
     use {
