@@ -41,7 +41,8 @@ set_keymap('n', {noremap = true, silent = true}, {
     {'[e', ':Lspsaga diagnostic_jump_prev<CR>'},
     {']e', ':Lspsaga diagnostic_jump_next<CR>'},
     {'<M-j>', '<C-d>'},
-    {'<M-k>', '<C-u>'}
+    {'<M-k>', '<C-u>'},
+    {'x', '"0x'}
 })
 
 -- visual
