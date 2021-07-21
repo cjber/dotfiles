@@ -243,7 +243,7 @@ interval = 10
 
 [module/package-updates]
 type = custom/ipc
-hook-0 = ~/.config/polybar/package-updates
+hook-0 = ~/.config/polybar/package-updates.sh
 
 [module/package-updates-trigger]
 type = custom/script
