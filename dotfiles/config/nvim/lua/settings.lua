@@ -9,10 +9,12 @@ local function set_options(options)
 end
 
 vim.cmd('filetype plugin on')
-vim.cmd('syntax enable')
 
 enable_options({
     'expandtab',
+    'autoindent',
+    'smartindent',
+    'smarttab',
     'termguicolors',
     'wildmenu',
     'list',
@@ -38,7 +40,7 @@ set_options({
     {'sidescrolloff', 5},
     {'complete', '.,w,b,u,t,i,kspell'},
     {'wildmode', 'longest:full,full'},
-    {'tabstop', 8},
+    {'tabstop', 4},
     {'shiftwidth', 4},
     {'softtabstop', 4},
     {'grepprg', [[rg\ --vimgrep\ --smart-case\ --follow]]},

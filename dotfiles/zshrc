@@ -29,6 +29,8 @@ function _mbenv() {
         env_name=$(cat $mbenv_path)
         if [[ "$env_name" = "$CONDA_DEFAULT_ENV" ]]; then
             return
+        elif [[ "$env_name" != "$CONDA_DEFAULT_ENV" ]]; then
+                micromamba activate $env_name
         fi
         micromamba activate $env_name
         py_version=$($(which python) --version)

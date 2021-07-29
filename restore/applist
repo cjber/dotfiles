@@ -1,7 +1,7 @@
 arc-gtk-theme
 micromamba-bin
 lua-format
-json-jq
+jq
 breeze
 cronie
 detox
@@ -27,10 +27,10 @@ lightdm
 lm_sensors
 lxappearance
 mathpix-snipping-tool
-megasync-bin
+megasync
 mpv
 ncdu
-neovim-git
+neovim
 network-manager-applet
 nodejs
 noto-fonts
@@ -47,7 +47,6 @@ pulseaudio
 pulseaudio-alsa
 pv
 pyenv
-pyenv-virtualenv
 pygmentize
 python-i3ipc
 python-pipenv

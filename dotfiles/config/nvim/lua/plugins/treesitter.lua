@@ -2,9 +2,9 @@ local ts_config = require('nvim-treesitter.configs')
 
 ts_config.setup {
     ensure_installed = 'all',
-    highlight = {enable = true},
-    indent = {enable = true},
-    incremental_selection = {enable = true}
+    highlight = {enable = true}
+    -- indent = {enable = true}, -- sometimes breaks
+    -- incremental_selection = {enable = true}
 }
 
 require'nvim-treesitter.configs'.setup {

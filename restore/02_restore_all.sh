@@ -8,9 +8,8 @@ git clone https://aur.archlinux.org/yay.git \
 yes | yay -Scc \
     && yay -S --needed --noconfirm - < applist
 
-pyenv install 3.8.6
-pyenv virtualenv 3.8.6 py3nvim
-pyenv activate py3nvim
-pip install \
-    wheel \
-    neovim
+# cd ~/dotfiles/dotfiles/config/nvim/ \
+#     && mkvenv \
+#     && pip install \
+#     wheel \
+#     neovim
