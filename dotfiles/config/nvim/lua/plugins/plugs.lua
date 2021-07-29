@@ -5,7 +5,6 @@ return require('packer').startup(function()
 
     use {'Pocco81/AutoSave.nvim'} -- autosave
     use {'AndrewRadev/splitjoin.vim'} -- opposite of merge
-    -- use {'airblade/vim-rooter'} -- auto change dir to project roots
     use {'ahmedkhalf/lsp-rooter.nvim'}
     use {
         'akinsho/nvim-bufferline.lua',
@@ -60,7 +59,6 @@ return require('packer').startup(function()
     use {'tpope/vim-surround'} -- change surrounding "'< etc
     use {'tweekmonster/startuptime.vim'} -- benchmark nvim startup
     use {'windwp/nvim-autopairs'} -- auto close brackets
-    -- use {'winston0410/range-highlight.nvim'}
     use {
         'yamatsum/nvim-web-nonicons',
         requires = {'kyazdani42/nvim-web-devicons'}
@@ -68,8 +66,6 @@ return require('packer').startup(function()
     use {'tmhedberg/SimpylFold'}
     use {'Konfekt/FastFold'}
     use {'ahmedkhalf/jupyter-nvim'}
-    use {'mfussenegger/nvim-dap-python'}
-    use {'mfussenegger/nvim-dap'}
     use {'folke/todo-comments.nvim'}
     use {
         'folke/twilight.nvim',
