@@ -25,8 +25,8 @@ symbol = " "
 # [elm]
 # symbol = " "
 
-# [git_branch]
-# symbol = " "
+[git_branch]
+symbol = " "
 
 # [golang]
 # symbol = " "
@@ -34,8 +34,8 @@ symbol = " "
 # [haskell]
 # symbol = " "
 
-# [hg_branch]
-# symbol = " "
+[hg_branch]
+symbol = " "
 
 # [java]
 # symbol = " "
@@ -58,8 +58,8 @@ symbol = " "
 # [php]
 # symbol = " "
 
-# [python]
-# symbol = " "
+[python]
+symbol = " "
 
 # [ruby]
 # symbol = " "
