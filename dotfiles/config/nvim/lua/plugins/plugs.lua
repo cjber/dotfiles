@@ -71,4 +71,5 @@ return require('packer').startup(function()
         'folke/twilight.nvim',
         config = function() require('twilight').setup {} end
     }
+    use {'gelguy/wilder.nvim'}
 end)

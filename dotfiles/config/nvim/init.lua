@@ -64,3 +64,12 @@ g.vimtex_view_method = 'zathura'
 
 -- doge
 g.doge_doc_standard_python = 'numpy'
+
+-- wilder
+vim.cmd[[
+call wilder#enable_cmdline_enter()
+set wildcharm=<Tab>
+cmap <expr> <Tab> wilder#in_context() ? wilder#next() : "\<Tab>"
+cmap <expr> <S-Tab> wilder#in_context() ? wilder#previous() : "\<S-Tab>"
+call wilder#set_option('modes', ['/', '?', ':'])
+]]
