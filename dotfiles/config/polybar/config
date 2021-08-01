@@ -97,7 +97,7 @@ content-font = 0
 [module/wired-network]
 type = internal/network
 interface = enp6s0
-label-connected = %linkspeed%/%upspeed%
+label-connected = %downspeed% : %upspeed%
 label-disconnected = not connected
 format-packetloss = <animation-packetloss> <label-connected>
 animation-packetloss-0 = ⚠
