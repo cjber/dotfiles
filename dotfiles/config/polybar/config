@@ -97,8 +97,14 @@ content-font = 0
 [module/wired-network]
 type = internal/network
 interface = enp6s0
-label-connected = %linkspeed%
+label-connected = %linkspeed%/%upspeed%
 label-disconnected = not connected
+format-packetloss = <animation-packetloss> <label-connected>
+animation-packetloss-0 = ⚠
+animation-packetloss-0-foreground = #ffa64c
+animation-packetloss-1 = 📶
+animation-packetloss-1-foreground = #000000
+animation-packetloss-framerate = 500
 
 [module/i3]
 type = internal/i3
