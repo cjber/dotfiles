@@ -94,6 +94,12 @@ type = custom/text
 content = "|"
 content-font = 0
 
+[module/wired-network]
+type = internal/network
+interface = enp6s0
+label-connected = %linkspeed%
+label-disconnected = not connected
+
 [module/i3]
 type = internal/i3
 

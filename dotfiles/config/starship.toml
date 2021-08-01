@@ -5,6 +5,7 @@ vicmd_symbol = "[;;](bold blue) "
 
 [lua]
 symbol = " "
+
 # [aws]
 # symbol = " "
 
