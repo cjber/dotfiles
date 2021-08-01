@@ -72,4 +72,5 @@ return require('packer').startup(function()
         config = function() require('twilight').setup {} end
     }
     use {'gelguy/wilder.nvim'}
+    use {'tpope/vim-repeat'} -- repeat plugin cmds (including lightspeed)
 end)

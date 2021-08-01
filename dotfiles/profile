@@ -1,3 +1,5 @@
 hsetroot -solid "#1a1b26"
 xset r rate 500 60
 xrandr --output DP-2 --mode 3440x1440 --rate 144
+
+export PATH="$HOME/.poetry/bin:$PATH"
