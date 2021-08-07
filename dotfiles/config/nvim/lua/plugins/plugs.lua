@@ -51,7 +51,6 @@ return require('packer').startup(function()
     use {'rafamadriz/friendly-snippets'}
     use {'ggandor/lightspeed.nvim'}
     use {'rhysd/vim-grammarous'} -- grammar checker
-    use {'ryanoasis/vim-devicons'} -- more icons
     use {'simnalamburt/vim-mundo'} -- see undo tree
     use {'simrat39/symbols-outline.nvim'}
     use {'sindrets/diffview.nvim'} -- git diffs
@@ -59,7 +58,7 @@ return require('packer').startup(function()
     use {'tpope/vim-surround'} -- change surrounding "'< etc
     use {'tweekmonster/startuptime.vim'} -- benchmark nvim startup
     use {'windwp/nvim-autopairs'} -- auto close brackets
-    use {'yamatsum/nvim-nonicons', requires = {'kyazdani42/nvim-web-devicons'}} -- icons
+    use {'yamatsum/nvim-nonicons'} -- icons
     use {'tmhedberg/SimpylFold'}
     use {'Konfekt/FastFold'}
     use {'ahmedkhalf/jupyter-nvim'}
