@@ -92,7 +92,7 @@ alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='gio trash --empty'
 alias la="ncdu"
 alias lf="ranger"
-alias ls='ls --color=auto'
+alias ls='exa -F --icons --group-directories-first'
 alias lg="lazygit"
 alias mkvenv='mkvenv --python=$(pyenv which python)'
 alias py="ipython"
@@ -178,7 +178,7 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#bb9af7,bold,underline"
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba init' !!
 export MAMBA_EXE="/usr/bin/micromamba";
-export MAMBA_ROOT_PREFIX="~/.mamba";
+export MAMBA_ROOT_PREFIX="$HOME/.mamba";
 __mamba_setup="$('/usr/bin/micromamba' shell hook --shell zsh --prefix '.mamba' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__mamba_setup"
