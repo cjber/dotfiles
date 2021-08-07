@@ -59,10 +59,7 @@ return require('packer').startup(function()
     use {'tpope/vim-surround'} -- change surrounding "'< etc
     use {'tweekmonster/startuptime.vim'} -- benchmark nvim startup
     use {'windwp/nvim-autopairs'} -- auto close brackets
-    use {
-        'yamatsum/nvim-web-nonicons',
-        requires = {'kyazdani42/nvim-web-devicons'}
-    } -- icons
+    use {'yamatsum/nvim-nonicons', requires = {'kyazdani42/nvim-web-devicons'}} -- icons
     use {'tmhedberg/SimpylFold'}
     use {'Konfekt/FastFold'}
     use {'ahmedkhalf/jupyter-nvim'}
