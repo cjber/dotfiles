@@ -71,6 +71,7 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey -v '^?' backward-delete-char
 
+export PYTHON_CONFIGURE_OPTS="--enable-shared"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
@@ -92,7 +93,7 @@ alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='gio trash --empty'
 alias la="ncdu"
 alias lf="ranger"
-alias ls='exa -F --icons --group-directories-first'
+alias ls='exa -F --group-directories-first'
 alias lg="lazygit"
 alias mkvenv='mkvenv --python=$(pyenv which python)'
 alias py="ipython"

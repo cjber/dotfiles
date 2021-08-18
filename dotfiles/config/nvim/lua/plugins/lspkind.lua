@@ -1,28 +1,29 @@
--- commented options are defaults
+local icons = require 'nvim-nonicons'
+
 require('vim.lsp.protocol').CompletionItemKind = {
-    '  Text', -- = 1
-    '  Function', -- = 2;
-    '  Method', -- = 3;
-    '  Constructor', -- = 4;
-    '  Field', -- = 5;
-    '  Variable', -- = 6;
-    '  Class', -- = 7;
-    '  Interface', -- = 8;
-    '  Module', -- = 9;
-    '  Property', -- = 10;
-    '  Unit', -- = 11;
-    '  Value', -- = 12;
-    '  Enum', -- = 13;
-    '  Keyword', -- = 14;
-    '  Snippet', -- = 15;
-    '  Color', -- = 16;
-    '  File', -- = 17;
-    '  Reference', -- = 18;
-    '  Folder', -- = 19;
-    '  EnumMember', -- = 20;
-    '  Constant', -- = 21;
-    '  Struct', -- = 22;
-    '  Event', -- = 23;
-    '  Operator', -- = 24;
-    '  TypeParameter' -- = 25;
+    icons.get('typography') .. ' (text)',
+    icons.get('package') .. ' (function)',
+    icons.get('package') .. ' (method)',
+    icons.get('struct') .. ' (constructor)',
+    icons.get('field') .. ' (field)',
+    icons.get('variable') .. ' (variable)',
+    icons.get('class') .. ' (class)',
+    icons.get('interface') .. ' (interface)',
+    '{}(module)',
+    icons.get('tools') .. ' (property)',
+    icons.get('note') .. ' (unit)',
+    icons.get('note') .. ' (value)',
+    icons.get('list-unordered') .. ' (enum)',
+    icons.get('typography') .. ' (keyword)',
+    icons.get('snippet') .. ' (snippet)',
+    icons.get('heart') .. ' (color)', -- tmp
+    icons.get('file') .. ' (file)',
+    icons.get('file-symlink-file') .. ' (reference)',
+    icons.get('file-directory-outline') .. ' (folder)',
+    icons.get('list-unordered') .. ' (enum member)',
+    icons.get('constant') .. ' (constant)',
+    icons.get('struct') .. ' (struct)',
+    icons.get('zap') .. ' (event)',
+    icons.get('diff') .. ' (operator)',
+    icons.get('type') .. ' (type parameter)'
 }

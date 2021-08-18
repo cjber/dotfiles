@@ -6,6 +6,7 @@ require('plugins')
 require('settings')
 require('mappings')
 require('autocmds')
+vim.cmd [[source $HOME/.config/nvim/plugin/wilder.vim]]
 
 -- colorscheme settings
 g.tokyonight_style = 'night'

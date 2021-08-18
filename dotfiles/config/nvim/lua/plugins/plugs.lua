@@ -5,12 +5,12 @@ return require('packer').startup(function()
 
     use {'Pocco81/AutoSave.nvim'} -- autosave
     use {'AndrewRadev/splitjoin.vim'} -- opposite of merge
-    use {'ahmedkhalf/lsp-rooter.nvim'}
+    use {'ahmedkhalf/project.nvim'}
     use {
         'akinsho/nvim-bufferline.lua',
         requires = 'kyazdani42/nvim-web-devicons'
     } -- bufferline
-    use {'alexaandru/nvim-lspupdate', run = ':LspUpdate'}
+    use {'alexaandru/nvim-lspupdate', requires = {'rktjmp/hotpot.nvim'}}
     use {'b3nj5m1n/kommentary'} -- comment out code
     use {'chrisbra/NrrwRgn'} -- move code chunks from md/rmd to small window
     use {'dbeniamine/todo.txt-vim'} -- todo.txt helpers
@@ -24,8 +24,6 @@ return require('packer').startup(function()
     }
     use {'glepnir/lspsaga.nvim'}
     use {'hrsh7th/nvim-compe'} -- lang completion
-    use {'hrsh7th/vim-vsnip'} -- snippets
-    use {'hrsh7th/vim-vsnip-integ'}
     use {'jalvesaq/Nvim-R'} -- R repl + utils
     use {'jalvesaq/vimcmdline'} -- repl
     use {'kevinhwang91/nvim-bqf'}
@@ -48,12 +46,10 @@ return require('packer').startup(function()
     use {'nvim-treesitter/nvim-treesitter-textobjects'}
     use {'nvim-treesitter/playground'} -- visualise treesitter
     use {'onsails/lspkind-nvim'} -- lsp symbols
-    use {'rafamadriz/friendly-snippets'}
     use {'ggandor/lightspeed.nvim'}
     use {'rhysd/vim-grammarous'} -- grammar checker
     use {'simnalamburt/vim-mundo'} -- see undo tree
     use {'simrat39/symbols-outline.nvim'}
-    use {'sindrets/diffview.nvim'} -- git diffs
     use {'tpope/vim-dispatch'} -- dispate commands
     use {'tpope/vim-surround'} -- change surrounding "'< etc
     use {'tweekmonster/startuptime.vim'} -- benchmark nvim startup
@@ -67,6 +63,7 @@ return require('packer').startup(function()
         'folke/twilight.nvim',
         config = function() require('twilight').setup {} end
     }
-    use {'gelguy/wilder.nvim'}
+    use {'gelguy/wilder.nvim', requires = {{'nixprime/cpsm', run = './install.sh'}, 'romgrk/fzy-lua-native'}}
     use {'tpope/vim-repeat'} -- repeat plugin cmds (including lightspeed)
+    use {'rcarriga/nvim-notify'}
 end)
