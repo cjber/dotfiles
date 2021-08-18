@@ -36,7 +36,6 @@ require('symbols-outline').setup()
 require('which-key').setup()
 require('zen-mode').setup()
 require('jupyter-nvim').setup()
--- require('dap-python').setup('~/.virtualenvs/nvim/bin/python')
 require('lightspeed').setup {
     jump_to_first_match = true,
     jump_on_partial_input_safety_timeout = 400,
@@ -48,3 +47,4 @@ require('lightspeed').setup {
 }
 require('todo-comments').setup()
 require('autosave').setup()
+require('project_nvim').setup()

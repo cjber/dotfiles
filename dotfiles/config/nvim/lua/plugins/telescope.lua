@@ -19,13 +19,13 @@ require('telescope').setup {
         selection_strategy = 'reset',
         sorting_strategy = 'descending',
         layout_strategy = 'vertical',
-        --[[ layout_config = {
+        layout_config = {
             horizontal = {mirror = false, preview_width = 0.5},
             vertical = {mirror = false, preview_height = 0.5},
             width = 0.75,
             prompt_position = 'bottom',
             preview_cutoff = 120
-        }, ]]
+        },
         file_sorter = require'telescope.sorters'.get_fuzzy_file,
         file_ignore_patterns = {},
         generic_sorter = require'telescope.sorters'.get_generic_fuzzy_sorter,
@@ -47,3 +47,4 @@ require('telescope').setup {
         }
     }
 }
+require('telescope').load_extension('projects')

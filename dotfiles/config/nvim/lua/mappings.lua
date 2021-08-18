@@ -70,16 +70,16 @@ vim.g.maplocalleader = ','
 wk.register({
     f = {
         name = '+find',
-        f = {'<Cmd>Telescope find_files<CR>', 'files'},
-        b = {'<Cmd>Telescope buffers show_all_buffers=true<CR>', 'buffers'},
-        h = {'<Cmd>Telescope help_tags<CR>', 'help tags'},
-        o = {'<Cmd>Telescope oldfiles<CR>', 'old files'},
-        r = {'<Cmd>Telescope live_grep<CR>', 'live grep'},
+        f = {'<Cmd>Telescope find_files theme=get_ivy previewer=false<CR>', 'files'},
+        b = {'<Cmd>Telescope buffers show_all_buffers=true theme=get_ivy previewer=false<CR>', 'buffers'},
+        h = {'<Cmd>Telescope help_tags theme=get_ivy previewer=false<CR>', 'help tags'},
+        o = {'<Cmd>Telescope oldfiles theme=get_ivy previewer=false<CR>', 'old files'},
+        r = {'<Cmd>Telescope live_grep theme=get_ivy previewer=false<CR>', 'live grep'},
         u = {'<Cmd>MundoToggle<CR>', 'undotree'},
         c = {
             name = '+commands',
-            c = {'<Cmd>Telescope commands<CR>', 'commands'},
-            h = {'<Cmd>Telescope command_history<CR>', 'history'}
+            c = {'<Cmd>Telescope commands theme=get_ivy previewer=false<CR>', 'commands'},
+            h = {'<Cmd>Telescope command_history theme=get_ivy previewer=false<CR>', 'history'}
         },
         q = {'<Cmd>Telescope quickfix<CR>', 'quickfix'},
         g = {

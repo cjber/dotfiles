@@ -18,17 +18,17 @@ require'compe'.setup {
         path = true,
         buffer = true,
         calc = true,
-        vsnip = true,
+        vsnip = false,
         nvim_lsp = true,
         nvim_lua = true,
         spell = true,
         tags = true,
-        snippets_nvim = true,
+        snippets_nvim = false,
         treesitter = true
     }
 }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.snippetSupport = false
 
 local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -49,8 +49,6 @@ end
 _G.tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t '<C-n>'
-    elseif vim.fn.call('vsnip#available', {1}) == 1 then
-        return t '<Plug>(vsnip-expand-or-jump)'
     elseif check_back_space() then
         return t '<Tab>'
     else
@@ -60,8 +58,6 @@ end
 _G.s_tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t '<C-p>'
-    elseif vim.fn.call('vsnip#jumpable', {-1}) == 1 then
-        return t '<Plug>(vsnip-jump-prev)'
     else
         return t '<S-Tab>'
     end
@@ -79,3 +75,4 @@ require('nvim-autopairs.completion.compe').setup({
     map_cr = true,
     map_complete = true
 })
+
