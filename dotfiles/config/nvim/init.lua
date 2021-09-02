@@ -3,10 +3,11 @@ local g = vim.g
 
 -- load plugins
 require('plugins')
+vim.notify = require('notify')
+
 require('settings')
 require('mappings')
 require('autocmds')
-vim.cmd [[source $HOME/.config/nvim/plugin/wilder.vim]]
 
 -- colorscheme settings
 g.tokyonight_style = 'night'
@@ -65,12 +66,3 @@ g.vimtex_view_method = 'zathura'
 
 -- doge
 g.doge_doc_standard_python = 'numpy'
-
--- wilder
-vim.cmd [[
-call wilder#enable_cmdline_enter()
-set wildcharm=<Tab>
-cmap <expr> <Tab> wilder#in_context() ? wilder#next() : "\<Tab>"
-cmap <expr> <S-Tab> wilder#in_context() ? wilder#previous() : "\<S-Tab>"
-call wilder#set_option('modes', ['/', '?', ':'])
-]]

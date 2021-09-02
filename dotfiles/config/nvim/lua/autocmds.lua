@@ -1,4 +1,4 @@
-local au = require('funcs.autocmds')
+local au = require('funcs.autocmd')
 
 au.define_autocmds({
     FileType = {

@@ -22,20 +22,59 @@ function OrganizeImports(bufnr)
     if edits then vim.lsp.util.apply_workspace_edit(edits) end
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 require'lspconfig'.efm.setup {
     filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua'},
-    on_attach = custom_attach
+    capabilities = capabilities
 }
-require'lspconfig'.pyright.setup {}
-require'lspconfig'.dockerls.setup {}
-require'lspconfig'.r_language_server.setup {filetypes = {'r', 'rmd'}}
-require'lspconfig'.texlab.setup {}
-require'lspconfig'.vimls.setup {}
-require'lspconfig'.yamlls.setup {}
-require'lspconfig'.jsonls.setup {}
-require'lspconfig'.rust_analyzer.setup {}
-require'lspconfig'.sqls.setup {}
+require'lspconfig'.pyright.setup {
+    flags = {debounce_text_changes = 150},
+    settings = {
+        python = {
+            analysis = {
+                autoSearchPaths = false,
+                useLibraryCodeForTypes = false,
+                diagnosticMode = 'openFilesOnly'
+            }
+        }
+    },
+    capabilities = capabilities
+}
+require'lspconfig'.dockerls.setup {capabilities = capabilities}
+require'lspconfig'.r_language_server.setup {
+    filetypes = {'r', 'rmd'},
+    capabilities = capabilities
+}
+require'lspconfig'.texlab.setup {capabilities = capabilities}
+require'lspconfig'.vimls.setup {capabilities = capabilities}
+require'lspconfig'.yamlls.setup {capabilities = capabilities}
+require'lspconfig'.jsonls.setup {capabilities = capabilities}
+require'lspconfig'.rust_analyzer.setup {capabilities = capabilities}
+require'lspconfig'.sqls.setup {capabilities = capabilities}
 
-local luadev = require('lua-dev').setup({cmd = {'lua-language-server'}})
+local luadev = require('lua-dev').setup({
+    lspconfig = {cmd = {'lua-language-server'}},
+    capabilities = capabilities
+})
 
 require'lspconfig'.sumneko_lua.setup(luadev)
+
+require('grammar-guard').init()
+require('lspconfig').grammar_guard.setup({
+    filetypes = {'rmd', 'tex', 'markdown'},
+    settings = {
+        ltex = {
+            enabled = {'latex', 'tex', 'bib', 'markdown'},
+            language = 'en-GB',
+            diagnosticSeverity = 'information',
+            setenceCacheSize = 2000,
+            additionalRules = {enablePickyRules = true, motherTongue = 'en-GB'},
+            trace = {server = 'verbose'},
+            dictionary = {},
+            disabledRules = {['en-GB'] = {'OXFORD_SPELLING_Z_NOT_S'}},
+            hiddenFalsePositives = {}
+        }
+    }
+})

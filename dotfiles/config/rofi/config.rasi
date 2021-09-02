@@ -74,31 +74,22 @@ element {
   text-color: @text-alt;
   highlight: bold #95ee8f; /* green */
   border-radius: 3px;
+  background: #1a1b26;
 }
 
-element selected {
-  background-color: @emphasis;
-  text-color: @text;
+element selected.normal {
+        text-color: @bg;
+        background-color: @fg;
+    }
+
+element normal.normal {
+  text-color: @text-alt;
+  /* background-color: #1a1b26; */
+  background-color: transparent;
 }
 
-element urgent, element selected urgent {
-  text-color: @red;
-}
-
-element active, element selected active {
-  text-color: @purple;
-}
-
-message {
-  padding: 5px;
-  border-radius: 3px;
-  background-color: @emphasis;
-  border: 1px;
-  border-color: @cyan;
-}
-
-button selected {
-  padding: 5px;
-  border-radius: 3px;
-  background-color: @emphasis;
+element alternate.normal {
+  text-color: @text-alt;
+  /* background-color: #1a1b26; */
+  background-color: transparent;
 }

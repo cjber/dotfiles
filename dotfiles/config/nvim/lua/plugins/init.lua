@@ -23,11 +23,11 @@ require('plugins.bufferline')
 -- lsp configs
 require('plugins.lspconfig') -- lsp config
 require('plugins.lspsaga')
-require('plugins.nvimcompe') -- completions
 require('plugins.lspkind') -- completion icons
 require('plugins.textobjects') -- Move in functions etc
-require('trouble').setup()
 
+-- misc
+require('trouble').setup()
 require('numb').setup()
 require('kommentary.config').use_extended_mappings()
 require('colorizer').setup({'*'}, {mode = 'foreground'})
@@ -35,7 +35,6 @@ require('spellsitter').setup()
 require('symbols-outline').setup()
 require('which-key').setup()
 require('zen-mode').setup()
-require('jupyter-nvim').setup()
 require('lightspeed').setup {
     jump_to_first_match = true,
     jump_on_partial_input_safety_timeout = 400,

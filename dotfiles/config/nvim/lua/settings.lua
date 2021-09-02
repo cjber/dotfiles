@@ -31,7 +31,8 @@ enable_options({
     'nobackup',
     'noswapfile',
     'nowritebackup',
-    'noruler'
+    'noruler',
+    'nofoldenable'
 })
 
 set_options({
@@ -58,9 +59,7 @@ set_options({
     {'mouse', 'a'},
     {'colorcolumn', 88},
     {'laststatus', 0},
-    {'spelllang', 'en_gb'},
-    {'foldmethod', 'indent'},
-    {'foldlevelstart', 99}
+    {'spelllang', 'en_gb'}
 })
 
 vim.o.shell = '/bin/zsh'
