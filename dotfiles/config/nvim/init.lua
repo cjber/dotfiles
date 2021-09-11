@@ -3,7 +3,7 @@ local g = vim.g
 
 -- load plugins
 require('plugins')
--- vim.notify = require('notify')
+vim.notify = require('notify')
 
 require('settings')
 require('mappings')
