@@ -126,6 +126,7 @@ wk.register({
             'hover'
         },
         r = {'<Cmd>LspTroubleToggle lsp_references<CR>', 'references'},
+        x = {'<Cmd>lua vim.lsp.diagnostic.disable()<CR>', 'disable lsp'},
         z = {':LspRestart<CR>', 'restart lsp'}
     },
     b = {

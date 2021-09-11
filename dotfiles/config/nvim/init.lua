@@ -3,7 +3,7 @@ local g = vim.g
 
 -- load plugins
 require('plugins')
-vim.notify = require('notify')
+-- vim.notify = require('notify')
 
 require('settings')
 require('mappings')
@@ -33,7 +33,7 @@ g.indent_blankline_show_current_context = true
 g.indent_blankline_show_first_indent_level = false
 g.indent_blankline_buftype_exclude = {'terminal'}
 g.indent_blankline_bufname_exclude = {'', 'man:.*', 'NvimTree'}
-g.indent_blankline_char = '┋'
+g.indent_blankline_char = '│'
 
 -- nvim r
 g.markdown_fenced_languages = {'r', 'python'}
@@ -49,16 +49,6 @@ g.cmdline_app = {['python'] = 'ipython'}
 g.mundo_preview_bottom = 1
 g.mundo_verbose_graph = 0
 g.mundo_width = 32
-
--- rooter
-g.rooter_patterns = {'.git', '*.toml'}
-g.rooter_targets = '*.py,*.R,*.Rmd'
-
--- startify
-g.startify_lists = {
-    {type = 'dir', header = {'MRU ' .. vim.fn.getcwd()}},
-    {type = 'files', header = {'MRU'}}
-}
 
 -- vimtex
 g.vimtex_compiler_progname = 'nvr'

@@ -32,6 +32,7 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec kitty --single-instance
+bindsym $mod+Shift+Return exec kitty --single-instance nvim
 
 # kill focused window
 bindsym $mod+Shift+q kill

@@ -65,7 +65,7 @@ tools:
     format-stdin: true
 
   python-isort: &python-isort
-    format-command: 'isort --quiet -'
+    format-command: 'isort --profile black --float-to-top --no-sections --quiet  -'
     format-stdin: true
 
   dockerfile-hadolint: &dockerfile-hadolint
