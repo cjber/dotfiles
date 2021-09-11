@@ -9,6 +9,8 @@ local function set_options(options)
 end
 
 vim.cmd('filetype plugin on')
+vim.cmd('set formatoptions-=cro')
+vim.o.shell = '/bin/zsh'
 
 enable_options({
     'expandtab',
@@ -50,6 +52,7 @@ set_options({
     {'history', 10000},
     {'signcolumn', 'number'},
     {'undolevels', 1000},
+    {'undodir', '~/.local/share/undo'},
     {'showbreak', '¦'},
     {'conceallevel', 2},
     {'concealcursor', ''},
@@ -59,14 +62,7 @@ set_options({
     {'mouse', 'a'},
     {'colorcolumn', 88},
     {'laststatus', 0},
-    {'spelllang', 'en_gb'}
+    {'spelllang', 'en_gb'},
+    {'jumpoptions', 'stack'},
+    {'listchars', 'tab:»\\ ,trail:·'}
 })
-
-vim.o.shell = '/bin/zsh'
-
-vim.o.errorformat = vim.o.errorformat ..
-                        [[\%*\\sFile\ \"%f\"\\,\ line\ %l\\,\ %m,]] ..
-                        [[\%*\\sFile\ \"%f\"\\,\ line\ %l,]] .. [[\%f:%l:\ %m,]] ..
-                        [[\%f:%l:,]] .. [[\%-G%.%#]]
-
-vim.cmd('set formatoptions-=cro')

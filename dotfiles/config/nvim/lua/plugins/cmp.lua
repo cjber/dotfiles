@@ -1,5 +1,6 @@
 local cmp = require('cmp')
 cmp.setup {
+    experimental = {ghost_text = true},
     snippet = {expand = function(args) vim.fn['vsnip#anonymous'](args.body) end},
     mapping = {
         ['<S-Tab>'] = cmp.mapping.select_prev_item(),

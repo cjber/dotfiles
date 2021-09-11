@@ -81,6 +81,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/Nvim-R"
   },
+  ["alpha-nvim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/alpha-nvim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/cmp-buffer"
@@ -97,9 +101,17 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/cmp-path"
   },
+  ["direnv.vim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/direnv.vim"
+  },
   ["grammar-guard.nvim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/grammar-guard.nvim"
+  },
+  ["headlines.nvim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/headlines.nvim"
   },
   ["hotpot.nvim"] = {
     loaded = true,
@@ -221,10 +233,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/spellsitter.nvim"
   },
-  ["splitjoin.vim"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/splitjoin.vim"
-  },
   ["startuptime.vim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/startuptime.vim"
@@ -269,10 +277,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-repeat"
   },
-  ["vim-startify"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-startify"
-  },
   ["vim-surround"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-surround"
@@ -296,19 +300,10 @@ _G.packer_plugins = {
   ["which-key.nvim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/which-key.nvim"
-  },
-  ["zen-mode.nvim"] = {
-    config = { "\27LJ\1\2:\0\0\2\0\3\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\1G\0\1\0\nsetup\rzen-mode\frequire\0" },
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/zen-mode.nvim"
   }
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: zen-mode.nvim
-time([[Config for zen-mode.nvim]], true)
-try_loadstring("\27LJ\1\2:\0\0\2\0\3\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\1G\0\1\0\nsetup\rzen-mode\frequire\0", "config", "zen-mode.nvim")
-time([[Config for zen-mode.nvim]], false)
 if should_profile then save_profiles() end
 
 end)

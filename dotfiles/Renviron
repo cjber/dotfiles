@@ -1,3 +1,4 @@
 R_LIBS_USER=/home/cjber/.r
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 MAKE=make -j16
+GITHUB_PAT=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

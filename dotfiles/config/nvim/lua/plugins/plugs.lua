@@ -43,7 +43,7 @@ return require('packer').startup(function()
     use {'lewis6991/spellsitter.nvim'}
     use {'lukas-reineke/indent-blankline.nvim'} -- indent guide
     use {'markonm/traces.vim'} -- highlight subs etc
-    use {'mhinz/vim-startify'}
+    -- use {'mhinz/vim-startify'}
     use {'nacro90/numb.nvim'}
     use {'neovim/nvim-lspconfig'} -- language servers
     use {'norcalli/nvim-colorizer.lua'} -- highlight colours
@@ -64,4 +64,7 @@ return require('packer').startup(function()
     use {'tweekmonster/startuptime.vim'} -- benchmark nvim startup
     use {'windwp/nvim-autopairs'} -- auto close brackets
     use {'yamatsum/nvim-nonicons'} -- icons
+    use {'lukas-reineke/headlines.nvim'}
+    use {'direnv/direnv.vim'}
+    use {'goolord/alpha-nvim', requires = {'kyazdani42/nvim-web-devicons'}}
 end)
