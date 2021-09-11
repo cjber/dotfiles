@@ -131,11 +131,12 @@ zinit light-mode for \
 export GOPATH="$HOME/.go"
 export PYENV_ROOT="$HOME/.pyenv"
 
-export PATH="$GOPATH/bin:$PATH"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="/home/cjber/.cargo/bin:$PATH"
-export PATH="/home/cjber/bin:$PATH"
-export PATH="/home/cjber/.local/bin:$PATH"
+path+=$GOPATH/bin
+path+=$PYENV_ROOT/bin
+path+=$HOME/.cargo/bin
+path+=$HOME/bin
+path+=$HOME/.local/bin
+export PATH
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#5c6370,bold,underline"
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#bb9af7,bold,underline"
