@@ -16,6 +16,7 @@ cmp.setup {
     sources = {
         {name = 'nvim_lsp'},
         {name = 'nvim_lua'},
+        {name = 'cmp_tabnine'},
         {name = 'buffer'},
         {name = 'path'}
     },
@@ -28,7 +29,8 @@ cmp.setup {
                 nvim_lsp = '[LSP]',
                 luasnip = '[LuaSnip]',
                 nvim_lua = '[Lua]',
-                latex_symbols = '[Latex]'
+                latex_symbols = '[Latex]',
+                cmp_tabnine = '[TN]'
             })[entry.source.name]
             return vim_item
         end
@@ -37,6 +39,12 @@ cmp.setup {
         border = {'┌', '─', '┐', '│', '┘', '─', '└', '│'}
     }
 }
+require('cmp_tabnine.config'):setup({
+    max_lines = 1000,
+    max_num_results = 20,
+    sort = true,
+    show_prediction_strength = true
+})
 
 require('nvim-autopairs').setup {}
 require('nvim-autopairs.completion.cmp').setup({

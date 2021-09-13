@@ -30,6 +30,7 @@ require('plugins.textobjects') -- Move in functions etc
 
 -- misc
 require('trouble').setup()
+-- require('focus').setup()
 require('numb').setup()
 require('kommentary.config').use_extended_mappings()
 require('colorizer').setup({'*'}, {mode = 'foreground'})

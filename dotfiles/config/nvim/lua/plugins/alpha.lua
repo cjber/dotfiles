@@ -103,7 +103,7 @@ local buttons = {
         button('f', '  Find file', ':Telescope find_files<CR>'),
         button('r', '  Recent', ':Telescope oldfiles<CR>'),
         button('a', '  Projects', ':Telescope projects<CR>'),
-        button('s', '  Settings', ':e $MYVIMRC'),
+        button('s', '  Settings', ':cd $HOME/dotfiles/dotfiles/config/nvim | e $MYVIMRC<CR>'),
         button('q', '  Quit NVIM', ':qa<CR>')
     },
     opts = {spacing = 1}
