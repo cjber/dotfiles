@@ -30,7 +30,8 @@ return require('packer').startup(function()
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-nvim-lua',
             'hrsh7th/vim-vsnip',
-            'hrsh7th/vim-vsnip-integ'
+            'hrsh7th/vim-vsnip-integ',
+            {'tzachar/cmp-tabnine', run = './install.sh'}
         }
     }
     use {'jalvesaq/Nvim-R'} -- R repl + utils

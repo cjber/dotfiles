@@ -19,11 +19,11 @@ function RmdRender()
 endfunction
 
 function RmdPdf()
-    Dispatch! zathura %:r.pdf
+    Dispatch! zathura %:r.pdf &
 endfunction
 
 function RmdHTML()
-    Dispatch! firefox %:r.html
+    Dispatch! firefox %:r.html &
 endfunction
 
 " Nvim R
@@ -34,4 +34,4 @@ let R_app = "radian"
 let R_cmd = "R"
 let R_hl_term = 0
 let R_bracketed_paste = 1
-let rmd_syn_hl_chunk=1
+let rmd_syn_hl_chunk = 1

@@ -48,13 +48,17 @@ require'lspconfig'.zeta_note.setup {
 }
 
 local luadev = require('lua-dev').setup({
-    lspconfig = {cmd = {'lua-language-server'}},
+    lspconfig = {
+        cmd = {'lua-language-server'},
+        settings = {Lua = {diagnostics = {globals = {'use'}}}}
+    },
     capabilities = capabilities
+
 })
 
 require'lspconfig'.sumneko_lua.setup(luadev)
 
-require('grammar-guard').init()
+--[[ require('grammar-guard').init()
 require('lspconfig').grammar_guard.setup({
     capabilities = capabilities,
     filetypes = {'rmd', 'tex', 'markdown'},
@@ -72,6 +76,6 @@ require('lspconfig').grammar_guard.setup({
         }
     }
 })
-
+ ]]
 require('sourcery')
 require('lspconfig').sourcery.setup {}
