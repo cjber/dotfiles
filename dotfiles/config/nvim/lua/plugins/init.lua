@@ -29,6 +29,7 @@ require('plugins.lspkind') -- completion icons
 require('plugins.textobjects') -- Move in functions etc
 
 -- misc
+require('hlslens').setup({calm_down = true, nearest_only = true})
 require('trouble').setup()
 -- require('focus').setup()
 require('numb').setup()

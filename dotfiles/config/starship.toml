@@ -6,67 +6,71 @@ vicmd_symbol = "[;;](bold blue) "
 [lua]
 symbol = " "
 
-# [aws]
-# symbol = " "
+[aws]
+symbol = " "
 
-# [battery]
-# full_symbol = ""
-# charging_symbol = ""
-# discharging_symbol = ""
+[battery]
+full_symbol = ""
+charging_symbol = ""
+discharging_symbol = ""
 
 [conda]
-symbol = " "
+symbol = " "
 
-# [docker]
-# symbol = " "
+[docker_context]
+symbol = " "
 
-# [elixir]
-# symbol = " "
+[elixir]
+symbol = " "
 
-# [elm]
-# symbol = " "
+[elm]
+symbol = " "
 
 [git_branch]
 symbol = " "
 
-# [golang]
-# symbol = " "
-
-# [haskell]
-# symbol = " "
+[golang]
+symbol = " "
 
 [hg_branch]
 symbol = " "
 
-# [java]
-# symbol = " "
+[java]
+symbol = " "
 
-# [julia]
-# symbol = " "
+[julia]
+symbol = " "
 
-# [memory_usage]
-# symbol = " "
+[memory_usage]
+symbol = " "
 
-# [nix_shell]
-# symbol = " "
+[nix_shell]
+symbol = " "
 
-# [nodejs]
-# symbol = " "
+[nodejs]
+symbol = " "
 
-# [package]
-# symbol = " "
+[package]
+symbol = " "
 
-# [php]
-# symbol = " "
+[php]
+symbol = " "
 
 [python]
 symbol = " "
 
-# [ruby]
-# symbol = " "
+[ruby]
+symbol = " "
 
-# [rust]
-# symbol = " "
+[rust]
+symbol = " "
 
-# [gcloud]
-# disabled = true
+[rlang]
+detect_files = []
+symbol = "Ʀ "
+
+
+[gcloud]
+disabled = true
+
+

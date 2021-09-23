@@ -1,20 +1,42 @@
+local border = {
+    {'┌', 'FloatBorder'},
+    {'─', 'FloatBorder'},
+    {'┐', 'FloatBorder'},
+    {'│', 'FloatBorder'},
+    {'┘', 'FloatBorder'},
+    {'─', 'FloatBorder'},
+    {'└', 'FloatBorder'},
+    {'│', 'FloatBorder'}
+}
+
 -- customise diagnostics
 vim.lsp.handlers['textDocument/publishDiagnostics'] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics,
                  {virtual_text = false, signs = true, update_in_insert = false})
 
 vim.lsp.handlers['textDocument/hover'] =
-    vim.lsp.with(vim.lsp.handlers.hover, {border = 'single'})
+    vim.lsp.with(vim.lsp.handlers.hover, {border = border})
 
 vim.lsp.handlers['textDocument/signatureHelp'] =
-    vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'single'})
+    vim.lsp.with(vim.lsp.handlers.signature_help, {border = border})
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
+require('lsp_signature').setup({
+    bind = true,
+    handler_opts = {border = border},
+    hint_scheme = 'Comment',
+    hint_prefix = ' ',
+    fix_pos = true,
+    max_height = 6,
+    max_width = 89
+})
+
 require'lspconfig'.efm.setup {
     filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua'},
     capabilities = capabilities
+
 }
 require'lspconfig'.pyright.setup {
     flags = {debounce_text_changes = 150},
@@ -79,3 +101,4 @@ require('lspconfig').grammar_guard.setup({
  ]]
 require('sourcery')
 require('lspconfig').sourcery.setup {}
+require('rust-tools').setup({})

@@ -71,7 +71,7 @@ modules-left = x temperature cpu_cores
 modules-left = x temperature cpu_cores
 {%@@ endif @@%}
 modules-center = cpu i3 memory 
-modules-right = pulseaudio x weather x filesystem x date
+modules-right = pipewire x weather x filesystem x date
 
 
 tray-position = left
@@ -137,6 +137,18 @@ format-prefix-underline = #d8dee9
 label = %time%
 format = <label>
 format-foreground = #8fbcbb
+
+
+[module/pipewire]
+type = custom/script
+label = "%output%"
+label-font = 2
+interval = 2.0
+exec = ~/.config/polybar/sound.sh
+click-right = exec pavucontrol &
+click-left = ~/.config/polybar/sound.sh mute &
+scroll-up = ~/.config/polybar/sound.sh up &
+scroll-down = ~/.config/polybar/sound.sh down &
 
 [module/pulseaudio]
 type = internal/pulseaudio
