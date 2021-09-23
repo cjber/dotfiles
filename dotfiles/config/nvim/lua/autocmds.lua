@@ -20,8 +20,5 @@ au.define_autocmds({
     },
     CursorHold = {
         ['*'] = {[[lua require'lspsaga.diagnostic'.show_cursor_diagnostics()]]}
-    },
-    CursorHoldI = {
-        ['*'] = {[[lua require'lspsaga.signaturehelp'.signature_help()]]}
     }
 })

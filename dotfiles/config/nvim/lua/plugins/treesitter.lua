@@ -2,9 +2,17 @@ local ts_config = require('nvim-treesitter.configs')
 
 ts_config.setup {
     ensure_installed = 'all',
-    highlight = {enable = true}
-    -- indent = {enable = true}, -- sometimes breaks
-    -- incremental_selection = {enable = true}
+    highlight = {enable = true},
+    indent = {enable = true}, -- sometimes breaks
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = 'gnn',
+            node_incremental = 'grn',
+            scope_incremental = 'grc',
+            node_decremental = 'grm'
+        }
+    }
 }
 
 require'nvim-treesitter.configs'.setup {
@@ -24,6 +32,21 @@ require'nvim-treesitter.configs'.setup {
             update = 'R',
             goto_node = '<cr>',
             show_help = '?'
+        }
+    }
+}
+require'treesitter-context'.setup {
+    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    throttle = true -- Throttles plugin updates (may improve performance)
+}
+
+require'nvim-treesitter.configs'.setup {
+    textobjects = {
+        move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {['<M-j>'] = '@function.outer'},
+            goto_previous_start = {['<M-k>'] = '@function.outer'}
         }
     }
 }

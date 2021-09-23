@@ -1,3 +1,7 @@
+if [ -z "$DISPLAY" -a $XDG_VTNR -eq 1 ]; then
+  startx
+fi
+
 bindkey -v
 
 eval "$(direnv hook zsh)"
@@ -53,6 +57,8 @@ HISTSIZE=100000
 SAVEHIST=100000
 # End of lines configured by zsh-newuser-install
 
+alias ssh="kitty +kitten ssh"
+alias upd='yes | yay && zinit update --all && nvim +PackerSync +LspUpdate'
 alias bat="bat --style=grid,numbers --theme TwoDark"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='gio trash --empty'
@@ -60,7 +66,6 @@ alias la="ncdu"
 alias lf="ranger"
 alias ls='exa -F --group-directories-first'
 alias lg="lazygit"
-alias mkvenv='mkvenv --python=$(pyenv which python)'
 alias py="ipython"
 alias r="radian"
 alias rm="gio trash"
@@ -80,7 +85,6 @@ export DOTDROP_PROFILE='home'
 alias dotdrop='dotdrop --cfg=$HOME/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
-alias cb="/home/cjber/.games/battlenet/drive_c/Program\ Files\ \(x86\)/World\ of\ Warcraft/_classic_/CurseBreaker-linux"
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {

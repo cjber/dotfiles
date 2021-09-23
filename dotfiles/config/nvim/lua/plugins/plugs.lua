@@ -9,7 +9,7 @@ return require('packer').startup(function()
         'akinsho/nvim-bufferline.lua',
         requires = 'kyazdani42/nvim-web-devicons'
     } -- bufferline
-    use {'alexaandru/nvim-lspupdate', requires = {'rktjmp/hotpot.nvim'}}
+    -- use {'alexaandru/nvim-lspupdate', requires = {'rktjmp/hotpot.nvim'}}
     use {'b3nj5m1n/kommentary'} -- comment out code
     use {'brymer-meneses/grammar-guard.nvim'}
     use {'chrisbra/NrrwRgn'} -- move code chunks from md/rmd to small window
@@ -21,7 +21,7 @@ return require('packer').startup(function()
     use {'folke/tokyonight.nvim'} -- theme
     use {'folke/which-key.nvim'} -- visualise bindings
     use {'ggandor/lightspeed.nvim'}
-    use {'glepnir/lspsaga.nvim'}
+    use {'tami5/lspsaga.nvim'}
     use {
         'hrsh7th/nvim-cmp',
         requires = {
@@ -31,6 +31,7 @@ return require('packer').startup(function()
             'hrsh7th/cmp-nvim-lua',
             'hrsh7th/vim-vsnip',
             'hrsh7th/vim-vsnip-integ',
+            'saadparwaiz1/cmp_luasnip',
             {'tzachar/cmp-tabnine', run = './install.sh'}
         }
     }
@@ -68,4 +69,9 @@ return require('packer').startup(function()
     use {'lukas-reineke/headlines.nvim'}
     use {'direnv/direnv.vim'}
     use {'goolord/alpha-nvim', requires = {'kyazdani42/nvim-web-devicons'}}
+    use {'ray-x/lsp_signature.nvim'}
+    use {'simrat39/rust-tools.nvim'}
+    use {'saecki/crates.nvim'}
+    use {'rust-lang/rust.vim'}
+    use {'romgrk/nvim-treesitter-context'}
 end)
