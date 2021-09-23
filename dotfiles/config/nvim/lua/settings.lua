@@ -33,8 +33,8 @@ enable_options({
     'nobackup',
     'noswapfile',
     'nowritebackup',
-    'noruler',
-    'nofoldenable'
+    'noruler'
+    -- 'nofoldenable'
 })
 
 set_options({
@@ -64,5 +64,12 @@ set_options({
     {'laststatus', 0},
     {'spelllang', 'en_gb'},
     {'jumpoptions', 'stack'},
-    {'listchars', 'tab:»\\ ,trail:·'}
+    {'listchars', 'tab:»\\ ,trail:·'},
+    {'foldmethod', 'expr'},
+    {'foldexpr', 'nvim_treesitter#foldexpr()'},
+    {'foldnestmax', 3},
+    {'foldminlines', 1}
 })
+vim.o.foldtext =
+    [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+vim.opt.fillchars = 'fold: '
