@@ -74,4 +74,5 @@ return require('packer').startup(function()
     use {'saecki/crates.nvim'}
     use {'rust-lang/rust.vim'}
     use {'romgrk/nvim-treesitter-context'}
+    use {'famiu/feline.nvim'}
 end)

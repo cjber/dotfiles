@@ -20,6 +20,7 @@ require('plugins.nvimtree')
 require('plugins.betterqf')
 require('plugins.bufferline')
 require('plugins.alpha')
+-- require('plugins.feline')
 
 -- lsp configs
 require('plugins.lspconfig') -- lsp config

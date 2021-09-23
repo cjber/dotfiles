@@ -43,8 +43,8 @@ require'lspconfig'.pyright.setup {
     settings = {
         python = {
             analysis = {
-                autoSearchPaths = false,
-                useLibraryCodeForTypes = false,
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
                 diagnosticMode = 'openFilesOnly'
             }
         }

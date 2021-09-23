@@ -8,9 +8,9 @@
 
 [colors]
 
-my_background	= #1a1b26
-my_foreground	= #c0caf5
-base00 = #414868
+my_background = #1a1b26
+my_foreground = #c0caf5
+base00 = #c0af5
 base01 = #f7768e
 base02 = #9ece6a
 base03 = #e0af68
