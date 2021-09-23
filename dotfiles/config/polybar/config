@@ -10,7 +10,7 @@
 
 my_background = #1a1b26
 my_foreground = #c0caf5
-base00 = #c0af5
+base00 = #c0caf5
 base01 = #f7768e
 base02 = #9ece6a
 base03 = #e0af68
@@ -132,11 +132,11 @@ type = internal/date
 interval = 5
 date = "%d %b"
 time = %H:%M %d %a
-format-prefix-foreground = #8fbcbb
+format-prefix-foreground = #c0caf5
 format-prefix-underline = #d8dee9
 label = %time%
 format = <label>
-format-foreground = #8fbcbb
+format-foreground = #c0caf5
 
 
 [module/pulseaudio]
