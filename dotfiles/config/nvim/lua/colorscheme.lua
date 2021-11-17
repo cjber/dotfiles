@@ -17,4 +17,9 @@ cmd 'hi HlSearchLensNear guibg=None guifg=#bb9af7 gui=italic'
 cmd 'hi HlSearchLens guibg=None guifg=#bb9af7 gui=underline'
 cmd 'hi Search guibg=#15161E guifg=#bb9af7 gui=underline'
 cmd 'hi IncSearch guibg=#15161E guifg=#bb9af7 gui=underline'
-cmd 'hi! link LspDiagnosticsDefaultHint Comment'
+
+--[[ cmd 'hi DiagnosticUnderlineError guibg=#2D202A guisp=#2D202A'
+-- cmd 'hi! link DiagnosticUnderlineError DiagnosticVirtualTextError'
+cmd 'hi! link DiagnosticUnderlineWarn DiagnosticVirtualTextWarning'
+cmd 'hi! link DiagnosticUnderlineHint DiagnosticVirtualTextHint'
+cmd 'hi! link DiagnosticUnderlineInfo DiagnosticVirtualTextInfo' ]]

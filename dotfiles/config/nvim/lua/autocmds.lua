@@ -1,4 +1,14 @@
 local au = require('funcs.autocmd')
+local border = {
+    {'┌', 'FloatBorder'},
+    {'─', 'FloatBorder'},
+    {'┐', 'FloatBorder'},
+    {'│', 'FloatBorder'},
+    {'┘', 'FloatBorder'},
+    {'─', 'FloatBorder'},
+    {'└', 'FloatBorder'},
+    {'│', 'FloatBorder'}
+}
 
 au.define_autocmds({
     FileType = {
@@ -19,6 +29,9 @@ au.define_autocmds({
         ['*'] = {[[if (winnr('$') == 1 && &buftype == 'terminal') | q | endif]]}
     },
     CursorHold = {
-        ['*'] = {[[lua require'lspsaga.diagnostic'.show_cursor_diagnostics()]]}
+        ['*'] = {
+            'lua vim.diagnostic.show_position_diagnostics({border =' ..
+                vim.inspect(border) .. ', focusable=false, show_header=false})'
+        }
     }
 })

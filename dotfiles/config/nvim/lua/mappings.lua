@@ -106,10 +106,7 @@ wk.register({
     },
     l = {
         name = '+lang',
-        a = {
-            '<Cmd>lua require("lspsaga.codeaction").code_action()<CR>',
-            'code action'
-        },
+        a = {'<Cmd>lua vim.lsp.buf.code_action()<CR>', 'code action'},
         c = {'<Cmd>lua vim.lsp.buf.rename()<CR>', 'rename'},
         d = {'<Cmd>lua vim.lsp.buf.definition()<CR>', 'definition'},
         e = {'<Cmd>:LspTroubleToggle lsp_document_diagnostics<CR>', 'errors'},
@@ -117,14 +114,6 @@ wk.register({
         l = {'<Cmd>:LspTroubleToggle loclist<CR>', 'loclist'},
         f = {'<Cmd>lua vim.lsp.buf.formatting()<CR>', 'format'},
         g = {'<Cmd>DogeGenerate<CR>', 'generate documentation'},
-        h = {
-            '<Cmd>lua require("lspsaga.signaturehelp").signature_help()<CR>',
-            'signature help'
-        },
-        k = {
-            '<Cmd>lua require("lspsaga.hover").render_hover_doc()<CR>',
-            'hover'
-        },
         r = {'<Cmd>LspTroubleToggle lsp_references<CR>', 'references'},
         x = {'<Cmd>lua vim.lsp.diagnostic.disable()<CR>', 'disable lsp'},
         z = {':LspRestart<CR>', 'restart lsp'}
@@ -141,20 +130,16 @@ wk.register({
     },
     z = {
         name = '+term',
-        z = {
-            '<Cmd>lua require("lspsaga.floaterm").open_float_terminal()<CR>',
-            'open term'
-        },
-        l = {
-            '<Cmd>lua require("lspsaga.floaterm").open_float_terminal("lazygit")<CR>',
-            'open lazygit'
-        },
-        x = {
-            '<Cmd>lua require("lspsaga.floaterm").close_float_terminal()<CR>',
-            'close term'
-        }
+        z = {'<Cmd>lua require("FTerm").toggle()<CR>', 'open term'}
     },
-    m = {name = '+mode', z = {'<Cmd>ZenMode<CR>', 'zen'}}
+    m = {name = '+mode', z = {'<Cmd>ZenMode<CR>', 'zen'}},
+    d = {
+        name = '+debug',
+        d = {'<Cmd>lua require("dapui").toggle()<CR>', 'ui'},
+        n = {'<Cmd>lua require("dap").step_over()<CR>', 'step'},
+        f = {'<Cmd>lua require("dap").continue()<CR>', 'continue'},
+        j = {'<Cmd>lua require("dap").toggle_breakpoint()<CR>', 'breakpoint'}
+    }
 }, {prefix = '<leader>'})
 
 wk.register({['<Space>'] = {'', 'temp'}}, {prefix = '<localleader>'})

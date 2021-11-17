@@ -92,7 +92,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Shift+s sticky toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+# bindsym $mod+a focus parent
 
 # move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -266,6 +266,9 @@ gaps horizontal -10
 
 # remove gaps
 bindsym $mod+g gaps inner all toggle 30, gaps outer all toggle 30, gaps bottom all toggle -10, gaps horizontal all toggle -10
+
+bindsym $mod+a resize set width 1634 px
+bindsym $mod+s resize set width 1117 px
 
 exec --no-startup-id kitty --name dropdown &
 

@@ -3,7 +3,7 @@ local ts_config = require('nvim-treesitter.configs')
 ts_config.setup {
     ensure_installed = 'all',
     highlight = {enable = true},
-    indent = {enable = true}, -- sometimes breaks
+    indent = {enable = false}, -- sometimes breaks
     incremental_selection = {
         enable = true,
         keymaps = {

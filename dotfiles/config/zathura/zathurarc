@@ -1,6 +1,8 @@
 # Zathura configuration file
 # See man `man zathurarc'
 
+map i recolor
+
 # Open document in fit-width mode by default
 set adjust-open "best-fit"
 
@@ -44,9 +46,9 @@ set completion-fg               "#689d6a"
 set notification-bg             "#98971a"
 set notification-fg             "#282C34"
 
-set recolor-lightcolor          "#f2f2f2"
-set recolor-darkcolor           "#000000"
-set recolor                     "false"
+set recolor                     "true"
+set recolor-lightcolor          "#1a1b26"
+set recolor-darkcolor           "#c0caf5"
 
 # setting recolor-keep true will keep any color your pdf has.
 # if it is false, it'll just be black and white
@@ -56,5 +58,3 @@ set render-loading "false"
 set scroll-step 50
 
 set selection-clipboard clipboard
-
-map <C-o> feedkeys ":exec /home/cjber/.config/autostart/zathura-annotate.sh $FILE<Return>"
