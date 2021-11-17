@@ -1,6 +1,9 @@
+-- vim.cmd [[imap <silent><script><expr> <C-L> copilot#Accept()]]
+-- vim.cmd [[let g:copilot_no_tab_map = v:true]]
+
 local cmp = require('cmp')
 cmp.setup {
-    -- experimental = {ghost_text = true},
+    experimental = {ghost_text = true, custom_menu = true},
     snippet = {expand = function(args) vim.fn['vsnip#anonymous'](args.body) end},
     mapping = {
         ['<S-Tab>'] = cmp.mapping.select_prev_item(),
@@ -11,16 +14,14 @@ cmp.setup {
             select = true
         })
     },
-
-    -- You should specify your *installed* sources.
     sources = {
         {name = 'nvim_lsp'},
         {name = 'nvim_lua'},
         {name = 'cmp_tabnine'},
+        {name = 'vsnip'},
         {name = 'buffer'},
         {name = 'path'},
         {name = 'crates'}
-
     },
     formatting = {
         format = function(entry, vim_item)
@@ -29,7 +30,6 @@ cmp.setup {
             vim_item.menu = ({
                 buffer = '[Buffer]',
                 nvim_lsp = '[LSP]',
-                luasnip = '[LuaSnip]',
                 nvim_lua = '[Lua]',
                 latex_symbols = '[Latex]',
                 cmp_tabnine = '[TN]'
@@ -38,9 +38,23 @@ cmp.setup {
         end
     },
     documentation = {
-        border = {'┌', '─', '┐', '│', '┘', '─', '└', '│'}
+        border = {'┌', '─', '┐', '│', '┘', '─', '└', '│'},
+        winhighlight = 'NormalFloat:NormalFloat,Title:NormalFloat'
+    },
+    sorting = {
+        comparators = {
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            require'cmp-under-comparator'.under,
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order
+        }
     }
 }
+
 require('cmp_tabnine.config'):setup({
     max_lines = 1000,
     max_num_results = 20,
@@ -49,13 +63,5 @@ require('cmp_tabnine.config'):setup({
 })
 
 require('nvim-autopairs').setup {}
-require('nvim-autopairs.completion.cmp').setup({
-    map_cr = true, --  map <CR> on insert mode
-    map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
-    auto_select = true, -- automatically select the first item
-    insert = false, -- use insert confirm behavior instead of replace
-    map_char = { -- modifies the function or method delimiter by filetypes
-        all = '(',
-        tex = '{'
-    }
-})
+cmp.event:on('confirm_done',
+             require('nvim-autopairs.completion.cmp').on_confirm_done())

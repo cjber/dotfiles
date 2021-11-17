@@ -4,3 +4,9 @@ channels:
   - anaconda
   - defaults
 channel_priority: disabled
+create_default_packages:
+  - pip
+  - ipython
+  - flake8
+  - black
+  - isort

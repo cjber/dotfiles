@@ -3,6 +3,13 @@ root-markers:
   - .git/
 
 tools:
+  sql-sqlfluff: &sql-sqlfluff
+    lint-command: 'sqlfluff lint ${INPUT}'
+    lint-formats:
+      - 'L:   %l | P:   %c | %m'
+    format-command: 'sqlfluff fix -f -'
+    format-stdin: true
+
   vim-vint: &vim-vint
     lint-command: 'vint -'
     lint-stdin: true
@@ -46,7 +53,7 @@ tools:
       - '%f:%l:%c: %m'
 
   python-mypy: &python-mypy
-    lint-command: 'mypy --show-column-numbers'
+    lint-command: 'mypy --show-column-numbers --disallow-any-generics --disallow-untyped-defs --ignore-missing-imports'
     lint-formats:
       - '%f:%l:%c: %trror: %m'
       - '%f:%l:%c: %tarning: %m'
@@ -140,6 +147,9 @@ tools:
     hover-stdin: true
 
 languages:
+  sql:
+    - <<: *sql-sqlfluff
+
   vim:
     - <<: *vim-vint
 

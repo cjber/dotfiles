@@ -25,12 +25,12 @@ require('plugins.alpha')
 -- lsp configs
 require('plugins.lspconfig') -- lsp config
 require('plugins.cmp') -- lsp config
-require('plugins.lspsaga')
 require('plugins.lspkind') -- completion icons
 require('plugins.textobjects') -- Move in functions etc
 
 -- misc
-require('hlslens').setup({calm_down = true, nearest_only = true})
+require('dd').setup()
+require('hlslens').setup({calm_down = false, nearest_only = false})
 require('trouble').setup()
 -- require('focus').setup()
 require('numb').setup()
@@ -58,7 +58,7 @@ require('lightspeed').setup {
 }
 require('todo-comments').setup()
 require('autosave').setup()
-require('project_nvim').setup({silent_chdir = false})
+require('project_nvim').setup({silent_chdir = true})
 
 vim.fn.sign_define('Headline1', {linehl = 'Headline1'})
 vim.fn.sign_define('Headline2', {linehl = 'Headline2'})

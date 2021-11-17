@@ -1,11 +1,11 @@
 local cmd = vim.cmd
 local g = vim.g
 
+require('settings')
+
 -- load plugins
 require('plugins')
 vim.notify = require('notify')
-
-require('settings')
 require('mappings')
 require('autocmds')
 
@@ -24,7 +24,7 @@ g.python_host_skip_check = 1
 g.loaded_python_provider = 0
 g.python3_host_skip_check = 1
 
-g.python3_host_prog = '/home/cjber/.virtualenvs/nvim/bin/python'
+g.python3_host_prog = '/home/cjber/dotfiles/.direnv/python-3.9.7/bin/python'
 
 -- indentline
 g.indent_blankline_use_treesitter = true

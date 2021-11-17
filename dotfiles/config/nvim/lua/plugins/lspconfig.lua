@@ -9,10 +9,21 @@ local border = {
     {'│', 'FloatBorder'}
 }
 
+local signs = {Error = ' ', Warn = ' ', Hint = ' ', Info = ' '}
+
+for type, icon in pairs(signs) do
+    local hl = 'DiagnosticSign' .. type
+    vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ''})
+end
+
 -- customise diagnostics
 vim.lsp.handlers['textDocument/publishDiagnostics'] =
-    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics,
-                 {virtual_text = false, signs = true, update_in_insert = false})
+    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = true,
+        signs = true,
+        update_in_insert = false,
+        border = border
+    })
 
 vim.lsp.handlers['textDocument/hover'] =
     vim.lsp.with(vim.lsp.handlers.hover, {border = border})
@@ -28,16 +39,18 @@ require('lsp_signature').setup({
     handler_opts = {border = border},
     hint_scheme = 'Comment',
     hint_prefix = ' ',
-    fix_pos = true,
+    -- floating_window = false,
+    -- fix_pos = true,
     max_height = 6,
     max_width = 89
 })
 
 require'lspconfig'.efm.setup {
-    filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua'},
+    filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua', 'sql'},
     capabilities = capabilities
 
 }
+-- require'lspconfig'.jedi_language_server.setup {}
 require'lspconfig'.pyright.setup {
     flags = {debounce_text_changes = 150},
     settings = {
@@ -51,6 +64,7 @@ require'lspconfig'.pyright.setup {
     },
     capabilities = capabilities
 }
+
 require'lspconfig'.dockerls.setup {capabilities = capabilities}
 require'lspconfig'.r_language_server.setup {
     filetypes = {'r', 'rmd'},
@@ -61,7 +75,10 @@ require'lspconfig'.vimls.setup {capabilities = capabilities}
 require'lspconfig'.yamlls.setup {capabilities = capabilities}
 require'lspconfig'.jsonls.setup {capabilities = capabilities}
 require'lspconfig'.rust_analyzer.setup {capabilities = capabilities}
-require'lspconfig'.sqls.setup {capabilities = capabilities}
+--[[ require'lspconfig'.sqlls.setup {
+    capabilities = capabilities,
+    cmd = {'/usr/bin/sql-language-server', 'up', '--method', 'stdio'}
+} ]]
 
 require'lspconfig'.zeta_note.setup {
     cmd = {'/home/cjber/bin/zeta-note-linux'},
@@ -80,7 +97,7 @@ local luadev = require('lua-dev').setup({
 
 require'lspconfig'.sumneko_lua.setup(luadev)
 
---[[ require('grammar-guard').init()
+require('grammar-guard').init()
 require('lspconfig').grammar_guard.setup({
     capabilities = capabilities,
     filetypes = {'rmd', 'tex', 'markdown'},
@@ -93,12 +110,14 @@ require('lspconfig').grammar_guard.setup({
             additionalRules = {enablePickyRules = false, motherTongue = 'en-GB'},
             trace = {server = 'verbose'},
             dictionary = {},
-            disabledRules = {['en-GB'] = {'OXFORD_SPELLING_Z_NOT_S'}},
+            disabledRules = {
+                ['en-GB'] = {'OXFORD_SPELLING_Z_NOT_S', 'MORFOLOGIK_RULE_EN_GB'}
+            },
             hiddenFalsePositives = {}
         }
     }
 })
- ]]
+
 require('sourcery')
 require('lspconfig').sourcery.setup {}
 require('rust-tools').setup({})

@@ -42,6 +42,7 @@ set_options({
     {'shortmess', 'aoOstTWAIcqFS'},
     {'sidescrolloff', 5},
     {'complete', '.,w,b,u,t,i,kspell'},
+    {'completeopt', 'menu,menuone,noselect'},
     {'wildmode', 'longest:full,full'},
     {'tabstop', 4},
     {'shiftwidth', 4},
@@ -68,7 +69,8 @@ set_options({
     {'foldmethod', 'expr'},
     {'foldexpr', 'nvim_treesitter#foldexpr()'},
     {'foldnestmax', 3},
-    {'foldminlines', 1}
+    {'foldminlines', 1},
+    {'foldlevelstart', 20}
 })
 vim.o.foldtext =
     [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
