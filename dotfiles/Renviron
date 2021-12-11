@@ -1,5 +1,4 @@
 R_LIBS_USER=/home/cjber/.r
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 MAKE=make -j16
-RETICULATE_PYTNON=/home/cjber/.pyenv/shims/python
-GITHUB_PAT=$(cat .ghpat)
+GITHUB_PAT=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

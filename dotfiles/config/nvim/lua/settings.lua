@@ -68,9 +68,9 @@ set_options({
     {'listchars', 'tab:»\\ ,trail:·'},
     {'foldmethod', 'expr'},
     {'foldexpr', 'nvim_treesitter#foldexpr()'},
-    {'foldnestmax', 3},
+    {'foldnestmax', 2},
     {'foldminlines', 1},
-    {'foldlevelstart', 20}
+    {'foldlevelstart', 99}
 })
 vim.o.foldtext =
     [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]

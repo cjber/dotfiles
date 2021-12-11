@@ -1,6 +1,7 @@
 local ts_config = require('nvim-treesitter.configs')
 
 ts_config.setup {
+    pyfold = {enable = true, custom_foldtext = true},
     ensure_installed = 'all',
     highlight = {enable = true},
     indent = {enable = false}, -- sometimes breaks
@@ -44,6 +45,13 @@ require'nvim-treesitter.configs'.setup {
     textobjects = {
         move = {
             enable = true,
+            lookahead = true,
+            keymaps = {
+                ['af'] = '@function.outer',
+                ['if'] = '@function.inner',
+                ['ac'] = '@class.outer',
+                ['ic'] = '@class.inner'
+            },
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {['<M-j>'] = '@function.outer'},
             goto_previous_start = {['<M-k>'] = '@function.outer'}

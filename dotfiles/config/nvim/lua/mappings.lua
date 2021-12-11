@@ -38,11 +38,11 @@ set_keymap('n', {noremap = true, silent = true}, {
     {'<ESC><ESC>', ':noh<CR><ESC>'},
     {'<C-n>', ':NvimTreeToggle<CR>'},
     {'<C-p>', ':SymbolsOutline<CR>'},
-    {'[e', ':Lspsaga diagnostic_jump_prev<CR>'},
-    {']e', ':Lspsaga diagnostic_jump_next<CR>'},
     {'<M-j>', '<C-d>'},
     {'<M-k>', '<C-u>'},
     {'x', '"0x'}
+    -- {'<CR>', [[:lua require("iron").core.send_line()<CR>)]]} -- cr breaks
+
 })
 
 -- visual
@@ -52,7 +52,8 @@ set_keymap('x', {noremap = true, silent = true}, {
     {'J', '}'},
     {'K', '{'},
     {'<', '<gv'},
-    {'>', '>gv'}
+    {'>', '>gv'},
+    {'<CR>', [[:lua require("iron").core.visual_send()<CR>)]]}
 })
 
 -- insert
@@ -126,7 +127,6 @@ wk.register({
         name = '+todo',
         l = {'<Cmd>:TodoTelescope<CR>', 'todo telescope'},
         t = {'<Cmd>:TodoTrouble<CR>', 'todo trouble'}
-
     },
     z = {
         name = '+term',
@@ -142,4 +142,24 @@ wk.register({
     }
 }, {prefix = '<leader>'})
 
-wk.register({['<Space>'] = {'', 'temp'}}, {prefix = '<localleader>'})
+wk.register({
+    a = {[[:lua require("iron").core.send_line()<CR>)]], 'line'},
+    s = {
+        name = '+iron',
+        s = {[[<Cmd>:IronRepl<CR><ESC>]], 'open'},
+        q = {[[<Cmd>:IronRestart<CR><ESC>]], 'restart'},
+        f = {
+            [[:TSTextobjectSelect @function.outer<CR>:lua require("iron").core.visual_send()<CR>]],
+            'function'
+        },
+        l = {
+            [[:TSTextobjectSelect @class.outer<CR>:lua require("iron").core.visual_send()<CR>]],
+            'class'
+        },
+        d = {[[vip:lua require("iron").core.visual_send()<CR>})]], 'paragraph'},
+        a = {
+            [[Vgg:lua require("iron").core.visual_send()<CR><C-o>]],
+            'paragraph'
+        }
+    }
+}, {prefix = '<localleader>'})
