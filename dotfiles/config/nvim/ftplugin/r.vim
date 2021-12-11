@@ -1,9 +1,9 @@
-nnoremap <silent> <localleader>s :call StartR("R")<CR>
-nnoremap <silent> <localleader>q :call RQuit("R")<CR>
+" nnoremap <silent> <localleader>s :call StartR("R")<CR>
+" nnoremap <silent> <localleader>q :call RQuit("R")<CR>
 
-nmap <CR> <Plug>RDSendLine
-vmap <CR> <Plug>RDSendSelection
+nnoremap <LocalLeader>s :IronRepl<CR><ESC>
 
+inoremap <buffer> __ <Esc>:normal! a <-<CR>a 
 inoremap <buffer> >> <Esc>:normal! a %>%<CR>a 
 inoremap <buffer> << <Esc>:normal! a \|><CR>a 
 

@@ -11,7 +11,10 @@ return require('packer').startup(function()
         requires = 'kyazdani42/nvim-web-devicons'
     } -- bufferline
     use {'b3nj5m1n/kommentary'} -- comment out code
-    use {'brymer-meneses/grammar-guard.nvim'}
+    use {
+        'brymer-meneses/grammar-guard.nvim',
+        requires = {'williamboman/nvim-lsp-installer'}
+    }
     use {'chrisbra/NrrwRgn'} -- move code chunks from md/rmd to small window
     use {'dbeniamine/todo.txt-vim'} -- todo.txt helpers
     use {'dccsillag/magma-nvim', run = ':UpdateRemotePlugins'}
@@ -35,8 +38,9 @@ return require('packer').startup(function()
             {'tzachar/cmp-tabnine', run = './install.sh'}
         }
     }
-    use {'jalvesaq/Nvim-R'} -- R repl + utils
-    use {'jalvesaq/vimcmdline'} -- repl
+    -- use {'jalvesaq/Nvim-R'} -- R repl + utils
+    -- use {'jalvesaq/vimcmdline'} -- repl
+    use {'hkupty/iron.nvim'}
     use {'kevinhwang91/nvim-bqf'}
     use {'kevinhwang91/nvim-hlslens'}
     use {'kkoomen/vim-doge', run = ':call doge#install()'}
@@ -69,7 +73,7 @@ return require('packer').startup(function()
     use {'lukas-reineke/headlines.nvim'} -- highlight code bgs in rmd etc
     use {'direnv/direnv.vim'} -- auto enable direnvs
     use {'goolord/alpha-nvim', requires = {'kyazdani42/nvim-web-devicons'}} -- welcome screen
-    use {'ray-x/lsp_signature.nvim'} -- show function args
+    -- use {'ray-x/lsp_signature.nvim'} -- show function args
     use {'simrat39/rust-tools.nvim'} -- more rust utils
     use {'saecki/crates.nvim', requires = {'nvim-lua/plenary.nvim'}} -- upgrade crates
     use {'rust-lang/rust.vim'} -- rust utils
@@ -85,5 +89,7 @@ return require('packer').startup(function()
         ft = 'markdown',
         run = 'cd app && yarn install'
     }
+    use {'eddiebergman/nvim-treesitter-pyfold'}
+    use {'AckslD/nvim-pytrize.lua'}
 end)
 

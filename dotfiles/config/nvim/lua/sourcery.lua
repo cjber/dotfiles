@@ -1,5 +1,5 @@
-local configs = require 'lspconfig/configs'
-local util = require 'lspconfig/util'
+local configs = require 'lspconfig.configs'
+local util = require 'lspconfig.util'
 
 local server_name = 'sourcery'
 
@@ -32,3 +32,4 @@ Refactor Python instantly using the power of AI.
 ]]
     }
 }
+configs.sourcery.setup{}

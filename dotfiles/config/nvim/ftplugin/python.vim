@@ -3,7 +3,8 @@ nnoremap <Leader>sb :Dispatch! python -m streambook %<CR>
 nnoremap <Leader>ps :Dispatch! pyright --createstub 
 
 " localleader
-nnoremap <LocalLeader>l :call VimCmdLineSendCmd('%whos')<CR>
+" nnoremap <expr> <CR> <Plug>(iron-send-line)
+" nnoremap <LocalLeader>l :call VimCmdLineSendCmd('%whos')<CR>
 nnoremap <LocalLeader>v :call PandasViewDF()<CR>
 vnoremap <LocalLeader>v :call PandasViewDFV()<CR>
 nnoremap <LocalLeader>h :call Help()<CR>

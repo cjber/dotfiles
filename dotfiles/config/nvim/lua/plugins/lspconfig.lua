@@ -34,7 +34,7 @@ vim.lsp.handlers['textDocument/signatureHelp'] =
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-require('lsp_signature').setup({
+--[[ require('lsp_signature').setup({
     bind = true,
     handler_opts = {border = border},
     hint_scheme = 'Comment',
@@ -43,7 +43,7 @@ require('lsp_signature').setup({
     -- fix_pos = true,
     max_height = 6,
     max_width = 89
-})
+}) ]]
 
 require'lspconfig'.efm.setup {
     filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua', 'sql'},
@@ -52,6 +52,14 @@ require'lspconfig'.efm.setup {
 }
 -- require'lspconfig'.jedi_language_server.setup {}
 require'lspconfig'.pyright.setup {
+    capabilities = capabilities,
+    settings = {
+        python = {
+            analysis = {useLibraryCodeForTypes = true, typeCheckingMode = 'off'}
+        }
+    }
+}
+--[[ require'lspconfig'.pyright.setup {
     flags = {debounce_text_changes = 150},
     settings = {
         python = {
@@ -64,7 +72,7 @@ require'lspconfig'.pyright.setup {
     },
     capabilities = capabilities
 }
-
+ ]]
 require'lspconfig'.dockerls.setup {capabilities = capabilities}
 require'lspconfig'.r_language_server.setup {
     filetypes = {'r', 'rmd'},
@@ -119,5 +127,4 @@ require('lspconfig').grammar_guard.setup({
 })
 
 require('sourcery')
-require('lspconfig').sourcery.setup {}
 require('rust-tools').setup({})

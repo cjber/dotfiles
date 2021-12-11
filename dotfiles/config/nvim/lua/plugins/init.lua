@@ -48,13 +48,11 @@ vim.g.symbols_outline = {
 }
 require('which-key').setup()
 require('lightspeed').setup {
-    jump_to_first_match = true,
     jump_on_partial_input_safety_timeout = 400,
     highlight_unique_chars = false,
     grey_out_search_area = true,
     match_only_the_start_of_same_char_seqs = true,
-    limit_ft_matches = 5,
-    full_inclusive_prefix_key = '<c-x>'
+    limit_ft_matches = 5
 }
 require('todo-comments').setup()
 require('autosave').setup()
@@ -115,3 +113,15 @@ require('notify').setup({
     }
 
 })
+
+local iron = require('iron')
+
+iron.core.set_config {
+    preferred = {python = 'ipython', R = 'radian'},
+    repl_open_cmd = 'rightbelow 20 split'
+}
+vim.cmd [[let g:iron_map_defaults = 0]]
+vim.cmd [[let g:iron_map_extended = 0]]
+
+
+require('pytrize').setup({preferred_input = 'telescope'})
