@@ -17,8 +17,7 @@ return require('packer').startup(function()
     }
     use {'chrisbra/NrrwRgn'} -- move code chunks from md/rmd to small window
     use {'dbeniamine/todo.txt-vim'} -- todo.txt helpers
-    use {'dccsillag/magma-nvim', run = ':UpdateRemotePlugins'}
-    use {'HungryJoe/trouble.nvim'} -- better lsp error search
+    use {'folke/trouble.nvim'} -- better lsp error search
     use {'folke/lua-dev.nvim'} -- lua dev stuff
     use {'folke/todo-comments.nvim'}
     use {'folke/tokyonight.nvim'} -- theme
@@ -35,12 +34,10 @@ return require('packer').startup(function()
             'hrsh7th/vim-vsnip',
             'hrsh7th/vim-vsnip-integ',
             'lukas-reineke/cmp-under-comparator',
-            {'tzachar/cmp-tabnine', run = './install.sh'}
+            -- {'tzachar/cmp-tabnine', run = './install.sh'}
         }
     }
-    -- use {'jalvesaq/Nvim-R'} -- R repl + utils
-    -- use {'jalvesaq/vimcmdline'} -- repl
-    use {'hkupty/iron.nvim'}
+    use {'jalvesaq/vimcmdline'} -- repl
     use {'kevinhwang91/nvim-bqf'}
     use {'kevinhwang91/nvim-hlslens'}
     use {'kkoomen/vim-doge', run = ':call doge#install()'}
@@ -89,7 +86,18 @@ return require('packer').startup(function()
         ft = 'markdown',
         run = 'cd app && yarn install'
     }
-    use {'eddiebergman/nvim-treesitter-pyfold'}
+    -- use {'eddiebergman/nvim-treesitter-pyfold'}
+    use {'anuvyklack/pretty-fold.nvim'}
+    use {'petertriho/nvim-scrollbar'}
     use {'AckslD/nvim-pytrize.lua'}
+    use {'tpope/vim-dadbod'}
+    use {'kristijanhusak/vim-dadbod-ui'}
+    use {
+        'rcarriga/vim-ultest',
+        requires = {'vim-test/vim-test'},
+        run = ':UpdateRemotePlugins'
+    }
+    use {'sidebar-nvim/sidebar.nvim'}
+    use {'jose-elias-alvarez/null-ls.nvim'}
 end)
 

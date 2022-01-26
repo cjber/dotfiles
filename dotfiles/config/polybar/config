@@ -56,10 +56,9 @@ module-margin-right = 2
 
 font-0 = JetBrains Mono:antialias=true:size=10;1
 font-1 = FontAwesome5Free:style=Solid:size=10;4
-font-2 = FontAwesome5Free:style=Regular:size=10;4
+font-2 = Weather Icons:size=12;1
 font-3 = FontAwesome5Brands:style=Regular:size=10;4
 font-4 = Unifont:stype=Medium
-font-5 = Weather Icons:size=12;1
 
 enable-ipc = true
 
@@ -267,7 +266,7 @@ interval = 600
 type = custom/script
 exec = ~/dotfiles/dotfiles/config/polybar/weather.sh
 interval = 600
-content-font = 0
+label-font = 3
 
 [module/nano]
 type = custom/script

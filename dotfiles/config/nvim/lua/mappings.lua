@@ -36,13 +36,11 @@ set_keymap('n', {noremap = true, silent = true}, {
     {'<Right>', ':vertical resize -2<CR>'},
     {'<C-Space>', ':bnext<CR>'},
     {'<ESC><ESC>', ':noh<CR><ESC>'},
-    {'<C-n>', ':NvimTreeToggle<CR>'},
+    {'<C-n>', ':SidebarNvimToggle<CR>'},
     {'<C-p>', ':SymbolsOutline<CR>'},
     {'<M-j>', '<C-d>'},
     {'<M-k>', '<C-u>'},
     {'x', '"0x'}
-    -- {'<CR>', [[:lua require("iron").core.send_line()<CR>)]]} -- cr breaks
-
 })
 
 -- visual
@@ -53,7 +51,7 @@ set_keymap('x', {noremap = true, silent = true}, {
     {'K', '{'},
     {'<', '<gv'},
     {'>', '>gv'},
-    {'<CR>', [[:lua require("iron").core.visual_send()<CR>)]]}
+    {'<CR>', [[:]]}
 })
 
 -- insert
@@ -142,24 +140,17 @@ wk.register({
     }
 }, {prefix = '<leader>'})
 
-wk.register({
-    a = {[[:lua require("iron").core.send_line()<CR>)]], 'line'},
-    s = {
-        name = '+iron',
-        s = {[[<Cmd>:IronRepl<CR><ESC>]], 'open'},
-        q = {[[<Cmd>:IronRestart<CR><ESC>]], 'restart'},
-        f = {
-            [[:TSTextobjectSelect @function.outer<CR>:lua require("iron").core.visual_send()<CR>]],
-            'function'
-        },
-        l = {
-            [[:TSTextobjectSelect @class.outer<CR>:lua require("iron").core.visual_send()<CR>]],
-            'class'
-        },
-        d = {[[vip:lua require("iron").core.visual_send()<CR>})]], 'paragraph'},
-        a = {
-            [[Vgg:lua require("iron").core.visual_send()<CR><C-o>]],
-            'paragraph'
-        }
-    }
-}, {prefix = '<localleader>'})
+wk.register({['<Space>'] = {'temp', 'temp'}}, {prefix = '<localleader>'})
+
+vim.cmd [[
+" vimcmdline mappings
+ let cmdline_map_start          = '<LocalLeader>s'
+ let cmdline_map_send           = '<CR>'
+ let cmdline_map_send_and_stay  = '<M-CR>'
+ let cmdline_map_source_fun     = '<LocalLeader>f'
+ let cmdline_map_send_paragraph = '<LocalLeader>p'
+ let cmdline_map_send_block     = '<LocalLeader>b'
+ let cmdline_map_send_motion    = '<LocalLeader>m'
+ let cmdline_map_quit           = '<LocalLeader>q'
+]]
+-- let cmdline_external_term_cmd = 'kitty %s &'

@@ -73,4 +73,8 @@ symbol = "Ʀ "
 [gcloud]
 disabled = true
 
-
+[custom.pdm]
+command = "ls -D __pypackages__"
+symbol = " "
+format = "[via $symbol($output )]($style)"
+directories = ["__pypackages__", ".pdm.toml"]
