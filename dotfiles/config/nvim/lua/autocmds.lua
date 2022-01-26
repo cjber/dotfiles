@@ -30,8 +30,8 @@ au.define_autocmds({
     },
     CursorHold = {
         ['*'] = {
-            'lua vim.diagnostic.show_position_diagnostics({border =' ..
-                vim.inspect(border) .. ', focusable=false, show_header=false})'
+            'lua vim.diagnostic.open_float({border =' ..
+                vim.inspect(border) .. ', focusable=false, show_header=false, scope="cursor"})'
         }
     }
 })

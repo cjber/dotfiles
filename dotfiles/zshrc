@@ -124,16 +124,16 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#bb9af7,bold,underline"
 
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba init' !!
-export MAMBA_EXE="/usr/bin/micromamba";
-export MAMBA_ROOT_PREFIX="$HOME/.mamba";
-__mamba_setup="$('/usr/bin/micromamba' shell hook --shell zsh 2> /dev/null)"
+export MAMBA_EXE="/home/cjber/bin/micromamba";
+export MAMBA_ROOT_PREFIX="/home/cjber/.mamba";
+__mamba_setup="$('/home/cjber/bin/micromamba' shell hook --shell zsh --prefix '/home/cjber/.mamba' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__mamba_setup"
 else
-    if [ -f "$HOME/.mamba/etc/profile.d/mamba.sh" ]; then
-        . "$HOME/.mamba/etc/profile.d/mamba.sh"
+    if [ -f "/home/cjber/.mamba/etc/profile.d/mamba.sh" ]; then
+        . "/home/cjber/.mamba/etc/profile.d/mamba.sh"
     else
-        export PATH="$HOME/.mamba/bin:$PATH"
+        export PATH="/home/cjber/.mamba/bin:$PATH"
     fi
 fi
 unset __mamba_setup
@@ -172,3 +172,13 @@ zinit light-mode for \
 
 
 ### End of Zinit's installer chunk
+
+export PATH="$HOME/.poetry/bin:$PATH"
+
+if [ -n "$PYTHONPATH" ]; then
+    export PYTHONPATH='/home/cjber/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582':$PYTHONPATH
+else
+    export PYTHONPATH='/home/cjber/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582'
+fi
+
+source /usr/share/fzf/key-bindings.zsh

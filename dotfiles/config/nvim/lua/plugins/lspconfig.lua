@@ -19,7 +19,7 @@ end
 -- customise diagnostics
 vim.lsp.handlers['textDocument/publishDiagnostics'] =
     vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = true,
+        virtual_text = false,
         signs = true,
         update_in_insert = false,
         border = border
@@ -34,45 +34,32 @@ vim.lsp.handlers['textDocument/signatureHelp'] =
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
---[[ require('lsp_signature').setup({
-    bind = true,
-    handler_opts = {border = border},
-    hint_scheme = 'Comment',
-    hint_prefix = ' ',
-    -- floating_window = false,
-    -- fix_pos = true,
-    max_height = 6,
-    max_width = 89
-}) ]]
-
 require'lspconfig'.efm.setup {
     filetypes = {'python', 'markdown', 'yaml', 'json', 'vim', 'lua', 'sql'},
-    capabilities = capabilities
-
+    capabilities = capabilities,
+    root_dir = require'lspconfig'.util.root_pattern('.git')
 }
+
 -- require'lspconfig'.jedi_language_server.setup {}
 require'lspconfig'.pyright.setup {
-    capabilities = capabilities,
-    settings = {
-        python = {
-            analysis = {useLibraryCodeForTypes = true, typeCheckingMode = 'off'}
-        }
-    }
-}
---[[ require'lspconfig'.pyright.setup {
     flags = {debounce_text_changes = 150},
     settings = {
         python = {
             analysis = {
                 autoSearchPaths = true,
                 useLibraryCodeForTypes = true,
-                diagnosticMode = 'openFilesOnly'
-            }
+                diagnosticMode = 'openFilesOnly',
+                typeCheckingMode = 'off',
+                extraPaths = {'__pypackages__/<major.minor>/lib'}
+            },
+            autoComplete = {extraPaths = {'__pypackages__/<major.minor>/lib'}}
+
         }
     },
+    -- root_dir = require'lspconfig'.util.root_pattern('.git'),
     capabilities = capabilities
 }
- ]]
+
 require'lspconfig'.dockerls.setup {capabilities = capabilities}
 require'lspconfig'.r_language_server.setup {
     filetypes = {'r', 'rmd'},
@@ -83,10 +70,11 @@ require'lspconfig'.vimls.setup {capabilities = capabilities}
 require'lspconfig'.yamlls.setup {capabilities = capabilities}
 require'lspconfig'.jsonls.setup {capabilities = capabilities}
 require'lspconfig'.rust_analyzer.setup {capabilities = capabilities}
---[[ require'lspconfig'.sqlls.setup {
+require'lspconfig'.sqlls.setup {
     capabilities = capabilities,
-    cmd = {'/usr/bin/sql-language-server', 'up', '--method', 'stdio'}
-} ]]
+    cmd = {'/usr/bin/sql-language-server', 'up', '--method', 'stdio'},
+    root_dir = require'lspconfig'.util.root_pattern('.git', '')
+}
 
 require'lspconfig'.zeta_note.setup {
     cmd = {'/home/cjber/bin/zeta-note-linux'},

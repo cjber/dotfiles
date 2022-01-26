@@ -3,20 +3,19 @@ nnoremap <Leader>sb :Dispatch! python -m streambook %<CR>
 nnoremap <Leader>ps :Dispatch! pyright --createstub 
 
 " localleader
-" nnoremap <expr> <CR> <Plug>(iron-send-line)
-" nnoremap <LocalLeader>l :call VimCmdLineSendCmd('%whos')<CR>
-nnoremap <LocalLeader>v :call PandasViewDF()<CR>
-vnoremap <LocalLeader>v :call PandasViewDFV()<CR>
-nnoremap <LocalLeader>h :call Help()<CR>
-vnoremap <LocalLeader>h :call HelpV()<CR>
 
-nnoremap <silent>       <LocalLeader>z :MagmaInit python3<CR>
-xnoremap <silent>       <LocalLeader>a v/# --<CR>k<C-u>:MagmaEvaluateVisual<CR>
-nnoremap <silent>       <LocalLeader>rl :MagmaEvaluateLine<CR>
-xnoremap <silent>       <LocalLeader>r  :<C-u>MagmaEvaluateVisual<CR>
-nnoremap <silent>       <LocalLeader>rr :MagmaReevaluateCell<CR>
-nnoremap <silent>       <LocalLeader>rd :MagmaDelete<CR>
-nnoremap <silent>       <LocalLeader>ro :MagmaShowOutput<CR>
+nnoremap <LocalLeader>rr :call RunFile()<CR>
+nnoremap <LocalLeader>rd :call PandasViewDF()<CR>
+vnoremap <LocalLeader>rd :call PandasViewDFV()<CR>
+nnoremap <LocalLeader>rh :call Help()<CR>
+vnoremap <LocalLeader>rh :call HelpV()<CR>
+nnoremap <LocalLeader>rl :call VimCmdLineSendCmd('%whos')<CR>
+
+
+function RunFile()
+    let file = expand('%:p')
+    call VimCmdLineSendCmd('%run \"' . file . '\"')
+endfunction
 
 function PandasViewDF()
     let df = expand('<cword>')

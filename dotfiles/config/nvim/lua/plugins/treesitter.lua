@@ -3,7 +3,7 @@ local ts_config = require('nvim-treesitter.configs')
 ts_config.setup {
     pyfold = {enable = true, custom_foldtext = true},
     ensure_installed = 'all',
-    highlight = {enable = true},
+    highlight = {enable = true, use_languagetree = true},
     indent = {enable = false}, -- sometimes breaks
     incremental_selection = {
         enable = true,

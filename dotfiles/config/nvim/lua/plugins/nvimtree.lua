@@ -4,7 +4,8 @@ require('nvim-tree').setup {
     auto_close = true,
     update_cwd = true,
     nvim_tree_hide_dotfiles = true,
-    nvim_tree_ignore = {'.git', 'node_modules', '.cache'}
+    nvim_tree_ignore = {'.git', 'node_modules', '.cache'},
+    git = {ignore = false}
 }
 
 vim.g.nvim_tree_quit_on_open = 0
@@ -18,8 +19,3 @@ vim.g.nvim_tree_icons = {
     default = '  ',
     folder = {default = '', open = '', empty = '', empty_open = ''}
 }
-
-local get_lua_cb = function(cb_name)
-    return string.format(':lua require\'nvim-tree\'.on_keypress(\'%s\')<CR>',
-                         cb_name)
-end
