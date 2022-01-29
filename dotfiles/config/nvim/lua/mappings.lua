@@ -1,5 +1,3 @@
-vim.g.doge_mapping = '' -- remove default mapping
-
 local function set_keymap(mode, opts, keymaps)
     for _, keymap in ipairs(keymaps) do
         vim.api.nvim_set_keymap(mode, keymap[1], keymap[2], opts)
@@ -36,7 +34,7 @@ set_keymap('n', {noremap = true, silent = true}, {
     {'<Right>', ':vertical resize -2<CR>'},
     {'<C-Space>', ':bnext<CR>'},
     {'<ESC><ESC>', ':noh<CR><ESC>'},
-    {'<C-n>', ':SidebarNvimToggle<CR>'},
+    {'<C-n>', ':NvimTreeToggle<CR>'},
     {'<C-p>', ':SymbolsOutline<CR>'},
     {'<M-j>', '<C-d>'},
     {'<M-k>', '<C-u>'},
@@ -70,6 +68,7 @@ wk.register({
     f = {
         name = '+find',
         f = {'<Cmd>Telescope find_files<CR>', 'files'},
+        l = {'<Cmd>Telescope file_browser<CR>', 'files'},
         p = {'<Cmd>Telescope projects<CR>', 'projects'},
         b = {'<Cmd>Telescope buffers show_all_buffers=true<CR>', 'buffers'},
         h = {'<Cmd>Telescope help_tags<CR>', 'help tags'},
@@ -108,12 +107,12 @@ wk.register({
         a = {'<Cmd>lua vim.lsp.buf.code_action()<CR>', 'code action'},
         c = {'<Cmd>lua vim.lsp.buf.rename()<CR>', 'rename'},
         d = {'<Cmd>lua vim.lsp.buf.definition()<CR>', 'definition'},
-        e = {'<Cmd>:LspTroubleToggle lsp_document_diagnostics<CR>', 'errors'},
-        q = {'<Cmd>:LspTroubleToggle quickfix<CR>', 'quickfix'},
-        l = {'<Cmd>:LspTroubleToggle loclist<CR>', 'loclist'},
+        e = {'<Cmd>:TroubleToggle document_diagnostics<CR>', 'errors'},
+        q = {'<Cmd>:TroubleToggle quickfix<CR>', 'quickfix'},
+        l = {'<Cmd>:TroubleToggle loclist<CR>', 'loclist'},
         f = {'<Cmd>lua vim.lsp.buf.formatting()<CR>', 'format'},
-        g = {'<Cmd>DogeGenerate<CR>', 'generate documentation'},
-        r = {'<Cmd>LspTroubleToggle lsp_references<CR>', 'references'},
+        g = {'<Cmd>:Neogen<CR>', 'generate documentation'},
+        r = {'<Cmd>TroubleToggle lsp_references<CR>', 'references'},
         x = {'<Cmd>lua vim.lsp.diagnostic.disable()<CR>', 'disable lsp'},
         z = {':LspRestart<CR>', 'restart lsp'}
     },
@@ -154,3 +153,10 @@ vim.cmd [[
  let cmdline_map_quit           = '<LocalLeader>q'
 ]]
 -- let cmdline_external_term_cmd = 'kitty %s &'
+
+vim.cmd [[
+nmap s <cmd>Pounce<CR>
+nmap S <cmd>PounceRepeat<CR>
+vmap s <cmd>Pounce<CR>
+omap gs <cmd>Pounce<CR>
+]]

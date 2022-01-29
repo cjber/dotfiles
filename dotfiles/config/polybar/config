@@ -63,14 +63,14 @@ font-4 = Unifont:stype=Medium
 enable-ipc = true
 
 {%@@ if profile == "home" @@%}
-modules-left = wired-network x system-nvidia-system system-nvidia-temp x temperature cpu_cores x nano x package-updates-trigger package-updates
+modules-left = dropbox x wired-network x system-nvidia-system system-nvidia-temp x temperature cpu_cores x package-updates-trigger package-updates
 {%@@ elif profile == "uni" @@%}
 modules-left = x temperature cpu_cores
 {%@@ elif profile == "laptop" @@%}
 modules-left = x temperature cpu_cores
 {%@@ endif @@%}
-modules-center = cpu i3 memory 
-modules-right = pulseaudio x weather x filesystem x date
+modules-center = cpu i3 memory
+modules-right = nano x pulseaudio x weather x filesystem x date
 
 
 tray-position = left
@@ -271,4 +271,9 @@ label-font = 3
 [module/nano]
 type = custom/script
 exec = ~/dotfiles/dotfiles/config/polybar/porty.sh
+interval = 300
+
+[module/dropbox]
+type = custom/script
+exec = ~/dotfiles/dotfiles/config/polybar/dropbox.sh
 interval = 300
