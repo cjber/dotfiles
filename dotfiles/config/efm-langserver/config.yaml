@@ -72,7 +72,7 @@ tools:
     format-stdin: true
 
   python-isort: &python-isort
-    format-command: 'isort --profile black --float-to-top --no-sections --quiet  -'
+    format-command: 'isort --profile black --float-to-top --quiet  -'
     format-stdin: true
 
   dockerfile-hadolint: &dockerfile-hadolint

@@ -1,5 +1,6 @@
 local execute = vim.api.nvim_command
 local fn = vim.fn
+local colors = require("tokyonight.colors").setup()
 
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
@@ -13,29 +14,26 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	execute("packadd packer.nvim")
 end
 
-require("plugins.plugs")
-require("plugins.treesitter")
-require("plugins.telescope")
-require("plugins.nvimtree")
-require("plugins.betterqf")
-require("plugins.bufferline")
-require("plugins.alpha")
--- require('plugins.feline')
+require("plugins.plugs") -- load plugins
+require("plugins.treesitter") -- syntax
+require("plugins.telescope") -- interactive search
+require("plugins.nvimtree") -- file browser
+require("plugins.betterqf") -- better quickfix
+require("plugins.bufferline") -- show butters as tabline
+require("plugins.alpha") -- welcome screen
 
 -- lsp configs
-require("plugins.lspconfig") -- lsp config
+require("plugins.langconfig") -- lsp config
 require("plugins.cmp") -- lsp config
-require("plugins.lspkind") -- completion icons
 require("plugins.textobjects") -- Move in functions etc
 
 -- misc
-require("dd").setup()
-require("hlslens").setup()
+require("hlslens").setup() -- highlight search results
+require("fidget").setup() -- show lsp progress
 
-require("trouble").setup()
--- require('focus').setup()
-require("numb").setup()
-require("kommentary.config").use_extended_mappings()
+require("trouble").setup() -- diagnostic results window etc
+require("numb").setup() -- peek lines
+require("Comment").setup()
 require("colorizer").setup({ "*" }, { mode = "foreground" })
 require("spellsitter").setup()
 require("symbols-outline").setup()
@@ -48,7 +46,7 @@ vim.g.symbols_outline = {
 	},
 }
 require("which-key").setup()
-require("lightspeed").setup({ limit_ft_matches = 5 })
+-- require('lightspeed').setup({limit_ft_matches = 5})
 require("todo-comments").setup()
 require("autosave").setup()
 require("project_nvim").setup({ silent_chdir = true })
@@ -120,23 +118,18 @@ require("notify").setup({
 	},
 })
 
-require("pytrize").setup({ preferred_input = "telescope" })
-
 vim.cmd([[
 let g:dbs = { 'cjber': 'postgres://postgres:cjber@localhost:5432/cjber'}
 let g:db_ui_auto_execute_table_helpers = 1
 let g:db_ui_use_nerd_fonts = 1
 ]])
 
-require("pretty-fold").setup({})
-require("pretty-fold.preview").setup_keybinding()
-require("sidebar-nvim").setup({ sections = { "buffers", "files", "diagnostics" } })
-
-local colors = require("tokyonight.colors").setup()
+require("pretty-fold").setup()
+require("pretty-fold.preview").setup()
 
 require("scrollbar.handlers.search").setup()
 require("scrollbar").setup({
-	handlers = { diagnostic = true, search = false },
+	handlers = { diagnostic = true, search = true },
 	handle = { color = colors.bg_highlight },
 	marks = {
 		Search = { color = colors.orange },
@@ -147,14 +140,4 @@ require("scrollbar").setup({
 		Misc = { color = colors.purple },
 	},
 })
-
---[[ require("null-ls").setup({
-	sources = {
-		require("null-ls").builtins.formatting.black,
-		require("null-ls").builtins.diagnostics.flake8.with({
-			extra_args = { "--max-line-length=89", "--ignore=E203" },
-		}),
-		require("null-ls").builtins.diagnostics.pylint,
-		require("null-ls").builtins.formatting.stylua,
-	},
-}) ]]
+require("neogen").setup() -- add docstrings
