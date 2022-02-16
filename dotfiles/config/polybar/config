@@ -276,4 +276,4 @@ interval = 300
 [module/dropbox]
 type = custom/script
 exec = ~/dotfiles/dotfiles/config/polybar/dropbox.sh
-interval = 300
+interval = 120

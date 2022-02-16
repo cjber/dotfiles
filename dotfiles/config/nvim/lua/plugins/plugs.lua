@@ -3,6 +3,7 @@ vim.cmd([[packadd packer.nvim]])
 return require("packer").startup(function()
 	use({ "wbthomason/packer.nvim" })
 
+	use({ "hoschi/yode-nvim" })
 	use({ "Pocco81/AutoSave.nvim" }) -- autosave
 	use({ "Konfekt/FastFold" }) -- better folds
 	use({ "ahmedkhalf/project.nvim" }) -- projects
@@ -29,9 +30,11 @@ return require("packer").startup(function()
 			"hrsh7th/cmp-vsnip",
 			"hrsh7th/vim-vsnip",
 			"hrsh7th/vim-vsnip-integ",
+			"lukas-reineke/cmp-rg",
 			"lukas-reineke/cmp-under-comparator",
 			{ "tzachar/cmp-tabnine", run = "./install.sh" },
 		},
+		branch = "dev",
 	})
 	use({ "jalvesaq/vimcmdline" }) -- repl
 	use({ "kevinhwang91/nvim-bqf" })
