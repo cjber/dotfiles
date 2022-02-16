@@ -16,26 +16,10 @@ for type, icon in pairs(signs) do
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
--- customise diagnostics
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-	virtual_text = false,
-	signs = true,
-	update_in_insert = false,
-	border = border,
-})
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
+vim.diagnostic.config({ virtual_text = false, signs = true, update_in_insert = false, border = "single" })
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-
--- require'lspconfig'.pylsp.setup {}
--- require("lspconfig").jedi_language_server.setup({})
---[[ require'lspconfig'.pyre.setup {
-    root_dir = require'lspconfig'.util.root_pattern('.git')
-} ]]
 
 require("lspconfig").pyright.setup({
 	flags = { debounce_text_changes = 150 },
@@ -45,7 +29,7 @@ require("lspconfig").pyright.setup({
 				autoSearchPaths = true,
 				useLibraryCodeForTypes = true,
 				diagnosticMode = "openFilesOnly",
-				typeCheckingMode = "false",
+				typeCheckingMode = "off",
 				extraPaths = { "__pypackages__/<major.minor>/lib" },
 			},
 			autoComplete = { extraPaths = { "__pypackages__/<major.minor>/lib" } },
@@ -70,13 +54,6 @@ require("lspconfig").sqlls.setup({
 	cmd = { "/usr/bin/sql-language-server", "up", "--method", "stdio" },
 	root_dir = require("lspconfig").util.root_pattern(".git", ""),
 })
-
-require("lspconfig").zeta_note.setup({
-	cmd = { "/home/cjber/bin/zeta-note-linux" },
-	capabilities = capabilities,
-	root_dir = require("lspconfig").util.root_pattern(".git"),
-})
-
 local luadev = require("lua-dev").setup({
 	lspconfig = {
 		cmd = { "lua-language-server" },
@@ -94,7 +71,7 @@ require("null-ls").setup({
 		-- python
 		require("null-ls").builtins.formatting.black,
 		require("null-ls").builtins.formatting.isort.with({
-			extra_args = { "--float-to-top" },
+			extra_args = { "--float-to-top", "--multi-line-output=3" },
 		}),
 		require("null-ls").builtins.diagnostics.flake8.with({
 			extra_args = { "--max-line-length=89", "--ignore=E203,W503" },
@@ -107,11 +84,11 @@ require("null-ls").setup({
 		-- docker
 		require("null-ls").builtins.diagnostics.hadolint,
 		-- markdown
+		require("null-ls").builtins.diagnostics.vale,
 		require("null-ls").builtins.hover.dictionary,
 		require("null-ls").builtins.diagnostics.markdownlint.with({
 			extra_args = { "--disable=line_length" },
 		}),
-		require("null-ls").builtins.diagnostics.proselint,
 		require("null-ls").builtins.formatting.markdownlint,
 		-- shell
 		require("null-ls").builtins.diagnostics.shellcheck,

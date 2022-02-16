@@ -61,7 +61,7 @@ set_options({
     {'pumheight', 10},
     {'cmdheight', 1},
     {'mouse', 'a'},
-    {'colorcolumn', 88},
+    {'colorcolumn', 89},
     {'laststatus', 0},
     {'spelllang', 'en_gb'},
     {'jumpoptions', 'stack'},

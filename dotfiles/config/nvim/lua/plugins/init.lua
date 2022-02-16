@@ -29,8 +29,11 @@ require("plugins.textobjects") -- Move in functions etc
 
 -- misc
 require("hlslens").setup() -- highlight search results
-require("fidget").setup() -- show lsp progress
+require("fidget").setup({ text = {
+	spinner = "dots",
+} }) -- show lsp progress
 
+require("yode-nvim").setup()
 require("trouble").setup() -- diagnostic results window etc
 require("numb").setup() -- peek lines
 require("Comment").setup()
@@ -46,7 +49,6 @@ vim.g.symbols_outline = {
 	},
 }
 require("which-key").setup()
--- require('lightspeed').setup({limit_ft_matches = 5})
 require("todo-comments").setup()
 require("autosave").setup()
 require("project_nvim").setup({ silent_chdir = true })

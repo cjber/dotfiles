@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sync=$(python -W ignore /usr/bin/dropbox-cli status | grep Syncing)
-upload=$(python -W ignore /usr/bin/dropbox-cli status | grep Uploading)
+sync=$(rclone about od: | grep Used: | tr -s " " | cut -d ":" -f 2)
 
-echo "$sync" + "|" "$upload"
+echo "od: $sync"

@@ -4,7 +4,8 @@ nnoremap <Leader>ps :Dispatch! pyright --createstub
 
 " localleader
 
-nnoremap <LocalLeader>rr :call RunFile()<CR>
+nnoremap <LocalLeader>rr :call RunToLine()<CR>
+nnoremap <LocalLeader>rf :call RunFile()<CR>
 nnoremap <LocalLeader>rd :call PandasViewDF()<CR>
 vnoremap <LocalLeader>rd :call PandasViewDFV()<CR>
 nnoremap <LocalLeader>rh :call Help()<CR>
@@ -15,6 +16,11 @@ nnoremap <LocalLeader>rl :call VimCmdLineSendCmd('%whos')<CR>
 function RunFile()
     let file = expand('%:p')
     call VimCmdLineSendCmd('%run \"' . file . '\"')
+endfunction
+
+function RunToLine()
+    let curline = getpos('.')[1]
+    exec ':call b:cmdline_source_fun(getline(1, curline))'
 endfunction
 
 function PandasViewDF()
