@@ -7,9 +7,3 @@ git clone https://aur.archlinux.org/yay.git \
 
 yes | yay -Scc \
     && yay -S --needed --noconfirm - < applist
-
-# cd ~/dotfiles/dotfiles/config/nvim/ \
-#     && mkvenv \
-#     && pip install \
-#     wheel \
-#     neovim

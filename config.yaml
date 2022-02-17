@@ -87,6 +87,9 @@ dotfiles:
   d_yay:
     src: config/yay
     dst: ~/.config/yay
+  d_scripts:
+    src: scripts
+    dst: ~/scripts
 profiles:
   home:
     dotfiles:
