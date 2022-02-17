@@ -59,13 +59,13 @@ return require("packer").startup(function()
 	use({ "nvim-treesitter/playground" }) -- visualise treesitter
 	use({ "onsails/lspkind-nvim" }) -- lsp symbols
 	use({ "rcarriga/nvim-notify" }) -- popup notifications
-	use({ "simnalamburt/vim-mundo" }) -- see undo tree
+	use({ "mbbill/undotree" }) -- undo tree
 	use({ "simrat39/symbols-outline.nvim" })
 	use({ "tpope/vim-dispatch" }) -- dispatch commands
 	use({ "tpope/vim-repeat" }) -- repeat plugin cmds (including lightspeed)
 	use({ "tpope/vim-surround" }) -- change surrounding "'< etc
 	use({ "tweekmonster/startuptime.vim" }) -- benchmark nvim startup
-	use({ "windwp/nvim-autopairs" }) -- auto close brackets
+	use({ "ZhiyuanLck/smart-pairs" }) -- auto close brackets
 	use({ "yamatsum/nvim-nonicons" }) -- icons
 	use({ "lukas-reineke/headlines.nvim" }) -- highlight code bgs in rmd etc
 	use({ "direnv/direnv.vim" }) -- auto enable direnvs

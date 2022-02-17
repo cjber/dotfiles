@@ -28,6 +28,7 @@ require("plugins.cmp") -- lsp config
 require("plugins.textobjects") -- Move in functions etc
 
 -- misc
+require("pairs"):setup()
 require("hlslens").setup() -- highlight search results
 require("fidget").setup({ text = {
 	spinner = "dots",
