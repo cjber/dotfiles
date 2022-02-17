@@ -211,11 +211,6 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/numb.nvim",
     url = "https://github.com/nacro90/numb.nvim"
   },
-  ["nvim-autopairs"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
-    url = "https://github.com/windwp/nvim-autopairs"
-  },
   ["nvim-bqf"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-bqf",
@@ -336,6 +331,11 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/rust.vim",
     url = "https://github.com/rust-lang/rust.vim"
   },
+  ["smart-pairs"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/smart-pairs",
+    url = "https://github.com/ZhiyuanLck/smart-pairs"
+  },
   ["spellsitter.nvim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/spellsitter.nvim",
@@ -386,6 +386,11 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/trouble.nvim",
     url = "https://github.com/folke/trouble.nvim"
   },
+  undotree = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/undotree",
+    url = "https://github.com/mbbill/undotree"
+  },
   ["vim-dadbod"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-dadbod",
@@ -400,11 +405,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-dispatch",
     url = "https://github.com/tpope/vim-dispatch"
-  },
-  ["vim-mundo"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-mundo",
-    url = "https://github.com/simnalamburt/vim-mundo"
   },
   ["vim-repeat"] = {
     loaded = true,

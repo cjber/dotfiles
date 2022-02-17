@@ -272,8 +272,3 @@ label-font = 3
 type = custom/script
 exec = ~/dotfiles/dotfiles/config/polybar/porty.sh
 interval = 300
-
-[module/dropbox]
-type = custom/script
-exec = ~/dotfiles/dotfiles/config/polybar/dropbox.sh
-interval = 120

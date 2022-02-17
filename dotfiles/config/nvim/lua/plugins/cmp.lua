@@ -84,5 +84,5 @@ cmp.setup({
     show_prediction_strength = true
 }) ]]
 
-require("nvim-autopairs").setup({})
-cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
+--require("nvim-autopairs").setup({})
+--cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
