@@ -43,6 +43,8 @@ set_keymap("n", { noremap = true, silent = true }, {
 	{ "[s", ':lua require"spellsitter".nav(true)<CR>' },
 })
 
+vim.cmd[[nmap s <Plug>Lightspeed_omni_s]]
+
 -- visual
 set_keymap("x", { noremap = true, silent = true }, {
 	{ "p", '""p:let @"=@0<CR>' },
@@ -155,10 +157,3 @@ vim.cmd([[
  let cmdline_map_quit           = '<LocalLeader>q'
 ]])
 -- let cmdline_external_term_cmd = 'kitty %s &'
-
-vim.cmd([[
-nmap s <cmd>Pounce<CR>
-nmap S <cmd>PounceRepeat<CR>
-vmap s <cmd>Pounce<CR>
-omap gs <cmd>Pounce<CR>
-]])
