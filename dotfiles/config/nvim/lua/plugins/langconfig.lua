@@ -78,7 +78,7 @@ require("null-ls").setup({
 		}),
 		-- require("null-ls").builtins.diagnostics.pylint,
 		-- lua
-		require("null-ls").builtins.formatting.stylua,
+		-- require("null-ls").builtins.formatting.stylua,
 		-- R
 		require("null-ls").builtins.formatting.styler,
 		-- docker
