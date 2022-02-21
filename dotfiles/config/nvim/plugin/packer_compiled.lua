@@ -326,6 +326,11 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/psql",
     url = "https://github.com/mzarnitsa/psql"
   },
+  ["quarto-vim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/quarto-vim",
+    url = "https://github.com/cjber/quarto-vim"
+  },
   ["rust-tools.nvim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
@@ -410,6 +415,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-dispatch",
     url = "https://github.com/tpope/vim-dispatch"
+  },
+  ["vim-pandoc-syntax"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-pandoc-syntax",
+    url = "https://github.com/vim-pandoc/vim-pandoc-syntax"
   },
   ["vim-repeat"] = {
     loaded = true,

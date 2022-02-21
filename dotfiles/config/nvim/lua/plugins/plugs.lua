@@ -2,6 +2,8 @@ vim.cmd([[packadd packer.nvim]])
 
 return require("packer").startup(function()
     use({ "wbthomason/packer.nvim" })
+    use({ 'vim-pandoc/vim-pandoc-syntax' })
+    use({ 'cjber/quarto-vim' })
 
     use({ "hoschi/yode-nvim" })
     use({ "Pocco81/AutoSave.nvim" }) -- autosave
