@@ -1,6 +1,5 @@
 local execute = vim.api.nvim_command
 local fn = vim.fn
-local colors = require("tokyonight.colors").setup()
 
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
@@ -133,6 +132,7 @@ require("pretty-fold").setup()
 require("pretty-fold.preview").setup()
 
 require("scrollbar.handlers.search").setup()
+local colors = require("tokyonight.colors").setup()
 require("scrollbar").setup({
  handlers = { diagnostic = true, search = true },
  handle = { color = colors.bg_highlight },

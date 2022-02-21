@@ -90,6 +90,9 @@ dotfiles:
   d_scripts:
     src: scripts
     dst: ~/scripts
+  f_xinitrc:
+    src: xinitrc
+    dst: ~/.xinitrc
 profiles:
   home:
     dotfiles:
