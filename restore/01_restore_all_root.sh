@@ -4,4 +4,6 @@ sed -i "s,^#MAKEFLAGS=.*,MAKEFLAGS='-j$(nproc)',g" /etc/makepkg.conf \
         && sed -i "s,^#Color,Color,g" /etc/makepkg.conf
 pacman -Syu --needed --noconfirm git reflector zsh aspell aspell-en
 reflector --verbose --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
+
+mkdir /usr/share/dict
 aspell -d en_GB dump master | aspell -l en expand > /usr/share/dict/gb_english.dic
