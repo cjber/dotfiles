@@ -249,7 +249,7 @@ _G.packer_plugins = {
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
-    url = "https://github.com/neovim/nvim-lspconfig"
+    url = "https://github.com/kylo252/nvim-lspconfig"
   },
   ["nvim-nonicons"] = {
     loaded = true,
