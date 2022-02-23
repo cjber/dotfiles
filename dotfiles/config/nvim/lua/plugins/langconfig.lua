@@ -77,12 +77,14 @@ require("null-ls").setup({
    extra_args = { "--max-line-length=89", "--ignore=E203,W503" },
   }),
   -- require("null-ls").builtins.diagnostics.pylint,
+  -- lua
+  require("null-ls").builtins.formatting.stylua,
   -- R
   require("null-ls").builtins.formatting.styler,
-  -- docker
   require("null-ls").builtins.diagnostics.hadolint,
   -- markdown
   require("null-ls").builtins.diagnostics.vale,
+  require("null-ls").builtins.formatting.codespell,
   require("null-ls").builtins.hover.dictionary,
   require("null-ls").builtins.diagnostics.markdownlint.with({
    extra_args = { "--disable=line_length" },

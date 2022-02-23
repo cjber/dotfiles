@@ -12,6 +12,10 @@ cmd 'hi Headline1 guibg=#1E2332'
 cmd 'hi Headline2 guibg=#1E2332'
 cmd 'hi NormalFloat guibg=None'
 
+cmd 'hi LspReferenceWrite gui=italic guibg=#15161E'
+cmd 'hi LspReferenceRead gui=italic guibg=#15161E'
+cmd 'hi LspReferenceText gui=italic guibg=#15161E'
+
 --[[ cmd 'hi HlSearchNear guibg=None guifg=#bb9af7 gui=underline'
 cmd 'hi HlSearchFloat guibg=None guifg=#bb9af7 gui=underline'
 cmd 'hi HlSearchLensNear guibg=None guifg=#bb9af7 gui=italic'
