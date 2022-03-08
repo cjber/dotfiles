@@ -57,5 +57,5 @@ require("nvim-treesitter.configs").setup({
 			goto_previous_start = { ["<M-k>"] = "@function.outer" },
 		},
 	},
-	yati = { enable = true },
+	yati = { enable = false },
 })

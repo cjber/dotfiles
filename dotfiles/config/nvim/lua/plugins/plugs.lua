@@ -68,7 +68,7 @@ return require("packer").startup(function()
 	use({ "tpope/vim-repeat" }) -- repeat plugin cmds (including lightspeed)
 	use({ "tpope/vim-surround" }) -- change surrounding "'< etc
 	use({ "tweekmonster/startuptime.vim" }) -- benchmark nvim startup
-	use({ "ZhiyuanLck/smart-pairs" }) -- auto close brackets
+	use({ "windwp/nvim-autopairs" }) -- pairs
 	use({ "yamatsum/nvim-nonicons" }) -- icons
 	use({ "lukas-reineke/headlines.nvim" }) -- highlight code bgs in rmd etc
 	use({ "direnv/direnv.vim" }) -- auto enable direnvs
@@ -98,10 +98,9 @@ return require("packer").startup(function()
 		run = ":UpdateRemotePlugins",
 	}) ]]
 	-- use({ "sidebar-nvim/sidebar.nvim" })
-	use({ "elihunter173/dirbuf.nvim" })
-	use({ "jose-elias-alvarez/null-ls.nvim" })
-	use({ "nvim-telescope/telescope-file-browser.nvim" })
-	use({ "ggandor/lightspeed.nvim" })
-	use({ "j-hui/fidget.nvim" })
+	use({ "jose-elias-alvarez/null-ls.nvim" }) -- other lsp
+	use({ "nvim-telescope/telescope-file-browser.nvim" }) -- telescope files
+	use({ "ggandor/lightspeed.nvim" }) -- smart motion
+	use({ "j-hui/fidget.nvim" }) -- lsp progress
 	use({ "yioneko/nvim-yati" }) -- indents
 end)
