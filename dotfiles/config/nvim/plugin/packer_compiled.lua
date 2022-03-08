@@ -154,11 +154,6 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/cypher-vim-syntax",
     url = "https://github.com/neo4j-contrib/cypher-vim-syntax"
   },
-  ["dirbuf.nvim"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/dirbuf.nvim",
-    url = "https://github.com/elihunter173/dirbuf.nvim"
-  },
   ["direnv.vim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/direnv.vim",
@@ -220,6 +215,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/numb.nvim",
     url = "https://github.com/nacro90/numb.nvim"
+  },
+  ["nvim-autopairs"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-bqf"] = {
     loaded = true,
@@ -345,11 +345,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/rust.vim",
     url = "https://github.com/rust-lang/rust.vim"
-  },
-  ["smart-pairs"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/smart-pairs",
-    url = "https://github.com/ZhiyuanLck/smart-pairs"
   },
   ["spellsitter.nvim"] = {
     loaded = true,

@@ -80,12 +80,12 @@ require("null-ls").setup({
   -- lua
   require("null-ls").builtins.formatting.stylua,
   -- R
-  require("null-ls").builtins.formatting.styler,
+  -- require("null-ls").builtins.formatting.styler,
   require("null-ls").builtins.diagnostics.hadolint,
   -- markdown
   require("null-ls").builtins.diagnostics.vale,
-  require("null-ls").builtins.formatting.codespell,
-  require("null-ls").builtins.hover.dictionary,
+  -- require("null-ls").builtins.formatting.codespell, # giving errors atm
+  -- require("null-ls").builtins.hover.dictionary,
   require("null-ls").builtins.diagnostics.markdownlint.with({
    extra_args = { "--disable=line_length" },
   }),
