@@ -51,7 +51,7 @@ return require("packer").startup(function()
 	use({ "markonm/traces.vim" }) -- highlight subs etc
 	-- use {'mhinz/vim-startify'}
 	use({ "nacro90/numb.nvim" })
-	use({ "kylo252/nvim-lspconfig", branch = "add-sourcery" }) -- language servers
+	use({ "neovim/nvim-lspconfig" }) -- language servers
 	use({ "norcalli/nvim-colorizer.lua" }) -- highlight colours
 	use({
 		"nvim-telescope/telescope.nvim",
