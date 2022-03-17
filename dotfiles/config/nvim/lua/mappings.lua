@@ -43,7 +43,7 @@ set_keymap("n", { noremap = true, silent = true }, {
 	{ "[s", ':lua require"spellsitter".nav(true)<CR>' },
 })
 
-vim.cmd[[nmap s <Plug>Lightspeed_omni_s]]
+vim.cmd([[nmap s <Plug>Lightspeed_omni_s]])
 
 -- visual
 set_keymap("x", { noremap = true, silent = true }, {
