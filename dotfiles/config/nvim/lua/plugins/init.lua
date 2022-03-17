@@ -33,7 +33,6 @@ require("fidget").setup({ text = {
 	spinner = "dots",
 } }) -- show lsp progress
 
-require("yode-nvim").setup()
 require("trouble").setup() -- diagnostic results window etc
 require("numb").setup() -- peek lines
 require("Comment").setup()
@@ -53,31 +52,31 @@ require("todo-comments").setup()
 require("autosave").setup()
 require("project_nvim").setup({ silent_chdir = true })
 
-vim.fn.sign_define("Headline1", { linehl = "Headline1" })
-vim.fn.sign_define("Headline2", { linehl = "Headline2" })
-require("headlines").setup({
-	rmd = {
-		source_pattern_start = "^```{.*",
-		source_pattern_end = "^```$",
-		dash_pattern = "^---+$",
-		headline_pattern = "^#+",
-		headline_highlights = { "Headline" },
-		codeblock_highlight = "CodeBlock",
-		dash_highlight = "Dash",
-		fat_headlines = true,
-	},
-	quarto = {
-		source_pattern_start = "^```{.*",
-		source_pattern_end = "^```$",
-		dash_pattern = "^---+$",
-		headline_pattern = "^#+ [A-Z]",
-		headline_highlights = { "Headline", "Headline1", "Headline2" },
-		codeblock_highlight = "CodeBlock",
-		dash_highlight = "Dash",
-		fat_headlines = true,
-	},
-})
-
+-- vim.fn.sign_define("Headline1", { linehl = "Headline1" })
+-- vim.fn.sign_define("Headline2", { linehl = "Headline2" })
+-- require("headlines").setup({
+-- 	rmd = {
+-- 		source_pattern_start = "^```{.*",
+-- 		source_pattern_end = "^```$",
+-- 		dash_pattern = "^---+$",
+-- 		headline_pattern = "^#+",
+-- 		headline_highlights = { "Headline" },
+-- 		codeblock_highlight = "CodeBlock",
+-- 		dash_highlight = "Dash",
+-- 		fat_headlines = true,
+-- 	},
+-- 	quarto = {
+-- 		source_pattern_start = "^```{.*",
+-- 		source_pattern_end = "^```$",
+-- 		dash_pattern = "^---+$",
+-- 		headline_pattern = "^#+ [A-Z]",
+-- 		headline_highlights = { "Headline", "Headline1", "Headline2" },
+-- 		codeblock_highlight = "CodeBlock",
+-- 		dash_highlight = "Dash",
+-- 		fat_headlines = true,
+-- 	},
+-- })
+--
 -- custom notification for square border
 local stages_util = require("notify.stages.util")
 require("notify").setup({
@@ -128,21 +127,19 @@ let g:db_ui_auto_execute_table_helpers = 1
 let g:db_ui_use_nerd_fonts = 1
 ]])
 
-require("pretty-fold").setup()
-require("pretty-fold.preview").setup()
-
-require("scrollbar.handlers.search").setup()
-local colors = require("tokyonight.colors").setup()
-require("scrollbar").setup({
-	handlers = { diagnostic = true, search = true },
-	handle = { color = colors.bg_highlight },
-	marks = {
-		Search = { color = colors.orange },
-		Error = { color = colors.error },
-		Warn = { color = colors.warning },
-		Info = { color = colors.info },
-		Hint = { color = colors.hint },
-		Misc = { color = colors.purple },
-	},
-})
 require("neogen").setup() -- add docstrings
+
+-- require("scrollbar.handlers.search").setup()
+-- local colors = require("tokyonight.colors").setup()
+-- require("scrollbar").setup({
+-- 	handlers = { diagnostic = true, search = true },
+-- 	handle = { color = colors.bg_highlight },
+-- 	marks = {
+-- 		Search = { color = colors.orange },
+-- 		Error = { color = colors.error },
+-- 		Warn = { color = colors.warning },
+-- 		Info = { color = colors.info },
+-- 		Hint = { color = colors.hint },
+-- 		Misc = { color = colors.purple },
+-- 	},
+-- })

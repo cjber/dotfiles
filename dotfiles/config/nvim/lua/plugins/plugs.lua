@@ -5,7 +5,6 @@ return require("packer").startup(function()
 	use({ "vim-pandoc/vim-pandoc-syntax" })
 	use({ "cjber/quarto-vim" })
 
-	use({ "hoschi/yode-nvim" })
 	use({ "Pocco81/AutoSave.nvim" }) -- autosave
 	use({ "Konfekt/FastFold" }) -- better folds
 	use({ "ahmedkhalf/project.nvim" }) -- projects
@@ -14,14 +13,12 @@ return require("packer").startup(function()
 		requires = "kyazdani42/nvim-web-devicons",
 	}) -- bufferline
 	use({ "numToStr/Comment.nvim" })
-	use({ "chrisbra/NrrwRgn" }) -- move code chunks from md/rmd to small window
-	use({ "dbeniamine/todo.txt-vim" }) -- todo.txt helpers
+	use({ "dbeniamine/todo.txt-vim" }) -- todo.txt helper
 	use({ "folke/trouble.nvim" }) -- better lsp error search
 	use({ "folke/lua-dev.nvim" }) -- lua dev stuff
 	use({ "folke/todo-comments.nvim" })
 	use({ "folke/tokyonight.nvim" }) -- theme
 	use({ "folke/which-key.nvim" }) -- visualise bindings
-	-- use {'ggandor/lightspeed.nvim'} -- movements
 	use({ -- auto completions
 		"hrsh7th/nvim-cmp",
 		requires = {
@@ -42,7 +39,6 @@ return require("packer").startup(function()
 	use({ "jalvesaq/vimcmdline" }) -- repl
 	use({ "kevinhwang91/nvim-bqf" })
 	use({ "kevinhwang91/nvim-hlslens" })
-	-- use {'kkoomen/vim-doge', run = ':call doge#install()'}
 	use({ "danymat/neogen" })
 	use({ "kyazdani42/nvim-tree.lua" }) -- file tree
 	use({ "lervag/vimtex" }) -- latex tools
@@ -87,7 +83,6 @@ return require("packer").startup(function()
 		ft = "markdown",
 		run = "cd app && yarn install",
 	})
-	use({ "anuvyklack/pretty-fold.nvim" }) -- better folding
 	use({ "petertriho/nvim-scrollbar" }) -- scrollbar with diagnostics
 	-- use({ "AckslD/nvim-pytrize.lua" })
 	use({ "tpope/vim-dadbod" })
