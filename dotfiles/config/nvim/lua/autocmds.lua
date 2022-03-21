@@ -31,10 +31,10 @@ au.define_autocmds({
 	CursorHold = {
 		["*"] = {
 			"lua vim.diagnostic.open_float({border='single', focusable=false, show_header=false, scope='cursor'})",
-			"lua vim.lsp.buf.document_highlight()",
 		},
+		["python"] = { "lua vim.lsp.buf.document_highlight()" },
 	},
 	CursorMoved = {
-		["*"] = { "lua vim.lsp.buf.clear_references()" },
+		["python"] = { "lua vim.lsp.buf.clear_references()" },
 	},
 })
