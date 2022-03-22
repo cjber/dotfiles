@@ -35,7 +35,7 @@ bindsym $mod+Return exec kitty --single-instance
 bindsym $mod+Shift+Return exec kitty zsh -c "source $HOME/.zshrc && nvim"
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # start program launcher
 bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun
