@@ -46,7 +46,7 @@ bindsym $mod+Tab focus right
 bindsym $mod+Ctrl+Tab focus down
 
 # Start Applications
-bindsym $mod+b exec brave
+bindsym $mod+c exec firefox
 bindsym $mod+p exec --no-startup-id i3-scrot
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
