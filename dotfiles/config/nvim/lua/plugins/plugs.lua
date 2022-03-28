@@ -2,6 +2,10 @@ vim.cmd([[packadd packer.nvim]])
 
 return require("packer").startup(function()
 	use({ "wbthomason/packer.nvim" })
+	use({
+		"m-demare/hlargs.nvim",
+		requires = { "nvim-treesitter/nvim-treesitter" },
+	})
 	use({ "vim-pandoc/vim-pandoc-syntax" })
 	use({ "cjber/quarto-vim" })
 
