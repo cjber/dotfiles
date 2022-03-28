@@ -25,8 +25,10 @@ require("plugins.alpha") -- welcome screen
 require("plugins.langconfig") -- lsp config
 require("plugins.cmp") -- lsp config
 require("plugins.textobjects") -- Move in functions etc
+require('hlargs').setup()
 
 -- misc
+require("lightspeed").setup({ ignore_case = true })
 require("nvim-autopairs").setup({})
 require("hlslens").setup() -- highlight search results
 require("fidget").setup({ text = {

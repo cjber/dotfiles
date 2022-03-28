@@ -2,9 +2,12 @@ if [ -z "$DISPLAY" -a $XDG_VTNR -eq 1 ]; then
   startx
 fi
 
+eval "$(direnv hook zsh)"
+
 bindkey -v
 
-eval "$(direnv hook zsh)"
+# 10ms for key sequences
+KEYTIMEOUT=1
 
 export DOTNET_ROOT=/usr/bin/dotnet
 export FZF_DEFAULT_COMMAND='fd --type f --color=always --hidden --follow -E .git -E "*.html"'
@@ -172,8 +175,6 @@ zinit light-mode for \
 
 
 ### End of Zinit's installer chunk
-
-export PATH="$HOME/.poetry/bin:$PATH"
 
 if [ -n "$PYTHONPATH" ]; then
     export PYTHONPATH='/home/cjber/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582':$PYTHONPATH
