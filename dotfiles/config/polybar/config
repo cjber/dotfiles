@@ -28,7 +28,7 @@ base0E = #B48EAD
 base0F = #5E81AC
 
 [bar/top]
-;monitor = ${env:MONITOR:eDP-1}
+monitor = ${env:MONITOR:}
 bottom = false
 width = 100%:-40
 height = 30
