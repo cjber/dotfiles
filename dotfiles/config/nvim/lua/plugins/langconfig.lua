@@ -74,7 +74,20 @@ require("null-ls").setup({
 		-- require("null-ls").builtins.formatting.styler,
 		require("null-ls").builtins.diagnostics.hadolint,
 		-- markdown
-		require("null-ls").builtins.diagnostics.vale,
+		require("null-ls").builtins.diagnostics.proselint.with({
+			extra_filetypes = { "quarto" },
+		}),
+
+		require("null-ls").builtins.code_actions.proselint.with({
+			extra_filetypes = { "quarto" },
+		}),
+		require("null-ls").builtins.completion.spell.with({
+			extra_filetypes = { "quarto" },
+		}),
+		require("null-ls").builtins.diagnostics.misspell.with({
+			extra_filetypes = { "quarto" },
+		}),
+		require("null-ls").builtins.hover.dictionary.with({ extra_filetypes = { "quarto" } }),
 		-- require("null-ls").builtins.formatting.codespell, # giving errors atm
 		-- require("null-ls").builtins.hover.dictionary,
 		require("null-ls").builtins.diagnostics.markdownlint.with({

@@ -3,21 +3,20 @@ local fn = vim.fn
 
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
-if fn.empty(fn.glob(install_path)) > 0 then
-	fn.system({
-		"git",
-		"clone",
-		"https://github.com/wbthomason/packer.nvim",
-		install_path,
-	})
-	execute("packadd packer.nvim")
-end
-
+-- if fn.empty(fn.glob(install_path)) > 0 then
+-- 	fn.system({
+-- 		"git",
+-- 		"clone",
+-- 		"https://github.com/wbthomason/packer.nvim",
+-- 		install_path,
+-- 	})
+-- 	execute("packadd packer.nvim")
+-- end
+--
 require("plugins.plugs") -- load plugins
 require("plugins.treesitter") -- syntax
 require("plugins.telescope") -- interactive search
 require("plugins.nvimtree") -- file browser
-require("plugins.betterqf") -- better quickfix
 require("plugins.bufferline") -- show butters as tabline
 require("plugins.alpha") -- welcome screen
 
@@ -25,30 +24,17 @@ require("plugins.alpha") -- welcome screen
 require("plugins.langconfig") -- lsp config
 require("plugins.cmp") -- lsp config
 require("plugins.textobjects") -- Move in functions etc
-require('hlargs').setup()
 
 -- misc
 require("lightspeed").setup({ ignore_case = true })
 require("nvim-autopairs").setup({})
-require("hlslens").setup() -- highlight search results
 require("fidget").setup({ text = {
 	spinner = "dots",
 } }) -- show lsp progress
 
 require("trouble").setup() -- diagnostic results window etc
-require("numb").setup() -- peek lines
 require("Comment").setup()
 require("colorizer").setup({ "*" }, { mode = "foreground" })
-require("spellsitter").setup()
-require("symbols-outline").setup()
-vim.g.symbols_outline = {
-	symbol_blacklist = { "Constant", "Variable" },
-	auto_preview = false,
-	symbols = {
-		Class = { icon = "ﴯ", hl = "TSType" },
-		Function = { icon = "", hl = "TSFunction" },
-	},
-}
 require("which-key").setup()
 require("todo-comments").setup()
 require("autosave").setup()
