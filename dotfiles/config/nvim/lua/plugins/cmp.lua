@@ -1,7 +1,5 @@
--- vim.cmd [[imap <silent><script><expr> <C-L> copilot#Accept()]]
--- vim.cmd [[let g:copilot_no_tab_map = v:true]]
-
 local cmp = require("cmp")
+
 cmp.setup({
  experimental = { ghost_text = true, custom_menu = true },
  window = {

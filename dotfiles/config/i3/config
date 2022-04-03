@@ -20,6 +20,7 @@ hide_edge_borders none
 # is used in the bar {} block below.
 font "xft:JetBrains Mono 8"
 
+
 # sound
 bindsym $mod+Ctrl+m exec pavucontrol
 {%@@ if profile == "home" @@%}
@@ -113,6 +114,8 @@ set $ws5 5
 set $ws6 6
 set $ws7 7
 set $ws8 8
+
+workspace $ws6 output HDMI-0
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
