@@ -93,6 +93,9 @@ dotfiles:
   f_xinitrc:
     src: xinitrc
     dst: ~/.xinitrc
+  f_xresources:
+    src: Xresources
+    dst: ~/.Xresources
 profiles:
   home:
     dotfiles:
