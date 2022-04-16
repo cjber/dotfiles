@@ -1,8 +1,9 @@
 vim.cmd([[packadd packer.nvim]])
 
 return require("packer").startup(function()
-	use({ "yamatsum/nvim-nonicons" })
 	use({ "wbthomason/packer.nvim" })
+
+	use({ "yamatsum/nvim-nonicons" })
 	use({ "vim-pandoc/vim-pandoc-syntax" })
 	use({ "cjber/quarto-vim" })
 
@@ -33,7 +34,6 @@ return require("packer").startup(function()
 			"lukas-reineke/cmp-under-comparator",
 			{ "tzachar/cmp-tabnine", run = "./install.sh" },
 		},
-		branch = "dev",
 	})
 	use({ "jalvesaq/vimcmdline" }) -- repl
 	use({ "danymat/neogen" })
