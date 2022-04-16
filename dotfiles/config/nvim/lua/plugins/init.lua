@@ -25,6 +25,8 @@ require("plugins.langconfig") -- lsp config
 require("plugins.cmp") -- lsp config
 require("plugins.textobjects") -- Move in functions etc
 
+-- require("copilot").setup()
+
 -- misc
 require("lightspeed").setup({ ignore_case = true })
 require("nvim-autopairs").setup({})

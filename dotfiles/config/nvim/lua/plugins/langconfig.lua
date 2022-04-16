@@ -50,11 +50,11 @@ local luadev = require("lua-dev").setup({
 	},
 	capabilities = capabilities,
 })
+require("lspconfig").sumneko_lua.setup(luadev)
 
 require("lspconfig").sourcery.setup({
 	init_options = { token = "user_kyIXI3RYu2AnkC7QMChz2FdgT92mqUZvw7DOfx1pgJ6kOAcdPyLMUo9pom0" },
 })
-require("lspconfig").sumneko_lua.setup(luadev)
 require("rust-tools").setup()
 
 require("null-ls").setup({
