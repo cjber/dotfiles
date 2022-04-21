@@ -39,8 +39,8 @@ set_keymap("n", { noremap = true, silent = true }, {
 	{ "<M-j>", "<C-d>" },
 	{ "<M-k>", "<C-u>" },
 	{ "x", '"0x' },
-	{ "]s", ':lua require"spellsitter".nav()<CR>' },
-	{ "[s", ':lua require"spellsitter".nav(true)<CR>' },
+	-- { "]s", ':lua require"spellsitter".nav()<CR>' },
+	-- { "[s", ':lua require"spellsitter".nav(true)<CR>' },
 })
 
 vim.cmd([[nmap s <Plug>Lightspeed_omni_s]])
@@ -102,9 +102,9 @@ wk.register({
 		name = "+spell",
 		s = { "<Cmd>set invspell<CR>", "toggle" },
 		-- f = { "ma[s1z=`a", "fix" },
-		f = { "ma:lua require'spellsitter'.nav(true)<CR>1z=`a", "fix" },
-		g = { ":GrammarousCheck<CR>", "grammarous" },
-		r = { ":GrammarousReset<CR>", "kill grammarous" },
+		f = { "ma[s1z=`a", "fix" },
+		-- g = { ":GrammarousCheck<CR>", "grammarous" },
+		-- r = { ":GrammarousReset<CR>", "kill grammarous" },
 	},
 	l = {
 		name = "+lang",

@@ -67,7 +67,7 @@ require("null-ls").setup({
 		require("null-ls").builtins.diagnostics.flake8.with({
 			extra_args = { "--max-line-length=89", "--ignore=E203,W503,F401" },
 		}),
-		-- require("null-ls").builtins.diagnostics.pylint,
+		require("null-ls").builtins.diagnostics.mypy,
 		-- lua
 		require("null-ls").builtins.formatting.stylua,
 		-- R

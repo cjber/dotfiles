@@ -3,10 +3,8 @@ vim.cmd([[packadd packer.nvim]])
 return require("packer").startup(function()
 	use({ "wbthomason/packer.nvim" })
 
-	use({ "yamatsum/nvim-nonicons" })
 	use({ "vim-pandoc/vim-pandoc-syntax" })
 	use({ "cjber/quarto-vim" })
-
 	use({ "Pocco81/AutoSave.nvim" }) -- autosave
 	use({ "Konfekt/FastFold" }) -- better folds
 	use({ "ahmedkhalf/project.nvim" }) -- projects
@@ -63,7 +61,7 @@ return require("packer").startup(function()
 	use({ "simrat39/rust-tools.nvim" }) -- more rust utils
 	use({ "saecki/crates.nvim", requires = { "nvim-lua/plenary.nvim" } }) -- upgrade crates
 	use({ "rust-lang/rust.vim" }) -- rust utils
-	use({ "romgrk/nvim-treesitter-context" }) -- show context function
+	-- use({ "romgrk/nvim-treesitter-context" }) -- show context function
 	use({ "rafamadriz/friendly-snippets" }) -- default snippets
 	use({ "numToStr/FTerm.nvim" })
 	use({ "neo4j-contrib/cypher-vim-syntax" })

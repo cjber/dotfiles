@@ -38,7 +38,6 @@ require("trouble").setup() -- diagnostic results window etc
 require("Comment").setup()
 require("colorizer").setup({ "*" }, { mode = "foreground" })
 require("which-key").setup()
-require("todo-comments").setup()
 require("autosave").setup()
 require("project_nvim").setup({ silent_chdir = true })
 
