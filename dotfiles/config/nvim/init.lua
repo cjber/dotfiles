@@ -46,7 +46,7 @@ g.rmd_fenced_languages = { "r", "python" }
 g.cmdline_follow_colorscheme = 1
 g.cmdline_esc_term = 0
 g.cmdline_map_send = "<CR>"
--- g.cmdline_app = { ["python"] = "ipython", ["qmd"] = "ipython" }
+g.cmdline_app = { ["python"] = "ipython", ["qmd"] = "ipython" }
 
 -- mundo
 g.mundo_preview_bottom = 1

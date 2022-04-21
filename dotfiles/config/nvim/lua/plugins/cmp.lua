@@ -11,7 +11,6 @@ cmp.setup({
 			border = "single",
 			winhighlight = "NormalFloat:NormalFloat,Title:NormalFloat",
 		},
-
 	},
 	snippet = {
 		expand = function(args)
@@ -44,20 +43,6 @@ cmp.setup({
 		},
 		{ name = "crates" },
 	},
-	formatting = {
-		format = function(entry, vim_item)
-			vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
-			vim_item.menu = ({
-				buffer = "[Buffer]",
-				nvim_lsp = "[LSP]",
-				nvim_lua = "[Lua]",
-				dictionary = "[Dict]",
-				latex_symbols = "[Latex]",
-				cmp_tabnine = "[TN]",
-			})[entry.source.name]
-			return vim_item
-		end,
-	},
 	sorting = {
 		comparators = {
 			cmp.config.compare.offset,
@@ -69,6 +54,13 @@ cmp.setup({
 			cmp.config.compare.length,
 			cmp.config.compare.order,
 		},
+	},
+	formatting = {
+		format = require("lspkind").cmp_format({
+			mode = "symbol",
+			maxwidth = 50,
+			symbols = "mdi",
+		}),
 	},
 })
 
