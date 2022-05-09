@@ -114,7 +114,7 @@ wk.register({
 		e = { "<Cmd>:TroubleToggle document_diagnostics<CR>", "errors" },
 		q = { "<Cmd>:TroubleToggle quickfix<CR>", "quickfix" },
 		l = { "<Cmd>:TroubleToggle loclist<CR>", "loclist" },
-		f = { "<Cmd>lua vim.lsp.buf.formatting()<CR>", "format" },
+		f = { "<Cmd>lua vim.lsp.buf.format()<CR>", "format" },
 		g = { "<Cmd>:Neogen<CR>", "generate documentation" },
 		r = { "<Cmd>TroubleToggle lsp_references<CR>", "references" },
 		x = { "<Cmd>lua vim.lsp.diagnostic.disable()<CR>", "disable lsp" },

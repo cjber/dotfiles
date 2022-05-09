@@ -43,29 +43,32 @@ require("project_nvim").setup({ silent_chdir = true })
 
 -- vim.fn.sign_define("Headline1", { linehl = "Headline1" })
 -- vim.fn.sign_define("Headline2", { linehl = "Headline2" })
--- require("headlines").setup({
--- 	rmd = {
--- 		source_pattern_start = "^```{.*",
--- 		source_pattern_end = "^```$",
--- 		dash_pattern = "^---+$",
--- 		headline_pattern = "^#+",
--- 		headline_highlights = { "Headline" },
--- 		codeblock_highlight = "CodeBlock",
--- 		dash_highlight = "Dash",
--- 		fat_headlines = true,
--- 	},
--- 	quarto = {
--- 		source_pattern_start = "^```{.*",
--- 		source_pattern_end = "^```$",
--- 		dash_pattern = "^---+$",
--- 		headline_pattern = "^#+ [A-Z]",
--- 		headline_highlights = { "Headline", "Headline1", "Headline2" },
--- 		codeblock_highlight = "CodeBlock",
--- 		dash_highlight = "Dash",
--- 		fat_headlines = true,
--- 	},
--- })
---
+
+require("headlines").setup({
+	rmd = {
+		source_pattern_start = "^```{.*",
+		source_pattern_end = "^```$",
+		dash_pattern = "^---+$",
+		headline_pattern = "^#+ [A-Z]",
+		headline_highlights = { "Headline", "Headline1", "Headline2" },
+		codeblock_highlight = "CodeBlock",
+		dash_highlight = "Dash",
+		dash_string = "-",
+		fat_headlines = true,
+	},
+	quarto = {
+		source_pattern_start = "^```{.*",
+		source_pattern_end = "^```$",
+		dash_pattern = "^---+$",
+		headline_pattern = "^#+ [A-Z]",
+		headline_highlights = { "Headline", "Headline1", "Headline2" },
+		codeblock_highlight = "CodeBlock",
+		dash_highlight = "Dash",
+		dash_string = "-",
+		fat_headlines = true,
+	},
+})
+
 -- custom notification for square border
 local stages_util = require("notify.stages.util")
 require("notify").setup({

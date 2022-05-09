@@ -3,6 +3,7 @@ vim.cmd([[packadd packer.nvim]])
 return require("packer").startup(function()
 	use({ "wbthomason/packer.nvim" })
 
+	use({ "lewis6991/impatient.nvim" })
 	use({ "vim-pandoc/vim-pandoc-syntax" })
 	use({ "cjber/quarto-vim" })
 	use({ "Pocco81/AutoSave.nvim" }) -- autosave
