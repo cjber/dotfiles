@@ -39,6 +39,7 @@ class MyPrompt(Prompts):
             (Token.Literal.String, " "),
             (Token.Literal.String, "v" + python_version()),
             (Token, " "),
+            (Token.Keyword, "ipython"),
             (Token, "\n"),
             (
                 Token.Prompt

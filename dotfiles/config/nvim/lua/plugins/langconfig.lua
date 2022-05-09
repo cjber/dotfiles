@@ -10,6 +10,8 @@ vim.diagnostic.config({ virtual_text = false, signs = true, update_in_insert = f
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
+require("lspconfig").clangd.setup({ capabilities = capabilities })
+
 require("lspconfig").pyright.setup({
 	flags = { debounce_text_changes = 150 },
 	settings = {
@@ -67,7 +69,7 @@ require("null-ls").setup({
 		require("null-ls").builtins.diagnostics.flake8.with({
 			extra_args = { "--max-line-length=89", "--ignore=E203,W503,F401" },
 		}),
-		require("null-ls").builtins.diagnostics.mypy,
+		-- require("null-ls").builtins.diagnostics.mypy,
 		-- lua
 		require("null-ls").builtins.formatting.stylua,
 		-- R
@@ -88,8 +90,8 @@ require("null-ls").setup({
 			extra_filetypes = { "quarto" },
 		}),
 		require("null-ls").builtins.hover.dictionary.with({ extra_filetypes = { "quarto" } }),
-		-- require("null-ls").builtins.formatting.codespell, # giving errors atm
-		-- require("null-ls").builtins.hover.dictionary,
+		require("null-ls").builtins.formatting.codespell,
+		require("null-ls").builtins.hover.dictionary,
 		require("null-ls").builtins.diagnostics.markdownlint.with({
 			extra_args = { "--disable=line_length" },
 		}),
