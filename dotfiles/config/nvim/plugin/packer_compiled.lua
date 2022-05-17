@@ -134,16 +134,6 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/cmp-vsnip",
     url = "https://github.com/hrsh7th/cmp-vsnip"
   },
-  ["crates.nvim"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/crates.nvim",
-    url = "https://github.com/saecki/crates.nvim"
-  },
-  ["cypher-vim-syntax"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/cypher-vim-syntax",
-    url = "https://github.com/neo4j-contrib/cypher-vim-syntax"
-  },
   ["direnv.vim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/direnv.vim",
@@ -285,16 +275,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/quarto-vim",
     url = "https://github.com/cjber/quarto-vim"
-  },
-  ["rust-tools.nvim"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
-    url = "https://github.com/simrat39/rust-tools.nvim"
-  },
-  ["rust.vim"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/rust.vim",
-    url = "https://github.com/rust-lang/rust.vim"
   },
   ["startuptime.vim"] = {
     loaded = true,

@@ -57,7 +57,7 @@ require("lspconfig").sumneko_lua.setup(luadev)
 require("lspconfig").sourcery.setup({
 	init_options = { token = "user_kyIXI3RYu2AnkC7QMChz2FdgT92mqUZvw7DOfx1pgJ6kOAcdPyLMUo9pom0" },
 })
-require("rust-tools").setup()
+-- require("rust-tools").setup()
 
 require("null-ls").setup({
 	sources = {
@@ -90,7 +90,7 @@ require("null-ls").setup({
 			extra_filetypes = { "quarto" },
 		}),
 		require("null-ls").builtins.hover.dictionary.with({ extra_filetypes = { "quarto" } }),
-		require("null-ls").builtins.formatting.codespell,
+		-- require("null-ls").builtins.formatting.codespell,
 		require("null-ls").builtins.hover.dictionary,
 		require("null-ls").builtins.diagnostics.markdownlint.with({
 			extra_args = { "--disable=line_length" },

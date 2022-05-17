@@ -59,18 +59,19 @@ return require("packer").startup(function()
 	use({ "lukas-reineke/headlines.nvim" }) -- highlight code bgs in rmd etc
 	use({ "direnv/direnv.vim" }) -- auto enable direnvs
 	use({ "goolord/alpha-nvim", requires = { "kyazdani42/nvim-web-devicons" } }) -- welcome screen
-	use({ "simrat39/rust-tools.nvim" }) -- more rust utils
-	use({ "saecki/crates.nvim", requires = { "nvim-lua/plenary.nvim" } }) -- upgrade crates
-	use({ "rust-lang/rust.vim" }) -- rust utils
+	-- use({ "simrat39/rust-tools.nvim" }) -- more rust utils
+	-- use({ "saecki/crates.nvim", requires = { "nvim-lua/plenary.nvim" } }) -- upgrade crates
+	-- use({ "rust-lang/rust.vim" }) -- rust utils
 	-- use({ "romgrk/nvim-treesitter-context" }) -- show context function
 	use({ "rafamadriz/friendly-snippets" }) -- default snippets
 	use({ "numToStr/FTerm.nvim" })
-	use({ "neo4j-contrib/cypher-vim-syntax" })
+	-- use({ "neo4j-contrib/cypher-vim-syntax", opt=true })
 	-- use({ "mzarnitsa/psql" })
 	use({
 		"iamcco/markdown-preview.nvim",
 		ft = "markdown",
 		run = "cd app && yarn install",
+		opt = true,
 	})
 	-- use({ "petertriho/nvim-scrollbar" }) -- scrollbar with diagnostics
 	-- use({ "tpope/vim-dadbod" })
