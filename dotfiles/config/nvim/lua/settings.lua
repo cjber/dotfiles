@@ -62,7 +62,7 @@ set_options({
     {'cmdheight', 1},
     {'mouse', 'a'},
     {'colorcolumn', 89},
-    {'laststatus', 0},
+    {'laststatus', 3},
     {'spelllang', 'en_gb'},
     {'jumpoptions', 'stack'},
     {'listchars', 'tab:»\\ ,trail:·'},

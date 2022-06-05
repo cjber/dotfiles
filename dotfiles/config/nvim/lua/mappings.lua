@@ -73,7 +73,7 @@ wk.register({
 		f = { "<Cmd>Telescope find_files<CR>", "files" },
 		l = { "<Cmd>Telescope file_browser<CR>", "files" },
 		p = { "<Cmd>Telescope projects<CR>", "projects" },
-		b = { "<Cmd>Telescope buffers show_all_buffers=true<CR>", "buffers" },
+		j = { "<Cmd>Telescope buffers show_all_buffers=true<CR>", "buffers" },
 		h = { "<Cmd>Telescope help_tags<CR>", "help tags" },
 		o = { "<Cmd>Telescope oldfiles<CR>", "old files" },
 		r = { "<Cmd>Telescope live_grep<CR>", "live grep" },
@@ -157,3 +157,23 @@ vim.cmd([[
  let cmdline_map_quit           = '<LocalLeader>q'
 ]])
 -- let cmdline_external_term_cmd = 'kitty %s &'
+
+local kopts = { noremap = true, silent = true }
+
+-- hlslens
+vim.api.nvim_set_keymap(
+	"n",
+	"n",
+	[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+	kopts
+)
+vim.api.nvim_set_keymap(
+	"n",
+	"N",
+	[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+	kopts
+)
+vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)

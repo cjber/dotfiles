@@ -159,6 +159,11 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/impatient.nvim",
     url = "https://github.com/lewis6991/impatient.nvim"
   },
+  ["incline.nvim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/incline.nvim",
+    url = "https://github.com/b0o/incline.nvim"
+  },
   ["indent-blankline.nvim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
@@ -201,11 +206,6 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
   },
-  ["nvim-bufferline.lua"] = {
-    loaded = true,
-    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-bufferline.lua",
-    url = "https://github.com/akinsho/nvim-bufferline.lua"
-  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-cmp",
@@ -216,6 +216,11 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
     url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
+  ["nvim-hlslens"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-hlslens",
+    url = "https://github.com/kevinhwang91/nvim-hlslens"
+  },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
@@ -225,6 +230,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-notify",
     url = "https://github.com/rcarriga/nvim-notify"
+  },
+  ["nvim-scrollbar"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-scrollbar",
+    url = "https://github.com/petertriho/nvim-scrollbar"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
@@ -271,6 +281,11 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/project.nvim",
     url = "https://github.com/ahmedkhalf/project.nvim"
   },
+  ["quarto-nvim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/quarto-nvim",
+    url = "https://github.com/jmbuhr/quarto-nvim"
+  },
   ["quarto-vim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/quarto-vim",
@@ -295,6 +310,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/todo-comments.nvim",
     url = "https://github.com/folke/todo-comments.nvim"
+  },
+  ["todo.txt-vim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/todo.txt-vim",
+    url = "https://github.com/dbeniamine/todo.txt-vim"
   },
   ["tokyonight.nvim"] = {
     loaded = true,

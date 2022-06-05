@@ -30,16 +30,16 @@ c.Completer.use_jedi = True
 class MyPrompt(Prompts):
     def in_prompt_tokens(self, cli=None):
         return [
-            (Token, ""),
+            (Token.Literal.String, " "),
+            (Token.Literal.String, "v" + python_version()),
+            (Token, " "),
+            (Token.Keyword, "ipython"),
+            (Token, ": "),
             (Token.Number, str(Path().absolute())),
             (Token, " "),
             # (Token.Generic.Heading, " "),
             # (Token.Generic.Subheading, get_branch()),
             # (Token, " "),
-            (Token.Literal.String, " "),
-            (Token.Literal.String, "v" + python_version()),
-            (Token, " "),
-            (Token.Keyword, "ipython"),
             (Token, "\n"),
             (
                 Token.Prompt

@@ -2,6 +2,7 @@ vim.cmd([[packadd packer.nvim]])
 
 return require("packer").startup(function()
 	use({ "wbthomason/packer.nvim" })
+	use({ "jmbuhr/quarto-nvim" })
 
 	use({ "lewis6991/impatient.nvim" })
 	use({ "vim-pandoc/vim-pandoc-syntax" })
@@ -9,10 +10,11 @@ return require("packer").startup(function()
 	use({ "Pocco81/AutoSave.nvim" }) -- autosave
 	use({ "Konfekt/FastFold" }) -- better folds
 	use({ "ahmedkhalf/project.nvim" }) -- projects
-	use({
-		"akinsho/nvim-bufferline.lua",
-		requires = "kyazdani42/nvim-web-devicons",
-	}) -- bufferline
+	-- use({
+	-- 	"akinsho/nvim-bufferline.lua",
+	-- 	requires = "kyazdani42/nvim-web-devicons",
+	-- }) -- bufferline
+	use({ "b0o/incline.nvim" })
 	use({ "numToStr/Comment.nvim" })
 	use({ "folke/trouble.nvim" }) -- better lsp error search
 	use({ "folke/lua-dev.nvim" }) -- lua dev stuff
@@ -73,7 +75,8 @@ return require("packer").startup(function()
 		run = "cd app && yarn install",
 		opt = true,
 	})
-	-- use({ "petertriho/nvim-scrollbar" }) -- scrollbar with diagnostics
+	use({ "petertriho/nvim-scrollbar" }) -- scrollbar with diagnostics
+	use({ "kevinhwang91/nvim-hlslens" }) -- hl matches
 	-- use({ "tpope/vim-dadbod" })
 	-- use({ "kristijanhusak/vim-dadbod-ui" })
 	--[[ use({
@@ -87,4 +90,5 @@ return require("packer").startup(function()
 	use({ "ggandor/lightspeed.nvim" }) -- smart motion
 	use({ "j-hui/fidget.nvim" }) -- lsp progress
 	use({ "yioneko/nvim-yati" }) -- indents
+	use({ "dbeniamine/todo.txt-vim" })
 end)

@@ -3,22 +3,84 @@ local fn = vim.fn
 
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
--- if fn.empty(fn.glob(install_path)) > 0 then
--- 	fn.system({
--- 		"git",
--- 		"clone",
--- 		"https://github.com/wbthomason/packer.nvim",
--- 		install_path,
--- 	})
--- 	execute("packadd packer.nvim")
--- end
---
+if fn.empty(fn.glob(install_path)) > 0 then
+	fn.system({
+		"git",
+		"clone",
+		"https://github.com/wbthomason/packer.nvim",
+		install_path,
+	})
+	execute("packadd packer.nvim")
+end
+
 require("plugins.plugs") -- load plugins
 require("plugins.treesitter") -- syntax
 require("plugins.telescope") -- interactive search
 require("plugins.nvimtree") -- file browser
-require("plugins.bufferline") -- show butters as tabline
+-- require("plugins.bufferline") -- show butters as tabline
 require("plugins.alpha") -- welcome screen
+
+require("incline").setup({
+	debounce_threshold = {
+		falling = 50,
+		rising = 10,
+	},
+	hide = {
+		cursorline = false,
+		focused_win = false,
+		only_win = false,
+	},
+	highlight = {
+		groups = {
+			InclineNormal = {
+				default = true,
+				group = "NormalFloat",
+			},
+			InclineNormalNC = {
+				default = true,
+				group = "NormalFloat",
+			},
+		},
+	},
+	ignore = {
+		buftypes = "special",
+		filetypes = {},
+		floating_wins = true,
+		unlisted_buffers = true,
+		wintypes = "special",
+	},
+	render = "basic",
+	window = {
+		margin = {
+			horizontal = 1,
+			vertical = 1,
+		},
+		options = {
+			signcolumn = "no",
+			wrap = false,
+		},
+		padding = 1,
+		padding_char = " ",
+		placement = {
+			horizontal = "right",
+			vertical = "top",
+		},
+		width = "fit",
+		winhighlight = {
+			active = {
+				EndOfBuffer = "None",
+				Normal = "InclineNormal",
+				Search = "None",
+			},
+			inactive = {
+				EndOfBuffer = "None",
+				Normal = "InclineNormalNC",
+				Search = "None",
+			},
+		},
+		zindex = 50,
+	},
+})
 
 -- lsp configs
 require("plugins.langconfig") -- lsp config
@@ -54,7 +116,7 @@ require("headlines").setup({
 		codeblock_highlight = "CodeBlock",
 		dash_highlight = "Dash",
 		dash_string = "-",
-		fat_headlines = true,
+		-- fat_headlines = true,
 	},
 	quarto = {
 		source_pattern_start = "^```{.*",
@@ -65,7 +127,7 @@ require("headlines").setup({
 		codeblock_highlight = "CodeBlock",
 		dash_highlight = "Dash",
 		dash_string = "-",
-		fat_headlines = true,
+		-- fat_headlines = true,
 	},
 })
 
@@ -121,17 +183,17 @@ let g:db_ui_use_nerd_fonts = 1
 
 require("neogen").setup() -- add docstrings
 
--- require("scrollbar.handlers.search").setup()
--- local colors = require("tokyonight.colors").setup()
--- require("scrollbar").setup({
--- 	handlers = { diagnostic = true, search = true },
--- 	handle = { color = colors.bg_highlight },
--- 	marks = {
--- 		Search = { color = colors.orange },
--- 		Error = { color = colors.error },
--- 		Warn = { color = colors.warning },
--- 		Info = { color = colors.info },
--- 		Hint = { color = colors.hint },
--- 		Misc = { color = colors.purple },
--- 	},
--- })
+require("scrollbar.handlers.search").setup()
+local colors = require("tokyonight.colors").setup()
+require("scrollbar").setup({
+	handlers = { diagnostic = true, search = true },
+	handle = { color = colors.bg_highlight },
+	marks = {
+		Search = { color = colors.orange },
+		Error = { color = colors.error },
+		Warn = { color = colors.warning },
+		Info = { color = colors.info },
+		Hint = { color = colors.hint },
+		Misc = { color = colors.purple },
+	},
+})
