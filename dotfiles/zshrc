@@ -62,7 +62,7 @@ SAVEHIST=100000
 # End of lines configured by zsh-newuser-install
 
 alias ssh="kitty +kitten ssh"
-alias upd='yes | yay && zinit update --all && nvim +PackerSync'
+alias upd='yes | yay && zinit update --all && nvim +PackerSync +qall && /home/cjber/dotfiles/.direnv/python-3.10.4/bin/python -m pip_review --auto'
 alias bat="bat --style=grid,numbers --theme TwoDark"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='trash-empty'
@@ -75,7 +75,7 @@ alias r="radian"
 # alias rm="trash"
 alias t='todo.sh list'
 alias ta='todo.sh add'
-alias td='nvim $HOME/drive/todo/todo.txt'
+alias td='nvim $HOME/Dropbox/todo/todo.txt'
 alias v='nvim'
 alias vv='nvim $(fzf)'
 alias vi='nvim'
@@ -111,9 +111,9 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#bb9af7,bold,underline"
 
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba init' !!
-export MAMBA_EXE="/home/cjber/bin/micromamba";
+export MAMBA_EXE="/usr/bin/micromamba";
 export MAMBA_ROOT_PREFIX="/home/cjber/.mamba";
-__mamba_setup="$('/home/cjber/bin/micromamba' shell hook --shell zsh --prefix '/home/cjber/.mamba' 2> /dev/null)"
+__mamba_setup="$('/usr/bin/micromamba' shell hook --shell zsh --prefix '/home/cjber/.mamba' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__mamba_setup"
 else
