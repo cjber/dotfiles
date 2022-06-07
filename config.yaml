@@ -7,35 +7,36 @@ config:
   link_dotfile_default: link
   link_on_import: link
   longkey: false
+  minversion: 1.9.0
 dotfiles:
   f_rprofile:
     src: Rprofile
     dst: ~/.Rprofile
-    link: link
+    link: absolute
   f_renviron:
     src: Renviron
     dst: ~/.Renviron
-    link: link
+    link: absolute
   d_kitty:
     src: config/kitty
     dst: ~/.config/kitty
-    link: link
+    link: absolute
   f_picom.conf:
     src: config/picom.conf
     dst: ~/.config/picom.conf
-    link: link
+    link: absolute
   d_autostart:
     src: config/autostart
     dst: ~/.config/autostart
-    link: link
+    link: absolute
   d_rofi:
     src: config/rofi
     dst: ~/.config/rofi
-    link: link
+    link: absolute
   d_zathura:
     src: config/zathura
     dst: ~/.config/zathura
-    link: link
+    link: absolute
   d_ipython:
     src: ipython
     dst: ~/.ipython
@@ -49,7 +50,7 @@ dotfiles:
   d_i3:
     src: config/i3
     dst: ~/.config/i3
-    link: link
+    link: absolute
   d_polybar:
     src: config/polybar
     dst: ~/.config/polybar
