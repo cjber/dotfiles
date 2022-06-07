@@ -16,15 +16,17 @@ end
 local cmd = vim.cmd
 local g = vim.g
 
-require("plugins")
-vim.notify = require("notify")
-require("impatient")
 require("settings")
-require("mappings")
-require("autocmds")
 
 g.do_filetype_lua = 1
 g.did_load_filetypes = 0
+
+require("plugins")
+require("impatient")
+require("mappings")
+require("autocmds")
+
+vim.notify = require("notify")
 
 -- colorscheme settings
 g.tokyonight_style = "night"
