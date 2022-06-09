@@ -97,10 +97,14 @@ dotfiles:
   f_xresources:
     src: Xresources
     dst: ~/.Xresources
+  f_zprofile:
+    src: zprofile
+    dst: ~/.zprofile
 profiles:
   home:
     dotfiles:
     - ALL
+    - f_zprofile
   laptop:
     dotfiles:
     - ALL
