@@ -113,7 +113,6 @@ profiles:
       - d_nvim
       - d_ranger
       - f_starship.toml
-      - d_efm-langserver
       - f_condarc
       - f_radian_profile
       - f_renviron
