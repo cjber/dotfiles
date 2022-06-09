@@ -10,11 +10,10 @@ return require("packer").startup(function()
 	use({ "Pocco81/AutoSave.nvim" }) -- autosave
 	use({ "Konfekt/FastFold" }) -- better folds
 	use({ "ahmedkhalf/project.nvim" }) -- projects
-	-- use({
-	-- 	"akinsho/nvim-bufferline.lua",
-	-- 	requires = "kyazdani42/nvim-web-devicons",
-	-- }) -- bufferline
-	use({ "b0o/incline.nvim" })
+	use({
+		"akinsho/nvim-bufferline.lua",
+		requires = "kyazdani42/nvim-web-devicons",
+	}) -- bufferline
 	use({ "numToStr/Comment.nvim" })
 	use({ "folke/trouble.nvim" }) -- better lsp error search
 	use({ "folke/lua-dev.nvim" }) -- lua dev stuff
