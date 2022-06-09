@@ -6,4 +6,4 @@ git clone https://aur.archlinux.org/yay.git \
         && rm -rf yay
 
 yes | yay -Scc \
-    && yay -S --needed --noconfirm - < applist
+    && yay -S --needed - < applist
