@@ -163,7 +163,6 @@ prettier
 progress
 proselint
 protobuf
-pulseaudio
 pulseaudio-alsa
 pv
 pyenv
