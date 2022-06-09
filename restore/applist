@@ -63,7 +63,6 @@ gzip
 hadolint-bin
 handbrake
 handlr-bin
-haskell-pandoc-citeproc-bin
 helix
 hsetroot
 htop
@@ -148,8 +147,6 @@ openconnect
 pacman
 pandoc
 pandoc-attributes
-pandoc-attributes
-pandoc-citeproc
 patch
 pavucontrol
 pcmanfm
@@ -189,8 +186,8 @@ smartmontools
 sql-language-server
 sqlfluff
 sshfs
-starship-bin
-stylua-bin
+starship
+stylua
 sudo
 sxiv
 systemd-swap
