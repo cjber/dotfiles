@@ -80,9 +80,6 @@ require("null-ls").setup({
 		require("null-ls").builtins.completion.spell.with({
 			extra_filetypes = { "quarto" },
 		}),
-		require("null-ls").builtins.diagnostics.misspell.with({
-			extra_filetypes = { "quarto" },
-		}),
 		require("null-ls").builtins.diagnostics.vale.with({
 			extra_filetypes = { "quarto" },
 		}),
