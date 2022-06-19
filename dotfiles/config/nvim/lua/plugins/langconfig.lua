@@ -5,6 +5,11 @@ for type, icon in pairs(signs) do
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	-- Use a sharp border with `FloatBorder` highlights
+	border = "single",
+})
+
 vim.diagnostic.config({ virtual_text = false, signs = true, update_in_insert = false })
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
