@@ -39,6 +39,7 @@ set_keymap("n", { noremap = true, silent = true }, {
 	{ "<M-j>", "<C-d>" },
 	{ "<M-k>", "<C-u>" },
 	{ "x", '"0x' },
+	{ "<C-d>", ":lua vim.lsp.buf.hover()<CR>" },
 	-- { "]s", ':lua require"spellsitter".nav()<CR>' },
 	-- { "[s", ':lua require"spellsitter".nav(true)<CR>' },
 })
