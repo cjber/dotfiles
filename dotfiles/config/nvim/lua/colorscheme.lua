@@ -16,6 +16,8 @@ cmd("hi LspReferenceWrite gui=italic guibg=#15161E")
 cmd("hi LspReferenceRead gui=italic guibg=#15161E")
 cmd("hi LspReferenceText gui=italic guibg=#15161E")
 cmd("hi BufferLineFill guibg=" .. colors.bg)
+cmd("hi TabLine guibg=" .. colors.bg)
+cmd("hi TabLineFill guibg=" .. colors.bg)
 
 --[[ cmd 'hi HlSearchNear guibg=None guifg=#bb9af7 gui=underline'
 cmd 'hi HlSearchFloat guibg=None guifg=#bb9af7 gui=underline'

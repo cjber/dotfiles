@@ -2,7 +2,7 @@ require("plugins.plugs") -- load plugins
 require("plugins.treesitter") -- syntax
 require("plugins.telescope") -- interactive search
 require("plugins.nvimtree") -- file browser
-require("plugins.bufferline") -- show butters as tabline
+-- require("plugins.bufferline") -- show butters as tabline
 require("plugins.alpha") -- welcome screen
 
 -- lsp configs
@@ -118,5 +118,51 @@ require("scrollbar").setup({
 		Info = { color = colors.info },
 		Hint = { color = colors.hint },
 		Misc = { color = colors.purple },
+	},
+})
+local get_hex = require("cokeline/utils").get_hex
+
+require("cokeline").setup({
+	default_hl = {
+		fg = function(buffer)
+			return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Comment", "fg")
+		end,
+		bg = colors.bg_dark,
+	},
+
+	components = {
+		{
+			text = " ",
+			bg = get_hex("Normal", "bg"),
+		},
+		{
+			text = "",
+			fg = colors.bg_dark,
+			bg = get_hex("Normal", "bg"),
+		},
+		{
+			text = function(buffer)
+				return buffer.devicon.icon
+			end,
+			fg = function(buffer)
+				return buffer.devicon.color
+			end,
+		},
+		{
+			text = " ",
+		},
+		{
+			text = function(buffer)
+				return buffer.filename .. "  "
+			end,
+			style = function(buffer)
+				return buffer.is_focused and "bold" or nil
+			end,
+		},
+		{
+			text = "",
+			fg = colors.bg_dark,
+			bg = get_hex("Normal", "bg"),
+		},
 	},
 })
