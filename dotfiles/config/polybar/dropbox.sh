@@ -1,5 +1,5 @@
 #!/bin/bash
 
-sync=$(rclone about od: | grep Used: | tr -s " " | cut -d ":" -f 2)
+sync=$(maestral status | grep Status | tr -s " " | cut -d ":" -f 2)
 
-echo "od: $sync"
+echo "db: $sync"
