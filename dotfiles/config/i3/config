@@ -152,8 +152,8 @@ for_window [title="alsamixer"] floating enable border pixel 3
 for_window [class="Matplotlib"] floating enable border pixel 3
 for_window [class="matplotlib"] floating enable border pixel 3
 for_window [title="^Figure " class="^ $"] floating enable border pixel 3
-for_window [class="MEGAsync"] floating enable border pixel 3
-for_window [class="megasync"] floating enable border pixel 3
+# for_window [class="MEGAsync"] floating enable border pixel 3
+# for_window [class="megasync"] floating enable border pixel 3
 for_window [class="kite"] floating enable border pixel 3
 for_window [class="Kite"] floating enable border pixel 3
 for_window [class="R_x11"] floating enable border pixel 3
@@ -236,9 +236,9 @@ mode "resize" {
 # Autostart applications
 exec --no-startup-id $HOME/.config/polybar/launch.sh
 #exec --no-startup-id openrgb -p $HOME/.config/OpenRGB/gpu_off.orp
-exec_always --no-startup-id megasync
-exec_always --no-startup-id dropbox
-# exec_always --no-startup-id maestral_qt
+# exec_always --no-startup-id megasync
+# exec_always --no-startup-id dropbox
+exec_always --no-startup-id maestral_qt
 exec_always --no-startup-id picom -b
 exec --no-startup-id $HOME/.config/autostart/mouse.sh
 exec --no-startup-id $HOME/.config/i3/resize.py

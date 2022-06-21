@@ -98,6 +98,7 @@ path+=$PYENV_ROOT/bin
 path+=$HOME/.cargo/bin
 path+=$HOME/bin
 path+=$HOME/.local/bin
+path+=$HOME/.TinyTeX/bin/x86_64-linux
 path+=$HOME/.poetry/bin
 path+=/usr/share/dotnet/dotnet
 export PATH
