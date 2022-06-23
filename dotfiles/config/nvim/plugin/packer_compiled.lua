@@ -89,10 +89,20 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/FastFold",
     url = "https://github.com/Konfekt/FastFold"
   },
+  ["FixCursorHold.nvim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/FixCursorHold.nvim",
+    url = "https://github.com/antoinemadec/FixCursorHold.nvim"
+  },
   ["alpha-nvim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/alpha-nvim",
     url = "https://github.com/goolord/alpha-nvim"
+  },
+  ["close-buffers.nvim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/close-buffers.nvim",
+    url = "https://github.com/kazhala/close-buffers.nvim"
   },
   ["cmp-buffer"] = {
     loaded = true,
@@ -179,6 +189,11 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/lua-dev.nvim",
     url = "https://github.com/folke/lua-dev.nvim"
   },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
   ["markdown-preview.nvim"] = {
     loaded = false,
     needs_bufread = false,
@@ -190,6 +205,26 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/neogen",
     url = "https://github.com/danymat/neogen"
+  },
+  neotest = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/neotest",
+    url = "https://github.com/nvim-neotest/neotest"
+  },
+  ["neotest-plenary"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/neotest-plenary",
+    url = "https://github.com/nvim-neotest/neotest-plenary"
+  },
+  ["neotest-python"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/neotest-python",
+    url = "https://github.com/nvim-neotest/neotest-python"
+  },
+  ["neotest-vim-test"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/neotest-vim-test",
+    url = "https://github.com/nvim-neotest/neotest-vim-test"
   },
   ["null-ls.nvim"] = {
     loaded = true,
@@ -215,6 +250,16 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
     url = "https://github.com/norcalli/nvim-colorizer.lua"
+  },
+  ["nvim-dap"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    url = "https://github.com/mfussenegger/nvim-dap"
+  },
+  ["nvim-dap-python"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/nvim-dap-python",
+    url = "https://github.com/mfussenegger/nvim-dap-python"
   },
   ["nvim-hlslens"] = {
     loaded = true,

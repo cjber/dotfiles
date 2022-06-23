@@ -1,16 +1,23 @@
 require("plugins.plugs") -- load plugins
+require("plugins.statusline")
 require("plugins.treesitter") -- syntax
 require("plugins.telescope") -- interactive search
 require("plugins.nvimtree") -- file browser
 -- require("plugins.bufferline") -- show butters as tabline
 require("plugins.alpha") -- welcome screen
 
+require("close_buffers").setup()
+
 -- lsp configs
 require("plugins.langconfig") -- lsp config
 require("plugins.cmp") -- lsp config
 require("plugins.textobjects") -- Move in functions etc
 
--- require("copilot").setup()
+require("neotest").setup({
+	adapters = {
+		require("neotest-python"),
+	},
+})
 
 -- misc
 require("lightspeed").setup({ ignore_case = true })
@@ -166,3 +173,4 @@ require("cokeline").setup({
 		},
 	},
 })
+require("dap-python").setup("~/dotfiles/dotfiles/.direnv/python-3.10.5/bin/python")
