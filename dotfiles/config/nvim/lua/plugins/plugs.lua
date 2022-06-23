@@ -4,16 +4,14 @@ return require("packer").startup(function()
 	use({ "wbthomason/packer.nvim" })
 	use({ "jmbuhr/quarto-nvim" })
 
+	use({ "nvim-lualine/lualine.nvim" })
+
 	use({ "lewis6991/impatient.nvim" })
 	use({ "vim-pandoc/vim-pandoc-syntax" })
 	use({ "cjber/quarto-vim" })
 	use({ "Pocco81/AutoSave.nvim" }) -- autosave
 	use({ "Konfekt/FastFold" }) -- better folds
 	use({ "ahmedkhalf/project.nvim" }) -- projects
-	-- use({
-	-- 	"akinsho/nvim-bufferline.lua",
-	-- 	requires = "kyazdani42/nvim-web-devicons",
-	-- }) -- bufferline
 	use({ "noib3/nvim-cokeline" })
 	use({ "numToStr/Comment.nvim" })
 	use({ "folke/trouble.nvim" }) -- better lsp error search
@@ -85,10 +83,24 @@ return require("packer").startup(function()
 		run = ":UpdateRemotePlugins",
 	}) ]]
 	-- use({ "sidebar-nvim/sidebar.nvim" })
+	use({ "kazhala/close-buffers.nvim" })
 	use({ "jose-elias-alvarez/null-ls.nvim" }) -- other lsp
 	use({ "nvim-telescope/telescope-file-browser.nvim" }) -- telescope files
 	use({ "ggandor/lightspeed.nvim" }) -- smart motion
 	use({ "j-hui/fidget.nvim" }) -- lsp progress
 	use({ "yioneko/nvim-yati" }) -- indents
 	use({ "dbeniamine/todo.txt-vim" })
+	use({
+		"nvim-neotest/neotest",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-neotest/neotest-plenary",
+			"nvim-neotest/neotest-python",
+			"nvim-neotest/neotest-vim-test",
+			"mfussenegger/nvim-dap",
+			"mfussenegger/nvim-dap-python",
+		},
+	})
 end)

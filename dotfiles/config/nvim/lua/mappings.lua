@@ -123,7 +123,7 @@ wk.register({
 	},
 	b = {
 		name = "+buffers",
-		o = { '<Cmd>%bdelete|edit #|normal `"<CR>', "del other buffers" },
+		o = { '<Cmd>lua require("close_buffers").delete({type = "other"})<CR>', "del other buffers" },
 	},
 	t = {
 		name = "+todo",
@@ -137,14 +137,15 @@ wk.register({
 	m = { name = "+mode", z = { "<Cmd>ZenMode<CR>", "zen" } },
 	d = {
 		name = "+debug",
-		d = { '<Cmd>lua require("dapui").toggle()<CR>', "ui" },
-		n = { '<Cmd>lua require("dap").step_over()<CR>', "step" },
-		f = { '<Cmd>lua require("dap").continue()<CR>', "continue" },
-		j = { '<Cmd>lua require("dap").toggle_breakpoint()<CR>', "breakpoint" },
+		d = { '<Cmd>lua require("neotest").run.run({strategy="dap"})<CR>', "dap" },
+		f = { '<Cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "file" },
 	},
 }, { prefix = "<leader>" })
 
-wk.register({ ["<Space>"] = { "temp", "temp" } }, { prefix = "<localleader>" })
+wk.register({
+	-- s = { [[<Cmd>call VimCmdLineStartApp()<CR>]], "start repl" },
+	-- q = { [[<Cmd>call VimCmdLineQuit()<CR>]], "stop repl" },
+}, { prefix = "<localleader>" })
 
 vim.cmd([[
 " vimcmdline mappings

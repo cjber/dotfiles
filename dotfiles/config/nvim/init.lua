@@ -43,7 +43,7 @@ g.python_host_skip_check = 1
 g.loaded_python_provider = 0
 g.python3_host_skip_check = 1
 
-g.python3_host_prog = "/home/cjber/dotfiles/.direnv/python-3.10.1/bin/python"
+g.python3_host_prog = "/home/cjber/dotfiles/dotfiles/.direnv/python-3.10.1/bin/python"
 
 -- indentline
 g.indent_blankline_use_treesitter = true
@@ -62,7 +62,7 @@ g.rmd_fenced_languages = { "r", "python" }
 g.cmdline_follow_colorscheme = 1
 g.cmdline_esc_term = 0
 g.cmdline_map_send = "<CR>"
-g.cmdline_app = { ["python"] = "ipython -i", ["qmd"] = "ipython" }
+g.cmdline_app = { ["python"] = "ipython", ["qmd"] = "ipython" }
 
 -- mundo
 g.mundo_preview_bottom = 1
