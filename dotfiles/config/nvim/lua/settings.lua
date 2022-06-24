@@ -51,7 +51,7 @@ set_options({
 	{ "softtabstop", 4 },
 	{ "grepprg", [[rg\ --vimgrep\ --smart-case\ --follow]] },
 	{ "timeoutlen", 500 },
-	{ "updatetime", 300 },
+	{ "updatetime", 250 },
 	{ "history", 10000 },
 	{ "signcolumn", "number" },
 	{ "undolevels", 1000 },

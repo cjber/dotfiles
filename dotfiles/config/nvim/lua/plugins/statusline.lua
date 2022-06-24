@@ -76,9 +76,12 @@ require("lualine").setup({
 				end,
 			},
 		},
-		lualine_b = { "filename", "branch", "diff" },
-		lualine_c = {},
-		lualine_x = {
+		lualine_b = {
+			{ "filename", symbols = { modified = "  ", readonly = "  " } },
+			{ "branch", icon = { "", color = { fg = tnc.purple } } },
+			"diff",
+		},
+		lualine_c = {
 			{
 				venv,
 				cond = function()
@@ -87,6 +90,8 @@ require("lualine").setup({
 				icon = " ",
 				color = { fg = colors.green, gui = "bold" },
 			},
+		},
+		lualine_x = {
 			{
 				"diagnostics",
 				sources = { "nvim_diagnostic", "coc" },
@@ -100,7 +105,7 @@ require("lualine").setup({
 		lualine_y = {
 			{
 				lsp,
-				icon = " ",
+				icon = { " ", color = { fg = tnc.yellow } },
 				color = { fg = tnc.fg_dark, gui = "bold" },
 			},
 			"filetype",
