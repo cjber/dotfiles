@@ -8,6 +8,7 @@ return require("packer").startup(function()
 
 	use({ "lewis6991/impatient.nvim" })
 	use({ "vim-pandoc/vim-pandoc-syntax" })
+	use({ "vim-pandoc/vim-rmarkdown" })
 	use({ "cjber/quarto-vim" })
 	use({ "Pocco81/AutoSave.nvim" }) -- autosave
 	use({ "Konfekt/FastFold" }) -- better folds

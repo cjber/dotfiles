@@ -396,6 +396,11 @@ _G.packer_plugins = {
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-repeat",
     url = "https://github.com/tpope/vim-repeat"
   },
+  ["vim-rmarkdown"] = {
+    loaded = true,
+    path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-rmarkdown",
+    url = "https://github.com/vim-pandoc/vim-rmarkdown"
+  },
   ["vim-surround"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/vim-surround",

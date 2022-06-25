@@ -9,8 +9,9 @@ inoremap <buffer> >> <Esc>:normal! a %>%<CR>a
 inoremap <buffer> << <Esc>:normal! a \|><CR>a 
 
 function RmdRender()
-    Dispatch! Rscript -e 'rmarkdown::render("%:p", quiet=F)'
+    Dispatch Rscript -e 'rmarkdown::render("%:p", quiet=F, knit_root_dir="'$PWD'")'
 endfunction
+
 
 function RmdPdf()
     Dispatch! zathura %:r.pdf &
