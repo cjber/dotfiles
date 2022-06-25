@@ -37,7 +37,7 @@ require("project_nvim").setup({ silent_chdir = true })
 -- vim.fn.sign_define("Headline2", { linehl = "Headline2" })
 
 require("headlines").setup({
-	rmd = {
+	rmarkdown = {
 		source_pattern_start = "^```{.*",
 		source_pattern_end = "^```$",
 		dash_pattern = "^---+$",
