@@ -38,12 +38,16 @@ cmd("syntax enable")
 
 require("colorscheme")
 
+-- ruby
+g.loaded_ruby_provider = 0
+g.loaded_node_provider = 0
+g.loaded_perl_provider = 0
 -- python config
 g.python_host_skip_check = 1
 g.loaded_python_provider = 0
 g.python3_host_skip_check = 1
 
-g.python3_host_prog = "/home/cjber/dotfiles/dotfiles/.direnv/python-3.10.1/bin/python"
+g.python3_host_prog = "/home/cjber/dotfiles/dotfiles/.direnv/python-3.10.5/bin/python"
 
 -- indentline
 g.indent_blankline_use_treesitter = true
