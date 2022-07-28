@@ -32,6 +32,7 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_out
 floating_modifier $mod
 
 # start a terminal
+#temp
 bindsym $mod+Return exec kitty --single-instance
 bindsym $mod+Shift+Return exec kitty zsh -c "source $HOME/.zshrc && nvim"
 

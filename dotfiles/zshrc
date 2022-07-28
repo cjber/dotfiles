@@ -58,7 +58,7 @@ SAVEHIST=100000
 # End of lines configured by zsh-newuser-install
 
 alias ssh="kitty +kitten ssh"
-alias upd='yes | yay && zinit update --all && nvim +PackerSync +qall && /home/cjber/dotfiles/.direnv/python-3.10.4/bin/python -m pip_review --auto'
+alias upd='yes | paru && zinit update --all && nvim +PackerSync +qall && /home/cjber/dotfiles/dotfiles/.direnv/python-3.10.5/bin/python -m pip_review --auto'
 alias bat="bat --style=grid,numbers --theme TwoDark"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='trash-empty'
@@ -71,7 +71,7 @@ alias r="radian"
 # alias rm="trash"
 alias t='todo.sh list'
 alias ta='todo.sh add'
-alias td='nvim $HOME/drive/todo/todo.txt'
+alias td='nvim $HOME/drive/todo/Todo.txt'
 alias v='nvim'
 alias vv='nvim $(fzf)'
 alias vi='nvim'
@@ -101,6 +101,7 @@ path+=$HOME/.local/bin
 path+=$HOME/.TinyTeX/bin/x86_64-linux
 path+=$HOME/.poetry/bin
 path+=/usr/share/dotnet/dotnet
+path+=$HOME/.local/bin/kitty.app/bin/
 export PATH
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#5c6370,bold,underline"
@@ -199,3 +200,6 @@ _maestral_completion() {
 }
 
 compdef _maestral_completion maestral;
+export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview'
+
+export PATH="$HOME/.poetry/bin:$PATH"
