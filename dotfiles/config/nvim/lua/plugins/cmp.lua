@@ -29,10 +29,8 @@ cmp.setup({
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "nvim_lua" },
-		{ name = "cmp_tabnine" },
 		{ name = "vsnip" },
 		{ name = "buffer" },
-		{ name = "dictionary", keyword_length = 2 },
 		{
 			name = "path",
 			option = {
@@ -62,31 +60,6 @@ cmp.setup({
 			symbols = "mdi",
 		}),
 	},
-})
-
-require("cmp_tabnine.config"):setup({
-	max_lines = 1000,
-	max_num_results = 20,
-	sort = true,
-	show_prediction_strength = true,
-})
-
-require("cmp_dictionary").setup({
-	dic = {
-		["*"] = { "/usr/share/dict/gb_english.dic" },
-		filename = {
-			["xmake.lua"] = { "path/to/xmake.dic", "path/to/lua.dic" },
-		},
-		filepath = {
-			["%.tmux.*%.conf"] = "path/to/tmux.dic",
-		},
-	},
-	-- The following are default values, so you don't need to write them if you don't want to change them
-	exact = 2,
-	first_case_insensitive = false,
-	async = false,
-	capacity = 5,
-	debug = false,
 })
 
 vim.cmd([[

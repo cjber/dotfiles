@@ -4,23 +4,19 @@ local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
-	fn.system({
-		"git",
-		"clone",
-		"https://github.com/wbthomason/packer.nvim",
-		install_path,
-	})
-	execute("packadd packer.nvim")
+    fn.system({
+        "git",
+        "clone",
+        "https://github.com/wbthomason/packer.nvim",
+        install_path,
+    })
+    execute("packadd packer.nvim")
 end
 
 local cmd = vim.cmd
 local g = vim.g
 
 require("settings")
-
-g.do_filetype_lua = 1
-g.did_load_filetypes = 0
-
 require("plugins")
 require("impatient")
 require("mappings")
@@ -48,15 +44,6 @@ g.loaded_python_provider = 0
 g.python3_host_skip_check = 1
 
 g.python3_host_prog = "/home/cjber/dotfiles/dotfiles/.direnv/python-3.10.5/bin/python"
-
--- indentline
-g.indent_blankline_use_treesitter = true
-g.indent_blankline_show_current_context = true
-
-g.indent_blankline_show_first_indent_level = false
-g.indent_blankline_buftype_exclude = { "terminal" }
-g.indent_blankline_bufname_exclude = { "", "man:.*", "NvimTree" }
-g.indent_blankline_char = "│"
 
 -- nvim r
 g.markdown_fenced_languages = { "r", "python" }
