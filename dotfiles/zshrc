@@ -58,7 +58,7 @@ SAVEHIST=100000
 # End of lines configured by zsh-newuser-install
 
 alias ssh="kitty +kitten ssh"
-alias upd='yes | paru && zinit update --all && nvim +PackerSync +qall && /home/cjber/dotfiles/dotfiles/.direnv/python-3.10.5/bin/python -m pip_review --auto'
+alias upd='yes | yay && zinit update --all && nvim +PackerSync +qall && /home/cjber/dotfiles/dotfiles/.direnv/python-3.10.5/bin/python -m pip_review --auto'
 alias bat="bat --style=grid,numbers --theme TwoDark"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='trash-empty'
