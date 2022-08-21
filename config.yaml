@@ -100,7 +100,6 @@ profiles:
   home:
     dotfiles:
       - ALL
-      - f_zprofile
   laptop:
     dotfiles:
       - ALL

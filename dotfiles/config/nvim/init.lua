@@ -1,23 +1,17 @@
-local execute = vim.api.nvim_command
-local fn = vim.fn
-
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-
-if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({
-        "git",
-        "clone",
-        "https://github.com/wbthomason/packer.nvim",
-        install_path,
-    })
-    execute("packadd packer.nvim")
-end
-
 local cmd = vim.cmd
 local g = vim.g
+local fn = vim.fn
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+
+if fn.empty(fn.glob(install_path)) > 0 then
+    PackerBootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+        install_path })
+    vim.cmd [[packadd packer.nvim]]
+end
 
 require("settings")
 require("plugins")
+
 require("impatient")
 require("mappings")
 require("autocmds")
@@ -34,10 +28,10 @@ cmd("syntax enable")
 
 require("colorscheme")
 
--- ruby
 g.loaded_ruby_provider = 0
 g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
+
 -- python config
 g.python_host_skip_check = 1
 g.loaded_python_provider = 0

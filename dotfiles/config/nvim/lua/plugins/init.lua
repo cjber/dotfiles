@@ -82,7 +82,7 @@ require("trouble").setup() -- diagnostic results window etc
 require("Comment").setup()
 require("colorizer").setup({ "*" }, { mode = "foreground" })
 require("which-key").setup()
-require("autosave").setup()
+require("auto-save").setup()
 
 -- vim.fn.sign_define("Headline1", { linehl = "Headline1" })
 -- vim.fn.sign_define("Headline2", { linehl = "Headline2" })
