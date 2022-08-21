@@ -1,4 +1,4 @@
-vim.cmd([[packadd packer.nvim]])
+vim.cmd [[packadd packer.nvim]]
 
 return require("packer").startup(function()
     use({ "wbthomason/packer.nvim" })
@@ -17,7 +17,7 @@ return require("packer").startup(function()
     use({ "vim-pandoc/vim-pandoc-syntax" })
     use({ "vim-pandoc/vim-rmarkdown" })
     use({ "cjber/quarto-vim" })
-    use({ "Pocco81/AutoSave.nvim" }) -- autosave
+    use({ "Pocco81/auto-save.nvim" }) -- autosave
     -- use({ "Konfekt/FastFold" }) -- better folds
     -- use({ "ahmedkhalf/project.nvim" }) -- projects
     use({ "noib3/nvim-cokeline" })
@@ -82,4 +82,7 @@ return require("packer").startup(function()
     use({ "dbeniamine/todo.txt-vim" })
     use({ "ggandor/leap-ast.nvim" })
     use({ 'ggandor/leap.nvim' })
+    if PackerBootstrap then
+        require('packer').sync()
+    end
 end)
