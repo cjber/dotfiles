@@ -266,7 +266,7 @@ interval = 600
 type = custom/script
 exec = ~/dotfiles/dotfiles/config/polybar/weather.sh
 interval = 600
-label-font = 3
+/* label-font = 3 */
 
 [module/nano]
 type = custom/script
