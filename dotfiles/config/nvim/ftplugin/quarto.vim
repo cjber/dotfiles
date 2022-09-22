@@ -1,5 +1,4 @@
 setlocal spell
-syntax spell toplevel
 
 nnoremap <silent> <Leader>kk :call QmdRender()<CR>
 nnoremap <silent> <Leader>kp :call QmdPdf()<CR>

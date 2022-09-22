@@ -69,19 +69,7 @@ set_options({
     { "spelllang", "en_gb" },
     { "jumpoptions", "stack" },
     { "listchars", "tab:»\\ ,trail:·" },
-    -- { "foldcolumn", "1" },
-    -- { "foldmethod", "expr" },
-    -- { "foldexpr", "nvim_treesitter#foldexpr()" },
-    -- { "foldnestmax", 2 },
-    -- { "foldminlines", 1 },
-    -- { "foldlevelstart", 99 },
+    { "foldcolumn", "1" },
+    { "foldlevel", 99 },
+    { "foldlevelstart", -1 },
 })
-
-vim.o.foldcolumn = "1"
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-vim.o.foldlevelstart = -1
-vim.o.foldenable = true
-
--- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
-vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-vim.keymap.set("n", "zM", require("ufo").closeAllFolds)

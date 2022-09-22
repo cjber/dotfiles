@@ -1,5 +1,5 @@
 local cmd = vim.cmd
-local colors = require("colors")
+local colors = require("tokyonight.colors").setup()
 
 cmd("hi FocusedSymbol guibg=" .. colors.fg_dark)
 cmd("hi LspFloatWinBorder guifg=" .. colors.blue)
@@ -18,8 +18,8 @@ cmd("hi LspReferenceText gui=italic guibg=#15161E")
 cmd("hi BufferLineFill guibg=" .. colors.bg)
 cmd("hi TabLine guibg=" .. colors.bg)
 cmd("hi TabLineFill guibg=" .. colors.bg)
-cmd("hi Folded guibg=None")
-cmd('hi! link CursorLine ColorColumn')
+cmd("hi TelescopeBorder guibg=None")
+cmd("hi TelescopeNormal guibg=None")
 
 --[[ cmd 'hi HlSearchNear guibg=None guifg=#bb9af7 gui=underline'
 cmd 'hi HlSearchFloat guibg=None guifg=#bb9af7 gui=underline'

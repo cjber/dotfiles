@@ -18,11 +18,6 @@ require("autocmds")
 
 vim.notify = require("notify")
 
--- colorscheme settings
-g.tokyonight_style = "night"
-g.tokyonight_hide_inactive_statusline = false
-g.tokyonight_dark_sidebar = false
-
 cmd("colorscheme tokyonight")
 cmd("syntax enable")
 

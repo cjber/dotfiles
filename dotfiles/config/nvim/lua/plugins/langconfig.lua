@@ -12,33 +12,30 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 vim.diagnostic.config({ virtual_text = false, signs = true, update_in_insert = false })
 -- require('lsp_lines').setup()
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.foldingRange = {
     dynamicRegistration = false,
     lineFoldingOnly = true,
 }
-
 require("lspconfig").clangd.setup({ capabilities = capabilities })
-
--- require("lspconfig").pyright.setup({
--- 	flags = { debounce_text_changes = 150 },
--- 	settings = {
--- 		python = {
--- 			analysis = {
--- 				autoSearchPaths = true,
--- 				useLibraryCodeForTypes = true,
--- 				diagnosticMode = "openFilesOnly",
--- 				typeCheckingMode = "basic",
--- 				extraPaths = { "__pypackages__/<major.minor>/lib" },
--- 			},
--- 			-- autoComplete = { extraPaths = { "__pypackages__/<major.minor>/lib" } },
--- 			autoComplete = false,
--- 		},
--- 	},
--- 	-- root_dir = require'lspconfig'.util.root_pattern('.git'),
--- 	capabilities = capabilities,
--- })
+require("lspconfig").pyright.setup({
+    flags = { debounce_text_changes = 150 },
+    settings = {
+        python = {
+            analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "openFilesOnly",
+                typeCheckingMode = "basic",
+                -- extraPaths = { "__pypackages__/<major.minor>/lib" },
+            },
+            -- autoComplete = { extraPaths = { "__pypackages__/<major.minor>/lib" } },
+            -- autoComplete = false,
+        },
+    },
+    -- root_dir = require'lspconfig'.util.root_pattern('.git'),
+    capabilities = capabilities,
+})
 require("lspconfig").jedi_language_server.setup({})
 
 require("lspconfig").dockerls.setup({ capabilities = capabilities })
@@ -99,6 +96,8 @@ require("null-ls").setup({
         -- shell
         require("null-ls").builtins.diagnostics.shellcheck,
         -- general formatting
-        require("null-ls").builtins.formatting.prettier,
+        -- require("null-ls").builtins.formatting.prettier,
     },
 })
+
+require('rust-tools').setup()

@@ -141,7 +141,8 @@ format-foreground = #c0caf5
 
 [module/pulseaudio]
 type = internal/pulseaudio
-sink = alsa_output.pci-0000_0b_00.4.analog-stereo
+sink = alsa_output.pci-0000_2d_00.4.analog-stereo
+
 use-ui-max = true
 interval = 5
 format-volume = <label-volume> <bar-volume>

@@ -1,10 +1,15 @@
 vim.cmd [[packadd packer.nvim]]
 
+require("packer").init({
+    display = { compact = true }
+})
+
 return require("packer").startup(function()
     use({ "wbthomason/packer.nvim" })
     use({ "jmbuhr/quarto-nvim" })
     use({ "kyazdani42/nvim-web-devicons" })
     use({ 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' })
+    use({ 'kyazdani42/nvim-tree.lua', tag = 'nightly' })
 
     use({ 'williamboman/mason.nvim' })
     use({ 'WhoIsSethDaniel/mason-tool-installer.nvim' })
@@ -18,8 +23,7 @@ return require("packer").startup(function()
     use({ "vim-pandoc/vim-rmarkdown" })
     use({ "cjber/quarto-vim" })
     use({ "Pocco81/auto-save.nvim" }) -- autosave
-    -- use({ "Konfekt/FastFold" }) -- better folds
-    -- use({ "ahmedkhalf/project.nvim" }) -- projects
+    use({ "Konfekt/FastFold" }) -- better folds
     use({ "noib3/nvim-cokeline" })
     use({ "numToStr/Comment.nvim" })
     use({ "folke/trouble.nvim" }) -- better lsp error search
@@ -82,6 +86,9 @@ return require("packer").startup(function()
     use({ "dbeniamine/todo.txt-vim" })
     use({ "ggandor/leap-ast.nvim" })
     use({ 'ggandor/leap.nvim' })
+    use({ 'simrat39/rust-tools.nvim' })
+    use({ 'saecki/crates.nvim' })
+
     if PackerBootstrap then
         require('packer').sync()
     end
