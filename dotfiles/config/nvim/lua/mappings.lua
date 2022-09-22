@@ -40,11 +40,10 @@ set_keymap("n", { noremap = true, silent = true }, {
     { "<M-k>", "<C-u>" },
     { "x", '"0x' },
     { "<C-d>", ":lua vim.lsp.buf.hover()<CR>" },
-    -- { "]s", ':lua require"spellsitter".nav()<CR>' },
-    -- { "[s", ':lua require"spellsitter".nav(true)<CR>' },
+    { 'zR', ":lua require('ufo').openAllFolds()<CR>" },
+    { 'zM', ":lua require('ufo').closeAllFolds()<CR>" }
 })
 
--- vim.cmd([[nmap s <Plug>Lightspeed_omni_s]])
 require('leap').set_default_keymaps()
 vim.keymap.set({ 'n', 'x', 'o' }, '<C-s>', function() require('leap-ast').leap() end, {})
 

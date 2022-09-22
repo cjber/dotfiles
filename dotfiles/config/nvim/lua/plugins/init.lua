@@ -3,6 +3,10 @@ require("plugins.statusline")
 require("plugins.treesitter") -- syntax
 require("plugins.telescope") -- interactive search
 
+require('tokyonight').setup({ style = 'night' })
+
+require('nvim-tree').setup()
+require('crates').setup()
 require("todo-comments").setup()
 require("close_buffers").setup()
 require("mason").setup()
@@ -52,7 +56,7 @@ local handler = function(virtText, lnum, endLnum, width, truncate)
     return newVirtText
 end
 
-require("indent_blankline").setup({ show_current_context = true, show_current_context_start = true,
+require("indent_blankline").setup({ show_current_context = true, show_current_context_start = false,
     char = '▎' })
 
 require('leap').setup({
@@ -113,10 +117,11 @@ require("headlines").setup({
         dash_string = "-",
         quote_highlight = "Quote",
         quote_string = "┃",
-        fat_headlines = true,
+        fat_headlines = false,
         fat_headline_upper_string = "▃",
         fat_headline_lower_string = "🬂",
     },
+    markdown = { fat_headlines = false }
 })
 
 -- custom notification for square border

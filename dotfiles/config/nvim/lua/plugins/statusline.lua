@@ -1,22 +1,10 @@
-local colors = {
-    bg = "#1a1b26",
-    fg = "#c0caf5",
-    fg_dark = "#414868",
-    yellow = "#ECBE7B",
-    green = "#9ECE6A",
-    orange = "#e0af68",
-    magenta = "#bb9af7",
-    blue = "#3d59a1",
-    red = "#f7768e",
-}
-
-local tnc = require("tokyonight.colors").setup({})
+local colors = require("tokyonight.colors").setup()
 
 local bubbles_theme = {
     normal = {
         a = { fg = colors.bg, bg = colors.green },
-        b = { fg = tnc.fg_dark, bg = tnc.bg_dark },
-        c = { fg = colors.bg, bg = colors.bg },
+        b = { fg = colors.fg_dark, bg = colors.bg_dark },
+        c = { fg = colors.bg, bg = colors.none },
     },
 
     insert = { a = { fg = colors.bg, bg = colors.orange } },
@@ -24,8 +12,8 @@ local bubbles_theme = {
     replace = { a = { fg = colors.bg, bg = colors.red } },
 
     inactive = {
-        a = { fg = tnc.fg_dark, bg = colors.bg },
-        b = { fg = tnc.fg_dark, bg = colors.bg },
+        a = { fg = colors.fg_dark, bg = colors.bg },
+        b = { fg = colors.fg_dark, bg = colors.bg },
         c = { fg = colors.bg, bg = colors.bg },
     },
 }
@@ -79,7 +67,7 @@ require("lualine").setup({
         },
         lualine_b = {
             { "filename", symbols = { modified = "  ", readonly = "  " } },
-            { "branch", icon = { "", color = { fg = tnc.purple } } },
+            { "branch", icon = { "", color = { fg = colors.purple } } },
             "diff",
         },
         lualine_c = {
@@ -106,8 +94,8 @@ require("lualine").setup({
         lualine_y = {
             {
                 lsp,
-                icon = { " ", color = { fg = tnc.yellow } },
-                color = { fg = tnc.fg_dark, gui = "bold" },
+                icon = { " ", color = { fg = colors.yellow } },
+                color = { fg = colors.fg_dark, gui = "bold" },
             },
             "filetype",
             "progress",

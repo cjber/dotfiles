@@ -24,8 +24,8 @@ font "xft:JetBrains Mono 8"
 # sound
 bindsym $mod+Ctrl+m exec pavucontrol
 {%@@ if profile == "home" @@%}
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_0b_00.4.analog-stereo +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_0b_00.4.analog-stereo -5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_2d_00.4.analog-stereo +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_2d_00.4.analog-stereo -5%
 {%@@ endif @@%}
 
 # Use Mouse+$mod to drag floating windows

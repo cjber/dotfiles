@@ -2,7 +2,7 @@
 	name = cjber
 	email = cjberragan@gmail.com
 [credential]
-	helper = cache
+	helper = store
 [pull]
 	rebase = false
 [init]
