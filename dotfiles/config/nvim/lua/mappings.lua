@@ -36,16 +36,14 @@ set_keymap("n", { noremap = true, silent = true }, {
     { "<ESC><ESC>", ":noh<CR><ESC>" },
     { "<C-n>", ":NvimTreeToggle<CR>" },
     { "<C-p>", ":SymbolsOutline<CR>" },
-    { "<M-j>", "<C-d>" },
-    { "<M-k>", "<C-u>" },
+    -- { "<M-j>", "<C-d>" },
+    -- { "<M-k>", "<C-u>" },
     { "x", '"0x' },
     { "<C-d>", ":lua vim.lsp.buf.hover()<CR>" },
-    { 'zR', ":lua require('ufo').openAllFolds()<CR>" },
-    { 'zM', ":lua require('ufo').closeAllFolds()<CR>" }
+    { "zR", ":lua require('ufo').openAllFolds()<CR>" },
+    { "zM", ":lua require('ufo').closeAllFolds()<CR>" }
 })
 
-require('leap').set_default_keymaps()
-vim.keymap.set({ 'n', 'x', 'o' }, '<C-s>', function() require('leap-ast').leap() end, {})
 
 -- visual
 set_keymap("x", { noremap = true, silent = true }, {
@@ -58,9 +56,6 @@ set_keymap("x", { noremap = true, silent = true }, {
     { "<CR>", [[:]] },
 })
 
--- insert
-set_keymap("i", { noremap = true, silent = true }, {})
-
 -- terminal
 set_keymap("t", { noremap = true, silent = true }, { { "<Esc><Esc>", [[<C-\><C-n>]] } })
 
@@ -72,13 +67,13 @@ vim.g.maplocalleader = ","
 wk.register({
     f = {
         name = "+find",
-        f = { "<Cmd>Telescope find_files<CR>", "files" },
-        l = { "<Cmd>Telescope file_browser<CR>", "files" },
+        f = { "<Cmd>FzfLua files<CR>", "files" },
+        l = { "<Cmd>NvimTreeToggle<CR>", "files" },
         p = { "<Cmd>Telescope projects<CR>", "projects" },
-        j = { "<Cmd>Telescope buffers show_all_buffers=true<CR>", "buffers" },
+        j = { "<Cmd>FzfLua buffers<CR>", "buffers" },
         h = { "<Cmd>Telescope help_tags<CR>", "help tags" },
-        o = { "<Cmd>Telescope oldfiles<CR>", "old files" },
-        r = { "<Cmd>Telescope live_grep<CR>", "live grep" },
+        o = { "<Cmd>FzfLua oldfiles<CR>", "old files" },
+        r = { "<Cmd>FzfLua live_grep<CR>", "live grep" },
         u = { "<Cmd>UndotreeToggle<CR>", "undotree" },
         c = {
             name = "+commands",
@@ -119,7 +114,8 @@ wk.register({
         f = { "<Cmd>lua vim.lsp.buf.format{async=true}<CR>", "format" },
         g = { "<Cmd>:Neogen<CR>", "generate documentation" },
         r = { "<Cmd>TroubleToggle lsp_references<CR>", "references" },
-        x = { "<Cmd>lua vim.lsp.diagnostic.disable()<CR>", "disable lsp" },
+        x = { "<Cmd>lua vim.diagnostic.hide()<CR>", "hide diagnostics" },
+        s = { "<Cmd>lua vim.diagnostic.show()<CR>", "show diagnostics" },
         z = { ":LspRestart<CR>", "restart lsp" },
     },
     b = {
@@ -141,6 +137,17 @@ wk.register({
         d = { '<Cmd>lua require("neotest").run.run({strategy="dap"})<CR>', "dap" },
         f = { '<Cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "file" },
     },
+    r = {
+        name = '+rotate',
+        r = { '<Cmd>windo wincmd H<CR>', 'horizontal' },
+        e = { '<Cmd>windo wincmd K<CR>', 'vertical' }
+    },
+    c = {
+        name = "+open",
+        c = { "<Cmd>Copen<CR>", "copen" },
+        d = { "<Cmd>on<CR>", "close" }
+    }
+
 }, { prefix = "<leader>" })
 
 wk.register({
@@ -180,3 +187,12 @@ vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], 
 vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
 vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
 vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+local hop = require("hop")
+local directions = require("hop.hint").HintDirection
+vim.keymap.set("", "s", function()
+    hop.hint_words({})
+end, { remap = true })
+vim.keymap.set("", "S", function()
+    hop.hint_lines_skip_whitespace({})
+end, { remap = true })

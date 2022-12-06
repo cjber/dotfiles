@@ -1,27 +1,22 @@
 require("plugins.plugs") -- load plugins
-require("plugins.statusline")
 require("plugins.treesitter") -- syntax
-require("plugins.telescope") -- interactive search
+require("plugins.statusline")
 
-require('tokyonight').setup({ style = 'night' })
+require("tokyonight").setup({ style = "night" })
 
-require('nvim-tree').setup()
-require('crates').setup()
+require("symbols-outline").setup({ auto_close = true, autofold_depth = 0, position = "bottom" })
+require("hop").setup({})
+require("nvim-tree").setup()
+require("crates").setup()
 require("todo-comments").setup()
 require("close_buffers").setup()
-require("mason").setup()
-require("mason-tool-installer").setup({
-    ensure_installed = {
-        'black',
-        'flake8',
-        'pyright',
-        'jedi-language-server',
-        'vale',
-        'dockerfile-language-server',
-        'r-languageserver',
-        'sourcery'
+
+require("fzf-lua").setup {
+    winopts = {
+        win_border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
+        hl = { border = "FloatBorder" },
     }
-})
+}
 
 -- lsp configs
 require("project_nvim").setup({ silent_chdir = true })
@@ -57,12 +52,7 @@ local handler = function(virtText, lnum, endLnum, width, truncate)
 end
 
 require("indent_blankline").setup({ show_current_context = true, show_current_context_start = false,
-    char = '▎' })
-
-require('leap').setup({
-    case_sensitive = false
-})
-require('leap').set_default_keymaps()
+    char = "▎" })
 
 -- global handler
 require("ufo").setup({
@@ -78,9 +68,9 @@ require("ufo").setFoldVirtTextHandler(bufnr, handler)
 -- misc
 require("nvim-surround").setup()
 require("nvim-autopairs").setup({})
-require("fidget").setup({ text = {
-    spinner = "dots",
-} }) -- show lsp progress
+-- require("fidget").setup({ text = {
+--     spinner = "dots",
+-- } }) -- show lsp progress
 
 require("trouble").setup() -- diagnostic results window etc
 require("Comment").setup()
@@ -90,6 +80,12 @@ require("auto-save").setup()
 
 -- vim.fn.sign_define("Headline1", { linehl = "Headline1" })
 -- vim.fn.sign_define("Headline2", { linehl = "Headline2" })
+require('quarto').setup({
+    diagnostics = {
+        enabled = true,
+        languages = { "python" }
+    }
+})
 
 require("headlines").setup({
     quarto = {
@@ -124,51 +120,7 @@ require("headlines").setup({
     markdown = { fat_headlines = false }
 })
 
--- custom notification for square border
-local stages_util = require("notify.stages.util")
-require("notify").setup({
-    timeout = 200,
-    stages = {
-        function(state)
-            local next_height = state.message.height + 2
-            local next_row = stages_util.available_row(state.open_windows, next_height)
-            if not next_row then
-                return nil
-            end
-            return {
-                relative = "editor",
-                anchor = "NE",
-                width = state.message.width,
-                height = state.message.height,
-                col = vim.opt.columns:get(),
-                row = next_row,
-                border = "single",
-                style = "minimal",
-                opacity = 0,
-            }
-        end,
-        function()
-            return { opacity = { 100 }, col = { vim.opt.columns:get() } }
-        end,
-        function()
-            return { col = { vim.opt.columns:get() }, time = true }
-        end,
-        function()
-            return {
-                opacity = {
-                    0,
-                    frequency = 2,
-                    complete = function(cur_opacity)
-                        return cur_opacity <= 4
-                    end,
-                },
-                col = { vim.opt.columns:get() },
-            }
-        end,
-    },
-})
-
-require("neogen").setup() -- add docstrings
+--require("neogen").setup() -- add docstrings
 
 require("scrollbar.handlers.search").setup()
 local colors = require("tokyonight.colors").setup()
@@ -184,6 +136,7 @@ require("scrollbar").setup({
         Misc = { color = colors.purple },
     },
 })
+
 local get_hex = require("cokeline/utils").get_hex
 
 require("cokeline").setup({
@@ -191,7 +144,7 @@ require("cokeline").setup({
         fg = function(buffer)
             return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Comment", "fg")
         end,
-        bg = colors.bg_dark,
+        bg = colors.bg_highlight,
     },
 
     components = {
@@ -201,7 +154,7 @@ require("cokeline").setup({
         },
         {
             text = "",
-            fg = colors.bg_dark,
+            fg = colors.bg_highlight,
             bg = get_hex("Normal", "bg"),
         },
         {
@@ -225,7 +178,7 @@ require("cokeline").setup({
         },
         {
             text = "",
-            fg = colors.bg_dark,
+            fg = colors.bg_highlight,
             bg = get_hex("Normal", "bg"),
         },
     },

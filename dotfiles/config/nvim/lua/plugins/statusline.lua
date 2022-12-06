@@ -35,15 +35,8 @@ local function lsp()
 end
 
 local function venv()
-    local python = vim.trim(vim.fn.system("which python"))
-    local version = vim.trim(vim.fn.system("python --version"))
-
-    if string.find(python, ".direnv") ~= nil then
-        return "direnv: " .. version
-    elseif string.find(python, ".mamba" ~= nil) then
-        return "mamba: " .. version
-    else
-        return "no venv: " .. version
+    if os.getenv("VIRTUAL_ENV") then
+        return "(" .. os.getenv("VIRTUAL_ENV"):match("^.+/(.+)$") .. ")"
     end
 end
 
@@ -73,10 +66,7 @@ require("lualine").setup({
         lualine_c = {
             {
                 venv,
-                cond = function()
-                    return vim.fn.expand(vim.bo.filetype) == "python"
-                end,
-                icon = " ",
+                icon = "",
                 color = { fg = colors.green, gui = "bold" },
             },
         },

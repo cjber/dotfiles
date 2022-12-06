@@ -27,3 +27,5 @@ function NRPrepCode()
 endfunction
 
 nnoremap <localleader>a /```{python}<CR>jV/```<CR>k:'<,'>NR<CR>:nohl<CR>
+
+" let zotcite_conceallevel = 0

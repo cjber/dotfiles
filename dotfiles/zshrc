@@ -32,6 +32,7 @@ zstyle ':fzf-tab:*' fzf-pad 4
 autoload -U zmv
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
+
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
@@ -58,7 +59,7 @@ SAVEHIST=100000
 # End of lines configured by zsh-newuser-install
 
 alias ssh="kitty +kitten ssh"
-alias upd='yes | yay && zinit update --all && rustup update && nvim +PackerSync +qall && /home/cjber/dotfiles/dotfiles/.direnv/python-3.10.5/bin/python -m pip_review --auto'
+alias upd='yes | yay && zinit update --all && rustup update && nvim +PackerSync +qall && /home/cjber/dotfiles/dotfiles/.direnv/python-3.10.8/bin/python -m pip_review --auto'
 alias bat="bat --style=grid,numbers --theme TwoDark"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='trash-empty'
@@ -154,8 +155,8 @@ zinit light-mode for \
     zsh-users/zsh-completions \
     zsh-users/zsh-autosuggestions \
     zsh-users/zsh-history-substring-search \
-    zdharma-continuum/fast-syntax-highlighting
-
+    zdharma-continuum/fast-syntax-highlighting \
+    twang817/zsh-manydots-magic
 
 ### End of Zinit's installer chunk
 
@@ -166,40 +167,4 @@ else
 fi
 
 source /usr/share/fzf/key-bindings.zsh
-#compdef maestral
-
-_maestral_completion() {
-    local -a completions
-    local -a completions_with_descriptions
-    local -a response
-    (( ! $+commands[maestral] )) && return 1
-
-    response=("${(@f)$(env COMP_WORDS="${words[*]}" COMP_CWORD=$((CURRENT-1)) _MAESTRAL_COMPLETE=zsh_complete maestral)}")
-
-    for type key descr in ${response}; do
-        if [[ "$type" == "plain" ]]; then
-            if [[ "$descr" == "_" ]]; then
-                completions+=("$key")
-            else
-                completions_with_descriptions+=("$key":"$descr")
-            fi
-        elif [[ "$type" == "dir" ]]; then
-            _path_files -/
-        elif [[ "$type" == "file" ]]; then
-            _path_files -f
-        fi
-    done
-
-    if [ -n "$completions_with_descriptions" ]; then
-        _describe -V unsorted completions_with_descriptions -U
-    fi
-
-    if [ -n "$completions" ]; then
-        compadd -U -V unsorted -a completions
-    fi
-}
-
-compdef _maestral_completion maestral;
-export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview'
-
 export PATH="$HOME/.poetry/bin:$PATH"
