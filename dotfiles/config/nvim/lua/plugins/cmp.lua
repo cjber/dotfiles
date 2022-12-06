@@ -9,7 +9,7 @@ local feedkey = function(key, mode)
 end
 
 cmp.setup({
-    view = { entries = { name = 'custom', selection_order = 'near_cursor' } },
+    view = { entries = { name = "custom", selection_order = "near_cursor" } },
     window = {
         completion = {
             border = "single",
@@ -29,10 +29,10 @@ cmp.setup({
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<CR>'] = cmp.mapping.confirm({ select = false }),
-        ['<C-e>'] = cmp.mapping.abort(),
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
+        ["<C-e>"] = cmp.mapping.abort(),
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -92,7 +92,8 @@ cmp.setup({
         end,
     },
 })
-cmp.setup.cmdline('/', {
+
+cmp.setup.cmdline({ '/', '?' }, {
     mapping = cmp.mapping.preset.cmdline(),
     view = { entries = { name = 'wildmenu', separator = '|' } },
     sources = {
@@ -102,6 +103,7 @@ cmp.setup.cmdline('/', {
 
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
+    view = { entries = { name = 'wildmenu', separator = '|' } },
     sources = cmp.config.sources({
         { name = 'path' }
     }, {

@@ -244,6 +244,8 @@ exec --no-startup-id $HOME/.config/autostart/mouse.sh
 exec --no-startup-id $HOME/.config/i3/resize.py
 exec_always --no-startup-id nm-applet
 
+exec --no-startup-id xautolock -time 15 -locker "systemctl suspend"
+
 {%@@ if profile == "home" @@%}
 exec --no-startup-id nvidia-settings --assign CurrentMedaMode="nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }"
 exec --no-startup-id /home/cjber/.screenlayout/home.sh

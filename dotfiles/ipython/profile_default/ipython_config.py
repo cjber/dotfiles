@@ -45,7 +45,7 @@ class MyPrompt(Prompts):
                 Token.Prompt
                 if self.shell.last_execution_succeeded
                 else Token.Generic.Error,
-                ":: ",
+                "> ",
             ),
         ]
 
