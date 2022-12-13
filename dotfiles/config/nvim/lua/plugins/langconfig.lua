@@ -99,7 +99,7 @@ lsp.ltex.setup({
 	settings = { ltex = { language = "en-GB" } },
 })
 
--- lsp.grammarly.setup({ filetypes = { "quarto", 'markdown' } })
+-- lsp.grammarly.setup({ filetypes = { "quarto", "markdown" } })
 
 require("null-ls").setup({
 	sources = {
@@ -123,7 +123,7 @@ require("null-ls").setup({
 		require("null-ls").builtins.diagnostics.hadolint,
 		-- markdown
 		-- require("null-ls").builtins.diagnostics.vale.with({
-		--     extra_filetypes = { "quarto", "rmarkdown" },
+		-- 	extra_filetypes = { "quarto", "rmarkdown" },
 		-- }),
 		require("null-ls").builtins.hover.dictionary.with({ extra_filetypes = { "quarto", "rmarkdown" } }),
 		require("null-ls").builtins.diagnostics.markdownlint.with({
