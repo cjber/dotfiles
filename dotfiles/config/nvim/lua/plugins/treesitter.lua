@@ -36,8 +36,3 @@ require("nvim-treesitter.configs").setup({
     yati = { enable = true },
 })
 
-require("ufo").setup({
-    provider_selector = function(bufnr, filetype)
-        return { "treesitter", "indent" }
-    end,
-})

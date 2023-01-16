@@ -37,13 +37,11 @@ enable_options({
 	"nowritebackup",
 	"noruler",
 	"cursorline",
-	-- 'nofoldenable'
 })
 
 set_options({
 	{ "scrolloff", 1 },
 	{ "shortmess", "aoOstTWAIcqFS" },
-	-- { "sidescrolloff", 5 },
 	{ "complete", ".,w,b,u,t,i,kspell" },
 	{ "completeopt", "menu,menuone,noselect" },
 	{ "wildmode", "longest:full,full" },
@@ -69,7 +67,7 @@ set_options({
 	{ "spelllang", "en_gb" },
 	{ "jumpoptions", "stack" },
 	{ "listchars", "tab:»\\ ,trail:·" },
-	{ "foldcolumn", "1" },
+	{ "foldcolumn", "0" },
 	{ "foldlevel", 99 },
-	{ "foldlevelstart", -1 },
+	{ "foldlevelstart", 99 },
 })
