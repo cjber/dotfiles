@@ -5,6 +5,7 @@ bindkey -v
 # 10ms for key sequences
 KEYTIMEOUT=1
 
+export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 export DOTNET_ROOT=/usr/bin/dotnet
 export FZF_DEFAULT_COMMAND='fd --type f --color=always --hidden --follow -E .git -E "*.html"'
 export FZF_DEFAULT_OPTS='--height=40% --layout=reverse --border=sharp --color "border:#414868,bg+:#414868" --preview-window right:noborder --ansi'
@@ -74,11 +75,11 @@ alias t='todo.sh list'
 alias ta='todo.sh add'
 alias td='nvim $HOME/todo/Todo.txt'
 alias v='nvim'
-alias vv='nvim $(fzf)'
+alias vv='fd --type f --hidden --exclude .git --print0 | fzf-tmux -p - --read0 --print0 --exit-0 | xargs -r -0 nvim'
 alias vi='nvim'
 alias mb='micromamba'
 alias mvr='rsync -a --progress --partial --append-verify --remove-source-files'
-alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs tldr"
+alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs -r tldr"
 
 export DOTREPO="$HOME/dotfiles"
 export npm_config_prefix="$HOME/.local"
@@ -125,8 +126,8 @@ fi
 unset __mamba_setup
 # <<< mamba initialize <<<
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+unset '_comps[vd]'
+unset '_comps[visidata]'
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then

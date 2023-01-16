@@ -19,24 +19,24 @@ capabilities.textDocument.foldingRange = {
 }
 local lsp = require("lspconfig")
 lsp.clangd.setup({ capabilities = capabilities })
-lsp.pyright.setup({
-	flags = { debounce_text_changes = 150 },
+lsp.pylsp.setup({
 	settings = {
-		python = {
-			analysis = {
-				autoSearchPaths = true,
-				useLibraryCodeForTypes = true,
-				diagnosticMode = "openFilesOnly",
-				typeCheckingMode = "off",
-				-- extraPaths = { "__pypackages__/<major.minor>/lib" },
+		pylsp = {
+			plugins = {
+				-- autopep8 = { enabled = false },
+				-- pyflakes = { enabled = false },
+				-- flake8 = { enabled = false },
+				-- yapf = { enabled = false },
+				-- pycodestyle = { enabled = false },
+				ruff = { enabled = true },
+				black = { enabled = true },
+				isort = { enabled = true },
+				rope = { enabled = true },
 			},
-			-- autoComplete = { extraPaths = { "__pypackages__/<major.minor>/lib" } },
-			-- autoComplete = false,
 		},
 	},
 	capabilities = capabilities,
 })
-lsp.jedi_language_server.setup({ capabilities = capabilities })
 lsp.taplo.setup({})
 
 lsp.dockerls.setup({ capabilities = capabilities })
@@ -107,13 +107,13 @@ require("null-ls").setup({
 		require("null-ls").builtins.formatting.isort.with({
 			extra_args = { "--float-to-top", "-m=3" },
 		}),
-		require("null-ls").builtins.formatting.black,
+		-- require("null-ls").builtins.formatting.black,
 		-- require("null-ls").builtins.diagnostics.flake8.with({
 		--     extra_args = { "--max-line-length=89", "--ignore=E203,W503,F401" },
 		-- }),
-		require("null-ls").builtins.diagnostics.ruff.with({
-			extra_args = { "--max-line-length=89", "--ignore=E203,W503,F401" },
-		}),
+		-- require("null-ls").builtins.diagnostics.ruff.with({
+		-- 	extra_args = { "--max-line-length=89", "--ignore=E203,W503,F401" },
+		-- }),
 		-- require("null-ls").builtins.diagnostics.mypy,
 		-- lua
 		require("null-ls").builtins.formatting.stylua,
@@ -127,7 +127,7 @@ require("null-ls").setup({
 		-- }),
 		require("null-ls").builtins.hover.dictionary.with({ extra_filetypes = { "quarto", "rmarkdown" } }),
 		require("null-ls").builtins.diagnostics.markdownlint.with({
-			extra_args = { "--disable=line_length" },
+			extra_args = { "--disable MD013 MD025" },
 		}),
 		require("null-ls").builtins.formatting.markdownlint,
 		-- shell
@@ -135,4 +135,13 @@ require("null-ls").setup({
 		-- general formatting
 		-- require("null-ls").builtins.formatting.prettier,
 	},
+})
+
+require("lsp_signature").setup({
+	doc_lines = 0,
+	bind = true, -- This is mandatory, otherwise border config won't get registered.
+	handler_opts = {
+		border = "single",
+	},
+	hint_prefix = "  ",
 })
