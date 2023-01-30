@@ -1,0 +1,9 @@
+mode=drun
+insensitive=true
+prompt=
+width=400
+height=800
+term=kitty
+hide_scroll=true
+location=6
+yoffset=-30

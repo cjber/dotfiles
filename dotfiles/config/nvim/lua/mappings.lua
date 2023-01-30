@@ -66,7 +66,7 @@ vim.g.maplocalleader = ","
 wk.register({
 	f = {
 		name = "+find",
-		f = { "<Cmd>FzfLua files<CR>", "files" },
+		f = { "<Cmd>lua require('fzf-lua').files({cmd='fd -I --type f'})<CR>", "files" },
 		l = { "<Cmd>NvimTreeToggle<CR>", "files" },
 		p = { "<Cmd>Telescope projects<CR>", "projects" },
 		j = { "<Cmd>FzfLua buffers<CR>", "buffers" },

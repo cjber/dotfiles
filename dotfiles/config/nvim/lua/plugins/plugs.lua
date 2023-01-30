@@ -10,6 +10,15 @@ return require("packer").startup(function()
 	use({ "nvim-lualine/lualine.nvim" })
 	use({ "ray-x/lsp_signature.nvim" })
 	use({ "direnv/direnv.vim" })
+	use({
+		"Exafunction/codeium.vim",
+		config = function()
+			-- Change '<C-g>' here to any keycode you like.
+			vim.keymap.set("i", "<C-g>", function()
+				return vim.fn["codeium#Accept"]()
+			end, { expr = true })
+		end,
+	})
 
 	use({ "quarto-dev/quarto-nvim", requires = { "jmbuhr/otter.nvim" } })
 	use({ "kyazdani42/nvim-web-devicons" })
@@ -20,10 +29,9 @@ return require("packer").startup(function()
 
 	use({ "lewis6991/impatient.nvim" }) -- faster loading
 	use({ "vim-pandoc/vim-pandoc-syntax" })
-	use({ "vim-pandoc/vim-rmarkdown" })
 	use({ "cjber/quarto-vim" })
 	use({ "Pocco81/auto-save.nvim" }) -- autosave
-	use({ "Konfekt/FastFold" }) -- better folds
+	-- use({ "Konfekt/FastFold" }) -- better folds
 	use({ "numToStr/Comment.nvim" })
 	use({ "folke/trouble.nvim" }) -- better lsp error search
 	use({ "folke/neodev.nvim" }) -- lua dev stuff
