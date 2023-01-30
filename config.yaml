@@ -46,7 +46,7 @@ dotfiles:
     dst: ~/.config/nvim/
     link: link_children
     upignore:
-      - "*/plugin"
+    - '*/plugin'
   d_i3:
     src: config/i3
     dst: ~/.config/i3
@@ -96,26 +96,34 @@ dotfiles:
   f_zprofile:
     src: zprofile
     dst: ~/.zprofile
+  d_wofi:
+    src: config/wofi
+    dst: ~/.config/wofi
+  d_sway:
+    src: config/sway
+    dst: ~/.config/sway
 profiles:
   home:
     dotfiles:
-      - ALL
+    - ALL
+    - d_wofi
+    - d_sway
   laptop:
     dotfiles:
-      - ALL
+    - ALL
   uni:
     dotfiles:
-      - ALL
+    - ALL
   docker:
     dotfiles:
-      - f_zshrc
-      - d_nvim
-      - d_ranger
-      - f_starship.toml
-      - f_condarc
-      - f_radian_profile
-      - f_renviron
-      - f_rprofile
-      - f_gitconfig
-      - d_ipython
-      - d_yay
+    - f_zshrc
+    - d_nvim
+    - d_ranger
+    - f_starship.toml
+    - f_condarc
+    - f_radian_profile
+    - f_renviron
+    - f_rprofile
+    - f_gitconfig
+    - d_ipython
+    - d_yay

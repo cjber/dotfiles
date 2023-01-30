@@ -1,0 +1,53 @@
+* {
+  font-family: JetBrains Mono Medium;
+  color: #e5e9f0;
+}
+
+window {
+  background-color: #1a1b26;
+  border: 2px solid #414868;
+  border-radius: 10px;
+}
+
+#outer-box {
+  margin-bottom: 12px;
+}
+
+#input {
+  border: none;
+  background-color: #414868;
+  margin: 7px;
+  box-shadow: none; /* Remove blue "border" */
+  border-radius: 5px;
+}
+
+#inner-box {
+  background-color: #1a1b26;
+  margin-top: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+#entry {
+  padding-left: 5px;
+  border: none;
+  margin-left: -3px;
+  margin-right: -3px;
+  outline: none;
+  border-radius: 5px;
+}
+
+#entry:selected {
+  background-color: #414868;
+  border-radius: 5px;
+}
+
+#text {
+  margin: 2px;
+}
+
+/* Hide backspace icon */
+.right {
+  color: transparent;
+}

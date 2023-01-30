@@ -23,20 +23,32 @@ lsp.pylsp.setup({
 	settings = {
 		pylsp = {
 			plugins = {
-				-- autopep8 = { enabled = false },
-				-- pyflakes = { enabled = false },
-				-- flake8 = { enabled = false },
-				-- yapf = { enabled = false },
-				-- pycodestyle = { enabled = false },
-				ruff = { enabled = true },
-				black = { enabled = true },
-				isort = { enabled = true },
-				rope = { enabled = true },
+				autopep8 = { enabled = false },
+				pyflakes = { enabled = false },
+				flake8 = { enabled = false },
+				yapf = { enabled = false },
+				pycodestyle = { enabled = false },
 			},
 		},
 	},
 	capabilities = capabilities,
 })
+lsp.ruff_lsp.setup({ capabilities = capabilities })
+
+-- lsp.pyright.setup({
+-- 	-- flags = { debounce_text_changes = 150 },
+-- 	settings = {
+-- 		python = {
+-- 			analysis = {
+-- 				-- autoSearchPaths = true,
+-- 				-- useLibraryCodeForTypes = true,
+-- 				diagnosticMode = "openFilesOnly",
+-- 				typeCheckingMode = "off",
+-- 			},
+-- 		},
+-- 	},
+-- 	capabilities = capabilities,
+-- })
 lsp.taplo.setup({})
 
 lsp.dockerls.setup({ capabilities = capabilities })
@@ -107,13 +119,12 @@ require("null-ls").setup({
 		require("null-ls").builtins.formatting.isort.with({
 			extra_args = { "--float-to-top", "-m=3" },
 		}),
-		-- require("null-ls").builtins.formatting.black,
-		-- require("null-ls").builtins.diagnostics.flake8.with({
-		--     extra_args = { "--max-line-length=89", "--ignore=E203,W503,F401" },
-		-- }),
-		-- require("null-ls").builtins.diagnostics.ruff.with({
-		-- 	extra_args = { "--max-line-length=89", "--ignore=E203,W503,F401" },
-		-- }),
+		require("null-ls").builtins.formatting.black,
+		-- require("null-ls").builtins.diagnostics.ruff.with({ extra_args = { "--ignore=F821,F401" } }),
+		-- require("null-ls").builtins.formatting.ruff,
+		require("null-ls").builtins.diagnostics.flake8.with({
+			extra_args = { "--max-line-length=89", "--ignore=F821,F401" },
+		}),
 		-- require("null-ls").builtins.diagnostics.mypy,
 		-- lua
 		require("null-ls").builtins.formatting.stylua,
