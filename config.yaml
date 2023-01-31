@@ -102,12 +102,16 @@ dotfiles:
   d_sway:
     src: config/sway
     dst: ~/.config/sway
+  d_screenlayout:
+    src: screenlayout
+    dst: ~/.screenlayout
 profiles:
   home:
     dotfiles:
     - ALL
     - d_wofi
     - d_sway
+    - d_screenlayout
   laptop:
     dotfiles:
     - ALL
