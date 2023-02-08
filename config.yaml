@@ -105,6 +105,9 @@ dotfiles:
   d_screenlayout:
     src: screenlayout
     dst: ~/.screenlayout
+  f_zsh_plugins.txt:
+    src: zsh_plugins.txt
+    dst: ~/.zsh_plugins.txt
 profiles:
   home:
     dotfiles:
@@ -112,6 +115,7 @@ profiles:
     - d_wofi
     - d_sway
     - d_screenlayout
+    - f_zsh_plugins.txt
   laptop:
     dotfiles:
     - ALL
