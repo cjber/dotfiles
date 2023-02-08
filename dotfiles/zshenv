@@ -1,0 +1,23 @@
+export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+export DOTNET_ROOT=/usr/bin/dotnet
+export FZF_DEFAULT_COMMAND='fd --type f --color=always --hidden --follow -E .git -E "*.html"'
+export FZF_DEFAULT_OPTS='--height=40% --layout=reverse --border=sharp --color "border:#414868,bg+:#414868" --preview-window right:noborder --ansi'
+export EDITOR='nvim'
+export MANPAGER='nvim -c Man!'
+export LANG="en_GB.UTF-8"
+export DOTREPO="$HOME/dotfiles"
+export npm_config_prefix="$HOME/.local"
+export DOTDROP_PROFILE='home'
+export GOPATH="$HOME/.go"
+export PYENV_ROOT="$HOME/.pyenv"
+
+path+=$GOPATH/bin
+path+=$PYENV_ROOT/bin
+path+=$HOME/.cargo/bin
+path+=$HOME/bin
+path+=$HOME/.local/bin
+path+=$HOME/.TinyTeX/bin/x86_64-linux
+path+=$HOME/.poetry/bin
+path+=/usr/share/dotnet/dotnet
+path+=$HOME/.local/bin/kitty.app/bin/
+export PATH
