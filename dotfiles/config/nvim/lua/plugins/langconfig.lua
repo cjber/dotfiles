@@ -123,7 +123,7 @@ require("null-ls").setup({
 		-- require("null-ls").builtins.diagnostics.ruff.with({ extra_args = { "--ignore=F821,F401" } }),
 		-- require("null-ls").builtins.formatting.ruff,
 		require("null-ls").builtins.diagnostics.flake8.with({
-			extra_args = { "--max-line-length=89", "--ignore=F821,F401" },
+			extra_args = { "--max-line-length=89", "--ignore=F821,F401,W503" },
 		}),
 		-- require("null-ls").builtins.diagnostics.mypy,
 		-- lua

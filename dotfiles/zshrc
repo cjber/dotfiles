@@ -1,3 +1,13 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source /usr/share/zsh-antidote/antidote.zsh
+antidote load
+
 eval "$(direnv hook zsh)"
 
 bindkey -v
@@ -5,6 +15,7 @@ bindkey -v
 # 10ms for key sequences
 KEYTIMEOUT=1
 
+export ZDOTDIR=$HOME/.config/zsh
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 export DOTNET_ROOT=/usr/bin/dotnet
 export FZF_DEFAULT_COMMAND='fd --type f --color=always --hidden --follow -E .git -E "*.html"'
@@ -42,22 +53,14 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey -v '^?' backward-delete-char
 
-export PYTHON_CONFIGURE_OPTS="--enable-shared"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-  eval "$(pyenv init -)"
-fi
 fpath+=~/.zfunc
 fpath+=~/.zshcompletions/conda-zsh-completion
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
-# Lines configured by zsh-newuser-install
 setopt extendedhistory histexpiredupsfirst histfindnodups histignoredups histignorespace histsavenodups histverify sharehistory
 HISTFILE=~/.cache/history
 HISTSIZE=100000
 SAVEHIST=100000
-# End of lines configured by zsh-newuser-install
 
 alias ssh="kitty +kitten ssh"
 alias upd='yes | yay && zinit update --all && rustup update && nvim +PackerSync +qall && /home/cjber/dotfiles/dotfiles/.direnv/python-3.10.8/bin/python -m pip_review --auto'
@@ -89,7 +92,7 @@ alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
 
 # prompt
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
 
 export GOPATH="$HOME/.go"
@@ -129,43 +132,7 @@ unset __mamba_setup
 unset '_comps[vd]'
 unset '_comps[visidata]'
 
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
-
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    jeffreytse/zsh-vi-mode \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust \
-    rupa/z \
-    changyuheng/fz \
-    Aloxaf/fzf-tab \
-    zsh-users/zsh-completions \
-    zsh-users/zsh-autosuggestions \
-    zsh-users/zsh-history-substring-search \
-    zdharma-continuum/fast-syntax-highlighting \
-    twang817/zsh-manydots-magic
-
-### End of Zinit's installer chunk
-
-if [ -n "$PYTHONPATH" ]; then
-    export PYTHONPATH='/home/cjber/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582':$PYTHONPATH
-else
-    export PYTHONPATH='/home/cjber/.local/share/pdm/venv/lib/python3.10/site-packages/pdm/pep582'
-fi
-
 source /usr/share/fzf/key-bindings.zsh
-export PATH="$HOME/.poetry/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
