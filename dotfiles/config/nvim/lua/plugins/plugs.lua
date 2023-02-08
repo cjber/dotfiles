@@ -29,7 +29,7 @@ return require("packer").startup(function()
 
 	use({ "lewis6991/impatient.nvim" }) -- faster loading
 	use({ "vim-pandoc/vim-pandoc-syntax" })
-	use({ "cjber/quarto-vim" })
+	use({ "quarto-dev/quarto-vim" })
 	use({ "Pocco81/auto-save.nvim" }) -- autosave
 	-- use({ "Konfekt/FastFold" }) -- better folds
 	use({ "numToStr/Comment.nvim" })
