@@ -308,7 +308,7 @@ _G.packer_plugins = {
   ["quarto-vim"] = {
     loaded = true,
     path = "/home/cjber/.local/share/nvim/site/pack/packer/start/quarto-vim",
-    url = "https://github.com/cjber/quarto-vim"
+    url = "https://github.com/quarto-dev/quarto-vim"
   },
   ["rust-tools.nvim"] = {
     loaded = true,
