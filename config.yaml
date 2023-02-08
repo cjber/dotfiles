@@ -114,6 +114,9 @@ dotfiles:
   f_p10k.zsh:
     src: p10k.zsh
     dst: ~/.p10k.zsh
+  f_zshalias:
+    src: zshalias
+    dst: ~/.zshalias
 profiles:
   home:
     dotfiles:
@@ -124,6 +127,7 @@ profiles:
     - f_zsh_plugins.txt
     - f_zshenv
     - f_p10k.zsh
+    - f_zshalias
   laptop:
     dotfiles:
     - ALL
