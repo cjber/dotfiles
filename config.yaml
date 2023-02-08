@@ -108,6 +108,12 @@ dotfiles:
   f_zsh_plugins.txt:
     src: zsh_plugins.txt
     dst: ~/.zsh_plugins.txt
+  f_zshenv:
+    src: zshenv
+    dst: ~/.zshenv
+  f_p10k.zsh:
+    src: p10k.zsh
+    dst: ~/.p10k.zsh
 profiles:
   home:
     dotfiles:
@@ -116,6 +122,8 @@ profiles:
     - d_sway
     - d_screenlayout
     - f_zsh_plugins.txt
+    - f_zshenv
+    - f_p10k.zsh
   laptop:
     dotfiles:
     - ALL
