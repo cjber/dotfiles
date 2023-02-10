@@ -1,5 +1,5 @@
 alias ssh="kitty +kitten ssh"
-alias upd='yes | yay && zinit update --all && rustup update && nvim +PackerSync +qall && /home/cjber/dotfiles/dotfiles/.direnv/python-3.10.8/bin/python -m pip_review --auto'
+alias upd='yes | yay && antidote update && rustup update && nvim +PackerSync +qall && /home/cjber/dotfiles/dotfiles/.direnv/python-3.10.8/bin/python -m pip_review --auto'
 alias bat="bat --style=grid,numbers --theme TwoDark"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='trash-empty'
@@ -17,6 +17,7 @@ alias vv='fd --type f --hidden --exclude .git --print0 | fzf-tmux -p - --read0 -
 alias vi='nvim'
 alias mb='micromamba'
 alias mvr='rsync -a --progress --partial --append-verify --remove-source-files'
+alias cpr='rsync -a --progress --partial --append-verify'
 alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs -r tldr"
 alias dotdrop='dotdrop --cfg=$HOME/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"

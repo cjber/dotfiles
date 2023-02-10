@@ -50,11 +50,11 @@ fpath+=~/.zfunc
 fpath+=~/.zshcompletions/conda-zsh-completion
 autoload -Uz compinit
 compinit
+
 setopt extendedhistory histexpiredupsfirst histfindnodups histignoredups histignorespace histsavenodups histverify sharehistory
 HISTFILE=~/.cache/history
 HISTSIZE=100000
 SAVEHIST=100000
-
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#5c6370,bold,underline"
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#bb9af7,bold,underline"

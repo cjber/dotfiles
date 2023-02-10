@@ -11,14 +11,10 @@ return require("packer").startup(function()
 	use({ "ray-x/lsp_signature.nvim" })
 	use({ "direnv/direnv.vim" })
 	use({
-		"Exafunction/codeium.vim",
-		config = function()
-			-- Change '<C-g>' here to any keycode you like.
-			vim.keymap.set("i", "<C-g>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true })
-		end,
+		"nvim-telescope/telescope.nvim",
+		requires = { { "nvim-lua/plenary.nvim" } },
 	})
+    use({"goolord/alpha-nvim"})
 
 	use({ "quarto-dev/quarto-nvim", requires = { "jmbuhr/otter.nvim" } })
 	use({ "kyazdani42/nvim-web-devicons" })
@@ -81,7 +77,6 @@ return require("packer").startup(function()
 	use({ "dbeniamine/todo.txt-vim" }) -- todo.txt highlighting
 	use({ "simrat39/rust-tools.nvim" })
 	use({ "saecki/crates.nvim" })
-	use({ "ibhagwan/fzf-lua" })
 	use({ "phaazon/hop.nvim" })
 	use({ "barreiroleo/ltex_extra.nvim" })
 

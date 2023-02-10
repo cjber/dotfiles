@@ -23,3 +23,4 @@ autocmd("CursorHold", { pattern = "python", command = "lua vim.lsp.buf.document_
 autocmd("CursorMoved", { pattern = "python", command = "lua vim.lsp.buf.clear_references()" })
 autocmd("BufEnter", { pattern = "*.jsonnet", command = "set filetype=jsonnet" })
 autocmd("BufEnter", { pattern = "*.jsonl", command = "set filetype=json" })
+autocmd("FileType", { pattern = "alpha", command = "set laststatus=0 | autocmd BufUnload <buffer> set laststatus=2" })
