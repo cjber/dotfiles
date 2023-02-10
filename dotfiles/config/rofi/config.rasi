@@ -1,7 +1,7 @@
 /* global settings and color variables */
 
 * {
-   font: "JetBrainsMono Nerd Font 12";
+   font: "JetBrains Mono 12";
    blue:             #7aa2f7;
    darkblue:         #7DA6FF;
    cyan:             #95e6cb;
