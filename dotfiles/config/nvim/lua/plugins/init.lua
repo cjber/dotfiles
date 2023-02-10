@@ -1,6 +1,8 @@
 require("plugins.plugs") -- load plugins
 require("plugins.treesitter") -- syntax
 require("plugins.statusline")
+require("plugins.telescope")
+require("plugins.alpha")
 
 require("tokyonight").setup({ style = "night" })
 require("symbols-outline").setup({ auto_close = true, autofold_depth = 0, position = "bottom" })
@@ -9,13 +11,6 @@ require("nvim-tree").setup()
 require("crates").setup()
 require("todo-comments").setup()
 require("close_buffers").setup()
-
-require("fzf-lua").setup({
-	winopts = {
-		win_border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
-		hl = { border = "FloatBorder" },
-	},
-})
 
 -- lsp configs
 require("project_nvim").setup({ silent_chdir = true })

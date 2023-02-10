@@ -66,13 +66,13 @@ vim.g.maplocalleader = ","
 wk.register({
 	f = {
 		name = "+find",
-		f = { "<Cmd>lua require('fzf-lua').files({cmd='fd -I --type f'})<CR>", "files" },
+		f = { [[<CMD>Telescope find_files<CR>]], "files" },
 		l = { "<Cmd>NvimTreeToggle<CR>", "files" },
 		p = { "<Cmd>Telescope projects<CR>", "projects" },
-		j = { "<Cmd>FzfLua buffers<CR>", "buffers" },
+		j = { "<Cmd>Telescope buffers<CR>", "buffers" },
 		h = { "<Cmd>Telescope help_tags<CR>", "help tags" },
-		o = { "<Cmd>FzfLua oldfiles<CR>", "old files" },
-		r = { "<Cmd>FzfLua live_grep<CR>", "live grep" },
+		o = { "<Cmd>Telescope oldfiles<CR>", "old files" },
+		r = { "<Cmd>Telescope live_grep<CR>", "live grep" },
 		u = { "<Cmd>UndotreeToggle<CR>", "undotree" },
 		c = {
 			name = "+commands",
