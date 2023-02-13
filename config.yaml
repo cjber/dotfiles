@@ -117,6 +117,23 @@ dotfiles:
   f_zshalias:
     src: zshalias
     dst: ~/.zshalias
+  d_joshuto:
+    src: config/joshuto
+    dst: ~/.config/joshuto
+  d_gtk-2.0:
+    src: config/gtk-2.0
+    dst: ~/.config/gtk-2.0
+    chmod: '700'
+  d_gtk-3.0:
+    src: config/gtk-3.0
+    dst: ~/.config/gtk-3.0
+    chmod: '700'
+  d_gtk-4.0:
+    src: config/gtk-4.0
+    dst: ~/.config/gtk-4.0
+  f_user-dirs.dirs:
+    src: config/user-dirs.dirs
+    dst: ~/.config/user-dirs.dirs
 profiles:
   home:
     dotfiles:
@@ -128,6 +145,11 @@ profiles:
     - f_zshenv
     - f_p10k.zsh
     - f_zshalias
+    - d_joshuto
+    - d_gtk-2.0
+    - d_gtk-3.0
+    - d_gtk-4.0
+    - f_user-dirs.dirs
   laptop:
     dotfiles:
     - ALL

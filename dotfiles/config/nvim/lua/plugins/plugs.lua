@@ -14,7 +14,7 @@ return require("packer").startup(function()
 		"nvim-telescope/telescope.nvim",
 		requires = { { "nvim-lua/plenary.nvim" } },
 	})
-    use({"goolord/alpha-nvim"})
+	use({ "goolord/alpha-nvim" })
 
 	use({ "quarto-dev/quarto-nvim", requires = { "jmbuhr/otter.nvim" } })
 	use({ "kyazdani42/nvim-web-devicons" })
@@ -44,6 +44,7 @@ return require("packer").startup(function()
 			"hrsh7th/cmp-vsnip",
 			"hrsh7th/vim-vsnip",
 			"hrsh7th/vim-vsnip-integ",
+			"hrsh7th/cmp-cmdline",
 			"lukas-reineke/cmp-under-comparator",
 			-- { "tzachar/cmp-tabnine", run = "./install.sh" },
 		},

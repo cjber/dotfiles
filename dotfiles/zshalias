@@ -1,10 +1,10 @@
 alias ssh="kitty +kitten ssh"
-alias upd='yes | yay && antidote update && rustup update && nvim +PackerSync +qall && /home/cjber/dotfiles/dotfiles/.direnv/python-3.10.8/bin/python -m pip_review --auto'
-alias bat="bat --style=grid,numbers --theme TwoDark"
+alias upd='yes | yay && antidote update && rustup update && nvim +PackerSync +qall && /home/cjber/dotfiles//.direnv/python-3.10.9/bin/python -m pip_review --auto'
+alias bat="bat -P --style=numbers --theme base16-256"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='trash-empty'
 alias la="ncdu"
-alias lf="ranger"
+alias lf="joshuto"
 alias ls='exa -F --group-directories-first'
 alias lg="lazygit"
 alias py="ipython"

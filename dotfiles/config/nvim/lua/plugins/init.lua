@@ -1,6 +1,6 @@
 require("plugins.plugs") -- load plugins
 require("plugins.treesitter") -- syntax
-require("plugins.statusline")
+-- require("plugins.statusline")
 require("plugins.telescope")
 require("plugins.alpha")
 
@@ -84,14 +84,14 @@ require("auto-save").setup({ execution_message = { message = "" } })
 -- vim.fn.sign_define("Headline2", { linehl = "Headline2" })
 require("quarto").setup({
 	lspFeatures = {
-		enabled = false,
+		enabled = true,
 		languages = { "r", "python", "julia" },
 		diagnostics = {
-			enabled = false,
+			enabled = true,
 			triggers = { "BufWrite" },
 		},
 		completion = {
-			enabled = false,
+			enabled = true,
 		},
 	},
 	keymap = { hover = "<C-K>" },
@@ -148,51 +148,84 @@ require("scrollbar").setup({
 })
 
 local get_hex = require("cokeline/utils").get_hex
-
 require("cokeline").setup({
 	default_hl = {
 		fg = function(buffer)
 			return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Comment", "fg")
 		end,
-		bg = colors.bg_highlight,
+		bg = "NONE",
 	},
-
 	components = {
 		{
-			text = " ",
-			bg = get_hex("Normal", "bg"),
-		},
-		{
-			text = "",
-			fg = colors.bg_highlight,
-			bg = get_hex("Normal", "bg"),
-		},
-		{
 			text = function(buffer)
-				return buffer.devicon.icon
+				return " " .. buffer.devicon.icon
 			end,
 			fg = function(buffer)
 				return buffer.devicon.color
 			end,
 		},
 		{
-			text = " ",
+			text = function(buffer)
+				return buffer.unique_prefix
+			end,
+			fg = get_hex("Comment", "fg"),
+			style = "italic",
 		},
 		{
 			text = function(buffer)
-				return buffer.filename .. "  "
-			end,
-			style = function(buffer)
-				return buffer.is_focused and "bold" or nil
+				return buffer.filename .. " "
 			end,
 		},
 		{
-			text = "",
-			fg = colors.bg_highlight,
-			bg = get_hex("Normal", "bg"),
+			text = " ",
 		},
 	},
 })
+
+-- require("cokeline").setup({
+-- 	default_hl = {
+-- 		fg = function(buffer)
+-- 			return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Comment", "fg")
+-- 		end,
+-- 		bg = colors.bg_highlight,
+-- 	},
+--
+-- 	components = {
+-- 		{
+-- 			text = " ",
+-- 			bg = get_hex("Normal", "bg"),
+-- 		},
+-- 		{
+-- 			text = "",
+-- 			fg = colors.bg_highlight,
+-- 			bg = get_hex("Normal", "bg"),
+-- 		},
+-- 		{
+-- 			text = function(buffer)
+-- 				return buffer.devicon.icon
+-- 			end,
+-- 			fg = function(buffer)
+-- 				return buffer.devicon.color
+-- 			end,
+-- 		},
+-- 		{
+-- 			text = " ",
+-- 		},
+-- 		{
+-- 			text = function(buffer)
+-- 				return buffer.filename .. "  "
+-- 			end,
+-- 			style = function(buffer)
+-- 				return buffer.is_focused and "bold" or nil
+-- 			end,
+-- 		},
+-- 		{
+-- 			text = "",
+-- 			fg = colors.bg_highlight,
+-- 			bg = get_hex("Normal", "bg"),
+-- 		},
+-- 	},
+-- })
 
 -- require("mini.ai").setup({})
 -- require("mini.animate").setup({})
