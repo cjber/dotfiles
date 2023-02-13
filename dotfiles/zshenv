@@ -10,6 +10,7 @@ export npm_config_prefix="$HOME/.local"
 export DOTDROP_PROFILE='home'
 export GOPATH="$HOME/.go"
 export PYENV_ROOT="$HOME/.pyenv"
+export QMK_HOME=/home/cjber/.qmk_firmware
 
 path+=$GOPATH/bin
 path+=$PYENV_ROOT/bin

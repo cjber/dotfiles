@@ -68,7 +68,7 @@ lsp.sqlls.setup({
 })
 
 require("neodev").setup({})
-lsp.sumneko_lua.setup({
+lsp.lua_ls.setup({
 	settings = {
 		Lua = {
 			runtime = {
