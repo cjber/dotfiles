@@ -5,7 +5,6 @@ watch_files = true
 xdg_open = false
 xdg_open_fork = false
 
-
 [display]
 # default, hsplit
 mode = "default"

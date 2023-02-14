@@ -4,7 +4,6 @@ alias bat="bat -P --style=numbers --theme base16-256"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='trash-empty'
 alias la="ncdu"
-alias lf="joshuto"
 alias ls='exa -F --group-directories-first'
 alias lg="lazygit"
 alias py="ipython"
