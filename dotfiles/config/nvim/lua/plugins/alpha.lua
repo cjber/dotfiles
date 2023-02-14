@@ -30,7 +30,7 @@ local header = {
 	opts = { position = "center", hl = "NonText" },
 }
 
-local handle = io.popen('fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | head -n -2 | wc -l | tr -d "\n" ')
+local handle = io.popen('fd -d 1 . $HOME"/.local/share/nvim/lazy" | head -n -2 | wc -l | tr -d "\n" ')
 local plugins = handle:read("*a")
 handle:close()
 

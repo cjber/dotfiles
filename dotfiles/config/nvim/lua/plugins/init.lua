@@ -84,7 +84,7 @@ require("auto-save").setup({ execution_message = { message = "" } })
 -- vim.fn.sign_define("Headline2", { linehl = "Headline2" })
 require("quarto").setup({
 	lspFeatures = {
-		enabled = true,
+		enabled = false,
 		languages = { "r", "python", "julia" },
 		diagnostics = {
 			enabled = true,
