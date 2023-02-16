@@ -146,6 +146,7 @@ wk.register({
 		c = { "<Cmd>Copen<CR>", "copen" },
 		d = { "<Cmd>on<CR>", "close" },
 	},
+	p = { "<Cmd>Lazy<CR>", "plugins" },
 }, { prefix = "<leader>" })
 
 wk.register({

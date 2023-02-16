@@ -10,3 +10,4 @@ create_default_packages:
   - flake8
   - black
   - isort
+repodata_use_zst: true
