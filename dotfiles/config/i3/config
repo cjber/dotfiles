@@ -236,7 +236,6 @@ mode "resize" {
 
 # Autostart applications
 exec --no-startup-id $HOME/.config/polybar/launch.sh
-exec --no-startup-id . ./$HOME/.config/joshuto/quit_to_cwd.sh
 exec_always --no-startup-id megasync
 exec_always --no-startup-id picom -b
 exec --no-startup-id $HOME/.config/autostart/mouse.sh

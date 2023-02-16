@@ -9,6 +9,7 @@ source /usr/share/zsh-antidote/antidote.zsh
 antidote load
 
 source ~/.zshalias
+source ~/.config/joshuto/quit_to_cwd.sh
 
 eval "$(direnv hook zsh)"
 
@@ -63,14 +64,14 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#bb9af7,bold,underline"
 # !! Contents within this block are managed by 'mamba init' !!
 export MAMBA_EXE="/usr/bin/micromamba";
 export MAMBA_ROOT_PREFIX="/home/cjber/.mamba";
-__mamba_setup="$('/usr/bin/micromamba' shell hook --shell zsh --prefix '/home/cjber/.mamba' 2> /dev/null)"
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__mamba_setup"
 else
-    if [ -f "/home/cjber/.mamba/etc/profile.d/mamba.sh" ]; then
-        . "/home/cjber/.mamba/etc/profile.d/mamba.sh"
+    if [ -f "/home/cjber/.mamba/etc/profile.d/micromamba.sh" ]; then
+        . "/home/cjber/.mamba/etc/profile.d/micromamba.sh"
     else
-        export PATH="/home/cjber/.mamba/bin:$PATH"
+        export  PATH="/home/cjber/.mamba/bin:$PATH"  # extra space after export prevents interference from conda init
     fi
 fi
 unset __mamba_setup

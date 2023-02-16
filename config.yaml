@@ -134,6 +134,9 @@ dotfiles:
   f_user-dirs.dirs:
     src: config/user-dirs.dirs
     dst: ~/.config/user-dirs.dirs
+  d_direnv:
+    src: config/direnv
+    dst: ~/.config/direnv
 profiles:
   home:
     dotfiles:
@@ -150,6 +153,7 @@ profiles:
     - d_gtk-3.0
     - d_gtk-4.0
     - f_user-dirs.dirs
+    - d_direnv
   laptop:
     dotfiles:
     - ALL

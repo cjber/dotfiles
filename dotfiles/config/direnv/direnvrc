@@ -1,0 +1,122 @@
+layout_poetry() {
+    PYPROJECT_TOML="${PYPROJECT_TOML:-pyproject.toml}"
+    if [[ ! -f "$PYPROJECT_TOML" ]]; then
+        log_status "No pyproject.toml found. Executing \`poetry init\` to create a \`$PYPROJECT_TOML\` first."
+        poetry init
+    fi
+
+    if [[ -d ".venv" ]]; then
+        VIRTUAL_ENV="$(pwd)/.venv"
+    else
+        VIRTUAL_ENV=$(poetry env info --path 2>/dev/null ; true)
+    fi
+
+    if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
+        log_status "No virtual environment exists. Executing \`poetry install\` to create one."    
+        poetry install
+        VIRTUAL_ENV=$(poetry env info --path)
+    fi
+
+    PATH_add "$VIRTUAL_ENV/bin"
+    export POETRY_ACTIVE=1
+    export VIRTUAL_ENV
+}
+
+layout_micromamba() {
+  export MAMBA_EXE="/usr/bin/micromamba";
+  export MAMBA_ROOT_PREFIX="/home/cjber/.mamba";
+  __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+      eval "$__mamba_setup"
+  else
+      if [ -f "/home/cjber/.mamba/etc/profile.d/micromamba.sh" ]; then
+          . "/home/cjber/.mamba/etc/profile.d/micromamba.sh"
+      else
+          export  PATH="/home/cjber/.mamba/bin:$PATH"
+      fi
+  fi
+  unset __mamba_setup
+
+  local env_spec=$1
+  local env_name
+  local env_loc
+  local env_config
+  local micromamba
+  local REPLY
+
+  if [[ $# -gt 1 ]]; then
+    micromamba=${2}
+  else
+    micromamba=$(command -v micromamba)
+  fi
+  realpath.dirname "$micromamba"
+  PATH_add "$REPLY"
+
+  if [[ "${env_spec##*.}" == "yml" ]]; then
+    env_config=$env_spec
+  elif [[ "${env_spec%%/*}" == "." ]]; then
+    # "./foo" relative prefix
+    realpath.absolute "$env_spec"
+    env_loc="$REPLY"
+  elif [[ ! "$env_spec" == "${env_spec#/}" ]]; then
+    # "/foo" absolute prefix
+    env_loc="$env_spec"
+  elif [[ -n "$env_spec" ]]; then
+    # "name" specified
+    env_name="$env_spec"
+  else
+    # Need at least one
+    env_config=environment.yml
+  fi
+
+  # If only config, it needs a name field
+  if [[ -n "$env_config" ]]; then
+    if [[ -e "$env_config" ]]; then
+      env_name="$(grep -- '^name:' $env_config)"
+      env_name="${env_name/#name:*([[:space:]])}"
+      if [[ -z "$env_name" ]]; then
+        log_error "Unable to find 'name' in '$env_config'"
+        return 1
+      fi
+    else
+      log_error "Unable to find config '$env_config'"
+      return 1
+    fi
+  fi
+
+  # Try to find location based on name
+  if [[ -z "$env_loc" ]]; then
+    # Update location if already created
+    env_loc=$("$micromamba" env list | grep -- '^'"$env_name"'\s')
+    env_loc="${env_loc##* }"
+  fi
+
+  # Check for environment existence
+  if [[ ! -d "$env_loc" ]]; then
+
+    # Create if necessary
+    if [[ -z "$env_config" ]] && [[ -n "$env_name" ]]; then
+      if [[ -e environment.yml ]]; then
+        "$micromamba" env create --file environment.yml --name "$env_name"
+      else
+        "$micromamba" create -y --name "$env_name"
+      fi
+    elif [[ -n "$env_config" ]]; then
+      "$micromamba" env create --file "$env_config"
+    elif [[ -n "$env_loc" ]]; then
+      if [[ -e environment.yml ]]; then
+        "$micromamba" env create --file environment.yml --prefix "$env_loc"
+      else
+        "$micromamba" create -y --prefix "$env_loc"
+      fi
+    fi
+
+    if [[ -z "$env_loc" ]]; then
+      # Update location if already created
+      env_loc=$("$micromamba" env list | grep -- '^'"$env_name"'\s')
+      env_loc="${env_loc##* }"
+    fi
+  fi
+
+  eval "$( "$micromamba" activate "$env_loc" )"
+}
