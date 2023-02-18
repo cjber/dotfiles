@@ -237,7 +237,7 @@ mode "resize" {
 # Autostart applications
 exec --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id megasync
-exec_always --no-startup-id picom -b
+exec_always --no-startup-id picom -b --animations --animation-stiffness 350
 exec --no-startup-id $HOME/.config/autostart/mouse.sh
 exec --no-startup-id $HOME/.config/i3/resize.py
 exec_always --no-startup-id nm-applet
