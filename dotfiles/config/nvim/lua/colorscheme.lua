@@ -21,6 +21,8 @@ cmd("hi TabLineFill guibg=" .. colors.bg)
 cmd("hi TelescopeBorder guibg=None guifg=#414868")
 cmd("hi TelescopeNormal guibg=None")
 
+cmd("hi IndentBlanklineSpaceChar guifg=None")
+
 --[[ cmd 'hi HlSearchNear guibg=None guifg=#bb9af7 gui=underline'
 cmd 'hi HlSearchFloat guibg=None guifg=#bb9af7 gui=underline'
 cmd 'hi HlSearchLensNear guibg=None guifg=#bb9af7 gui=italic'

@@ -1,9 +1,9 @@
 local ts_config = require("nvim-treesitter.configs")
 
 ts_config.setup({
-    ensure_installed = "all",
-    highlight = { enable = true, use_languagetree = true },
-    indent = { enable = false }, -- sometimes breaks
+    ensure_installed = { "python", "markdown", "markdown_inline", "sql", "yaml", "r", "lua", "vim", "query", "help" },
+    highlight = { enable = true, use_languagetree = true, additional_vim_regex_highlighting = false },
+    indent = { enable = true }, -- sometimes breaks
     incremental_selection = {
         enable = false,
         keymaps = {
@@ -13,8 +13,6 @@ ts_config.setup({
             node_decremental = "grm",
         },
     },
-})
-require("nvim-treesitter.configs").setup({
     textobjects = {
         select = {
             enable = true,
@@ -35,4 +33,3 @@ require("nvim-treesitter.configs").setup({
     },
     yati = { enable = true },
 })
-

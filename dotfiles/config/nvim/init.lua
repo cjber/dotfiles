@@ -1,17 +1,16 @@
 local cmd = vim.cmd
 local g = vim.g
-local fn = vim.fn
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -46,7 +45,7 @@ g.rmd_fenced_languages = { "r", "python" }
 g.cmdline_follow_colorscheme = 1
 g.cmdline_esc_term = 0
 g.cmdline_map_send = "<CR>"
-g.cmdline_app = { ["python"] = "ipython", ["qmd"] = "ipython", ["rmd"] = "r" }
+g.cmdline_app = { ["python"] = "ipython",["qmd"] = "ipython",["rmd"] = "r" }
 
 -- mundo
 g.mundo_preview_bottom = 1

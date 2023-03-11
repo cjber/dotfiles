@@ -4,19 +4,23 @@ nnoremap <Leader>ps :Dispatch! pyright --createstub
 
 " localleader
 
-nnoremap <LocalLeader>rr :call RunToLine()<CR>
-nnoremap <LocalLeader>rf :call RunFile()<CR>
-nnoremap <LocalLeader>rd :call PandasViewDF()<CR>
-vnoremap <LocalLeader>rd :call PandasViewDFV()<CR>
-nnoremap <LocalLeader>rh :call Help()<CR>
-vnoremap <LocalLeader>rh :call HelpV()<CR>
-nnoremap <LocalLeader>rl :call VimCmdLineSendCmd('%whos')<CR>
-
+nnoremap <LocalLeader>sl :call RunToLine()<CR>
+nnoremap <LocalLeader>sf :call RunFile()<CR>
+nnoremap <LocalLeader>sd :call PandasViewDF()<CR>
+vnoremap <LocalLeader>sd :call PandasViewDFV()<CR>
+nnoremap <LocalLeader>sh :call Help()<CR>
+vnoremap <LocalLeader>sh :call HelpV()<CR>
+nnoremap <LocalLeader>sl :call VimCmdLineSendCmd('%whos')<CR>
 
 function RunFile()
     let file = expand('%:p')
     call VimCmdLineSendCmd('%run \"' . file . '\"')
 endfunction
+
+" function RunFile()
+"     let file = expand('%:p')
+"     exec ':lua require("iron.core").send("python", "%run ' . file . "\")"
+" endfunction
 
 function RunToLine()
     let curline = getpos('.')[1]
@@ -25,7 +29,7 @@ endfunction
 
 function PandasViewDF()
     let df = expand('<cword>')
-    call VimCmdLineSendCmd(df . '.to_csv("/tmp/_' . df . '.csv")')
+    call cmdline#SendCmd(df . '.sample(n=50).to_csv("/tmp/_' . df . '.csv")')
     execute ":lua require('FTerm').run('vd /tmp/_" . df . ".csv'"")"
 endfunction
 
