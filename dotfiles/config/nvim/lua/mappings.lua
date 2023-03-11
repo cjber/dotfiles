@@ -149,14 +149,17 @@ wk.register({
 	p = { "<Cmd>Lazy<CR>", "plugins" },
 }, { prefix = "<leader>" })
 
-wk.register({
-	-- s = { [[<Cmd>call VimCmdLineStartApp()<CR>]], "start repl" },
-	-- q = { [[<Cmd>call VimCmdLineQuit()<CR>]], "stop repl" },
-}, { prefix = "<localleader>" })
+-- wk.register({
+-- 	s = {
+-- 		name = "+repl",
+-- 		s = { [[<Cmd>IronRepl<CR><ESC>]], "start repl" },
+-- 		q = { [[<Cmd>IronHide<CR>]], "stop repl" },
+-- 	},
+-- }, { prefix = "<localleader>" })
 
 vim.cmd([[
 " vimcmdline mappings
- let cmdline_map_start          = '<LocalLeader>s'
+ let cmdline_map_start          = '<LocalLeader>ss'
  let cmdline_map_send           = '<CR>'
  let cmdline_map_send_and_stay  = '<M-CR>'
  let cmdline_map_source_fun     = '<LocalLeader>f'
@@ -164,8 +167,8 @@ vim.cmd([[
  let cmdline_map_send_block     = '<LocalLeader>b'
  let cmdline_map_send_motion    = '<LocalLeader>m'
  let cmdline_map_quit           = '<LocalLeader>q'
+ " let cmdline_external_term_cmd = 'kitty %s &'
 ]])
--- let cmdline_external_term_cmd = 'kitty %s &'
 
 local kopts = { noremap = true, silent = true }
 

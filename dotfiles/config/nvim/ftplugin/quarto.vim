@@ -1,4 +1,6 @@
 setlocal spell
+set colorcolumn=
+set filetype=markdown
 
 nnoremap <silent> <Leader>kk :call QmdRender()<CR>
 nnoremap <silent> <Leader>ka :call QmdPreview()<CR>
