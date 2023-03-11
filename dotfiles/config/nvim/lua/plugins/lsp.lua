@@ -57,7 +57,28 @@ lsp.configure("ltex", {
     },
 })
 
-lsp.configure("lua_ls", { settings = { format = { enable = false } } })
+lsp.configure("lua_ls", {
+    settings = {
+        Lua = {
+            runtime = {
+                version = "LuaJIT",
+            },
+            format = {
+                enable = false,
+                defaultConfig = { quote_style = "double", column_limit = 89 },
+            },
+            diagnostics = {
+                globals = { "vim" },
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+})
 
 require("null-ls").setup({
     sources = {
