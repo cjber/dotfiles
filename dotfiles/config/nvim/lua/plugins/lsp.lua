@@ -18,24 +18,13 @@ local lsp = require("lsp-zero").preset({
 })
 lsp.nvim_workspace()
 lsp.ensure_installed({
-	"pylsp",
+	"jedi_language_server",
 	"lua_ls",
 	"ltex",
 	"sourcery",
 })
 
-lsp.configure("pylsp", {
-	settings = {
-		pylsp = {
-			plugins = {
-				pyflakes = { enabled = false },
-				flake8 = { enabled = false },
-				yapf = { enabled = false },
-				pycodestyle = { enabled = false },
-			},
-		},
-	},
-})
+-- lsp.configure("jedi-language-server", {})
 
 lsp.configure("ltex", {
 	filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex", "quarto" },
@@ -60,21 +49,11 @@ lsp.configure("ltex", {
 lsp.configure("lua_ls", {
 	settings = {
 		Lua = {
-			runtime = {
-				version = "LuaJIT",
-			},
 			format = {
 				enable = false,
-				defaultConfig = { quote_style = "double", column_limit = 89 },
 			},
 			diagnostics = {
 				globals = { "vim" },
-			},
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
-			},
-			telemetry = {
-				enable = false,
 			},
 		},
 	},
@@ -88,7 +67,7 @@ require("null-ls").setup({
 		}),
 		require("null-ls").builtins.formatting.black,
 		require("null-ls").builtins.diagnostics.ruff,
-		require("null-ls").builtins.formatting.ruff,
+		-- require("null-ls").builtins.formatting.ruff,
 		-- lua
 		require("null-ls").builtins.formatting.stylua,
 		-- docker
