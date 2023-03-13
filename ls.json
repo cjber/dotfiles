@@ -1,0 +1,294 @@
+[
+  {
+    "id": 1,
+    "is_active": true,
+    "is_focused": true,
+    "last_focused": true,
+    "platform_window_id": 10485771,
+    "tabs": [
+      {
+        "active_window_history": [
+          1
+        ],
+        "enabled_layouts": [
+          "fat",
+          "grid",
+          "horizontal",
+          "splits",
+          "stack",
+          "tall",
+          "vertical"
+        ],
+        "id": 1,
+        "is_active": true,
+        "is_focused": true,
+        "layout": "fat",
+        "layout_opts": {
+          "bias": 50,
+          "full_size": 1,
+          "mirrored": false
+        },
+        "layout_state": {
+          "biased_map": {},
+          "main_bias": [
+            0.5,
+            0.5
+          ],
+          "num_full_size_windows": 1
+        },
+        "title": "cmp-exclude",
+        "windows": [
+          {
+            "cmdline": [
+              "/usr/bin/zsh"
+            ],
+            "columns": 118,
+            "cwd": "/home/cjber/dotfiles/dotfiles/config/nvim",
+            "env": {
+              "KITTY_WINDOW_ID": "1",
+              "WINDOWID": "10485771"
+            },
+            "foreground_processes": [
+              {
+                "cmdline": [
+                  "nvim",
+                  "init.lua"
+                ],
+                "cwd": "/home/cjber/dotfiles/dotfiles/config/nvim",
+                "pid": 16772
+              }
+            ],
+            "id": 1,
+            "is_active": true,
+            "is_focused": true,
+            "is_self": true,
+            "lines": 54,
+            "pid": 15322,
+            "title": "cmp-exclude"
+          }
+        ]
+      }
+    ],
+    "wm_class": "kitty",
+    "wm_name": "kitty"
+  },
+  {
+    "id": 2,
+    "is_active": false,
+    "is_focused": false,
+    "last_focused": false,
+    "platform_window_id": 10485793,
+    "tabs": [
+      {
+        "active_window_history": [
+          2
+        ],
+        "enabled_layouts": [
+          "fat",
+          "grid",
+          "horizontal",
+          "splits",
+          "stack",
+          "tall",
+          "vertical"
+        ],
+        "id": 2,
+        "is_active": true,
+        "is_focused": false,
+        "layout": "fat",
+        "layout_opts": {
+          "bias": 50,
+          "full_size": 1,
+          "mirrored": false
+        },
+        "layout_state": {
+          "biased_map": {},
+          "main_bias": [
+            0.5,
+            0.5
+          ],
+          "num_full_size_windows": 1
+        },
+        "title": "v init.lua",
+        "windows": [
+          {
+            "cmdline": [
+              "/usr/bin/zsh"
+            ],
+            "columns": 116,
+            "cwd": "/home/cjber/dotfiles/dotfiles/config/nvim",
+            "env": {
+              "KITTY_WINDOW_ID": "2",
+              "WINDOWID": "10485793"
+            },
+            "foreground_processes": [
+              {
+                "cmdline": [
+                  "nvim",
+                  "init.lua"
+                ],
+                "cwd": "/home/cjber/dotfiles/dotfiles/config/nvim",
+                "pid": 16183
+              }
+            ],
+            "id": 2,
+            "is_active": true,
+            "is_focused": false,
+            "is_self": false,
+            "lines": 54,
+            "pid": 15443,
+            "title": "v init.lua"
+          }
+        ]
+      }
+    ],
+    "wm_class": "kitty",
+    "wm_name": "kitty"
+  }
+][
+  {
+    "id": 1,
+    "is_active": true,
+    "is_focused": true,
+    "last_focused": true,
+    "platform_window_id": 10485771,
+    "tabs": [
+      {
+        "active_window_history": [
+          1
+        ],
+        "enabled_layouts": [
+          "fat",
+          "grid",
+          "horizontal",
+          "splits",
+          "stack",
+          "tall",
+          "vertical"
+        ],
+        "id": 1,
+        "is_active": true,
+        "is_focused": true,
+        "layout": "fat",
+        "layout_opts": {
+          "bias": 50,
+          "full_size": 1,
+          "mirrored": false
+        },
+        "layout_state": {
+          "biased_map": {},
+          "main_bias": [
+            0.5,
+            0.5
+          ],
+          "num_full_size_windows": 1
+        },
+        "title": "v init.lua",
+        "windows": [
+          {
+            "cmdline": [
+              "/usr/bin/zsh"
+            ],
+            "columns": 118,
+            "cwd": "/home/cjber/dotfiles/dotfiles/config/nvim",
+            "env": {
+              "KITTY_WINDOW_ID": "1",
+              "WINDOWID": "10485771"
+            },
+            "foreground_processes": [
+              {
+                "cmdline": [
+                  "nvim",
+                  "init.lua"
+                ],
+                "cwd": "/home/cjber/dotfiles/dotfiles/config/nvim",
+                "pid": 9927
+              }
+            ],
+            "id": 1,
+            "is_active": true,
+            "is_focused": true,
+            "is_self": true,
+            "lines": 54,
+            "pid": 1118,
+            "title": "v init.lua"
+          }
+        ]
+      }
+    ],
+    "wm_class": "kitty",
+    "wm_name": "kitty"
+  },
+  {
+    "id": 2,
+    "is_active": false,
+    "is_focused": false,
+    "last_focused": false,
+    "platform_window_id": 10485793,
+    "tabs": [
+      {
+        "active_window_history": [
+          2
+        ],
+        "enabled_layouts": [
+          "fat",
+          "grid",
+          "horizontal",
+          "splits",
+          "stack",
+          "tall",
+          "vertical"
+        ],
+        "id": 2,
+        "is_active": true,
+        "is_focused": false,
+        "layout": "fat",
+        "layout_opts": {
+          "bias": 50,
+          "full_size": 1,
+          "mirrored": false
+        },
+        "layout_state": {
+          "biased_map": {},
+          "main_bias": [
+            0.5,
+            0.5
+          ],
+          "num_full_size_windows": 1
+        },
+        "title": "\u2026/dotfiles/config/nvim",
+        "windows": [
+          {
+            "cmdline": [
+              "/usr/bin/zsh"
+            ],
+            "columns": 116,
+            "cwd": "/home/cjber/dotfiles/dotfiles/config/nvim",
+            "env": {
+              "KITTY_WINDOW_ID": "2",
+              "WINDOWID": "10485793"
+            },
+            "foreground_processes": [
+              {
+                "cmdline": [
+                  "/usr/bin/zsh"
+                ],
+                "cwd": "/home/cjber/dotfiles/dotfiles/config/nvim",
+                "pid": 1291
+              }
+            ],
+            "id": 2,
+            "is_active": true,
+            "is_focused": false,
+            "is_self": false,
+            "lines": 54,
+            "pid": 1291,
+            "title": "\u2026/dotfiles/config/nvim"
+          }
+        ]
+      }
+    ],
+    "wm_class": "kitty",
+    "wm_name": "kitty"
+  }
+]
