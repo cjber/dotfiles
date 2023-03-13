@@ -1,0 +1,6 @@
+.*
+.*/**
+__*
+renv/
+target/
+public/
