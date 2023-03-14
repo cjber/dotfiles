@@ -10,6 +10,7 @@ local plugins = {
 			{ "jose-elias-alvarez/null-ls.nvim" },
 			{ "williamboman/mason.nvim" },
 			{ "williamboman/mason-lspconfig.nvim" },
+			{ "barreiroleo/ltex_extra.nvim" },
 
 			-- Autocompletion
 			{
@@ -244,7 +245,6 @@ local plugins = {
 	{ "kazhala/close-buffers.nvim", opts = {} }, -- buffer close commands
 	{ "dbeniamine/todo.txt-vim" }, -- todo.txt highlighting
 	{ "phaazon/hop.nvim", opts = {} },
-	{ "barreiroleo/ltex_extra.nvim" },
 }
 
 require("lazy").setup(plugins)
