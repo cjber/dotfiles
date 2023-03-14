@@ -219,12 +219,6 @@ local plugins = {
 		},
 	}, -- indent guide
 	{
-		"norcalli/nvim-colorizer.lua",
-		init = function()
-			require("colorizer").setup({ "*" }, { mode = "foreground" })
-		end,
-	}, -- highlight colours
-	{
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
 		init = function()
