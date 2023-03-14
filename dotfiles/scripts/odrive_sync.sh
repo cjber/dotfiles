@@ -3,9 +3,9 @@
 DRIVE=$HOME/drive
 BACKUP=odrive:backup
 EXCLUDE_FILE=$HOME/scripts/exclude.txt
-LOG_FILE=$HOME/scripts/odrive_sync.log
+LOG_FILE=$HOME/odrive_sync.log
 
-if pidof -o %PPID -x "odrive_sync.sh"; then exit 1; fi
+if pgrep -fl rclone; then exit 1; fi
 
 /usr/bin/rclone sync "$DRIVE" odrive:drive \
     --backup-dir="$BACKUP" \
