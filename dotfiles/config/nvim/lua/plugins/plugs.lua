@@ -202,7 +202,6 @@ local plugins = {
 	{
 		"folke/tokyonight.nvim",
 		opts = {
-
 			style = "night",
 		},
 	}, -- theme

@@ -22,6 +22,7 @@ lsp.ensure_installed({
 	"lua_ls",
 	"ltex",
 	"sourcery",
+	"vimls",
 })
 
 -- lsp.configure("jedi-language-server", {})
