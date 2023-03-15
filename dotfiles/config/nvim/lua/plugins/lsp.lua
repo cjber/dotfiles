@@ -23,6 +23,7 @@ lsp.ensure_installed({
 	"ltex",
 	"sourcery",
 	"vimls",
+	"dockerls",
 })
 
 -- lsp.configure("jedi-language-server", {})
