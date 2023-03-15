@@ -63,7 +63,7 @@ font-4 = Unifont:stype=Medium
 enable-ipc = true
 
 {%@@ if profile == "home" @@%}
-modules-left = x network x system-nvidia-system system-nvidia-temp x temperature cpu_cores x package-updates-trigger package-updates
+modules-left = x wired-network x system-nvidia-system system-nvidia-temp x temperature cpu_cores x package-updates-trigger package-updates
 {%@@ elif profile == "uni" @@%}
 modules-left = x temperature cpu_cores
 {%@@ elif profile == "laptop" @@%}
@@ -95,7 +95,7 @@ content-font = 0
 
 [module/wired-network]
 type = internal/network
-interface = enp4s0
+interface = enp5s0
 label-connected = %downspeed:8:8% : %upspeed:8:8%
 label-disconnected = not connected
 format-packetloss = <animation-packetloss> <label-connected>
