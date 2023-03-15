@@ -48,7 +48,7 @@ local plugins = {
 		"ray-x/lsp_signature.nvim",
 		opts = {
 			doc_lines = 0,
-			bind = true, -- This is mandatory, otherwise border config won't get registered.
+			bind = true,
 			handler_opts = {
 				border = "single",
 			},
