@@ -1,7 +1,10 @@
 .*
+
 .*/**
-__*
+__*/**
+
 renv/
 target/
 public/
 todo/
+other/
