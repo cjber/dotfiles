@@ -10,7 +10,7 @@ nnoremap <LocalLeader>sd :call PandasViewDF()<CR>
 vnoremap <LocalLeader>sd :call PandasViewDFV()<CR>
 nnoremap <LocalLeader>sh :call Help()<CR>
 vnoremap <LocalLeader>sh :call HelpV()<CR>
-nnoremap <LocalLeader>sl :call VimCmdLineSendCmd('%whos')<CR>
+" nnoremap <LocalLeader>sl :call VimCmdLineSendCmd('%whos')<CR>
 
 function RunFile()
     let file = expand('%:p')
