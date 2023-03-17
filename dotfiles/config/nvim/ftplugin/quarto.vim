@@ -8,11 +8,11 @@ nnoremap <silent> <Leader>kp :call QmdPdf()<CR>
 nnoremap <silent> <Leader>kh :call QmdHTML()<CR>
 
 function QmdRender()
-    Dispatch! quarto render %:p --execute-dir $PWD &
+    Dispatch! quarto render %:p --execute-dir $PWD
 endfunction
 
 function QmdPreview()
-    Dispatch! quarto preview %:p --execute-dir $PWD &
+    Dispatch! quarto preview %:p --execute-dir $PWD
 endfunction
 
 function QmdPdf()
