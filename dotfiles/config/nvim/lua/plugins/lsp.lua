@@ -30,7 +30,6 @@ lsp.ensure_installed({
 
 lsp.configure("ltex", {
 	filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex", "quarto" },
-	cmd = { "/home/cjber/temp/ltex-ls-16.0.0-alpha.1.nightly.2023-03-10/bin/ltex-ls" },
 	on_attach = function(client, bufnr)
 		require("ltex_extra").setup({
 			load_langs = { "en-GB" },
@@ -41,7 +40,10 @@ lsp.configure("ltex", {
 	end,
 	settings = {
 		ltex = {
-			disabledRules = { ["en-GB"] = { "OXFORD_SPELLING_Z_NOT_S" } },
+			additionalRules = { enablePickyRules = true },
+			disabledRules = {
+				["en-GB"] = { "OXFORD_SPELLING_Z_NOT_S", "MORFOLOGIK_RULE_EN_GB", "TOO_LONG_SENTENCE", "EN_QUOTES" },
+			},
 			language = "en-GB",
 			checkfrequency = "save",
 		},
