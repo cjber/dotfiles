@@ -11,7 +11,7 @@ return {
 			winhighlight = "NormalFloat:NormalFloat,Title:NormalFloat",
 		},
 	},
-	completion = { keyword_length = 2 },
+	completion = { keyword_length = 1 },
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "otter" },
