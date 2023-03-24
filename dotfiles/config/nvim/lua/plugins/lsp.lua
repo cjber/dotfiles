@@ -85,7 +85,7 @@ null_ls.setup({
 		require("null-ls").builtins.formatting.stylua,
 		-- docker
 		require("null-ls").builtins.diagnostics.hadolint,
-		require("null-ls").builtins.hover.dictionary.with({ extra_filetypes = { "quarto", "rmarkdown" } }),
+		-- require("null-ls").builtins.hover.dictionary.with({ extra_filetypes = { "quarto", "rmarkdown" } }),
 		require("null-ls").builtins.diagnostics.markdownlint.with({
 			extra_args = { "--disable MD013 MD025" },
 		}),
