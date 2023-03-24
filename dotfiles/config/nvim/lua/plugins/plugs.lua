@@ -7,9 +7,10 @@ local plugins = {
 		dependencies = {
 			-- LSP Support
 			{ "neovim/nvim-lspconfig" },
-			{ "jose-elias-alvarez/null-ls.nvim" },
+			{ "jose-elias-alvarez/null-ls.nvim", dependencies = { "LostNeophyte/null-ls-embedded" } },
 			{ "williamboman/mason.nvim" },
 			{ "williamboman/mason-lspconfig.nvim" },
+			{ "jay-babu/mason-null-ls.nvim", event = { "BufReadPre", "BufNewFile" } },
 			{ "barreiroleo/ltex_extra.nvim" },
 
 			-- Autocompletion

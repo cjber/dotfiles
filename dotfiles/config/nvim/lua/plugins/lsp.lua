@@ -72,6 +72,7 @@ require("null-ls").setup({
 		require("null-ls").builtins.formatting.black,
 		require("null-ls").builtins.diagnostics.ruff,
 		-- require("null-ls").builtins.formatting.ruff,
+		require("null-ls-embedded").nls_source,
 		-- lua
 		require("null-ls").builtins.formatting.stylua,
 		-- docker
@@ -84,6 +85,10 @@ require("null-ls").setup({
 		-- shell
 		require("null-ls").builtins.diagnostics.shellcheck,
 	},
+})
+require("mason-null-ls").setup({
+	ensure_installed = { "stylua", "black", "ruff", "isort", "hadolint", "markdownlint", "shellcheck" },
+    automatic_installation = true,
 })
 
 lsp.setup()

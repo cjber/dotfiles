@@ -6,6 +6,7 @@ nnoremap <silent> <Leader>kk :call QmdRender()<CR>
 nnoremap <silent> <Leader>ka :call QmdPreview()<CR>
 nnoremap <silent> <Leader>kp :call QmdPdf()<CR>
 nnoremap <silent> <Leader>kh :call QmdHTML()<CR>
+nnoremap <silent> <Leader>ls :lua require("null-ls-embedded").buf_format()
 
 function QmdRender()
     Dispatch! quarto render %:p --execute-dir $PWD
