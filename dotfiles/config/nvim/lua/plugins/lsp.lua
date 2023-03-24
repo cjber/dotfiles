@@ -9,6 +9,7 @@ local lsp = require("lsp-zero").preset({
 	configure_diagnostics = true,
 	cmp_capabilities = true,
 	manage_nvim_cmp = true,
+	suggest_lsp_servers = false,
 	sign_icons = {
 		error = "✘ ",
 		warn = " ",
@@ -26,7 +27,7 @@ lsp.ensure_installed({
 	"dockerls",
 })
 
--- lsp.configure("jedi-language-server", {})
+lsp.configure("jedi-language-server", {})
 
 lsp.configure("ltex", {
 	filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex", "quarto" },
@@ -62,8 +63,15 @@ lsp.configure("lua_ls", {
 		},
 	},
 })
+lsp.setup()
 
-require("null-ls").setup({
+local null_ls = require("null-ls")
+local null_opts = lsp.build_options("null-ls", {})
+
+null_ls.setup({
+	on_attach = function(client, bufnr)
+		null_opts.on_attach(client, bufnr)
+	end,
 	sources = {
 		-- python
 		require("null-ls").builtins.formatting.isort.with({
@@ -87,8 +95,8 @@ require("null-ls").setup({
 	},
 })
 require("mason-null-ls").setup({
-	ensure_installed = { "stylua", "black", "ruff", "isort", "hadolint", "markdownlint", "shellcheck" },
-    automatic_installation = true,
+	ensure_installed = nil,
+	automatic_installation = true,
+	automatic_setup = true,
 })
-
-lsp.setup()
+require("mason-null-ls").setup_handlers()

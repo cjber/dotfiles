@@ -40,7 +40,7 @@ bindsym $mod+Shift+Return exec kitty zsh -c "source $HOME/.zshrc && nvim"
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun
+bindsym $mod+m exec --no-startup-id rofi -modi drun -show drun
 
 # window switcher
 bindsym $mod+shift+Tab exec rofi -modi window -show window
@@ -79,7 +79,7 @@ bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_
 bindsym $mod+e split toggle
 
 # toggle fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+bindsym $mod+slash fullscreen toggle
 
 # toggle stacking
 bindsym $mod+w layout toggle stacking split
@@ -91,7 +91,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # toggle sticky
-bindsym $mod+Shift+s sticky toggle
+bindsym $mod+Shift+z sticky toggle
 
 # focus the parent container
 # bindsym $mod+a focus parent
@@ -107,8 +107,8 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Ctrl+h workspace next
 bindsym $mod+Ctrl+l workspace prev
 
-set $ws1 1
-set $ws2 2
+set $ws1 a
+set $ws2 s
 set $ws3 3
 set $ws4 4
 set $ws5 5
@@ -119,30 +119,30 @@ set $ws8 8
 workspace $ws6 output HDMI-0
 
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
+bindsym $mod+a workspace $ws1
+bindsym $mod+s workspace $ws2
+bindsym $mod+d workspace $ws3
+bindsym $mod+f workspace $ws4
 bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 
 # Move focused container to workspace
-bindsym $mod+Ctrl+1 move container to workspace $ws1
-bindsym $mod+Ctrl+2 move container to workspace $ws2
-bindsym $mod+Ctrl+3 move container to workspace $ws3
-bindsym $mod+Ctrl+4 move container to workspace $ws4
+bindsym $mod+Ctrl+a move container to workspace $ws1
+bindsym $mod+Ctrl+s move container to workspace $ws2
+bindsym $mod+Ctrl+d move container to workspace $ws3
+bindsym $mod+Ctrl+f move container to workspace $ws4
 bindsym $mod+Ctrl+5 move container to workspace $ws5
 bindsym $mod+Ctrl+6 move container to workspace $ws6
 bindsym $mod+Ctrl+7 move container to workspace $ws7
 bindsym $mod+Ctrl+8 move container to workspace $ws8
 
 # Move to workspace with focused container
-bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+a move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+s move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+d move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+f move container to workspace $ws4; workspace $ws4
 bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
 bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
@@ -273,12 +273,12 @@ gaps horizontal -10
 # remove gaps
 bindsym $mod+g gaps inner all toggle 30, gaps outer all toggle 30, gaps bottom all toggle -10, gaps horizontal all toggle -10
 
-bindsym $mod+a resize set width 1634 px
-bindsym $mod+s resize set width 1117 px
+bindsym $mod+u resize set width 1634 px
+bindsym $mod+y resize set width 1117 px
 
 exec --no-startup-id kitty --name dropdown &
 
-bindsym $mod+i [instance="dropdown"] scratchpad show, move position center
+# bindsym $mod+i [instance="dropdown"] scratchpad show, move position center
 
 for_window [instance="dropdown"] floating enable, resize set 1600 1000, \
     move scratchpad
