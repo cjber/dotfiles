@@ -3,7 +3,6 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single",
 })
 local lsp = require("lsp-zero").preset({
-	suggest_lsp_servers = true,
 	setup_servers_on_start = true,
 	set_lsp_keymaps = true,
 	configure_diagnostics = true,
