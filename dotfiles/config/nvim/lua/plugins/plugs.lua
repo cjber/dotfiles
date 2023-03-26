@@ -43,6 +43,9 @@ local plugins = {
 			-- Snippets
 			{ "L3MON4D3/LuaSnip" },
 			{ "rafamadriz/friendly-snippets" },
+
+			-- Navigation
+			{ "SmiteshP/nvim-navbuddy", dependencies = { "SmiteshP/nvim-navic", "MunifTanjim/nui.nvim" } },
 		},
 	},
 	{
