@@ -26,6 +26,13 @@ lsp.ensure_installed({
 	"dockerls",
 })
 
+local navbuddy = require("nvim-navbuddy")
+lsp.on_attach(function(client, bufnr)
+	if client.server_capabilities.documentSymbolProvider then
+		navbuddy.attach(client, bufnr)
+	end
+end)
+
 lsp.configure("jedi-language-server", {})
 
 lsp.configure("ltex", {
