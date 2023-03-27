@@ -73,6 +73,7 @@ wk.register({
 		h = { "<Cmd>Telescope help_tags<CR>", "help tags" },
 		o = { "<Cmd>Telescope oldfiles<CR>", "old files" },
 		r = { "<Cmd>Telescope live_grep<CR>", "live grep" },
+		m = { "<Cmd>Navbuddy<CR>", "navbuddy" },
 		u = { "<Cmd>UndotreeToggle<CR>", "undotree" },
 		c = {
 			name = "+commands",
