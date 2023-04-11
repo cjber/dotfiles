@@ -21,3 +21,5 @@ alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs -r tldr"
 alias dotdrop='dotdrop --cfg=$HOME/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
+
+alias nvim-chad="NVIM_APPNAME=NvChad nvim"
