@@ -84,7 +84,7 @@ lsp.configure("lua_ls", {
 	},
 })
 
-lsp.configure("pylyzer", { force_setup = true })
+-- lsp.configure("pylyzer", { force_setup = true })
 lsp.setup()
 
 local null_ls = require("null-ls")
