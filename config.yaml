@@ -57,9 +57,6 @@ dotfiles:
   d_dunst:
     src: config/dunst
     dst: ~/.config/dunst
-  d_ranger:
-    src: config/ranger
-    dst: ~/.config/ranger
   f_starship.toml:
     src: config/starship.toml
     dst: ~/.config/starship.toml
@@ -164,7 +161,6 @@ profiles:
     dotfiles:
     - f_zshrc
     - d_nvim
-    - d_ranger
     - f_starship.toml
     - f_condarc
     - f_radian_profile
