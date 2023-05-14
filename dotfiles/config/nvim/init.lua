@@ -35,7 +35,7 @@ g.python_host_skip_check = 1
 g.loaded_python_provider = 0
 g.python3_host_skip_check = 1
 
-g.python3_host_prog = "/home/cjber/dotfiles/.direnv/python-3.10.10/bin/python"
+g.python3_host_prog = "/home/cjber/dotfiles/.direnv/python-3.11.3/bin/python"
 
 -- nvim r
 g.markdown_fenced_languages = { "r", "python" }
@@ -56,6 +56,3 @@ g.mundo_width = 32
 g.vimtex_compiler_progname = "nvr"
 g.vimtex_view_method = "zathura"
 g.vimtex_compiler_method = "latexrun"
-
--- zotcite
--- cmd([[let $ZCitationTemplate = "{author}{year}"]])

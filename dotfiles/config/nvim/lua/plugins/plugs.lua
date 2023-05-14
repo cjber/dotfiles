@@ -1,6 +1,12 @@
 local plugins = {
 	{ "wbthomason/packer.nvim" },
 
+	{
+		"kaarmu/typst.vim",
+		ft = "typst",
+		lazy = false,
+	},
+
 	-- LSP
 	{
 		"VonHeikemen/lsp-zero.nvim",
@@ -38,6 +44,13 @@ local plugins = {
 						suggestion = { auto_trigger = true, keymap = { accept = "<C-l>", next = "<C-j>" } },
 					})
 				end,
+			},
+			{
+				"huggingface/hfcc.nvim",
+				opts = {
+					api_token = "***REMOVED***",
+					-- model = "bigcode/starcoder", -- can be a model ID or an http endpoint
+				},
 			},
 
 			-- Snippets
@@ -127,7 +140,7 @@ local plugins = {
 		config = function()
 			require("headlines").setup({
 				quarto = {
-					query = vim.treesitter.parse_query(
+					query = vim.treesitter.query.parse(
 						"markdown",
 						[[
                 (atx_heading [
@@ -163,11 +176,13 @@ local plugins = {
 	{ "lewis6991/impatient.nvim" }, -- faster loading
 	{
 		"quarto-dev/quarto-nvim",
+		version = "0.7.3",
 		ft = "quarto",
 		dependencies = {
 			"neovim/nvim-lspconfig",
 			{
 				"jmbuhr/otter.nvim",
+				version = "0.8.1",
 				init = function()
 					require("otter.config").setup()
 				end,
