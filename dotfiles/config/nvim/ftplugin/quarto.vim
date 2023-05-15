@@ -9,7 +9,7 @@ nnoremap <silent> <Leader>kh :call QmdHTML()<CR>
 nnoremap <silent> <Leader>ls :lua require("null-ls-embedded").buf_format()
 
 function QmdRender()
-    Dispatch! quarto render %:p --execute-dir $PWD
+    lua require("FTerm").scratch({cmd={"quarto", "render", vim.fn.expand("%:p"), "--execute-dir", vim.fn.expand("$PWD")}})
 endfunction
 
 function QmdPreview()
@@ -17,7 +17,7 @@ function QmdPreview()
 endfunction
 
 function QmdPdf()
-    Dispatch! zathura %:r.pdf &
+    lua require("FTerm").scratch({cmd={"nohup", "zathura", vim.fn.expand("%:r") .. ".pdf" , "&"}})
 endfunction
 
 function QmdHTML()
@@ -35,5 +35,3 @@ function NRPrepCode()
 endfunction
 
 nnoremap <localleader>a /```{python}<CR>jV/```<CR>k:'<,'>NR<CR>:nohl<CR>
-
-" let zotcite_conceallevel = 0

@@ -45,8 +45,8 @@ dotfiles:
     src: config/nvim
     dst: ~/.config/nvim/
     link: link_children
-    upignore:
-    - '*/plugin'
+    # upignore:
+    # - '*/plugin'
   d_i3:
     src: config/i3
     dst: ~/.config/i3
@@ -69,9 +69,6 @@ dotfiles:
   f_gitconfig:
     src: gitconfig
     dst: ~/.gitconfig
-  f_profile:
-    src: profile
-    dst: ~/.profile
   f_zshrc:
     src: zshrc
     dst: ~/.zshrc
@@ -93,15 +90,6 @@ dotfiles:
   f_zprofile:
     src: zprofile
     dst: ~/.zprofile
-  d_wofi:
-    src: config/wofi
-    dst: ~/.config/wofi
-  d_sway:
-    src: config/sway
-    dst: ~/.config/sway
-  d_screenlayout:
-    src: screenlayout
-    dst: ~/.screenlayout
   f_zsh_plugins.txt:
     src: zsh_plugins.txt
     dst: ~/.zsh_plugins.txt
@@ -134,6 +122,16 @@ dotfiles:
   d_direnv:
     src: config/direnv
     dst: ~/.config/direnv
+  # wayland stuff
+  d_wofi:
+    src: config/wofi
+    dst: ~/.config/wofi
+  d_sway:
+    src: config/sway
+    dst: ~/.config/sway
+  d_screenlayout:
+    src: screenlayout
+    dst: ~/.screenlayout
 profiles:
   home:
     dotfiles:
