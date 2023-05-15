@@ -29,13 +29,13 @@ endfunction
 
 function PandasViewDF()
     let df = expand('<cword>')
-    call cmdline#SendCmd(df . '.sample(n=50).to_csv("/tmp/_' . df . '.csv")')
+    call cmdline#SendCmd(df . '.sample(n=50, replace=True).to_csv("/tmp/_' . df . '.csv")')
     execute ":lua require('FTerm').run('vd /tmp/_" . df . ".csv'"")"
 endfunction
 
 function PandasViewDFV()
     let df = getline("'<")[getpos("'<")[2]-1:getpos("'>")[2]]
-    call VimCmdLineSendCmd(df . '.sample(n=50).to_csv("/tmp/_' . df . '.csv")')
+    call VimCmdLineSendCmd(df . '.sample(n=50, replace=True).to_csv("/tmp/_' . df . '.csv")')
     execute ":lua require('FTerm').run('vd /tmp/_" . df . ".csv'"")"
 endfunction
 
