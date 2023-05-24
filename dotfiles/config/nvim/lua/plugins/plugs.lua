@@ -216,36 +216,35 @@ local plugins = {
 
 	{ "lewis6991/impatient.nvim" }, -- faster loading
 	{
+		"jmbuhr/otter.nvim",
+		config = function()
+			require("otter.config").setup({
+				lsp = {
+					hover = {
+						border = "single",
+					},
+				},
+			})
+		end,
+	},
+	{
 		"quarto-dev/quarto-nvim",
-		version = "0.7.3",
 		ft = "quarto",
 		dependencies = {
 			"neovim/nvim-lspconfig",
-			{
-				"jmbuhr/otter.nvim",
-				version = "0.8.1",
-				init = function()
-					require("otter.config").setup()
-				end,
-			},
-			{
-				"quarto-dev/quarto-vim",
-				ft = "quarto",
-				dependencies = { "vim-pandoc/vim-pandoc-syntax" },
-			},
 		},
 		init = function()
-			vim.opt.conceallevel = 1
-			vim.g["pandoc#syntax#conceal#use"] = false
-			vim.g["pandoc#syntax#codeblocks#embeds#use"] = false
-			vim.g["pandoc#syntax#conceal#blacklist"] = { "codeblock_delim", "codeblock_start" }
-			vim.g["tex_conceal"] = "gm"
+			-- vim.opt.conceallevel = 1
+			-- vim.g["pandoc#syntax#conceal#use"] = false
+			-- vim.g["pandoc#syntax#codeblocks#embeds#use"] = false
+			-- vim.g["pandoc#syntax#conceal#blacklist"] = { "codeblock_delim", "codeblock_start" }
+			-- vim.g["tex_conceal"] = "gm"
 
 			require("quarto").setup({
 				lspFeatures = {
 					enabled = true,
-					languages = { "r", "python" },
-					chunks = "curly", -- 'curly' or 'all'
+					languages = { "python" },
+					chunks = "all", -- 'curly' or 'all'
 					diagnostics = {
 						enabled = true,
 						triggers = { "BufWrite" },
