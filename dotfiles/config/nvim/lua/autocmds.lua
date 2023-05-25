@@ -10,9 +10,9 @@ autocmd("TextYankPost", {
 })
 
 autocmd("FileType", { pattern = "*", command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o" })
-autocmd("TermOpen", { pattern = "*", command = "startinsert" })
+-- autocmd("TermOpen", { pattern = "*", command = "startinsert" })
 autocmd("TextYankPost", { pattern = "*", command = "lua vim.highlight.on_yank{}" })
-autocmd("BufEnter", { pattern = "*", command = [[if (winnr('$') == 1 && &buftype == 'terminal') | q | endif]] })
+-- autocmd("BufEnter", { pattern = "*", command = [[if (winnr('$') == 1 && &buftype == 'terminal') | q | endif]] })
 autocmd("CursorHold", {
 	pattern = "*",
 	command = [[lua vim.diagnostic.open_float({border='single', focusable=false, show_header=false, scope='cursor'})]],
