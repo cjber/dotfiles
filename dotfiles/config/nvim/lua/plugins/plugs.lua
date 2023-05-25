@@ -13,6 +13,7 @@ local plugins = {
 		dependencies = {
 			-- LSP Support
 			{ "neovim/nvim-lspconfig" },
+			{ "stevearc/overseer.nvim", opts = {} },
 			{ "jose-elias-alvarez/null-ls.nvim", dependencies = { "LostNeophyte/null-ls-embedded" } },
 			{ "williamboman/mason.nvim" },
 			{ "williamboman/mason-lspconfig.nvim" },
@@ -25,8 +26,12 @@ local plugins = {
 				opts = function()
 					local cmp = require("cmp")
 					return {
-						completion = { keyword_length = 1 },
-
+						completion = { keyword_length = 2 },
+						snippet = {
+							expand = function(args)
+								require("luasnip").lsp_expand(args.body)
+							end,
+						},
 						window = {
 							completion = {
 								border = "single",
@@ -44,7 +49,7 @@ local plugins = {
 							["<C-f>"] = cmp.mapping.scroll_docs(4),
 							["<C-Space>"] = cmp.mapping.complete(),
 							["<C-e>"] = cmp.mapping.abort(),
-							["<CR>"] = cmp.mapping.confirm({ select = true }),
+							["<CR>"] = cmp.mapping.confirm({ select = false }),
 						}),
 						sources = {
 							{ name = "nvim_lsp" },

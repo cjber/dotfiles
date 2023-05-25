@@ -9,7 +9,9 @@ nnoremap <silent> <Leader>kh :call QmdHTML()<CR>
 nnoremap <silent> <Leader>ls :lua require("null-ls-embedded").buf_format()
 
 function QmdRender()
-    lua require("FTerm").scratch({cmd={"quarto", "render", vim.fn.expand("%:p"), "--execute-dir", vim.fn.expand("$PWD")}})
+    " Dispatch! quarto preview %:p --execute-dir $PWD
+    " lua require("FTerm").scratch({cmd={"quarto", "render", vim.fn.expand("%:p"), "--execute-dir $PWD"}})
+    term quarto render %:p --execute-dir $PWD
 endfunction
 
 function QmdPreview()
