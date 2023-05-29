@@ -116,9 +116,6 @@ dotfiles:
   d_gtk-4.0:
     src: config/gtk-4.0
     dst: ~/.config/gtk-4.0
-  f_user-dirs.dirs:
-    src: config/user-dirs.dirs
-    dst: ~/.config/user-dirs.dirs
   d_direnv:
     src: config/direnv
     dst: ~/.config/direnv

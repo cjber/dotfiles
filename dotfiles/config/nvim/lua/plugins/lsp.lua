@@ -2,6 +2,12 @@ vim.diagnostic.config({ virtual_text = false, signs = true, update_in_insert = f
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single",
 })
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 local lsp = require("lsp-zero").preset({
 	setup_servers_on_start = true,
 	set_lsp_keymaps = true,

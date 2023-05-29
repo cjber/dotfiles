@@ -4,7 +4,7 @@ set filetype=markdown
 
 nnoremap <silent> <Leader>kk :call QmdRender()<CR>
 nnoremap <silent> <Leader>ka :call QmdPreview()<CR>
-nnoremap <silent> <Leader>kp :call QmdPdf()<CR>
+nnoremap <silent> <Leader>kp :silent! !zathura %:r.pdf &<CR>
 nnoremap <silent> <Leader>kh :call QmdHTML()<CR>
 nnoremap <silent> <Leader>ls :lua require("null-ls-embedded").buf_format()
 
@@ -18,9 +18,10 @@ function QmdPreview()
     Dispatch! quarto preview %:p --execute-dir $PWD
 endfunction
 
-function QmdPdf()
-    lua require("FTerm").scratch({cmd={"nohup", "zathura", vim.fn.expand("%:r") .. ".pdf" , "&"}})
-endfunction
+" function QmdPdf()
+"     " lua require("FTerm").scratch({cmd={"nohup", "zathura", vim.fn.expand("%:r") .. ".pdf" , "&"}})
+"     silent! !zathura %:r.pdf &
+" endfunction
 
 function QmdHTML()
     Dispatch! firefox %:r.html &

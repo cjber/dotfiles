@@ -21,13 +21,6 @@ return {
 		selection_strategy = "reset",
 		sorting_strategy = "ascending",
 		layout_strategy = "bottom_pane",
-		layout_config = {
-			horizontal = { mirror = false, preview_width = 0.5 },
-			vertical = { mirror = false, preview_height = 0.5 },
-			width = 0.75,
-			prompt_position = "bottom",
-			preview_cutoff = 40,
-		},
 		winblend = 0,
 		border = true,
 		borderchars = {
@@ -37,10 +30,8 @@ return {
 		},
 		color_devicons = true,
 	},
-
 	pickers = {
 		find_files = {
-			-- literally can't get {data,logs} to work
 			find_command = {
 				"fd",
 				"--type",
