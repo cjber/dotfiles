@@ -53,6 +53,6 @@ g.mundo_verbose_graph = 0
 g.mundo_width = 32
 
 -- vimtex
-g.vimtex_compiler_progname = "nvr"
+-- g.vimtex_compiler_progname = "nvr"
 g.vimtex_view_method = "zathura"
-g.vimtex_compiler_method = "latexrun"
+-- g.vimtex_compiler_method = "latexmk"
