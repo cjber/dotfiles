@@ -14,6 +14,7 @@ source ~/.config/joshuto/quit_to_cwd.sh
 eval "$(direnv hook zsh)"
 
 bindkey -v
+bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 
 # 10ms for key sequences
 KEYTIMEOUT=1
@@ -30,6 +31,10 @@ function nvims() {
   NVIM_APPNAME=$config nvim $@
 }
 
+autoload -Uz compinit
+compinit
+
+zstyle '*:compinit' arguments -D -i -u -C -w
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' group-name ''
@@ -38,14 +43,12 @@ zstyle ':completion:*' list-colors \
   "su=30;41" "sg=30;46" "tw=30;42" "ow=30;43"
 zstyle ':completion:*' menu select
 zstyle ':completion:*' verbose true
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
+
 zstyle :compinstall filename '/home/cjber/.zshrc'
 
 zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':fzf-tab:*' switch-group ',' '.'
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
-zstyle ':fzf-tab:*' accept-line enter
-zstyle ':fzf-tab:*' fzf-pad 4
 
 autoload -U zmv
 autoload -U up-line-or-beginning-search
@@ -61,8 +64,6 @@ bindkey -v '^?' backward-delete-char
 
 fpath+=~/.zfunc
 fpath+=~/.zshcompletions/conda-zsh-completion
-autoload -Uz compinit
-compinit
 
 setopt extendedhistory histexpiredupsfirst histfindnodups histignoredups histignorespace histsavenodups histverify sharehistory
 HISTFILE=~/.cache/history

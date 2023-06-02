@@ -26,7 +26,7 @@ lsp.nvim_workspace()
 lsp.ensure_installed({
 	"jedi_language_server",
 	"lua_ls",
-	-- "typst",
+	"typst_lsp",
 	"ltex",
 	"sourcery",
 	"vimls",

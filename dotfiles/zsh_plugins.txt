@@ -1,9 +1,6 @@
-rupa/z
 zsh-users/zsh-completions
 jeffreytse/zsh-vi-mode
-rupa/z
-changyuheng/fz
-Aloxaf/fzf-tab
+agkozak/zsh-z
 zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
