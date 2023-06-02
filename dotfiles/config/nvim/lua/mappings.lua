@@ -67,6 +67,7 @@ wk.register({
 	f = {
 		name = "+find",
 		f = { [[<CMD>Telescope find_files<CR>]], "files" },
+		[";"] = { [[<CMD>Telescope aerial<CR>]], "aerial" },
 		l = { "<Cmd>NvimTreeToggle<CR>", "files" },
 		p = { "<Cmd>Telescope projects<CR>", "projects" },
 		j = { "<Cmd>Telescope buffers<CR>", "buffers" },

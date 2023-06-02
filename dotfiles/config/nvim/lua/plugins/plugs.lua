@@ -1,10 +1,28 @@
 local plugins = {
 	{ "wbthomason/packer.nvim" },
+	-- {
+	-- 	"projekt0n/github-nvim-theme",
+	-- 	lazy = false, -- make sure we load this during startup if it is your main colorscheme
+	-- 	priority = 1000, -- make sure to load this before all the other start plugins
+	-- 	config = function()
+	-- 		require("github-theme").setup({
+	-- 			-- ...
+	-- 		})
+	--
+	-- 		vim.cmd("colorscheme github_dark_colorblind")
+	-- 	end,
+	-- },
 
 	{
 		"kaarmu/typst.vim",
 		ft = "typst",
 		lazy = false,
+	},
+	{
+		"stevearc/aerial.nvim",
+		config = function()
+			require("aerial").setup()
+		end,
 	},
 
 	-- LSP
@@ -82,6 +100,7 @@ local plugins = {
 							end, { "i", "s" }),
 						}),
 						sources = {
+							{ name = "copilot" },
 							{ name = "nvim_lsp" },
 							{ name = "otter" },
 							{ name = "luasnip" },
@@ -111,23 +130,13 @@ local plugins = {
 					require("cmp_kitty"):setup()
 				end,
 			},
-			{
-				"zbirenbaum/copilot.lua",
-				cmd = "Copilot",
-				event = "InsertEnter",
-				init = function()
-					require("copilot").setup({
-						suggestion = { auto_trigger = true, keymap = { accept = "<C-l>", next = "<C-j>" } },
-					})
-				end,
-			},
-			{
-				"huggingface/hfcc.nvim",
-				opts = {
-					api_token = "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",
-					-- model = "bigcode/starcoder", -- can be a model ID or an http endpoint
-				},
-			},
+			-- {
+			-- 	"huggingface/hfcc.nvim",
+			-- 	opts = {
+			-- 		api_token = "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",
+			-- 		-- model = "bigcode/starcoder", -- can be a model ID or an http endpoint
+			-- 	},
+			-- },
 
 			-- Snippets
 			{
@@ -140,13 +149,6 @@ local plugins = {
 				dependencies = { "rafamadriz/friendly-snippets" },
 			},
 			{ "rafamadriz/friendly-snippets" },
-
-			-- Navigation
-			{
-				"SmiteshP/nvim-navbuddy",
-				dependencies = { "SmiteshP/nvim-navic", "MunifTanjim/nui.nvim" },
-				opts = { lsp = { auto_attach = true } },
-			},
 		},
 	},
 	{
@@ -158,7 +160,26 @@ local plugins = {
 				border = "single",
 			},
 			hint_prefix = "  ",
+			-- hint_inline = true,
 		},
+	},
+
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				suggestion = { enabled = false },
+				panel = { enabled = false },
+			})
+		end,
+	},
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function()
+			require("copilot_cmp").setup()
+		end,
 	},
 
 	{
@@ -208,6 +229,7 @@ local plugins = {
 		opts = require("plugins.telescope"),
 		init = function()
 			require("telescope").load_extension("projects")
+			require("telescope").load_extension("aerial")
 		end,
 	},
 	{ "kyazdani42/nvim-web-devicons" },
