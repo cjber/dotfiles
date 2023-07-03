@@ -1,5 +1,3 @@
-numbered_command = false
-
 use_trash = true
 watch_files = true
 xdg_open = false
