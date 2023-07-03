@@ -24,7 +24,9 @@ local lsp = require("lsp-zero").preset({
 })
 lsp.nvim_workspace()
 lsp.ensure_installed({
-	"jedi_language_server",
+	-- "jedi_language_server",
+	-- "pylyzer",
+	"ruff_lsp",
 	"lua_ls",
 	"typst_lsp",
 	"ltex",
@@ -32,29 +34,6 @@ lsp.ensure_installed({
 	"vimls",
 	"dockerls",
 })
-
--- lsp.configure("jedi-language-server", {})
-
-local util = require("lspconfig/util")
-require("lspconfig.configs").pylyzer = {
-	default_config = {
-		name = "pylyzer",
-		cmd = { "pylyzer", "--server" },
-		filetypes = { "python" },
-		root_dir = function(fname)
-			local root_files = {
-				"pyproject.toml",
-				"setup.py",
-				"setup.cfg",
-				"requirements.txt",
-				"Pipfile",
-			}
-			return util.root_pattern(unpack(root_files))(fname)
-				or util.find_git_ancestor(fname)
-				or util.path.dirname(fname)
-		end,
-	},
-}
 
 lsp.configure("ltex", {
 	filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex", "quarto" },
@@ -81,6 +60,7 @@ lsp.configure("ltex", {
 lsp.configure("lua_ls", {
 	settings = {
 		Lua = {
+			hint = { enable = true },
 			format = {
 				enable = false,
 			},
@@ -91,7 +71,6 @@ lsp.configure("lua_ls", {
 	},
 })
 
--- lsp.configure("pylyzer", { force_setup = true })
 lsp.setup()
 
 local null_ls = require("null-ls")

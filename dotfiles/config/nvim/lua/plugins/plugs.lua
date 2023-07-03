@@ -12,6 +12,7 @@ local plugins = {
 	-- 		vim.cmd("colorscheme github_dark_colorblind")
 	-- 	end,
 	-- },
+	-- { "m4xshen/hardtime.nvim", event = "VeryLazy", opts = {} },
 
 	{
 		"kaarmu/typst.vim",
@@ -31,7 +32,6 @@ local plugins = {
 		dependencies = {
 			-- LSP Support
 			{ "neovim/nvim-lspconfig" },
-			{ "stevearc/overseer.nvim", opts = {} },
 			{ "jose-elias-alvarez/null-ls.nvim", dependencies = { "LostNeophyte/null-ls-embedded" } },
 			{ "williamboman/mason.nvim" },
 			{ "williamboman/mason-lspconfig.nvim" },
