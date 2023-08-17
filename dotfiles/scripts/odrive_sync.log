@@ -1,0 +1,112 @@
+2023/08/17 11:14:41 ERROR : Ignoring --no-traverse with sync
+2023/08/17 11:15:09 INFO  : phd/papers/reddit-lexicons/src/common: Removing directory
+2023/08/17 11:15:09 INFO  : phd/papers/reddit-lexicons/src: Removing directory
+2023/08/17 11:15:09 INFO  : phd/papers/reddit-lexicons/paper/figures: Removing directory
+2023/08/17 11:15:09 INFO  : phd/papers/reddit-lexicons/paper: Removing directory
+2023/08/17 11:15:10 INFO  : phd/papers/reddit-lexicons: Removing directory
+2023/08/17 11:15:10 INFO  : phd/papers/reddit-connectivity/paper/main/tables: Removing directory
+2023/08/17 11:15:10 INFO  : phd/papers/reddit-connectivity/paper/main/figures: Removing directory
+2023/08/17 11:15:10 INFO  : There was nothing to transfer
+2023/08/17 11:15:10 INFO  : 
+Transferred:   	          0 B / 0 B, -, 0 B/s, ETA -
+Checks:                32 / 32, 100%
+Deleted:                0 (files), 7 (dirs)
+Elapsed time:        28.7s
+
+2023/08/17 11:19:01 ERROR : Ignoring --no-traverse with sync
+2023/08/17 11:19:30 INFO  : phd/papers/reddit-lexicons/src/common: Removing directory
+2023/08/17 11:19:30 INFO  : phd/papers/reddit-lexicons/src: Removing directory
+2023/08/17 11:19:30 INFO  : phd/papers/reddit-lexicons/paper/figures: Removing directory
+2023/08/17 11:19:30 INFO  : phd/papers/reddit-lexicons/paper: Removing directory
+2023/08/17 11:19:30 INFO  : phd/papers/reddit-lexicons: Removing directory
+2023/08/17 11:19:30 INFO  : phd/papers/reddit-connectivity/paper/main/tables: Removing directory
+2023/08/17 11:19:30 INFO  : phd/papers/reddit-connectivity/paper/main/figures: Removing directory
+2023/08/17 11:19:31 INFO  : There was nothing to transfer
+2023/08/17 11:19:31 INFO  : 
+Transferred:   	          0 B / 0 B, -, 0 B/s, ETA -
+Checks:                32 / 32, 100%
+Deleted:                0 (files), 7 (dirs)
+Elapsed time:        29.6s
+
+2023/08/17 12:48:01 ERROR : Ignoring --no-traverse with sync
+2023/08/17 12:48:03 INFO  : projects/calm_code/pyproject.toml: Copied (new)
+2023/08/17 12:48:03 INFO  : projects/calm_code/p2_challenge.py: Copied (new)
+2023/08/17 12:48:03 INFO  : projects/calm_code/pdm.lock: Copied (new)
+2023/08/17 12:48:04 INFO  : projects/calm_code/data/message.json: Copied (new)
+2023/08/17 12:48:04 INFO  : projects/calm_code/data/message.csv: Copied (new)
+2023/08/17 12:48:09 INFO  : phd/papers/reddit-connectivity/paper/main.ipynb: Copied (new)
+2023/08/17 12:48:10 INFO  : phd/papers/reddit-connectivity/paper/main.bib: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main.2023-08-17-12-48-01.bib
+2023/08/17 12:48:10 INFO  : phd/papers/reddit-connectivity/paper/main.pdf: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main.2023-08-17-12-48-01.pdf
+2023/08/17 12:48:10 INFO  : phd/papers/reddit-connectivity/paper/main.qmd: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main.2023-08-17-12-48-01.qmd
+2023/08/17 12:48:10 INFO  : phd/papers/reddit-connectivity/paper/main.docx: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main.2023-08-17-12-48-01.docx
+2023/08/17 12:48:11 INFO  : phd/papers/reddit-connectivity/paper/main.bib: Copied (new)
+2023/08/17 12:48:11 INFO  : phd/papers/reddit-connectivity/paper/main.qmd: Copied (new)
+2023/08/17 12:48:12 INFO  : phd/papers/reddit-connectivity/paper/main.docx: Copied (new)
+2023/08/17 12:48:12 INFO  : phd/papers/reddit-connectivity/paper/main.pdf: Copied (new)
+2023/08/17 12:48:13 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-comments-output-1.png: Copied (new)
+2023/08/17 12:48:13 INFO  : phd/papers/reddit-connectivity/paper/submission/main-17_08_23.pdf: Copied (new)
+2023/08/17 12:48:13 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-noise-output-1.png: Copied (new)
+2023/08/17 12:48:13 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-mixed-map-output-1.png: Copied (new)
+2023/08/17 12:48:14 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-polys-output-1.png: Copied (new)
+2023/08/17 12:48:14 INFO  : phd/papers/reddit-connectivity/paper/figures/geoparsing_noise.py: Copied (new)
+2023/08/17 12:48:14 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-resid-output-1.png: Copied (new)
+2023/08/17 12:48:15 INFO  : phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.pdf: Moved (server-side) to: phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.2023-08-17-12-48-01.pdf
+2023/08/17 12:48:15 INFO  : phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.qmd: Moved (server-side) to: phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.2023-08-17-12-48-01.qmd
+2023/08/17 12:48:16 INFO  : phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.qmd: Copied (new)
+2023/08/17 12:48:16 INFO  : phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.pdf: Copied (new)
+2023/08/17 12:48:29 INFO  : phd/papers/reddit-lexicons/src/common: Removing directory
+2023/08/17 12:48:29 INFO  : phd/papers/reddit-lexicons/src: Removing directory
+2023/08/17 12:48:29 INFO  : phd/papers/reddit-lexicons/paper/figures: Removing directory
+2023/08/17 12:48:30 INFO  : phd/papers/reddit-lexicons/paper: Removing directory
+2023/08/17 12:48:30 INFO  : phd/papers/reddit-lexicons: Removing directory
+2023/08/17 12:48:30 INFO  : phd/papers/reddit-connectivity/paper/main/tables: Removing directory
+2023/08/17 12:48:30 INFO  : phd/papers/reddit-connectivity/paper/main/figures: Removing directory
+2023/08/17 12:48:30 INFO  : 
+Transferred:   	   12.293 MiB / 12.293 MiB, 100%, 362.648 KiB/s, ETA 0s
+Checks:                37 / 37, 100%
+Deleted:                0 (files), 7 (dirs)
+Renamed:                6
+Transferred:           19 / 19, 100%
+Elapsed time:        29.2s
+
+2023/08/17 12:52:22 ERROR : Ignoring --no-traverse with sync
+2023/08/17 12:52:30 INFO  : phd/papers/reddit-connectivity/paper/main.md: Copied (new)
+2023/08/17 12:52:30 INFO  : phd/papers/reddit-connectivity/paper/main.qmd: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main.2023-08-17-12-52-21.qmd
+2023/08/17 12:52:31 INFO  : phd/papers/reddit-connectivity/paper/main.qmd: Copied (new)
+2023/08/17 12:52:34 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-polys-output-1.png: Updated modification time in destination
+2023/08/17 12:52:34 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-resid-output-1.png: Updated modification time in destination
+2023/08/17 12:52:34 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-comments-output-1.png: Updated modification time in destination
+2023/08/17 12:52:35 INFO  : phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.qmd: Moved (server-side) to: phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.2023-08-17-12-52-21.qmd
+2023/08/17 12:52:35 INFO  : phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.pdf: Moved (server-side) to: phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.2023-08-17-12-52-21.pdf
+2023/08/17 12:52:35 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-mixed-map-output-1.png: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-mixed-map-output-1.2023-08-17-12-52-21.png
+2023/08/17 12:52:35 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-noise-output-1.png: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-noise-output-1.2023-08-17-12-52-21.png
+2023/08/17 12:52:35 INFO  : phd/papers/reddit-connectivity/paper/submission/response1_17_08_23.pdf: Copied (new)
+2023/08/17 12:52:35 INFO  : phd/papers/reddit-connectivity/paper/submission/main-17_08_23.pdf: Moved (server-side) to: phd/papers/reddit-connectivity/paper/submission/main-17_08_23.2023-08-17-12-52-21.pdf
+2023/08/17 12:52:36 INFO  : phd/papers/reddit-connectivity/paper/submission/response1_17_08_23.docx: Copied (new)
+2023/08/17 12:52:36 INFO  : phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.qmd: Copied (new)
+2023/08/17 12:52:36 INFO  : phd/papers/reddit-connectivity/paper/submission/main-17_08_23.docx: Copied (new)
+2023/08/17 12:52:36 INFO  : phd/papers/reddit-connectivity/paper/response/reviewer_comments_1.pdf: Copied (new)
+2023/08/17 12:52:37 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-mixed-map-output-1.png: Copied (new)
+2023/08/17 12:52:37 INFO  : phd/papers/reddit-connectivity/paper/main_files/figure-pdf/fig-noise-output-1.png: Copied (new)
+2023/08/17 12:52:38 INFO  : phd/papers/reddit-connectivity/paper/submission/main-17_08_23.pdf: Copied (new)
+2023/08/17 12:52:49 INFO  : phd/papers/reddit-connectivity/paper/main.ipynb: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main.2023-08-17-12-52-21.ipynb
+2023/08/17 12:52:49 INFO  : phd/papers/reddit-connectivity/paper/main.ipynb: Moved into backup dir
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-connectivity/paper/main.pdf: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main.2023-08-17-12-52-21.pdf
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-connectivity/paper/main.pdf: Moved into backup dir
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-connectivity/paper/main.docx: Moved (server-side) to: phd/papers/reddit-connectivity/paper/main.2023-08-17-12-52-21.docx
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-connectivity/paper/main.docx: Moved into backup dir
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-lexicons/src/common: Removing directory
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-lexicons/src: Removing directory
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-lexicons/paper/figures: Removing directory
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-lexicons/paper: Removing directory
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-lexicons: Removing directory
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-connectivity/paper/main/tables: Removing directory
+2023/08/17 12:52:50 INFO  : phd/papers/reddit-connectivity/paper/main/figures: Removing directory
+2023/08/17 12:52:50 INFO  : 
+Transferred:   	   12.350 MiB / 12.350 MiB, 100%, 446.238 KiB/s, ETA 0s
+Checks:                53 / 53, 100%
+Deleted:                3 (files), 7 (dirs)
+Renamed:                9
+Transferred:           10 / 10, 100%
+Elapsed time:        29.0s
+

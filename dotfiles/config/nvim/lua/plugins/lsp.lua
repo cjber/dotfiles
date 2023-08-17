@@ -24,9 +24,10 @@ local lsp = require("lsp-zero").preset({
 })
 lsp.nvim_workspace()
 lsp.ensure_installed({
-	-- "jedi_language_server",
+	"jedi_language_server",
 	-- "pylyzer",
-	"ruff_lsp",
+	-- "ruff_lsp",
+    -- "pyright",
 	"lua_ls",
 	"typst_lsp",
 	"ltex",

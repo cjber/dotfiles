@@ -17,7 +17,6 @@ vim.opt.rtp:prepend(lazypath)
 require("settings")
 require("plugins")
 
-require("impatient")
 require("mappings")
 require("autocmds")
 
@@ -35,7 +34,7 @@ g.python_host_skip_check = 1
 g.loaded_python_provider = 0
 g.python3_host_skip_check = 1
 
-g.python3_host_prog = "/home/cjber/dotfiles/.direnv/python-3.11.3/bin/python"
+g.python3_host_prog = "/home/cjber/dotfiles/.direnv/python-3.11/bin/python"
 
 -- nvim r
 g.markdown_fenced_languages = { "r", "python" }
