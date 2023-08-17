@@ -57,8 +57,8 @@ keymap = [
     { keys = ["y", "p"], command = "copy_filepath" },
     { keys = ["y", "d"], command = "copy_dirpath" },
 
-    { keys = ["delete"], command = "delete_files --foreground=true" },
-    { keys = ["d", "D"], command = "delete_files --foreground=true" },
+    { keys = ["delete"], command = "delete_files" },
+    { keys = ["d", "D"], command = "delete_files" },
 
     { keys = ["p", "p"], command = "paste_files" },
     { keys = ["p", "o"], command = "paste_files --overwrite=true" },
