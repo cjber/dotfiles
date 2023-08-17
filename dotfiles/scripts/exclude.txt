@@ -7,4 +7,3 @@ renv/
 target/
 public/
 todo/
-other/

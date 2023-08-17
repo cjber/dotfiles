@@ -1,12 +1,9 @@
-import os
-import subprocess
 from pathlib import Path
 from platform import python_version
 
 from IPython.terminal.prompts import Prompts, Token
-from pygments.token import Token
 
-c.HistoryManager.enabled = False
+c.HistoryManager.enabled = True
 
 c.TerminalIPythonApp.display_banner = False
 c.InteractiveShell.color_info = True
@@ -45,7 +42,7 @@ class MyPrompt(Prompts):
                 Token.Prompt
                 if self.shell.last_execution_succeeded
                 else Token.Generic.Error,
-                "> ",
+                ">> ",
             ),
         ]
 

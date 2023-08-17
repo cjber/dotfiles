@@ -1,30 +1,13 @@
 local plugins = {
 	{ "wbthomason/packer.nvim" },
+
+	{ "kaarmu/typst.vim", ft = "typst", lazy = false },
 	-- {
-	-- 	"projekt0n/github-nvim-theme",
-	-- 	lazy = false, -- make sure we load this during startup if it is your main colorscheme
-	-- 	priority = 1000, -- make sure to load this before all the other start plugins
+	-- 	"stevearc/aerial.nvim",
 	-- 	config = function()
-	-- 		require("github-theme").setup({
-	-- 			-- ...
-	-- 		})
-	--
-	-- 		vim.cmd("colorscheme github_dark_colorblind")
+	-- 		require("aerial").setup()
 	-- 	end,
 	-- },
-	-- { "m4xshen/hardtime.nvim", event = "VeryLazy", opts = {} },
-
-	{
-		"kaarmu/typst.vim",
-		ft = "typst",
-		lazy = false,
-	},
-	{
-		"stevearc/aerial.nvim",
-		config = function()
-			require("aerial").setup()
-		end,
-	},
 
 	-- LSP
 	{
@@ -100,9 +83,8 @@ local plugins = {
 							end, { "i", "s" }),
 						}),
 						sources = {
-							{ name = "copilot" },
 							{ name = "nvim_lsp" },
-							{ name = "otter" },
+							-- { name = "otter" },
 							{ name = "luasnip" },
 							{ name = "kitty", option = { listen_on = vim.env.KITTY_LISTEN_ON } },
 							{ name = "nvim_lua" },
@@ -151,37 +133,27 @@ local plugins = {
 			{ "rafamadriz/friendly-snippets" },
 		},
 	},
-	{
-		"ray-x/lsp_signature.nvim",
-		opts = {
-			doc_lines = 0,
-			bind = true,
-			handler_opts = {
-				border = "single",
-			},
-			hint_prefix = "  ",
-			-- hint_inline = true,
-		},
-	},
+	-- {
+	-- 	"ray-x/lsp_signature.nvim",
+	-- 	opts = {
+	-- 		doc_lines = 0,
+	-- 		bind = true,
+	-- 		handler_opts = {
+	-- 			border = "single",
+	-- 		},
+	-- 		hint_prefix = "  ",
+	-- 		-- hint_inline = true,
+	-- 	},
+	-- },
 
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
 		event = "InsertEnter",
 		config = function()
-			require("copilot").setup({
-				suggestion = { enabled = false },
-				panel = { enabled = false },
-			})
+			require("copilot").setup({ suggestion = { auto_trigger = true, keymap = { accept = "<Right>" } } })
 		end,
 	},
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-	},
-
 	{
 		"noib3/nvim-cokeline",
 		init = function()
@@ -222,22 +194,29 @@ local plugins = {
 		end,
 	},
 	-- { "nvim-lualine/lualine.nvim" },
-	{ "direnv/direnv.vim" },
+	-- { "direnv/direnv.vim" },
 	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = { { "nvim-lua/plenary.nvim" } },
-		opts = require("plugins.telescope"),
-		init = function()
-			require("telescope").load_extension("projects")
-			require("telescope").load_extension("aerial")
+		"ibhagwan/fzf-lua",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+
+		config = function()
+			require("fzf-lua").setup()
 		end,
 	},
-	{ "kyazdani42/nvim-web-devicons" },
-	{ "kyazdani42/nvim-tree.lua", tag = "nightly", opts = {} },
+	-- {
+	-- 	"nvim-telescope/telescope.nvim",
+	-- 	dependencies = { { "nvim-lua/plenary.nvim" } },
+	-- 	opts = require("plugins.telescope"),
+	-- 	init = function()
+	-- 		require("telescope").load_extension("projects")
+	-- 		require("telescope").load_extension("aerial")
+	-- 	end,
+	-- },
+	-- { "kyazdani42/nvim-tree.lua", tag = "nightly", opts = {} },
 	{
 		"ahmedkhalf/project.nvim",
 		init = function()
-			require("project_nvim").setup({ silent_chdir = true })
+			require("project_nvim").setup({ silent_chdir = true, detection_methods = { "pattern" } })
 		end,
 	}, -- projects
 	{
@@ -279,51 +258,46 @@ local plugins = {
 		end,
 	}, -- add header highlights for md qmd etc
 
-	{ "lewis6991/impatient.nvim" }, -- faster loading
-	{
-		"jmbuhr/otter.nvim",
-		config = function()
-			require("otter.config").setup({
-				lsp = {
-					hover = {
-						border = "single",
-					},
-				},
-			})
-		end,
-	},
-	{
-		"quarto-dev/quarto-nvim",
-		ft = "quarto",
-		dependencies = {
-			"neovim/nvim-lspconfig",
-		},
-		init = function()
-			-- vim.opt.conceallevel = 1
-			-- vim.g["pandoc#syntax#conceal#use"] = false
-			-- vim.g["pandoc#syntax#codeblocks#embeds#use"] = false
-			-- vim.g["pandoc#syntax#conceal#blacklist"] = { "codeblock_delim", "codeblock_start" }
-			-- vim.g["tex_conceal"] = "gm"
-
-			require("quarto").setup({
-				lspFeatures = {
-					enabled = true,
-					languages = { "python" },
-					chunks = "all", -- 'curly' or 'all'
-					diagnostics = {
-						enabled = true,
-						triggers = { "BufWrite" },
-					},
-					completion = {
-						enabled = true,
-					},
-				},
-				keymap = { hover = "<C-K>" },
-			})
-		end,
-	},
+	-- {
+	-- 	"jmbuhr/otter.nvim",
+	-- 	opts = { lsp = {
+	-- 		hover = {
+	-- 			border = "single",
+	-- 		},
+	-- 	} },
+	-- },
+	-- {
+	-- 	"quarto-dev/quarto-nvim",
+	-- 	ft = "quarto",
+	-- 	dependencies = {
+	-- 		"neovim/nvim-lspconfig",
+	-- 	},
+	-- 	init = function()
+	-- 		-- vim.opt.conceallevel = 1
+	-- 		-- vim.g["pandoc#syntax#conceal#use"] = false
+	-- 		-- vim.g["pandoc#syntax#codeblocks#embeds#use"] = false
+	-- 		-- vim.g["pandoc#syntax#conceal#blacklist"] = { "codeblock_delim", "codeblock_start" }
+	-- 		-- vim.g["tex_conceal"] = "gm"
+	--
+	-- 		require("quarto").setup({
+	-- 			lspFeatures = {
+	-- 				enabled = false,
+	-- 				languages = { "python" },
+	-- 				chunks = "all", -- 'curly' or 'all'
+	-- 				diagnostics = {
+	-- 					enabled = false,
+	-- 					triggers = { "BufWrite" },
+	-- 				},
+	-- 				completion = {
+	-- 					enabled = false,
+	-- 				},
+	-- 			},
+	-- 			keymap = { hover = "<C-K>" },
+	-- 		})
+	-- 	end,
+	-- },
 	{ "Pocco81/auto-save.nvim", opts = { execution_message = { message = "" } } }, -- autosave
-	-- { "Konfekt/FastFold" }, -- better folds
+	{ "Konfekt/FastFold" }, -- better folds
 	{ "numToStr/Comment.nvim", opts = {} },
 	{ "folke/trouble.nvim", opts = {} }, -- better lsp error search
 	{ "folke/neodev.nvim" }, -- lua dev stuff
@@ -348,7 +322,7 @@ local plugins = {
 	}, -- indent guide
 	{
 		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
+		build = "TSUpdate",
 		init = function()
 			require("plugins.treesitter")
 		end,
@@ -371,7 +345,12 @@ local plugins = {
 	{ "kevinhwang91/nvim-hlslens", opts = {} }, -- hl matches
 	{ "kazhala/close-buffers.nvim", opts = {} }, -- buffer close commands
 	{ "dbeniamine/todo.txt-vim" }, -- todo.txt highlighting
-	{ "phaazon/hop.nvim", opts = {} },
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {},
+	},
+	{ "smoka7/hop.nvim", opts = {} },
 }
 
 require("lazy").setup(plugins)
