@@ -109,14 +109,14 @@ bindsym $mod+Ctrl+l workspace prev
 
 set $ws1 a
 set $ws2 s
-set $ws3 3
-set $ws4 4
-set $ws5 5
-set $ws6 6
-set $ws7 7
-set $ws8 8
+set $ws3 d
+set $ws4 f
+# set $ws5 5
+# set $ws6 6
+# set $ws7 7
+# set $ws8 8
 
-workspace $ws6 output HDMI-0
+workspace $ws4 output HDMI-0
 
 # switch to workspace
 bindsym $mod+a workspace $ws1
