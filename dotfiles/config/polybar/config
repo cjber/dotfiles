@@ -108,10 +108,10 @@ animation-packetloss-framerate = 500
 [module/i3]
 type = internal/i3
 
-ws-icon-a = 1;I
-ws-icon-s = 2;II
-ws-icon-d = 3;III
-ws-icon-f = 4;IV
+ws-icon-1 = a;I
+ws-icon-2 = s;II
+ws-icon-3 = d;III
+ws-icon-4 = f;IV
 ws-icon-4 = 5;V
 ws-icon-5 = 6;VI
 ws-icon-default = ♟
