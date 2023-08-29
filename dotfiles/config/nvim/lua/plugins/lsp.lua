@@ -24,10 +24,10 @@ local lsp = require("lsp-zero").preset({
 })
 lsp.nvim_workspace()
 lsp.ensure_installed({
-	"jedi_language_server",
+	-- "jedi_language_server",
 	-- "pylyzer",
-	-- "ruff_lsp",
-    -- "pyright",
+	"ruff_lsp",
+	-- "pyright",
 	"lua_ls",
 	"typst_lsp",
 	"ltex",
@@ -83,11 +83,11 @@ null_ls.setup({
 	end,
 	sources = {
 		-- python
-		require("null-ls").builtins.formatting.isort.with({
-			extra_args = { "--float-to-top", "-m=3" },
-		}),
-		require("null-ls").builtins.formatting.black,
-		require("null-ls").builtins.diagnostics.ruff,
+		-- require("null-ls").builtins.formatting.isort.with({
+		-- 	extra_args = { "--float-to-top", "-m=3" },
+		-- }),
+		-- require("null-ls").builtins.formatting.black,
+		-- require("null-ls").builtins.diagnostics.ruff,
 		-- require("null-ls").builtins.formatting.ruff,
 		require("null-ls-embedded").nls_source,
 		-- lua

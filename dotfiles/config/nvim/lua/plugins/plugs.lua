@@ -231,19 +231,19 @@ local plugins = {
 					query = vim.treesitter.query.parse(
 						"markdown",
 						[[
-                (atx_heading [
-                    (atx_h1_marker)
-                    (atx_h2_marker)
-                    (atx_h3_marker)
-                    (atx_h4_marker)
-                    (atx_h5_marker)
-                    (atx_h6_marker)
-                ] @headline)
-                (thematic_break) @dash
-                (fenced_code_block) @codeblock
-                (block_quote_marker) @quote
-                (block_quote (paragraph (inline (block_continuation) @quote)))
-            ]]
+	               (atx_heading [
+	                   (atx_h1_marker)
+	                   (atx_h2_marker)
+	                   (atx_h3_marker)
+	                   (atx_h4_marker)
+	                   (atx_h5_marker)
+	                   (atx_h6_marker)
+	               ] @headline)
+	               (thematic_break) @dash
+	               (fenced_code_block) @codeblock
+	               (block_quote_marker) @quote
+	               (block_quote (paragraph (inline (block_continuation) @quote)))
+	           ]]
 					),
 					treesitter_language = "markdown",
 					headline_highlights = { "Headline" },
@@ -261,44 +261,44 @@ local plugins = {
 		end,
 	}, -- add header highlights for md qmd etc
 
-	-- {
-	-- 	"jmbuhr/otter.nvim",
-	-- 	opts = { lsp = {
-	-- 		hover = {
-	-- 			border = "single",
-	-- 		},
-	-- 	} },
-	-- },
-	-- {
-	-- 	"quarto-dev/quarto-nvim",
-	-- 	ft = "quarto",
-	-- 	dependencies = {
-	-- 		"neovim/nvim-lspconfig",
-	-- 	},
-	-- 	init = function()
-	-- 		-- vim.opt.conceallevel = 1
-	-- 		-- vim.g["pandoc#syntax#conceal#use"] = false
-	-- 		-- vim.g["pandoc#syntax#codeblocks#embeds#use"] = false
-	-- 		-- vim.g["pandoc#syntax#conceal#blacklist"] = { "codeblock_delim", "codeblock_start" }
-	-- 		-- vim.g["tex_conceal"] = "gm"
-	--
-	-- 		require("quarto").setup({
-	-- 			lspFeatures = {
-	-- 				enabled = false,
-	-- 				languages = { "python" },
-	-- 				chunks = "all", -- 'curly' or 'all'
-	-- 				diagnostics = {
-	-- 					enabled = false,
-	-- 					triggers = { "BufWrite" },
-	-- 				},
-	-- 				completion = {
-	-- 					enabled = false,
-	-- 				},
-	-- 			},
-	-- 			keymap = { hover = "<C-K>" },
-	-- 		})
-	-- 	end,
-	-- },
+	{
+		"jmbuhr/otter.nvim",
+		opts = { lsp = {
+			hover = {
+				border = "single",
+			},
+		} },
+	},
+	{
+		"quarto-dev/quarto-nvim",
+		ft = "quarto",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+		},
+		init = function()
+			vim.opt.conceallevel = 1
+			vim.g["pandoc#syntax#conceal#use"] = false
+			vim.g["pandoc#syntax#codeblocks#embeds#use"] = false
+			vim.g["pandoc#syntax#conceal#blacklist"] = { "codeblock_delim", "codeblock_start" }
+			vim.g["tex_conceal"] = "gm"
+
+			require("quarto").setup({
+				lspFeatures = {
+					enabled = false,
+					languages = { "python" },
+					chunks = "all", -- 'curly' or 'all'
+					diagnostics = {
+						enabled = false,
+						triggers = { "BufWrite" },
+					},
+					completion = {
+						enabled = false,
+					},
+				},
+				keymap = { hover = "<C-K>" },
+			})
+		end,
+	},
 	{ "Pocco81/auto-save.nvim", opts = { execution_message = { message = "" } } }, -- autosave
 	{ "Konfekt/FastFold" }, -- better folds
 	{ "numToStr/Comment.nvim", opts = {} },
