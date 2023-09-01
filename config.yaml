@@ -41,12 +41,6 @@ dotfiles:
     src: ipython
     dst: ~/.ipython
     link: link_children
-  d_nvim:
-    src: config/nvim
-    dst: ~/.config/nvim/
-    link: link_children
-    # upignore:
-    # - '*/plugin'
   d_i3:
     src: config/i3
     dst: ~/.config/i3
@@ -119,7 +113,6 @@ dotfiles:
   d_direnv:
     src: config/direnv
     dst: ~/.config/direnv
-  # wayland stuff
   d_wofi:
     src: config/wofi
     dst: ~/.config/wofi
@@ -129,6 +122,9 @@ dotfiles:
   d_screenlayout:
     src: screenlayout
     dst: ~/.screenlayout
+  d_nvim:
+    src: config/nvim
+    dst: ~/.config/nvim
 profiles:
   home:
     dotfiles:
@@ -146,6 +142,7 @@ profiles:
     - d_gtk-4.0
     - f_user-dirs.dirs
     - d_direnv
+    - d_nvim
   laptop:
     dotfiles:
     - ALL
@@ -155,7 +152,6 @@ profiles:
   docker:
     dotfiles:
     - f_zshrc
-    - d_nvim
     - f_starship.toml
     - f_condarc
     - f_radian_profile
