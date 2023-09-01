@@ -13822,3 +13822,81 @@ Elapsed time:     22m46.8s
 2023/09/01 14:36:28 ERROR : OneDrive root 'drive': not deleting directories as there were IO errors
 2023/09/01 14:36:28 ERROR : Attempt 1/3 failed with 1 errors and: Put "https://theuniversityofliverpool-my.sharepoint.com/personal/sgcberra_liverpool_ac_uk/_api/v2.0/drives/b!aCZfPbfcPUSPPHmMr6ZpMxVQ9CDTOodJumpSyBg7HZaZPgDmozCcT5cD1lgtNA6d/items/01GB6CRWLSRKTZOAD3YVBI2MSH34W3IHQW/uploadSession?guid='4aa32a67-498a-4d30-8380-c9caf7eba1b0'&overwrite=True&rename=False&dc=0&tempauth=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvdGhldW5pdmVyc2l0eW9mbGl2ZXJwb29sLW15LnNoYXJlcG9pbnQuY29tQDUzMjU1MTMxLWIxMjktNDAxMC04NmUxLTQ3NGJmZDdlODA3NiIsImlzcyI6IjAwMDAwMDAzLTAwMDAtMGZmMS1jZTAwLTAwMDAwMDAwMDAwMCIsIm5iZiI6IjE2OTM1NzUzNzMiLCJleHAiOiIxNjkzNjYxNzczIiwiZW5kcG9pbnR1cmwiOiIzTXBCNmFBdk5GUHRtb3hZbzdjODUySzVNVW10cVduK2ZDUWtCN1E2dWxrPSIsImVuZHBvaW50dXJsTGVuZ3RoIjoiMzAwIiwiaXNsb29wYmFjayI6IlRydWUiLCJjaWQiOiJRTHBYMUFTMDBrRzZMMktsNWYrR1d3PT0iLCJ2ZXIiOiJoYXNoZWRwcm9vZnRva2VuIiwic2l0ZWlkIjoiTTJRMVpqSTJOamd0WkdOaU55MDBORE5rTFRobU0yTXROems0WTJGbVlUWTJPVE16IiwiYXBwX2Rpc3BsYXluYW1lIjoicmNsb25lIiwiZ2l2ZW5fbmFtZSI6IkNpbGxpYW4iLCJmYW1pbHlfbmFtZSI6IkJlcnJhZ2FuIiwic2lnbmluX3N0YXRlIjoiW1wia21zaVwiXSIsImFwcGlkIjoiYjE1NjY1ZDktZWRhNi00MDkyLTg1MzktMGVlYzM3NmFmZDU5IiwidGlkIjoiNTMyNTUxMzEtYjEyOS00MDEwLTg2ZTEtNDc0YmZkN2U4MDc2IiwidXBuIjoic2djYmVycmFAbGl2ZXJwb29sLmFjLnVrIiwicHVpZCI6IjEwMDMzRkZGQUQwN0Q5QjEiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzM2ZmZmFkMDdkOWIxQGxpdmUuY29tIiwic2NwIjoibXlmaWxlcy5yZWFkIGFsbGZpbGVzLnJlYWQgbXlmaWxlcy53cml0ZSBhbGxmaWxlcy53cml0ZSBhbGxzaXRlcy5yZWFkIiwidHQiOiIyIiwiaXBhZGRyIjoiNDAuMTI2LjQxLjE2MCJ9.PHOEW9v3XvYD_pS8hbwkse1lcfb9c0FEgvwCWVhRLw8": can't copy - source file is being updated (mod time changed from 2023-09-01 14:36:06.326605748 +0100 BST to 2023-09-01 14:36:12.619880379 +0100 BST)
 2023/09/01 14:36:28 ERROR : Ignoring --no-traverse with sync
+2023/09/01 14:43:12 INFO  : phd/papers/reddit-footprint/paper/main.qmd: Copied (new)
+2023/09/01 14:43:28 INFO  : phd/papers/reddit-lexicons/src/common: Removing directory
+2023/09/01 14:43:28 INFO  : phd/papers/reddit-lexicons/src: Removing directory
+2023/09/01 14:43:28 INFO  : phd/papers/reddit-lexicons/paper/figures: Removing directory
+2023/09/01 14:43:28 INFO  : phd/papers/reddit-lexicons/paper: Removing directory
+2023/09/01 14:43:28 INFO  : phd/papers/reddit-lexicons: Removing directory
+2023/09/01 14:43:28 INFO  : phd/papers/reddit-footprint/data_old/processed: Removing directory
+2023/09/01 14:43:28 INFO  : phd/papers/reddit-footprint/data_old: Removing directory
+2023/09/01 14:43:29 INFO  : phd/papers/reddit-footprint/data_28_aug/processed: Removing directory
+2023/09/01 14:43:29 INFO  : phd/papers/reddit-footprint/data_28_aug: Removing directory
+2023/09/01 14:43:29 INFO  : phd/papers/reddit-connectivity/paper/main/tables: Removing directory
+2023/09/01 14:43:29 INFO  : phd/papers/reddit-connectivity/paper/main/figures: Removing directory
+2023/09/01 14:43:29 ERROR : Attempt 2/3 succeeded
+2023/09/01 14:43:29 INFO  : 
+Transferred:   	   81.276 KiB / 81.276 KiB, 100%, 155 B/s, ETA 0s
+Checks:                56 / 56, 100%
+Deleted:                0 (files), 11 (dirs)
+Renamed:                1
+Transferred:            1 / 1, 100%
+Elapsed time:      7m27.8s
+
+2023/09/01 14:44:01 ERROR : Ignoring --no-traverse with sync
+2023/09/01 14:44:26 INFO  : phd/papers/reddit-lexicons/src/common: Removing directory
+2023/09/01 14:44:27 INFO  : phd/papers/reddit-lexicons/src: Removing directory
+2023/09/01 14:44:27 INFO  : phd/papers/reddit-lexicons/paper/figures: Removing directory
+2023/09/01 14:44:27 INFO  : phd/papers/reddit-lexicons/paper: Removing directory
+2023/09/01 14:44:27 INFO  : phd/papers/reddit-lexicons: Removing directory
+2023/09/01 14:44:27 INFO  : phd/papers/reddit-footprint/data_old/processed: Removing directory
+2023/09/01 14:44:27 INFO  : phd/papers/reddit-footprint/data_old: Removing directory
+2023/09/01 14:44:27 INFO  : phd/papers/reddit-footprint/data_28_aug/processed: Removing directory
+2023/09/01 14:44:28 INFO  : phd/papers/reddit-footprint/data_28_aug: Removing directory
+2023/09/01 14:44:28 INFO  : phd/papers/reddit-connectivity/paper/main/tables: Removing directory
+2023/09/01 14:44:28 INFO  : phd/papers/reddit-connectivity/paper/main/figures: Removing directory
+2023/09/01 14:44:28 INFO  : There was nothing to transfer
+2023/09/01 14:44:28 INFO  : 
+Transferred:   	          0 B / 0 B, -, 0 B/s, ETA -
+Checks:                28 / 28, 100%
+Deleted:                0 (files), 11 (dirs)
+Elapsed time:        27.2s
+
+2023/09/01 14:45:02 ERROR : Ignoring --no-traverse with sync
+2023/09/01 14:45:27 INFO  : phd/papers/reddit-lexicons/src/common: Removing directory
+2023/09/01 14:45:27 INFO  : phd/papers/reddit-lexicons/src: Removing directory
+2023/09/01 14:45:27 INFO  : phd/papers/reddit-lexicons/paper/figures: Removing directory
+2023/09/01 14:45:28 INFO  : phd/papers/reddit-lexicons/paper: Removing directory
+2023/09/01 14:45:28 INFO  : phd/papers/reddit-lexicons: Removing directory
+2023/09/01 14:45:28 INFO  : phd/papers/reddit-footprint/data_old/processed: Removing directory
+2023/09/01 14:45:28 INFO  : phd/papers/reddit-footprint/data_old: Removing directory
+2023/09/01 14:45:28 INFO  : phd/papers/reddit-footprint/data_28_aug/processed: Removing directory
+2023/09/01 14:45:28 INFO  : phd/papers/reddit-footprint/data_28_aug: Removing directory
+2023/09/01 14:45:28 INFO  : phd/papers/reddit-connectivity/paper/main/tables: Removing directory
+2023/09/01 14:45:28 INFO  : phd/papers/reddit-connectivity/paper/main/figures: Removing directory
+2023/09/01 14:45:29 INFO  : There was nothing to transfer
+2023/09/01 14:45:29 INFO  : 
+Transferred:   	          0 B / 0 B, -, 0 B/s, ETA -
+Checks:                28 / 28, 100%
+Deleted:                0 (files), 11 (dirs)
+Elapsed time:        27.1s
+
+2023/09/01 14:46:02 ERROR : Ignoring --no-traverse with sync
+2023/09/01 14:46:29 INFO  : phd/papers/reddit-lexicons/src/common: Removing directory
+2023/09/01 14:46:29 INFO  : phd/papers/reddit-lexicons/src: Removing directory
+2023/09/01 14:46:29 INFO  : phd/papers/reddit-lexicons/paper/figures: Removing directory
+2023/09/01 14:46:29 INFO  : phd/papers/reddit-lexicons/paper: Removing directory
+2023/09/01 14:46:29 INFO  : phd/papers/reddit-lexicons: Removing directory
+2023/09/01 14:46:29 INFO  : phd/papers/reddit-footprint/data_old/processed: Removing directory
+2023/09/01 14:46:29 INFO  : phd/papers/reddit-footprint/data_old: Removing directory
+2023/09/01 14:46:30 INFO  : phd/papers/reddit-footprint/data_28_aug/processed: Removing directory
+2023/09/01 14:46:30 INFO  : phd/papers/reddit-footprint/data_28_aug: Removing directory
+2023/09/01 14:46:30 INFO  : phd/papers/reddit-connectivity/paper/main/tables: Removing directory
+2023/09/01 14:46:30 INFO  : phd/papers/reddit-connectivity/paper/main/figures: Removing directory
+2023/09/01 14:46:31 INFO  : There was nothing to transfer
+2023/09/01 14:46:31 INFO  : 
+Transferred:   	          0 B / 0 B, -, 0 B/s, ETA -
+Checks:                28 / 28, 100%
+Deleted:                0 (files), 11 (dirs)
+Elapsed time:        29.1s
+
