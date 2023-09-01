@@ -1,5 +1,5 @@
 alias ssh="kitty +kitten ssh"
-alias upd='yes | sudo pacman -Sy && yes | sudo powerpill -Su && yes | yay -Su && dotsync && antidote update && rustup update && nvim --headless "+Lazy! sync" +qa && /home/cjber/dotfiles/.direnv/python-3.11/bin/python -m pip_review --auto && yes | quarto tools install tinytex'
+alias upd='yes | sudo pacman -Sy && yes | sudo powerpill -Su && yes | yay -Su && dotsync && antidote update && rustup update && nvim --headless "+Lazy! sync" +qa && /home/cjber/dotfiles/.direnv/python-3.11/bin/python -m pip_review --auto && echo yes | quarto tools install tinytex'
 alias bat="bat -P --style=numbers --theme base16-256"
 alias conf="cd $HOME/dotfiles/dotfiles; nvim \$(fzf)"
 alias empty='trash-empty'
