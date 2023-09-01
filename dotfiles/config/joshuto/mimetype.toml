@@ -33,7 +33,7 @@ video_default = [
 
 text_default = [{ command = "nvim" }]
 
-reader_default = [{ command = "zathura", fork = true, silent = true }]
+reader_default = [{ command = "zathura", args = ["--fork"], fork = true, silent = true }]
 
 libreoffice_default = [{ command = "libreoffice", fork = true, silent = true }]
 
@@ -125,6 +125,7 @@ yaml.inherit = "text_default"
 yml.inherit = "text_default"
 bib.inherit = "text_default"
 qmd.inherit = "text_default"
+tex.inherit = "text_default"
 
 # archive formats
 7z.app_list = [
@@ -201,12 +202,12 @@ pdf.inherit = "reader_default"
 kra.app_list = [{ command = "krita", fork = true, silent = true }]
 kdenlive.app_list = [{ command = "kdenlive", fork = true, silent = true }]
 
-tex.app_list = [
-    { command = "micro" },
-    { command = "gedit", fork = true, silent = true },
-    { command = "bat", confirm_exit = true },
-    { command = "pdflatex" },
-]
+# tex.app_list = [
+#     { command = "micro" },
+#     { command = "gedit", fork = true, silent = true },
+#     { command = "bat", confirm_exit = true },
+#     { command = "pdflatex" },
+# ]
 
 torrent.app_list = [{ command = "transmission-gtk" }]
 

@@ -1,3 +1,5 @@
+import sys
+
 from pathlib import Path
 from platform import python_version
 
@@ -29,6 +31,7 @@ class MyPrompt(Prompts):
         return [
             (Token.Literal.String, " "),
             (Token.Literal.String, "v" + python_version()),
+            (Token.Color.Red, " (" + Path(sys.prefix).stem + ")"),
             (Token, " "),
             (Token.Keyword, "ipython"),
             (Token, ": "),

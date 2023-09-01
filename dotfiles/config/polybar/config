@@ -108,13 +108,7 @@ animation-packetloss-framerate = 500
 [module/i3]
 type = internal/i3
 
-ws-icon-1 = a;I
-ws-icon-2 = s;II
-ws-icon-3 = d;III
-ws-icon-4 = f;IV
-ws-icon-5 = 5;V
-ws-icon-6 = 6;VI
-ws-icon-default = ♟
+ws-icon-default = x
 format = <label-state> <label-mode>
 label-focused = %icon%
 label-focused-foreground = #ffffff

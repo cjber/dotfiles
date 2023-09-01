@@ -107,10 +107,10 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Ctrl+h workspace next
 bindsym $mod+Ctrl+l workspace prev
 
-set $ws1 a
-set $ws2 s
-set $ws3 d
-set $ws4 f
+set $ws1 "a"
+set $ws2 "s"
+set $ws3 "d"
+set $ws4 "f"
 # set $ws5 5
 # set $ws6 6
 # set $ws7 7
@@ -123,10 +123,10 @@ bindsym $mod+a workspace $ws1
 bindsym $mod+s workspace $ws2
 bindsym $mod+d workspace $ws3
 bindsym $mod+f workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
+# bindsym $mod+5 workspace $ws5
+# bindsym $mod+6 workspace $ws6
+# bindsym $mod+7 workspace $ws7
+# bindsym $mod+8 workspace $ws8
 
 # Move focused container to workspace
 bindsym $mod+Ctrl+a move container to workspace $ws1
@@ -253,12 +253,12 @@ exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_2d_00.4.analog-
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-  client.focused          #7aa2f7 #1a1b26 #ABB2BF #a9b1d6  #7aa2f7
-  client.focused_inactive #414868 #1a1b26 #9ece6a #a9b1d6 #4C566a
-  client.unfocused        #414868 #1a1b26 #9ece6a #a9b1d6 #4c566a
+  client.focused          #7aa2f7 #11121d #ABB2BF #a9b1d6  #7aa2f7
+  client.focused_inactive #414868 #11121d #9ece6a #a9b1d6 #4C566a
+  client.unfocused        #414868 #11121d #9ece6a #a9b1d6 #4c566a
   client.urgent           #ff9e64 #c0caf5 #9ece6a #a9b1d6
   client.placeholder      #000000 #0c0c0c #ffffff #000000
-  client.background       #1a1b26
+  client.background       #11121d
 
 #############################
 ### settings for i3-gaps: ###
