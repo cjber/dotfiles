@@ -1,5 +1,7 @@
 # cjber dotfiles
 
+**Currently migrating over to Wayland**
+
 Uses [Dotdrop](https://github.com/deadc0de6/dotdrop) for different
 configs depending on the host.
 
