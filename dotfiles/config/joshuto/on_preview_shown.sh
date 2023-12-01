@@ -1,30 +1,23 @@
 #!/usr/bin/env bash
 
-FILE_PATH="$1"			# Full path of the previewed file
-PREVIEW_X_COORD="$2"		# x coordinate of upper left cell of preview area
-PREVIEW_Y_COORD="$3"		# y coordinate of upper left cell of preview area
-PREVIEW_WIDTH="$4"		# Width of the preview pane (number of fitting characters)
-PREVIEW_HEIGHT="$5"		# Height of the preview pane (number of fitting characters)
+test -z "$joshuto_wrap_id" && exit 1;
 
-mimetype=$(file --mime-type -Lb "$FILE_PATH")
+path="$1"       # Full path of the previewed file
+x="$2"          # x coordinate of upper left cell of preview area
+y="$3"          # y coordinate of upper left cell of preview area
+width="$4"      # Width of the preview pane (number of fitting characters)
+height="$5"     # Height of the preview pane (number of fitting characters)
 
-function image {
-	kitty +kitten icat \
-		--transfer-mode=file \
-		--clear 2>/dev/null
-	kitty +kitten icat \
-		--transfer-mode=file \
-		--place "${PREVIEW_WIDTH}x${PREVIEW_HEIGHT}@${PREVIEW_X_COORD}x${PREVIEW_Y_COORD}" \
-		"$1" 2>/dev/null
-}
+
+# Find out mimetype and extension
+mimetype=$(file --mime-type -Lb "$path")
+extension=$(/bin/echo "${path##*.}" | awk '{print tolower($0)}')
 
 case "$mimetype" in
-	image/*)
-		image "${FILE_PATH}"
-		;;
-	*)
-		kitty +kitten icat \
-			--transfer-mode=file \
-			--clear 2>/dev/null
-		;;
+    image/png | image/jpeg)
+        show_image "$path" $x $y $width $height
+        ;;
+    *)
+        remove_image
+
 esac

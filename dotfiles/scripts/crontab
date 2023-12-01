@@ -1,3 +1,3 @@
 * * * * * /home/cjber/scripts/odrive_sync.sh
-* * * * * (sleep 30 ; /home/cjber/scripts/odrive_todo.sh )
+* * * * * ( sleep 30 ; /home/cjber/scripts/odrive_todo.sh )
 

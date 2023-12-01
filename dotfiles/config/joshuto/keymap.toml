@@ -5,7 +5,7 @@ keymap = [
     { keys = ["ctrl+t"], command = "new_tab" },
     { keys = ["W"], command = "close_tab" },
     { keys = ["ctrl+w"], command = "close_tab" },
-    { keys = ["q"], command = "close_tab" },
+    { keys = ["q"], command = "quit --output-current-directory" },
     { keys = ["S"], command = "quit --output-current-directory" },
 
     { keys = ["R"], command = "reload_dirlist" },

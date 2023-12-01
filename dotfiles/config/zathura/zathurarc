@@ -19,20 +19,20 @@ set scroll-step 100
 set zoom-min 10
 set guioptions ""
 
-set default-bg                  "#1a1b26"
+set default-bg                  "#11121d"
 set default-fg                  "#afafaf"
 
 set statusbar-fg                "#bdae93"
-set statusbar-bg                "#504945"
+set statusbar-bg                "#11121d"
 
-set inputbar-bg                 "#282C34"
+set inputbar-bg                 "#11121d"
 set inputbar-fg                 "#7c6f54"
 
 set notification-error-bg       "#cc241d"
-set notification-error-fg       "#282C34"
+set notification-error-fg       "#11121d"
 
 set notification-warning-bg     "#cc241d"
-set notification-warning-fg     "#282C34"
+set notification-warning-fg     "#11121d"
 
 set highlight-color             "#d79921"
 set highlight-active-color      "#458588"
@@ -44,10 +44,10 @@ set completion-bg               "#7c6f54"
 set completion-fg               "#689d6a"
 
 set notification-bg             "#98971a"
-set notification-fg             "#282C34"
+set notification-fg             "#11121d"
 
 set recolor                     "true"
-set recolor-lightcolor          "#1a1b26"
+set recolor-lightcolor          "#11121d"
 set recolor-darkcolor           "#c0caf5"
 
 # setting recolor-keep true will keep any color your pdf has.

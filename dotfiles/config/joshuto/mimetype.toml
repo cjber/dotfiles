@@ -7,7 +7,7 @@ audio_default = [
 ]
 
 image_default = [
-    { command = "qimgv", args = [
+    { command = "display", args = [
         "--",
     ], fork = true, silent = true },
     { command = "krita", args = [

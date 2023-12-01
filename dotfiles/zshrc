@@ -9,7 +9,6 @@ source /usr/share/zsh-antidote/antidote.zsh
 antidote load
 
 source ~/.zshalias
-source ~/.config/joshuto/quit_to_cwd.sh
 
 eval "$(direnv hook zsh)"
 
@@ -18,18 +17,6 @@ bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 
 # 10ms for key sequences
 KEYTIMEOUT=1
-
-function nvims() {
-  items=("default" "NvChad")
-  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
-  if [[ -z $config ]]; then
-    echo "Nothing selected"
-    return 0
-  elif [[ $config == "default" ]]; then
-    config=""
-  fi
-  NVIM_APPNAME=$config nvim $@
-}
 
 autoload -Uz compinit
 compinit
@@ -62,8 +49,6 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey -v '^?' backward-delete-char
 
-fpath+=~/.zfunc
-fpath+=~/.zshcompletions/conda-zsh-completion
 
 setopt extendedhistory histexpiredupsfirst histfindnodups histignoredups histignorespace histsavenodups histverify sharehistory
 HISTFILE=~/.cache/history
@@ -94,9 +79,11 @@ unset '_comps[vd]'
 unset '_comps[visidata]'
 
 source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+eval "$(zoxide init zsh)"

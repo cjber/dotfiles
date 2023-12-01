@@ -11,6 +11,7 @@ export DOTDROP_PROFILE='home'
 export GOPATH="$HOME/.go"
 export PYENV_ROOT="$HOME/.pyenv"
 export QMK_HOME=/home/cjber/.qmk_firmware
+export MOZ_ENABLE_WAYLAND=1
 
 path+=$GOPATH/bin
 path+=$PYENV_ROOT/bin
@@ -19,6 +20,9 @@ path+=$HOME/bin
 path+=$HOME/.local/bin
 path+=$HOME/.TinyTeX/bin/x86_64-linux
 path+=$HOME/.poetry/bin
+path+=$HOME/scripts
 path+=/usr/share/dotnet/dotnet
 path+=$HOME/.local/bin/kitty.app/bin/
-export PATH
+
+fpath+=~/.zfunc
+fpath+=~/.zshcompletions/conda-zsh-completion
