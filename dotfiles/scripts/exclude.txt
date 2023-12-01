@@ -1,9 +1,12 @@
-.*
+.**
+*.pyc
+*.ckpt
+*.th
 
-.*/**
-__*/**
+!.envrc
 
 renv/
 target/
 public/
 todo/
+venv/

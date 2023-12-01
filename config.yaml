@@ -125,6 +125,16 @@ dotfiles:
   d_nvim:
     src: config/nvim
     dst: ~/.config/nvim
+  f_zsh_history:
+    src: zsh_history
+    dst: ~/.zsh_history
+    chmod: '600'
+  f_zsh_plugins.zsh:
+    src: zsh_plugins.zsh
+    dst: ~/.zsh_plugins.zsh
+  f_zshrc.bak:
+    src: zshrc.bak
+    dst: ~/.zshrc.bak
 profiles:
   home:
     dotfiles:
@@ -143,6 +153,9 @@ profiles:
     - f_user-dirs.dirs
     - d_direnv
     - d_nvim
+    - f_zsh_history
+    - f_zsh_plugins.zsh
+    - f_zshrc.bak
   laptop:
     dotfiles:
     - ALL

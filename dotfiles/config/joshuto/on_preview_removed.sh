@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-kitty +kitten icat \
-	--transfer-mode=file \
-	--clear 2>/dev/null
+test -z "$joshuto_wrap_id" && exit 1;
+remove_image
