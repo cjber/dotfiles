@@ -30,16 +30,13 @@ class MyPrompt(Prompts):
     def in_prompt_tokens(self, cli=None):
         return [
             (Token.Literal.String, " "),
-            (Token.Literal.String, "v" + python_version()),
-            (Token.Color.Red, " (" + Path(sys.prefix).stem + ")"),
+            (Token.Literal.String, f"v{python_version()}"),
+            (Token.Color.Red, f" ({Path(sys.prefix).stem})"),
             (Token, " "),
             (Token.Keyword, "ipython"),
             (Token, ": "),
             (Token.Number, str(Path().absolute())),
             (Token, " "),
-            # (Token.Generic.Heading, " "),
-            # (Token.Generic.Subheading, get_branch()),
-            # (Token, " "),
             (Token, "\n"),
             (
                 Token.Prompt
