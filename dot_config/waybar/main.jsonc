@@ -1,6 +1,7 @@
 {
     "layer": "top",
     "position": "top",
+    "output": "DP-1",
     "mod": "dock",
     "exclusive": true,
     "passthrough": false,
@@ -17,6 +18,7 @@
     "modules-center": ["hyprland/workspaces"],
     "modules-right": [
         "tray",
+        "custom/rclone",
         "disk",
         "network",
         "custom/updates",
@@ -31,7 +33,7 @@
     },
 "disk": {
     "interval": 30,
-    "format": "{used} ({percentage_used}%) ",
+    "format": "{used} ({percentage_used}%) 󱛟 ",
     "path": "/"
 },
 "idle_inhibitor": {
@@ -47,7 +49,7 @@
 },
 "cpu": {
      "interval": 1,
-     "format": "{usage:2}%   {icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+     "format": " {usage:2}%   {icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
      "format-icons": [
           "<span color='#A6E3A1'>▁</span>", // green
           "<span color='#A6E3A1'>▂</span>", // blue
@@ -72,7 +74,7 @@
       "interval": 5,
       "format": "{ifname}",
       "format-wifi": "{essid} ({signalStrength}%) ",
-      "format-ethernet": "{bandwidthUpBits:>} ⬆️ {bandwidthDownBits:>} ⬇️ ",
+      "format-ethernet": "{bandwidthUpBits:>}  {bandwidthDownBits:>}  ",
       "format-disconnected": "", //An empty format will hide the module.
       "tooltip-format": "{ifname} via {gwaddr} 󰊗",
       "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
@@ -132,5 +134,11 @@
   "format": "{}°C ",
   "return-type": "",
   "interval": 1
+},
+"custom/rclone": {
+  "exec": "if [[ 'pgrep -fl rclone' ]]; then echo '  syncing'; else echo ' stopped'; fi",
+  "format": "{}",
+  "return-type": "",
+  "interval": 60
 }
 }
