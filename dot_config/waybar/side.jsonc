@@ -1,0 +1,132 @@
+{
+    "layer": "top",
+    "position": "top",
+    "output": "HDMI-A-1",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "height": 0,
+    "modules-left": [
+        "clock"
+    ],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": [],
+
+    "hyprland/workspaces": {
+        "persistent-workspaces": {
+                     "DP-1": [1, 2, 3], // 5 workspaces by default on every monitor
+                     "HDMI-A-1": [4] // but only three on HDMI-A-1
+               }
+    },
+"disk": {
+    "interval": 30,
+    "format": "{used} ({percentage_used}%) 󱛟 ",
+    "path": "/"
+},
+"idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+        "activated": " ",
+        "deactivated": " "
+    }
+},
+"memory": {
+    "interval": 30,
+    "format": "{used:0.1f}G/{total:0.1f}G   {swapUsed}G/{swapTotal}G 󰯍"
+},
+"cpu": {
+     "interval": 1,
+     "format": " {usage:2}%   {icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+     "format-icons": [
+          "<span color='#A6E3A1'>▁</span>", // green
+          "<span color='#A6E3A1'>▂</span>", // blue
+          "<span color='#A6E3A1'>▃</span>", // white
+          "<span color='#A6E3A1'>▄</span>", // white
+          "<span color='#A6E3A1'>▅</span>", // yellow
+          "<span color='#A6E3A1'>▆</span>", // yellow
+          "<span color='#A6E3A1'>▇</span>", // orange
+          "<span color='#A6E3A1'>█</span>"  // red
+     ]
+},
+
+   "temperature": {
+      "thermal-zone": 2,
+      "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "critical-threshold": 80,
+      "format-critical": "{temperatureC}°C ",
+      "format": "{temperatureC}°C "
+  },
+  "network": {
+      // "interface": "enp5s0",
+      "interval": 5,
+      "format": "{ifname}",
+      "format-wifi": "{essid} ({signalStrength}%) ",
+      "format-ethernet": "{bandwidthUpBits:>}  {bandwidthDownBits:>}  ",
+      "format-disconnected": "", //An empty format will hide the module.
+      "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+      "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+      "tooltip-format-ethernet": "{ifname} ",
+      "tooltip-format-disconnected": "Disconnected",
+      "max-length": 50
+  },
+
+    "custom/updates": {
+        "format": " {}",
+        "interval": 7200,                     // every two hours
+        "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'",       // # of updates and tooltip details
+        "exec-if": "exit 0",                  // always run; consider advanced run conditions
+        "on-click": "kitty -e sudo pacman -Syu", // update system
+        "signal": 8
+    },
+    "tray": {
+        "icon-size": 13,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:  %R    %d/%m}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", ""],
+        "on-scroll-up": "brightnessctl set 1%+",
+        "on-scroll-down": "brightnessctl set 1%-",
+        "min-length": 6
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "tooltip": false,
+        "format-muted": " Muted",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        }
+    },
+    "custom/gpu-usage": {
+  "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
+  "format": "󱤓 {}%",
+  "return-type": "",
+  "interval": 1
+},
+
+    "custom/gpu-temp": {
+  "exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits",
+  "format": "{}°C ",
+  "return-type": "",
+  "interval": 1
+},
+"custom/rclone": {
+  "exec": "if [[ 'pgrep -fl rclone' ]]; then echo '  syncing'; else echo ' stopped'; fi",
+  "format": "{}",
+  "return-type": "",
+  "interval": 60
+}
+}

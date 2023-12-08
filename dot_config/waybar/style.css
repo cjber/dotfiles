@@ -55,6 +55,7 @@ tooltip {
 #custom-weather,
 #custom-gpu-usage,
 #custom-gpu-temp,
+#custom-rclone,
 #window,
 #clock,
 #cpu,
@@ -183,4 +184,8 @@ tooltip {
     border: 2px solid @surface0;
     border-left: 0px;
     margin-left: 0px;
+}
+#custom-rclone {
+    border: 2px solid @surface0;
+    margin-right: 10px;
 }
