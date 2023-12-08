@@ -4,6 +4,9 @@
 *.th
 
 !.envrc
+!.pre-commit-config.yaml
+!.gitignore
+!.dvcignore
 
 renv/
 target/

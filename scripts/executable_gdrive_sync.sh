@@ -9,7 +9,7 @@ REMOTE_DATA=gdrive:data
 
 BACKUP_DATA=gdrive:backup_data
 EXCLUDE_FILE=$HOME/scripts/exclude.txt
-LOG_FILE=$HOME/gdrive_sync.log
+LOG_FILE=$HOME/.cache/gdrive_sync.log
 
 # LOCAL_TODO=$HOME/drive/todo
 # REMOTE_TODO=gdrive:todo
