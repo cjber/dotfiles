@@ -9,13 +9,13 @@
     "height": 0,
     "modules-left": [
         "clock",
-        "cpu",
-        "temperature",
-        "custom/gpu-usage",
-        "custom/gpu-temp",
+        // "cpu",
+        // "temperature",
+        // "custom/gpu-usage",
+        // "custom/gpu-temp",
         "memory"
     ],
-    "modules-center": ["hyprland/workspaces"],
+    "modules-center": ["cpu", "temperature", "hyprland/workspaces", "custom/gpu-usage", "custom/gpu-temp"],
     "modules-right": [
         "tray",
         "custom/rclone",
@@ -33,7 +33,7 @@
     },
 "disk": {
     "interval": 30,
-    "format": "{used} ({percentage_used}%) 󱛟 ",
+    "format": "{used} ({percentage_used}%)  ",
     "path": "/"
 },
 "idle_inhibitor": {
@@ -49,7 +49,8 @@
 },
 "cpu": {
      "interval": 1,
-     "format": " {usage:2}%   {icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+     // "format": " {usage:2}%   {icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+     "format": " {usage:2}%",
      "format-icons": [
           "<span color='#A6E3A1'>▁</span>", // green
           "<span color='#A6E3A1'>▂</span>", // blue
@@ -82,15 +83,22 @@
       "tooltip-format-disconnected": "Disconnected",
       "max-length": 50
   },
-
     "custom/updates": {
         "format": " {}",
-        "interval": 7200,                     // every two hours
-        "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'",       // # of updates and tooltip details
+        "interval": 600,                     // every two hours
+        "exec": "checkupdates | wc -l",       // # of updates and tooltip details
         "exec-if": "exit 0",                  // always run; consider advanced run conditions
         "on-click": "kitty -e sudo pacman -Syu", // update system
         "signal": 8
     },
+// "custom/updates": {
+//     "format": "{}",
+//     "interval": 600,
+//     "exec": "~/.config/waybar/updates.sh",
+//     "return-type": "json",
+//     "exec-if": "exit 0",
+//     "signal": 8
+//   },
     "tray": {
         "icon-size": 13,
         "spacing": 10
@@ -136,9 +144,9 @@
   "interval": 1
 },
 "custom/rclone": {
-  "exec": "if [[ 'pgrep -fl rclone' ]]; then echo '  syncing'; else echo ' stopped'; fi",
+  "exec": "if [[ $(pgrep -fl rclone) ]]; then echo '󰊶  syncing'; else echo ' stopped'; fi",
   "format": "{}",
   "return-type": "",
-  "interval": 60
+  "interval": 1
 }
 }
