@@ -56,6 +56,7 @@
     # =========================[ Line #2 ]=========================
     newline                   # \n
     # virtualenv              # python virtual environment
+    toolbox
     prompt_char               # prompt symbol
   )
 
@@ -65,7 +66,8 @@
     command_execution_time    # previous command duration
     virtualenv                # python virtual environment
     context                   # user@host
-    # time                    # current time
+    time                    # current time
+    direnv
     # =========================[ Line #2 ]=========================
     newline                   # \n
   )
