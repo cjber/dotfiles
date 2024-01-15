@@ -7,7 +7,7 @@ audio_default = [
 ]
 
 image_default = [
-    { command = "display", args = [
+    { command = "sxiv", args = [
         "--",
     ], fork = true, silent = true },
     { command = "krita", args = [
