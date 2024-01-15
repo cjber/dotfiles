@@ -1,3 +1,7 @@
 [user]
 	email = cjberragan@gmail.com
 	name = cjber
+[init]
+	defaultBranch = main
+[credential]
+	helper = store
