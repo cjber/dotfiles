@@ -170,11 +170,6 @@ tooltip {
     border-left: 0px;
 }
 
-#custom-weather {
-    border-radius: 0px 10px 10px 0px;
-    border-right: 0px;
-    margin-left: 0px;
-}
 #custom-gpu-usage {
     border: 2px solid @surface0;
     border-right: 0px;
@@ -188,4 +183,8 @@ tooltip {
 #custom-rclone {
     border: 2px solid @surface0;
     margin-right: 10px;
+}
+#custom-weather {
+  border: 2px solid @surface0;
+  margin-right: 10px;
 }
