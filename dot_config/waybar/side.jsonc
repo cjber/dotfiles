@@ -11,7 +11,7 @@
         "clock"
     ],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right": [],
+    "modules-right": ["custom/weather"],
 
     "hyprland/workspaces": {
         "persistent-workspaces": {
@@ -128,5 +128,13 @@
   "format": "{}",
   "return-type": "",
   "interval": 60
+},
+"custom/weather": {
+    "format": "{} °",
+    "tooltip": true,
+    "interval": 3600,
+    "exec": "wttrbar",
+    "return-type": "json"
 }
 }
+
