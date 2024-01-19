@@ -144,9 +144,9 @@
   "interval": 1
 },
 "custom/rclone": {
-  "exec": "if [[ $(pgrep -fl rclone) ]]; then echo '󰊶  syncing'; else echo ' stopped'; fi",
+  "exec": "if [[ $(pgrep -fl rclone | wc -c) -ne 0 ]]; then echo '󰊶  syncing'; else echo ' stopped'; fi",
   "format": "{}",
   "return-type": "",
-  "interval": 1
+  "interval": 10
 }
 }
