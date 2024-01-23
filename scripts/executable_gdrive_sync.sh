@@ -21,6 +21,7 @@ if pgrep -fl rclone; then exit 1; fi
     --backup-dir="$BACKUP" \
     --suffix ."$(date +"%Y-%m-%d-%H-%M-%S")" \
     --suffix-keep-extension \
+    --fast-list \
     --progress \
     --verbose \
     --log-file="$LOG_FILE" \
@@ -31,6 +32,7 @@ if pgrep -fl rclone; then exit 1; fi
     --backup-dir="$BACKUP_DATA" \
     --suffix ."$(date +"%Y-%m-%d-%H-%M-%S")" \
     --suffix-keep-extension \
+    --fast-list \
     --progress \
     --verbose \
     --log-file="$LOG_FILE" \
