@@ -1,12 +1,18 @@
 #!/bin/sh
-if [[ $(hyprctl getoption master:mfact -j | jq -r ".float") == "0.33000" ]]
+ws=$(hyprctl activeworkspace -j | jq -r ".id")
+toggle=$(cat $HOME/.toggle$ws)
+
+if [[ $toggle == "" ]]
 then
-    hyprctl dispatch layoutmsg mfact 0.5 && \
-        hyprctl reload && \
-        hyprctl keyword master:mfact 0.5
-elif [[ $(hyprctl getoption master:mfact -j | jq -r ".float") == "0.50000" ]]
+    echo 0.33 > $HOME/.toggle$ws
+fi
+
+if [[ $toggle == 0.33 ]]
 then
-    hyprctl dispatch layoutmsg mfact 0.33 && \
-        hyprctl reload && \
-        hyprctl keyword master:mfact 0.33
+    echo 0.5 > $HOME/.toggle$ws \
+    && hyprctl dispatch layoutmsg mfact 0.5 $ws
+elif [[ $toggle == 0.5 ]]
+then
+    echo 0.33 > $HOME/.toggle$ws \
+    && hyprctl dispatch layoutmsg mfact 0.33 $ws
 fi
