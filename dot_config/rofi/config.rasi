@@ -1,7 +1,7 @@
 @theme "catppuccin-mocha"
 
 configuration{
-    modi: "run,drun,window";
+    modi: "run,drun";
     font: "JetBrains Mono 10";
     icon-theme: "Oranchelo";
     show-icons: false;
@@ -19,5 +19,5 @@ configuration{
 
 window {
   border: 2;
-  bordere-color: #ff6666;
+  border-color: #89B4FA;
 }
