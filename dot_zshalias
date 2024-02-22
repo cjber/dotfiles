@@ -18,6 +18,7 @@ alias r="radian"
 alias t='todo.sh list'
 alias ta='todo.sh add'
 alias td='nvim $HOME/drive/todo/Todo.txt'
+alias tdm='todotxt-machine $HOME/drive/todo/Todo.txt'
 alias v='nvim'
 alias vv='fd --type f --hidden --exclude .git --print0 | fzf-tmux -p - --read0 --print0 --exit-0 | xargs -r -0 nvim'
 alias vf='fd --type d --hidden --exclude .git --print0 | fzf-tmux -p - --read0 --print0 --exit-0 | xargs -r -0 cd'
