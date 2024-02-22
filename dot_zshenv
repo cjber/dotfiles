@@ -17,6 +17,8 @@ export XDG_CURRENT_DESKTOP=Hyprland
 export BROWSER="firefox"
 export GTK_THEME="Catppuccin-Mocha-Standard-Blue-Dark"
 
+export TODOTXT_CFG_FILE="$HOME/.config/todo/todo.cfg"
+
 path+=$GOPATH/bin
 path+=$PYENV_ROOT/bin
 path+=$HOME/.cargo/bin
