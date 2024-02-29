@@ -30,3 +30,6 @@ alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
 alias hx="helix"
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+
+## SSH
+alias sdl="ssh -t cillian@sasha -t distrobox enter base"
