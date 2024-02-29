@@ -9,9 +9,7 @@ alias bat="bat -P --style=numbers --theme base16-256"
 alias empty='trash-empty'
 alias la="ncdu --color dark"
 alias ls='eza -F --group-directories-first'
-# not working currently (lf in /scripts)
 # alias lf='lf --output-file /tmp/joshutodir; LASTDIR=`cat /tmp/joshutodir`; cd "$LASTDIR"'
-alias lf='joshuto --output-file /tmp/joshutodir; LASTDIR=`cat /tmp/joshutodir`; cd "$LASTDIR"'
 alias lg="lazygit"
 alias py="ipython"
 alias r="radian"
