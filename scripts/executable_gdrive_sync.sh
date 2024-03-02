@@ -11,8 +11,8 @@ BACKUP_DATA=gdrive:backup_data
 EXCLUDE_FILE=$HOME/scripts/exclude.txt
 LOG_FILE=$HOME/.cache/gdrive_sync.log
 
-# LOCAL_TODO=$HOME/drive/todo
-# REMOTE_TODO=gdrive:todo
+LOCAL_TODO=$HOME/drive/todo
+REMOTE_TODO=gdrive:todo
 
 if pgrep -fl rclone; then exit 1; fi
 
@@ -25,7 +25,7 @@ if pgrep -fl rclone; then exit 1; fi
     --progress \
     --verbose \
     --log-file="$LOG_FILE" \
-    --max-age $1
+    --max-age "$1"
 
 /usr/bin/rclone sync "$LOCAL_DATA" $REMOTE_DATA \
     --exclude-from "$EXCLUDE_FILE" \
@@ -36,6 +36,6 @@ if pgrep -fl rclone; then exit 1; fi
     --progress \
     --verbose \
     --log-file="$LOG_FILE" \
-    --max-age $1
+    --max-age "$1"
 
-# /usr/bin/rclone bisync "$LOCAL_TODO" $REMOTE_TODO --resync
+/usr/bin/rclone bisync "$LOCAL_TODO" $REMOTE_TODO --resync
