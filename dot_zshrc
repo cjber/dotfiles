@@ -13,7 +13,7 @@ source ~/.zshalias
 eval "$(direnv hook zsh)"
 
 bindkey -v
-bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+# bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
 
 # 10ms for key sequences
 KEYTIMEOUT=1
@@ -66,6 +66,15 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(zoxide init zsh)"
 
-source $HOME/.config/joshuto/lf.sh
+# source $HOME/.config/joshuto/lf.sh
+
+function lf() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
