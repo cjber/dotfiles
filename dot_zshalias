@@ -32,4 +32,4 @@ alias hx="helix"
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 
 ## SSH
-alias sdl="ssh -t cillian@sasha -t distrobox enter base"
+alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
