@@ -84,7 +84,7 @@
         "spacing": 10
     },
     "clock": {
-        "format": "{:  %R    %d/%m}",
+        "format": "  {:%R    %d/%m}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
     "backlight": {
@@ -130,7 +130,7 @@
   "interval": 60
 },
 "custom/weather": {
-    "format": "{} °",
+    "format": "{}°",
     "tooltip": true,
     "interval": 3600,
     "exec": "wttrbar",
