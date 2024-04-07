@@ -1,2 +1,14 @@
 [manager]
 sort_dir_first = true
+
+[open]
+rules = [
+	{ mime = "application/pdf", use = "pdf" },
+	{ mime = "text/*", use = "text" }
+]
+
+[opener]
+  pdf = [
+{ run = 'zathura "$@"', block = false, orphan = true }
+]
+text = [{ run = 'nvim "$@"', block = true }]
