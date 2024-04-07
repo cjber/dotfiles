@@ -8,3 +8,7 @@ toolchain = "cpython@3.12"
 [[sources]]
 name = "nvidia"
 url = "https://pypi.nvidia.com"
+
+[[sources]]
+name = "nvidia-nightly"
+url = "https://pypi.anaconda.org/rapidsai-wheels-nightly/simple"
