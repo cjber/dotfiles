@@ -132,14 +132,14 @@
     },
     "custom/gpu-usage": {
   "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
-  "format": "󱤓 {}%",
+  "format": "󱤓 {:2}%",
   "return-type": "",
   "interval": 1
 },
 
     "custom/gpu-temp": {
   "exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits",
-  "format": "{}°C ",
+  "format": "{:2}°C ",
   "return-type": "",
   "interval": 1
 },
