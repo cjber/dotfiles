@@ -11,9 +11,7 @@ antidote load
 source ~/.zshalias
 
 eval "$(direnv hook zsh)"
-
-bindkey -v
-# bindkey '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+eval "$(zoxide init zsh)"
 
 # 10ms for key sequences
 KEYTIMEOUT=1
@@ -26,8 +24,8 @@ zstyle ':completion:*' completer _expand _complete _ignored _correct _approximat
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-colors \
-  "di=34" "ln=35" "so=32" "pi=33" "ex=31" "bd=34;46" "cd=34;43" \
-  "su=30;41" "sg=30;46" "tw=30;42" "ow=30;43"
+   "di=34" "ln=35" "so=32" "pi=33" "ex=31" "bd=34;46" "cd=34;43" \
+   "su=30;41" "sg=30;46" "tw=30;42" "ow=30;43"
 zstyle ':completion:*' menu select
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' use-cache on
@@ -61,12 +59,8 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#bb9af7,bold,underline"
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(zoxide init zsh)"
+zvm_bindkey vicmd '/' fzf-history-widget
 
-# source $HOME/.config/joshuto/lf.sh
 
 function lf() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
