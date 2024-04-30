@@ -1,6 +1,5 @@
 zsh-users/zsh-completions
 jeffreytse/zsh-vi-mode
-zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
 zdharma-continuum/fast-syntax-highlighting
