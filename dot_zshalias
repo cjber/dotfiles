@@ -4,7 +4,7 @@ alias ssh="kitty +kitten ssh"
 alias cm="chezmoi"
 # alias distrobox="export TERM=xterm;distrobox"
 # alias upd='yes | sudo pacman -Sy && yes | sudo powerpill -Su && yes | yay -Su && dotsync && antidote update && rustup update && nvim --headless "+Lazy! sync" +qa && /home/cjber/dotfiles/.direnv/python-3.11/bin/python -m pip_review --auto && echo yes | quarto tools install tinytex'
-alias upd='paru && antidote update && rustup update && nvim --headless "+Lazy! sync" +qa && cd /home/cjber/.config/nvim/lua/custom/ && rye sync --update-all && echo yes | quarto install tinytex && tlmgr update --self --all && vale sync'
+alias upd='paru && antidote update && rustup update && nvim --headless "+Lazy! sync" +qa && cd /home/cjber/.config/nvim/lua/custom/ && rye sync --update-all && echo yes | quarto install tinytex && tlmgr update --self --all && vale sync && pipx upgrade-all'
 alias bat="bat -P --style=numbers --theme base16-256"
 alias empty='trash-empty'
 alias la="ncdu --color dark"
