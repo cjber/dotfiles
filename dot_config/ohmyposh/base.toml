@@ -50,7 +50,7 @@ final_space = true
     style = 'plain'
     foreground = 'yellow'
     background = 'transparent'
-    template = '($CONTAINER_ID)'
+    template = '{{if (.Env.CONTAINER_ID) }}{{ .Env.CONTAINER_ID }}{{ end }}'
 
   [[blocks.segments]]
     type = 'executiontime'
