@@ -64,7 +64,7 @@ final_space = true
   [[blocks.segments]]
     type = 'session'
     style = 'plain'
-    template = "{{ if .SSHSession }}{{ .HostName }}{{ end }}"
+    # template = "{{ if .SSHSession }}{{ .HostName }}{{ end }}"
 
   [[blocks.segments]]
     type = 'text'
