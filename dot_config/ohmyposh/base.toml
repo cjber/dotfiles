@@ -35,13 +35,6 @@ final_space = true
 [[blocks]]
   type = 'prompt'
   alignment = 'right'
-
-  [[blocks.segments]]
-    type = 'text'
-    style = 'plain'
-    foreground = 'yellow'
-    background = 'transparent'
-    template = '$CONTAINER_ID'
   
   [[blocks.segments]] 
     type = 'python'
@@ -51,6 +44,13 @@ final_space = true
 [[blocks]]
   type = 'rprompt'
   overflow = 'hidden'
+
+  [[blocks.segments]]
+    type = 'text'
+    style = 'plain'
+    foreground = 'yellow'
+    background = 'transparent'
+    template = '($CONTAINER_ID)'
 
   [[blocks.segments]]
     type = 'executiontime'
@@ -67,7 +67,6 @@ final_space = true
   type = 'prompt'
   alignment = 'left'
   newline = true
-
 
   [[blocks.segments]]
     type = 'text'
