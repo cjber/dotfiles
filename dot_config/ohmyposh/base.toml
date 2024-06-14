@@ -37,10 +37,11 @@ final_space = true
   alignment = 'right'
 
   [[blocks.segments]]
-    type = 'docker'
+    type = 'text'
     style = 'plain'
     foreground = 'yellow'
     background = 'transparent'
+    template = '$CONTAINER_ID'
   
   [[blocks.segments]] 
     type = 'python'
