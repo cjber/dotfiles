@@ -9,11 +9,6 @@ final_space = true
   newline = true
 
   [[blocks.segments]]
-    type = 'session'
-    style = 'plain'
-    template = "{{ if .SSHSession }}{{ .HostName }}{{ end }}"
-
-  [[blocks.segments]]
     type = 'path'
     style = 'plain'
     background = 'transparent'
@@ -65,6 +60,11 @@ final_space = true
   type = 'prompt'
   alignment = 'left'
   newline = true
+
+  [[blocks.segments]]
+    type = 'session'
+    style = 'plain'
+    template = "{{ if .SSHSession }}{{ .HostName }}{{ end }}"
 
   [[blocks.segments]]
     type = 'text'
