@@ -35,6 +35,12 @@ final_space = true
 [[blocks]]
   type = 'prompt'
   alignment = 'right'
+
+  [[blocks.segments]]
+    type = 'docker'
+    style = 'plain'
+    foreground = 'yellow'
+    background = 'transparent'
   
   [[blocks.segments]] 
     type = 'python'
@@ -61,12 +67,6 @@ final_space = true
   alignment = 'left'
   newline = true
 
-  [[blocks.segments]]
-    type = 'session'
-    style = 'plain'
-    template = "{{ if .SSHSession }}{{ .HostName }}{{ end }}"
-    foreground = 'yellow'
-    background = 'transparent'
 
   [[blocks.segments]]
     type = 'text'
