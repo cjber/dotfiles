@@ -4,4 +4,3 @@ zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
 jeffreytse/zsh-vi-mode
-romkatv/powerlevel10k
