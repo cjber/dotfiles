@@ -1,6 +1,6 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 source /usr/share/zsh-antidote/antidote.zsh
 antidote load
@@ -55,7 +55,7 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#bb9af7,bold,underline"
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
-zvm_bindkey vicmd '/' fzf-history-widget
+# zvm_bindkey vicmd '/' fzf-history-widget
 
 
 function lf() {
@@ -67,5 +67,8 @@ function lf() {
 	rm -f -- "$tmp"
 }
 
-# eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/base.toml)"
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.local/lib/mojo
+export PATH=$PATH:~/.modular/pkg/packages.modular.com_mojo/bin/
+
+eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/base.toml)"
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
