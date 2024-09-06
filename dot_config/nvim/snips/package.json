@@ -1,0 +1,18 @@
+{
+    "name": "snips",
+    "engines": {
+        "vscode": "^1.11.0"
+    },
+    "contributes": {
+        "snippets": [
+            {
+                "language": "quarto",
+                "path": "./snippets/quarto.json"
+            },
+            {
+                "language": "python",
+                "path": "./snippets/python.json"
+            }
+    ]
+    }
+}
