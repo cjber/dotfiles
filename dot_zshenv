@@ -15,7 +15,7 @@ export QMK_HOME=/home/cjber/.qmk_firmware
 export MOZ_ENABLE_WAYLAND=1
 export BW_SESSION="MmmHoOfKI86oVCIeVvvb1YZYVXx69zFWbzHy9LpouW1WxuTkc1ORejW89tQ5FYHJNMVlnrhI0et3xf1b6kp7CA=="
 export XDG_CURRENT_DESKTOP=Hyprland
-export BROWSER="firefox"
+export BROWSER="google-chrome-stable"
 export GTK_THEME="Catppuccin-Mocha-Standard-Blue-Dark"
 
 export TODOTXT_CFG_FILE="$HOME/.config/todo/todo.cfg"
