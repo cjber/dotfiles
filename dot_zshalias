@@ -1,7 +1,7 @@
 alias ll="ls -lha"
 alias rm="rm -i"
 alias cm="chezmoi"
-alias upd='paru && antidote update && rustup update && nvim --headless "+Lazy! sync" +qa && rye sync --update-all --pyproject $HOME/.config/nvim/lua/custom/pyproject.toml && echo yes | quarto install tinytex && tlmgr update --self --all && vale sync && pipx upgrade-all'
+alias upd='paru && antidote update && rustup update && nvim --headless "+Lazy! sync" +qa && uv sync -U --directory $HOME/.config/nvim && echo yes | quarto install tinytex && tlmgr update --self --all && vale sync && pipx upgrade-all && uv tool update --all'
 alias bat="bat -P --style=numbers --theme base16-256"
 alias empty='trash-empty'
 alias la="ncdu --color dark"
