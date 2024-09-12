@@ -43,6 +43,22 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey -v '^?' backward-delete-char
 
+# Change cursor shape: block for normal mode, line for insert mode
+function zle-keymap-select {
+    if [[ ${KEYMAP} == vicmd ]] || [[ $1 == "block" ]]; then
+        echo -ne "\e[2 q"  # Block cursor
+    else
+        echo -ne "\e[6 q"  # Line cursor
+    fi
+}
+
+function zle-line-init {
+    echo -ne "\e[6 q"  # Ensure line cursor on shell startup
+}
+
+zle -N zle-keymap-select
+zle -N zle-line-init
+
 
 setopt extendedhistory histexpiredupsfirst histfindnodups histignoredups histignorespace histsavenodups histverify sharehistory
 HISTFILE=~/.cache/history
@@ -70,5 +86,4 @@ function lf() {
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.local/lib/mojo
 export PATH=$PATH:~/.modular/pkg/packages.modular.com_mojo/bin/
 
-eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/base.toml)"
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+eval "$(starship init zsh)"
