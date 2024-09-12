@@ -31,7 +31,7 @@ visidata = [
   { run = 'visidata "$@"', block = true }
 ]
 browser = [
-  { run = 'firefox "$@"', block = true, orphan = true }
+  { run = 'google-chrome-stable "$@"', block = true, orphan = true }
 ]
 
 [open]
