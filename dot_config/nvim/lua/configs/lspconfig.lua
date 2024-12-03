@@ -3,6 +3,8 @@ require("nvchad.configs.lspconfig").defaults()
 
 local lspconfig = require "lspconfig"
 
+vim.diagnostic.config { virtual_text = false }
+
 -- EXAMPLE
 local servers = {
   -- python

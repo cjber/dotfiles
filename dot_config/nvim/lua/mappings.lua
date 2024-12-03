@@ -14,7 +14,7 @@ nomap("n", "<leader>/")
 nomap("n", "<leader>fm")
 nomap("n", "<leader>cm")
 nomap("n", "<leader>ch")
-nomap("n", "<leader>cc")
+-- nomap("n", "<leader>cc")
 
 -- normal mappings
 map("n", ";", ":", { desc = "CMD enter command mode" })
@@ -81,7 +81,7 @@ map("n", "<leader>la", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code 
 map("n", "<leader>lk", "<CMD>lua vim.lsp.buf.hover()<CR>", { desc = "Code hover" })
 map("n", "<leader>lg", "<CMD>lua require'neogen'.generate()<CR>", { desc = "Generate doc" })
 map("n", "<leader>lr", function()
-  require("nvchad.renamer").open()
+  require "nvchad.lsp.renamer"()
 end, { desc = "LSP rename" })
 map("n", "<leader>ll", "<CMD>Trouble lsp_document_symbols toggle<CR>", { desc = "LSP symbols" })
 map("n", "<leader>ld", "<CMD>Trouble lsp_references toggle<CR>", { desc = "LSP references" })
