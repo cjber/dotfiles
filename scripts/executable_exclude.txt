@@ -13,3 +13,5 @@ target/
 public/
 todo/
 venv/
+node_modules/
+build/
