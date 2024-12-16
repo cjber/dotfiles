@@ -17,6 +17,8 @@ nomap("n", "<leader>ch")
 -- nomap("n", "<leader>cc")
 
 -- normal mappings
+map("n", "j", "gj")
+map("n", "k", "gk")
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("n", "q:", "<CMD>q<CR>", { desc = "Quit" })
 map("n", "M", "<CMD>join<CR>", { desc = "Join lines" })
