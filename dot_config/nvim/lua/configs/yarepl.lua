@@ -4,7 +4,12 @@ local spec = {
   config = function()
     local yarepl = require "yarepl"
 
-    yarepl.setup { metas = { quarto = { cmd = "ipython", formatter = yarepl.trim_empty_lines } } }
+    yarepl.setup {
+      metas = {
+        quarto = { cmd = "ipython", formatter = yarepl.trim_empty_lines },
+        aider = require("yarepl.extensions.aider").create_aider_meta(),
+      },
+    }
 
     vim.api.nvim_create_user_command("REPLToCurLine", function(opts)
       local id = opts.count
