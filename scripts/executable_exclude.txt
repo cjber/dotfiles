@@ -1,17 +1,11 @@
-.**
-*.pyc
-*.ckpt
-*.th
+- *.pyc
+- *.ckpt
+- *.th
 
-!.envrc
-!.pre-commit-config.yaml
-!.gitignore
-!.dvcignore
-
-renv/
-target/
-public/
-todo/
-venv/
-node_modules/
-build/
+- .venv/**
+- .git/**
+- venv/**
+- renv/**
+- target/**
+- public/**
+- node_modules/**
