@@ -118,32 +118,3 @@ keymap("n", "<Leader>arr", "<Plug>(REPLSendLine-aider)", {
 keymap("n", "<Leader>ar", "<Plug>(REPLSendOperator-aider)", {
   desc = "Send Operator to aider",
 })
-
--- special keymap from aider
-keymap("n", "<Leader>ae", "<Plug>(AiderExec)", {
-  desc = "Execute command in aider",
-})
-keymap("n", "<Leader>ay", "<Plug>(AiderSendYes)", {
-  desc = "Send y to aider",
-})
-keymap("n", "<Leader>an", "<Plug>(AiderSendNo)", {
-  desc = "Send n to aider",
-})
-keymap("n", "<Leader>ap", "<Plug>(AiderSendPaste)", {
-  desc = "Send /paste to aider",
-})
-keymap("n", "<Leader>aa", "<Plug>(AiderSendAbort)", {
-  desc = "Send abort to aider",
-})
-keymap("n", "<Leader>aq", "<Plug>(AiderSendExit)", {
-  desc = "Send exit to aider",
-})
-keymap("n", "<Leader>ag", "<cmd>AiderSetPrefix<cr>", {
-  desc = "set aider prefix",
-})
-keymap("n", "<Leader>aG", "<cmd>AiderRemovePrefix<cr>", {
-  desc = "remove aider prefix",
-})
-keymap("n", "<Leader>a<space>", "<cmd>checktime<cr>", {
-  desc = "sync file changes by aider to nvim buffer",
-})

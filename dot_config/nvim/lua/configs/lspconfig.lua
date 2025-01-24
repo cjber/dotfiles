@@ -10,7 +10,7 @@ local servers = {
   -- python
   "pyright",
   "sourcery",
-  -- "ruff",
+  "ruff",
 
   -- quarto
   "ltex",
@@ -49,18 +49,14 @@ lspconfig.ltex.setup {
   },
 }
 
-lspconfig.pyright.setup {
+require("lspconfig").pyright.setup {
   settings = {
     pyright = {
       disableOrganizeImports = true,
     },
     python = {
       analysis = {
-        -- ignore = { "*" },
-        autoSearchPaths = true,
-        useLibraryCodeForTypes = true,
-        diagnosticMode = "openFilesOnly",
-        -- typeCheckingMode = "off",
+        ignore = { "*" },
       },
     },
   },

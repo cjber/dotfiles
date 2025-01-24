@@ -59,30 +59,6 @@ return {
     end,
   },
 
-  -- {
-  --   "yetone/avante.nvim",
-  --   event = "VeryLazy",
-  --   build = "make", -- This is Optional, only if you want to use tiktoken_core to calculate tokens count
-  --   opts = {
-  --     provider = "openai",
-  --   },
-  --   dependencies = {
-  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-  --     "stevearc/dressing.nvim",
-  --     "nvim-lua/plenary.nvim",
-  --     "MunifTanjim/nui.nvim",
-  --     "HakonHarnes/img-clip.nvim",
-  --     --- The below is optional, make sure to setup it properly if you have lazy=true
-  --     {
-  --       "MeanderingProgrammer/render-markdown.nvim",
-  --       opts = {
-  --         file_types = { "markdown", "Avante" },
-  --       },
-  --       ft = { "markdown", "Avante" },
-  --     },
-  --   },
-  -- },
-
   { "freitass/todo.txt-vim", lazy = false },
   {
     "stevearc/oil.nvim",
@@ -114,21 +90,10 @@ return {
     },
   },
 
-  -- {
-  --   "danymat/neogen",
-  --   dependencies = "nvim-treesitter/nvim-treesitter",
-  --   config = true,
-  -- },
   {
-    "toppair/peek.nvim",
-    event = "VeryLazy",
-    opts = {},
-    build = "deno task --quiet build:fast",
-    config = function()
-      require("peek").setup()
-      vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
-      vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
-    end,
+    "danymat/neogen",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = true,
   },
   {
     "rcarriga/nvim-notify",
@@ -139,13 +104,13 @@ return {
         stages = "fade",
         render = "wrapped-compact",
         timeout = 200,
+        merge_duplicates = true,
         on_open = function(win)
           vim.api.nvim_win_set_config(win, { border = "single" })
         end,
       }
     end,
   },
-  { "JellyApple102/flote.nvim", event = "VeryLazy", opts = { window_border = "single" } },
 
   -- disabled
   { "nvim-tree/nvim-tree.lua", enabled = false },
