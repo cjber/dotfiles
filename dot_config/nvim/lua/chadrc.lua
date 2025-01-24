@@ -19,8 +19,8 @@ M.ui = {
     separator_style = "block",
   },
   tabufline = {
-    show_numbers = false,
     enabled = true,
+    show_numbers = false,
     lazyload = true,
     overriden_modules = function(modules)
       table.remove(modules, 4)
