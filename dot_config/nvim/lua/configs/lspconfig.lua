@@ -1,9 +1,12 @@
 -- load defaults i.e lua_lsp
-require("nvchad.configs.lspconfig").defaults()
 
 local lspconfig = require "lspconfig"
 
 vim.diagnostic.config { virtual_text = false }
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "none",
+  focus = false,
+})
 
 -- EXAMPLE
 local servers = {
@@ -24,6 +27,7 @@ local servers = {
   -- docker
   "dockerls",
 }
+
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
