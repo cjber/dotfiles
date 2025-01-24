@@ -2,11 +2,23 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require("nvchad.configs.lspconfig").defaults()
       require "configs.lspconfig"
     end,
   },
   { "nvim-treesitter/nvim-treesitter", opts = { ensure_installed = { "python", "sql" } } },
+  {
+    "hrsh7th/nvim-cmp",
+    opts = {
+      sources = {
+        { name = "nvim_lsp_signature_help" },
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "buffer" },
+        { name = "nvim_lua" },
+        { name = "path" },
+      },
+    },
+  },
 
   { "nvim-telescope/telescope.nvim", opts = {
     pickers = { find_files = { follow = true } },
@@ -27,9 +39,9 @@ return {
   {
     "folke/trouble.nvim",
     cmd = { "Trouble", "TroubleToggle", "TodoTrouble" },
-    dependencies = { { "folke/todo-comments.nvim", opts = {} } },
     opts = {},
   },
+  { "folke/todo-comments.nvim", opts = {} },
 
   {
     "rachartier/tiny-inline-diagnostic.nvim",
@@ -47,6 +59,7 @@ return {
   { import = "configs.lazydev" },
   { import = "configs.statuscol" },
   { import = "configs.autosave" },
+  { import = "configs.codecompanion" },
 
   {
     "toppair/peek.nvim",

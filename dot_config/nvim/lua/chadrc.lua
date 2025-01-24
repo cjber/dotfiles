@@ -38,7 +38,8 @@ M.ui = {
   },
 }
 
--- test
+M.lsp = { signature = false }
+
 M.base46 = {
   hl_override = {
     FoldColumn = {
