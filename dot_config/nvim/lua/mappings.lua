@@ -97,24 +97,11 @@ map("n", "<leader>lc", function()
     vim.cmd [[normal! _]]
   end
 end, { desc = "Jump to current context" })
-local keymap = vim.api.nvim_set_keymap
 
--- general keymap from yarepl
-keymap("n", "<Leader>as", "<Plug>(REPLStart-aider)", {
-  desc = "Start an aider REPL",
-})
-keymap("n", "<Leader>af", "<Plug>(REPLFocus-aider)", {
-  desc = "Focus on aider REPL",
-})
-keymap("n", "<Leader>ah", "<Plug>(REPLHide-aider)", {
-  desc = "Hide aider REPL",
-})
-keymap("v", "<Leader>ar", "<Plug>(REPLSendVisual-aider)", {
-  desc = "Send visual region to aider",
-})
-keymap("n", "<Leader>arr", "<Plug>(REPLSendLine-aider)", {
-  desc = "Send lines to aider",
-})
-keymap("n", "<Leader>ar", "<Plug>(REPLSendOperator-aider)", {
-  desc = "Send Operator to aider",
-})
+vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<Leader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+-- Expand 'cc' into 'CodeCompanion' in the command line
+vim.cmd [[cab cc CodeCompanion]]
