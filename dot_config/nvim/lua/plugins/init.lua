@@ -6,6 +6,11 @@ return {
       require "configs.lspconfig"
     end,
   },
+  { "nvim-treesitter/nvim-treesitter", opts = { ensure_installed = { "python", "sql" } } },
+
+  { "nvim-telescope/telescope.nvim", opts = {
+    pickers = { find_files = { follow = true } },
+  } },
 
   -- extra plugins
   { "smoka7/hop.nvim", event = "VeryLazy", opts = {} },
@@ -42,11 +47,6 @@ return {
   { import = "configs.lazydev" },
   { import = "configs.statuscol" },
   { import = "configs.autosave" },
-
-  -- nvcommunity
-  "NvChad/nvcommunity",
-  { import = "nvcommunity.completion.codeium" },
-  { import = "nvcommunity.tools.telescope-fzf-native" },
 
   {
     "toppair/peek.nvim",
