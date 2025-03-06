@@ -1,4 +1,6 @@
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+export KITTY_ENABLE_WAYLAND=1
+export OLLAMA_API_BASE=http://127.0.0.1:11434
 export VI_MODE_SET_CURSOR=true
 export OPENAI_API_KEY=$(pass show openai/api_key)
 export ANTHROPIC_API_KEY=$(pass show claude/api_key)
@@ -18,7 +20,7 @@ export QMK_HOME=/home/cjber/.qmk_firmware
 export MOZ_ENABLE_WAYLAND=1
 export BW_SESSION="MmmHoOfKI86oVCIeVvvb1YZYVXx69zFWbzHy9LpouW1WxuTkc1ORejW89tQ5FYHJNMVlnrhI0et3xf1b6kp7CA=="
 export XDG_CURRENT_DESKTOP=Hyprland
-export BROWSER="google-chrome-stable"
+export BROWSER="firefox"
 export GTK_THEME="Catppuccin-Mocha-Standard-Blue-Dark"
 
 export TODOTXT_CFG_FILE="$HOME/.config/todo/todo.cfg"
