@@ -12,6 +12,7 @@ local spec = {
       dockerfile = { "hadolint" },
       javascript = { "eslint" },
     }
+    require("lint").linters.shellcheck.args = { "-x" }
   end,
 }
 

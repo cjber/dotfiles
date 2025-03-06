@@ -2,7 +2,6 @@
 local M = {}
 
 M.ui = {
-  theme = "catppuccin",
   lsp_semantic_tokens = true,
 
   cmp = {
@@ -41,6 +40,7 @@ M.ui = {
 M.lsp = { signature = false }
 
 M.base46 = {
+  theme = "catppuccin",
   hl_override = {
     FoldColumn = {
       bg = "black",

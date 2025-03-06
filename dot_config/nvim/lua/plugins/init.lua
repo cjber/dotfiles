@@ -5,13 +5,13 @@ return {
       require "configs.lspconfig"
     end,
   },
-  { "nvim-treesitter/nvim-treesitter", opts = { ensure_installed = { "python", "sql" } } },
   {
     "hrsh7th/nvim-cmp",
     opts = {
       sources = {
         { name = "nvim_lsp_signature_help" },
         { name = "nvim_lsp" },
+        { name = "codeium" },
         { name = "luasnip" },
         { name = "buffer" },
         { name = "nvim_lua" },
@@ -20,11 +20,46 @@ return {
     },
   },
 
-  { "nvim-telescope/telescope.nvim", opts = {
-    pickers = { find_files = { follow = true } },
-  } },
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-telescope/telescope-file-browser.nvim" },
+
+    opts = {
+      pickers = { find_files = { follow = true } },
+    },
+  },
 
   -- extra plugins
+
+  {
+    "NeogitOrg/neogit",
+    cmd = "Neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- required
+      "sindrets/diffview.nvim", -- optional - Diff integration
+
+      -- Only one of these is needed.
+      "nvim-telescope/telescope.nvim", -- optional
+      "ibhagwan/fzf-lua", -- optional
+      "echasnovski/mini.pick", -- optional
+    },
+    config = true,
+  },
+  { "mbbill/undotree", cmd = "UndotreeToggle" },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup { suggestion = { auto_trigger = true } }
+    end,
+  },
+  {
+    "nvzone/typr",
+    dependencies = "nvzone/volt",
+    opts = {},
+    cmd = { "Typr", "TyprStats" },
+  },
   { "smoka7/hop.nvim", event = "VeryLazy", opts = {} },
   { "kylechui/nvim-surround", event = "VeryLazy", opts = {} },
   { "kazhala/close-buffers.nvim", event = "VeryLazy", opts = {} },
@@ -54,12 +89,14 @@ return {
   { "stevearc/conform.nvim", opts = require "configs.conform" },
 
   -- imports
+  { import = "configs.treesitter" },
+  { import = "configs.treesitter-textobjects" },
   { import = "configs.lint" },
   { import = "configs.yarepl" },
   { import = "configs.lazydev" },
   { import = "configs.statuscol" },
   { import = "configs.autosave" },
-  { import = "configs.codecompanion" },
+  { import = "configs.avante" },
 
   {
     "toppair/peek.nvim",

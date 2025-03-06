@@ -7,6 +7,8 @@ local g = vim.g
 
 o.cursorlineopt = "both" -- to enable cursorline!
 
+vim.cmd [[let g:undotree_WindowLayout = 4]]
+
 -- autocmds
 autocmd("FileType", { pattern = "*", command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o" })
 autocmd("TextYankPost", { pattern = "*", command = "lua vim.highlight.on_yank{}" })

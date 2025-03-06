@@ -8,8 +8,9 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
   focus = false,
 })
 
--- EXAMPLE
 local servers = {
+  -- lua
+  "lua_ls",
   -- python
   "pyright",
   "sourcery",
@@ -59,9 +60,9 @@ require("lspconfig").pyright.setup {
       disableOrganizeImports = true,
     },
     python = {
-      analysis = {
-        ignore = { "*" },
-      },
+      -- analysis = {
+      --   ignore = { "*" },
+      -- },
     },
   },
 }
