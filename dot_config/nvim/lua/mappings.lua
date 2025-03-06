@@ -14,12 +14,10 @@ nomap("n", "<leader>/")
 nomap("n", "<leader>fm")
 nomap("n", "<leader>cm")
 nomap("n", "<leader>ch")
--- nomap("n", "<leader>cc")
 
 -- normal mappings
 map("n", "j", "gj")
 map("n", "k", "gk")
-map("n", ";", ":", { desc = "CMD enter command mode" })
 map("n", "q:", "<CMD>q<CR>", { desc = "Quit" })
 map("n", "M", "<CMD>join<CR>", { desc = "Join lines" })
 map("n", "J", "}", { desc = "Next paragraph" })
@@ -43,13 +41,13 @@ map("n", "<leader>sf", "ma[s1z=`a", { desc = "Fix spelling" })
 map(
   "n",
   "<leader>bo",
-  [[<CMD>lua require("close_buffers").delete({type="other"})<CR><CMD>silent on<CR>]],
+  [[<CMD>lua require("close_buffers").delete({type="other", force=true})<CR><CMD>silent on<CR>]],
   { desc = "Close other buffers" }
 )
 map(
   "n",
   "<leader>bd",
-  [[<CMD>lua require("close_buffers").delete({type="this"})<CR>]],
+  [[<CMD>lua require("close_buffers").delete({type="this", force=true})<CR>]],
   { desc = "Close current buffer" }
 )
 
@@ -59,12 +57,6 @@ map("n", "<leader>u", "<CMD>Lazy sync<CR>", { desc = "Lazy Update" })
 -- hop
 map("n", "s", "<CMD>HopWord<CR>", { desc = "Hop to word" })
 map("n", "S", "<CMD>HopLineStart<CR>", { desc = "Hop to line start" })
-
--- flote
-map("n", "<leader>fm", "<CMD>Flote<CR>", { desc = "Open project notes" })
-
--- time tracker
-map("n", "<leader>tt", "<CMD>TimeTracker<CR>", { desc = "Time tracker" })
 
 -- visual mappings
 map("v", "M", "J", { desc = "Join lines" })
@@ -85,23 +77,21 @@ map("n", "<leader>lg", "<CMD>lua require'neogen'.generate()<CR>", { desc = "Gene
 map("n", "<leader>lr", function()
   require "nvchad.lsp.renamer"()
 end, { desc = "LSP rename" })
+map(
+  "n",
+  "<leader>ls",
+  "<CMD>lua require('telescope.builtin').lsp_document_symbols({symbols={'method', 'function', 'class'}})<CR>",
+  { desc = "LSP symbols" }
+)
+map("n", "<leader>fl", "<CMD>Telescope file_browser<CR>", { desc = "File Browser" })
 map("n", "<leader>ll", "<CMD>Trouble lsp_document_symbols toggle<CR>", { desc = "LSP symbols" })
 map("n", "<leader>ld", "<CMD>Trouble lsp_references toggle<CR>", { desc = "LSP references" })
-map("n", "<leader>lc", function()
-  local ok, start = require("indent_blankline.utils").get_current_context(
-    vim.g.indent_blankline_context_patterns,
-    vim.g.indent_blankline_use_treesitter_scope
-  )
-  if ok then
-    vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start, 0 })
-    vim.cmd [[normal! _]]
-  end
-end, { desc = "Jump to current context" })
 
-vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<Leader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<Leader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
--- Expand 'cc' into 'CodeCompanion' in the command line
-vim.cmd [[cab cc CodeCompanion]]
+-- avante
+map("n", "<leader>aa", "<CMD>AvanteToggle<CR>", { desc = "Avante" })
+
+-- undo
+map("n", "<leader>fu", "<CMD>UndotreeToggle<CR>", { desc = "Undo" })
+
+-- neogit
+map("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Neogit" })
