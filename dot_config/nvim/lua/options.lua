@@ -1,11 +1,10 @@
 require "nvchad.options"
-
 local o = vim.o
 local autocmd = vim.api.nvim_create_autocmd
 local opt = vim.opt
 local g = vim.g
 
-o.cursorlineopt = "both" -- to enable cursorline!
+o.cursorlineopt = "both"
 
 vim.cmd [[let g:undotree_WindowLayout = 4]]
 
