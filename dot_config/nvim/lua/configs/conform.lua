@@ -4,6 +4,7 @@ local options = {
     sql = { "sqlfmt" },
     lua = { "stylua" },
     javascript = { "prettier" },
+    json = { "prettier" },
   },
 }
 
