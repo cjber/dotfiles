@@ -5,6 +5,7 @@ export VI_MODE_SET_CURSOR=true
 export OPENAI_API_KEY=$(pass show openai/api_key)
 export ANTHROPIC_API_KEY=$(pass show claude/api_key)
 export DEEPSEEK_API_KEY=$(pass show deepseek/api_key)
+export FIRECRAWL_API_KEY=$(pass show firecrawl/api_key)
 export DOTNET_ROOT=/usr/bin/dotnet
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --color=always --hidden --follow -E .git'
 export FZF_DEFAULT_OPTS='--height=40% --layout=reverse --border=sharp --color "border:#45475A,bg+:#1E1D2D" --prompt=": " --marker="." --pointer="|" --preview-window right:noborder --ansi'
