@@ -4,7 +4,7 @@ antidote load
 source ~/.zshalias
 
 eval "$(direnv hook zsh)"
-eval "$(zoxide init zsh)"
+# eval "$(zoxide init zsh)"
 
 KEYTIMEOUT=1
 
