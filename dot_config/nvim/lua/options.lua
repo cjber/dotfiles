@@ -5,6 +5,7 @@ local opt = vim.opt
 local g = vim.g
 
 o.cursorlineopt = "both"
+o.colorcolumn = "80"
 
 vim.cmd [[let g:undotree_WindowLayout = 4]]
 
