@@ -1,6 +1,7 @@
 [user]
 	email = cjberragan@gmail.com
 	name = cjber
+	signingkey = 81BB85948A4EAB9B
 [init]
 	defaultBranch = main
 [credential]
@@ -12,3 +13,7 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[commit]
+	gpgsign = true
+[core]
+	excludesfile = ~/.gitignore_global
