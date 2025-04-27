@@ -13,12 +13,9 @@ return {
   { import = "configs.lazydev" },
   { import = "configs.statuscol" },
   { import = "configs.autosave" },
-  { import = "configs.avante" },
-  { import = "configs.mcphub" },
   { import = "configs.oil" },
   { import = "configs.telescope" },
   { import = "configs.lspconfig" },
-  -- { import = "configs.codecompanion" },
 
   {
     "NeogitOrg/neogit",

@@ -7,6 +7,7 @@ local spec = {
     yarepl.setup {
       metas = {
         quarto = { cmd = "ipython", formatter = yarepl.trim_empty_lines },
+        python = { cmd = "python", formatter = yarepl.trim_empty_lines },
         aider = require("yarepl.extensions.aider").create_aider_meta(),
       },
     }
