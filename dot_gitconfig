@@ -16,4 +16,21 @@
 [commit]
 	gpgsign = true
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = /home/cjber/.gitignore_global
+[help]
+	autocorrect = 1
+[rerere]
+	enabled = true
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  lg = log --oneline --graph --decorate --all
+  last = log -1 HEAD
+  unstage = reset HEAD --
+  amend = commit --amend
+  hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+  fixup = commit --fixup
+[fetch]
+	prune = true
