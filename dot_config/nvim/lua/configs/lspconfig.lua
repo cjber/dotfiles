@@ -14,12 +14,9 @@ return {
       "lua_ls",
 
       -- python
-      "pyright",
+      -- pyright is configured separately below
       "sourcery",
       "ruff",
-
-      -- quarto
-      "ltex",
 
       -- bash
       "bashls",
