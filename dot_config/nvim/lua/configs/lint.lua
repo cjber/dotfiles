@@ -12,6 +12,7 @@ local spec = {
       javascript = { "eslint" },
     }
     require("lint").linters.shellcheck.args = { "-x" }
+    require("lint").linters.yamllint.args = { "--line_length disable" }
   end,
 }
 
