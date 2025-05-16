@@ -7,6 +7,7 @@ return {
       lua = { "stylua" },
       javascript = { "prettier" },
       json = { "prettier" },
+      yaml = { "prettier" },
     },
     formatters = { isort = { append_args = { "--float-to-top" } } },
   },
