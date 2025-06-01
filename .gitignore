@@ -1,8 +1,5 @@
-
-# Sensitive
 *.sqlite
 *.env*
 *.venv
-zshenv
 config/fish/functions/*virtualenv*
 
