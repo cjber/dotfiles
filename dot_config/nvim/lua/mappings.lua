@@ -1,190 +1,137 @@
 require "nvchad.mappings"
 
 local map = vim.keymap.set
-local nomap = vim.keymap.del
+local unmap = vim.keymap.del
 
-local M = {}
+-- Remove default NvChad mappings that conflict with custom ones
+local default_unmaps = {
+  "<leader>e",
+  "<leader>h",
+  "<leader>v",
+  "<leader>b",
+  "<leader>x",
+  "<leader>n",
+  "<leader>/",
+  "<leader>fm",
+  "<leader>cm",
+  "<leader>ch",
+}
 
--- Remove default NvChad mappings
-function M.remove_defaults()
-  local default_unmaps = {
-    "<leader>e",
-    "<leader>h",
-    "<leader>v",
-    "<leader>b",
-    "<leader>x",
-    "<leader>n",
-    "<leader>/",
-    "<leader>fm",
-    "<leader>cm",
-    "<leader>ch",
+for _, key in ipairs(default_unmaps) do
+  pcall(unmap, "n", key) -- Use pcall to avoid errors if key doesn't exist
+end
+
+-- Line navigation (respect line wrapping)
+map("n", "j", "gj", { desc = "Move down (display lines)" })
+map("n", "k", "gk", { desc = "Move up (display lines)" })
+
+-- Enhanced movement mappings
+local movement_maps = {
+  { mode = { "n", "v" }, key = "J", cmd = "}", desc = "Next paragraph" },
+  { mode = { "n", "v" }, key = "K", cmd = "{", desc = "Previous paragraph" },
+  { mode = { "n", "v" }, key = "H", cmd = "^", desc = "Start of line" },
+  { mode = { "n", "v" }, key = "L", cmd = "$", desc = "End of line" },
+}
+
+for _, m in ipairs(movement_maps) do
+  map(m.mode, m.key, m.cmd, { desc = m.desc })
+end
+
+-- Window navigation
+map("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
+map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window" })
+map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window" })
+map("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
+
+-- Window resizing
+map("n", "<Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
+map("n", "<Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
+map("n", "<Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
+map("n", "<Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+
+-- Editing enhancements
+map("n", "M", "<cmd>join<cr>", { desc = "Join lines" })
+map("n", "U", "<C-r>", { desc = "Redo" })
+map("v", "M", "J", { desc = "Join lines (visual)" })
+map("v", "<", "<gv", { desc = "Indent left and reselect" })
+map("v", ">", ">gv", { desc = "Indent right and reselect" })
+
+-- Buffer management
+map("n", "<leader>bo", function()
+  require("close_buffers").delete { type = "other", force = true }
+  vim.cmd "silent! only"
+end, { desc = "Close other buffers" })
+
+map("n", "<leader>bd", function()
+  require("close_buffers").delete { type = "this", force = true }
+end, { desc = "Close current buffer" })
+
+-- Quickfix navigation
+map("n", "<leader>qo", "<cmd>copen<cr>", { desc = "Open quickfix" })
+map("n", "<leader>qc", "<cmd>cclose<cr>", { desc = "Close quickfix" })
+map("n", "[q", "<cmd>cprevious<cr>", { desc = "Previous quickfix item" })
+map("n", "]q", "<cmd>cnext<cr>", { desc = "Next quickfix item" })
+map("n", "[Q", "<cmd>cfirst<cr>", { desc = "First quickfix item" })
+map("n", "]Q", "<cmd>clast<cr>", { desc = "Last quickfix item" })
+
+-- LSP mappings
+map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+map("n", "gr", vim.lsp.buf.references, { desc = "Go to references" })
+map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
+map("n", "gt", vim.lsp.buf.type_definition, { desc = "Go to type definition" })
+map("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Code action" })
+map("n", "<leader>lk", vim.lsp.buf.hover, { desc = "Hover documentation" })
+map("n", "<leader>lf", function()
+  require("conform").format { lsp_fallback = true }
+end, { desc = "Format buffer" })
+map("n", "<leader>lr", function()
+  require("nvchad.lsp.renamer")()
+end, { desc = "LSP rename" })
+map("n", "<leader>ls", function()
+  require("telescope.builtin").lsp_document_symbols {
+    symbols = { "method", "function", "class" },
   }
+end, { desc = "LSP document symbols" })
 
-  for _, key in ipairs(default_unmaps) do
-    nomap("n", key)
-  end
-end
+-- Telescope mappings
+map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
+map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find buffers" })
+map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help tags" })
+map("n", "<leader>fp", "<cmd>Telescope projects<cr>", { desc = "Projects" })
+map("n", "<leader>fl", "<cmd>Telescope file_browser<cr>", { desc = "File browser" })
+map("n", "<leader>fT", "<cmd>TodoTelescope<cr>", { desc = "Todo telescope" })
+map("n", "<leader>fq", "<cmd>Telescope quickfix<cr>", { desc = "Quickfix list" })
 
--- Basic navigation mappings
-function M.setup_navigation()
-  -- Line navigation
-  map("n", "j", "gj")
-  map("n", "k", "gk")
+-- Git mappings
+map("n", "<leader>gg", "<cmd>Neogit<cr>", { desc = "Neogit" })
+map("n", "<leader>gd", "<cmd>Gitsigns diffthis<cr>", { desc = "Git diff" })
+map("n", "<leader>gb", "<cmd>Gitsigns blame_line<cr>", { desc = "Git blame line" })
+map("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Preview hunk" })
+map("n", "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Reset hunk" })
+map("n", "<leader>gR", "<cmd>Gitsigns reset_buffer<cr>", { desc = "Reset buffer" })
 
-  -- Paragraph and line position navigation
-  local nav_maps = {
-    { mode = { "n", "v" }, key = "J", map = "}", desc = "Next paragraph" },
-    { mode = { "n", "v" }, key = "K", map = "{", desc = "Previous paragraph" },
-    { mode = { "n", "v" }, key = "H", map = "^", desc = "Start of line" },
-    { mode = { "n", "v" }, key = "L", map = "$", desc = "End of line" },
-  }
+-- Tool mappings
+map("n", "<C-n>", "<cmd>Oil<cr>", { desc = "Open Oil file manager" })
+map("n", "<leader>aa", "<cmd>AvanteToggle<cr>", { desc = "Toggle Avante" })
+map("n", "<leader>y", "<cmd>YaRepl<cr>", { desc = "Open REPL" })
 
-  for _, m in ipairs(nav_maps) do
-    for _, mode in ipairs(m.mode) do
-      map(mode, m.key, m.map, { desc = m.desc })
-    end
-  end
+-- Markdown preview
+map("n", "<leader>pp", "<cmd>PeekOpen<cr>", { desc = "Open Peek preview" })
+map("n", "<leader>pc", "<cmd>PeekClose<cr>", { desc = "Close Peek preview" })
 
-  -- Window navigation
-  map("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
-  map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window" })
-  map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window" })
-  map("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
+-- Navigation plugins
+map("n", "s", "<cmd>HopWord<cr>", { desc = "Hop to word" })
+map("n", "S", "<cmd>HopLineStart<cr>", { desc = "Hop to line start" })
 
-  -- Quickfix navigation
-  map("n", "<leader>qo", "<cmd>copen<cr>", { desc = "Open quickfix" })
-  map("n", "<leader>qc", "<cmd>cclose<cr>", { desc = "Close quickfix" })
-  map("n", "[q", "<cmd>cprevious<cr>", { desc = "Previous quickfix item" })
-  map("n", "]q", "<cmd>cnext<cr>", { desc = "Next quickfix item" })
-  map("n", "[Q", "<cmd>cfirst<cr>", { desc = "First quickfix item" })
-  map("n", "]Q", "<cmd>clast<cr>", { desc = "Last quickfix item" })
-end
+-- Spell checking
+map("n", "<leader>ss", function()
+  vim.opt.spell = not vim.opt.spell:get()
+end, { desc = "Toggle spell check" })
+map("n", "<leader>sf", "ma[s1z=`a", { desc = "Fix spelling (first suggestion)" })
 
--- Text editing mappings
-function M.setup_editing()
-  map("n", "M", "<CMD>join<CR>", { desc = "Join lines" })
-  map("n", "U", "<C-r>", { desc = "Redo" })
-  -- Removed q: mapping as it overrides command history
-  map("v", "M", "J", { desc = "Join lines" })
+-- Terminal mode
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
-  map("v", "<", "<gv", { desc = "Indent left and reselect" })
-  map("v", ">", ">gv", { desc = "Indent right and reselect" })
-end
-
--- Window and buffer management
-function M.setup_window_buffer()
-  -- Window resizing
-  map("n", "<Up>", "<CMD>resize +2<CR>", { desc = "Increase height" })
-  map("n", "<Down>", "<CMD>resize -2<CR>", { desc = "Decrease height" })
-  map("n", "<Left>", "<CMD>vertical resize -2<CR>", { desc = "Decrease width" })
-  map("n", "<Right>", "<CMD>vertical resize +2<CR>", { desc = "Increase width" })
-
-  -- Buffer management with close_buffers plugin
-  map(
-    "n",
-    "<leader>bo",
-    [[<CMD>lua require("close_buffers").delete({type="other", force=true})<CR><CMD>silent on<CR>]],
-    { desc = "Close other buffers" }
-  )
-  map(
-    "n",
-    "<leader>bd",
-    [[<CMD>lua require("close_buffers").delete({type="this", force=true})<CR>]],
-    { desc = "Close current buffer" }
-  )
-end
-
--- LSP related mappings
-function M.setup_lsp()
-  map("n", "<leader>le", "<CMD>Trouble diagnostics toggle<CR>", { desc = "Toggle diagnostics" })
-  map("n", "<leader>lf", "<CMD>lua require'conform'.format()<CR>", { desc = "Format" })
-  map("n", "<leader>la", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code action" })
-  map("n", "<leader>lk", "<CMD>lua vim.lsp.buf.hover()<CR>", { desc = "Code hover" })
-  map("n", "<leader>lg", "<CMD>lua require'neogen'.generate()<CR>", { desc = "Generate doc" })
-  map("n", "<leader>lr", function()
-    require "nvchad.lsp.renamer"()
-  end, { desc = "LSP rename" })
-  map(
-    "n",
-    "<leader>ls",
-    "<CMD>lua require('telescope.builtin').lsp_document_symbols({symbols={'method', 'function', 'class'}})<CR>",
-    { desc = "LSP symbols" }
-  )
-  map("n", "<leader>ll", "<CMD>Trouble lsp_document_symbols toggle<CR>", { desc = "LSP symbol list" })
-  map("n", "<leader>ld", "<CMD>Trouble lsp_references toggle<CR>", { desc = "LSP references" })
-  map("n", "gd", "<CMD>lua vim.lsp.buf.definition()<CR>", { desc = "Go to definition" })
-  map("n", "gr", "<CMD>lua vim.lsp.buf.references()<CR>", { desc = "Go to references" })
-  map("n", "gi", "<CMD>lua vim.lsp.buf.implementation()<CR>", { desc = "Go to implementation" })
-  map("n", "gt", "<CMD>lua vim.lsp.buf.type_definition()<CR>", { desc = "Go to type definition" })
-end
-
--- Telescope and finding mappings
-function M.setup_telescope()
-  map("n", "<leader>ff", "<CMD>Telescope find_files<CR>", { desc = "Find files" })
-  map("n", "<leader>fg", "<CMD>Telescope live_grep<CR>", { desc = "Live grep" })
-  map("n", "<leader>fb", "<CMD>Telescope buffers<CR>", { desc = "Find buffers" })
-  map("n", "<leader>fh", "<CMD>Telescope help_tags<CR>", { desc = "Help tags" })
-  map("n", "<leader>fp", "<CMD>Telescope projects<CR>", { desc = "Projects" })
-  map("n", "<leader>fl", "<CMD>Telescope file_browser<CR>", { desc = "File Browser" })
-  map("n", "<leader>ft", "<CMD>TodoTrouble<CR>", { desc = "Todo list" })
-  map("n", "<leader>fT", "<CMD>TodoTelescope<CR>", { desc = "Todo telescope" })
-  map("n", "<leader>fu", "<CMD>UndotreeToggle<CR>", { desc = "Undo" })
-  map("n", "<leader>fq", "<CMD>Telescope quickfix<CR>", { desc = "Quickfix telescope" })
-end
-
--- Git related mappings
-function M.setup_git()
-  map("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Neogit" })
-  map("n", "<leader>gd", "<CMD>Gitsigns diffthis<CR>", { desc = "Git diff" })
-  map("n", "<leader>gb", "<CMD>Gitsigns blame_line<CR>", { desc = "Git blame" })
-  map("n", "<leader>gp", "<CMD>Gitsigns preview_hunk<CR>", { desc = "Preview hunk" })
-  map("n", "<leader>gr", "<CMD>Gitsigns reset_hunk<CR>", { desc = "Reset hunk" })
-  map("n", "<leader>gR", "<CMD>Gitsigns reset_buffer<CR>", { desc = "Reset buffer" })
-end
-
--- Tool-related mappings
-function M.setup_tools()
-  map("n", "<C-n>", "<CMD>Oil<CR>", { desc = "Open Oil" })
-  map("n", "<leader>mp", "<CMD>PeekOpen<CR>", { desc = "Open Peek" })
-  map("n", "<leader>aa", "<CMD>AvanteToggle<CR>", { desc = "Avante" })
-  map("n", "<leader>y", "<CMD>YaRepl<CR>", { desc = "Open REPL" })
-end
-
--- Miscellaneous mappings
-function M.setup_misc()
-  -- Spell checking
-  map("n", "<leader>ss", "<CMD>set invspell<CR>", { desc = "Toggle spell check" })
-  map("n", "<leader>sf", "ma[s1z=`a", { desc = "Fix spelling" })
-
-  -- Hop plugin
-  map("n", "s", "<CMD>HopWord<CR>", { desc = "Hop to word" })
-  map("n", "S", "<CMD>HopLineStart<CR>", { desc = "Hop to line start" })
-
-  -- Terminal
-  map("t", "<ESC><ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-
-  -- Updates
-  map("n", "<leader>u", "<CMD>Lazy sync<CR>", { desc = "Lazy Update" })
-
-  -- Peek
-  map("n", "<leader>pp", "<CMD>PeekOpen<CR>", { desc = "Peek" })
-  map("n", "<leader>pc", "<CMD>PeekClose<CR>", { desc = "Peek" })
-end
-
--- Setup all mappings
-function M.setup()
-  M.remove_defaults()
-  M.setup_navigation()
-  M.setup_editing()
-  M.setup_window_buffer()
-  M.setup_lsp()
-  M.setup_telescope()
-  M.setup_git()
-  M.setup_tools()
-  M.setup_misc()
-end
-
--- Initialize all mappings
-M.setup()
-
-return M
+-- Plugin updates
+map("n", "<leader>u", "<cmd>Lazy sync<cr>", { desc = "Update plugins (Lazy sync)" })

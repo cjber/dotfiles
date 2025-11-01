@@ -1,63 +1,75 @@
 require "nvchad.options"
-local o = vim.o
-local autocmd = vim.api.nvim_create_autocmd
+
+-- Use vim.opt consistently for better type safety and modern API
 local opt = vim.opt
 local g = vim.g
+local autocmd = vim.api.nvim_create_autocmd
 
-o.cursorlineopt = "both"
-o.colorcolumn = "88"
-
-vim.cmd [[let g:undotree_WindowLayout = 4]]
-
--- autocmds
-autocmd("FileType", { pattern = "*", command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o" })
-autocmd("TextYankPost", { pattern = "*", command = "lua vim.highlight.on_yank{}" })
-autocmd({ "BufWritePost" }, {
-  callback = function()
-    require("lint").try_lint()
-  end,
-})
-
-g.vscode_snippets_path = vim.fn.stdpath "config" .. "/snips"
-g.loaded_python3_provider = nil
-g.python3_host_prog = vim.fn.stdpath "config" .. ".venv/bin/python3"
-
--- options
+-- Display options
+opt.cursorlineopt = "both"
+opt.colorcolumn = "88"
 opt.conceallevel = 2
 opt.concealcursor = ""
 opt.cmdheight = 0
 opt.pumheight = 10
 opt.linebreak = true
 opt.cursorline = true
--- opt.signcolumn = "number"
 opt.shortmess = "aoOstTWAIcqF"
 opt.wildmode = "longest:full,full"
 opt.complete = ".,w,b,u,t,i,kspell"
 
--- undo
+-- File handling
 opt.undofile = true
 opt.history = 10000
-opt.undodir = os.getenv "HOME" .. "/.local/share/nvim/undo"
+opt.undodir = vim.fn.stdpath "data" .. "/undo"
 opt.swapfile = false
-opt.undofile = true
 opt.writebackup = false
 
--- folds
+-- Folding (use opt instead of vim.wo for consistency)
 opt.numberwidth = 4
 opt.fillchars = {
   fold = " ",
-  foldopen = "",
-  foldclose = "",
-  foldsep = " ", -- or "│" to use bar for show fold area
+  foldopen = "",
+  foldclose = "",
+  foldsep = " ",
 }
 opt.foldcolumn = "1"
--- opt.foldnestmax = 2
 opt.foldlevel = 99
 opt.foldlevelstart = 99
 opt.foldmethod = "expr"
-vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.wo.foldtext = ""
-vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldtext = ""
+opt.formatexpr = "v:lua.require'conform'.formatexpr()"
 
--- spell
+-- Spelling
 opt.spelllang = "en_gb"
+
+-- Global variables
+g.vscode_snippets_path = vim.fn.stdpath "config" .. "/snips"
+g.loaded_python3_provider = nil
+g.python3_host_prog = vim.fn.stdpath "config" .. "/.venv/bin/python3"
+g.undotree_WindowLayout = 4
+
+-- Autocmds (use callbacks for better performance and error handling)
+autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove { "c", "r", "o" }
+  end,
+  desc = "Disable automatic comment continuation",
+})
+
+autocmd("TextYankPost", {
+  pattern = "*",
+  callback = function()
+    vim.highlight.on_yank { timeout = 200 }
+  end,
+  desc = "Highlight yanked text",
+})
+
+autocmd("BufWritePost", {
+  callback = function()
+    require("lint").try_lint()
+  end,
+  desc = "Trigger linting on save",
+})

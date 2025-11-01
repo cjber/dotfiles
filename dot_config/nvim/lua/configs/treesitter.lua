@@ -1,35 +1,71 @@
-local spec = {
+return {
   "nvim-treesitter/nvim-treesitter",
-  dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+  event = { "BufReadPost", "BufNewFile" },
+  cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
   build = ":TSUpdate",
-  event = { "VeryLazy" },
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+  },
   opts = {
-    highlight = { enable = true },
-    indent = { enable = true },
+    -- Enable syntax highlighting
+    highlight = {
+      enable = true,
+      use_languagetree = true,
+      additional_vim_regex_highlighting = false,
+    },
+
+    -- Enable indentation
+    indent = {
+      enable = true,
+      -- Disable for Python as it can be unreliable
+      disable = { "python" },
+    },
+
+    -- Incremental selection
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<C-space>",
+        node_incremental = "<C-space>",
+        scope_incremental = false,
+        node_decremental = "<bs>",
+      },
+    },
+
+    -- Ensure these parsers are installed
     ensure_installed = {
-      -- main
+      -- Languages
       "python",
-      "dockerfile",
-      "sql",
-      -- dev
       "bash",
-      "query",
-      "regex",
-      -- neovim
       "lua",
       "vim",
       "vimdoc",
-      -- markup-ish
+
+      -- Data formats
       "json",
       "yaml",
       "toml",
       "markdown",
       "markdown_inline",
-      -- sometimes
+
+      -- Web
       "html",
       "css",
-    },
-  },
-}
+      "javascript",
 
-return spec
+      -- DevOps
+      "dockerfile",
+      "sql",
+
+      -- Neovim specific
+      "query",
+      "regex",
+    },
+
+    -- Auto-install missing parsers
+    auto_install = true,
+  },
+  config = function(_, opts)
+    require("nvim-treesitter.configs").setup(opts)
+  end,
+}
