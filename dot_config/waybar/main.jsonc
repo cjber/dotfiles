@@ -8,7 +8,6 @@
     "gtk-layer-shell": true,
     "height": 0,
     "modules-left": [
-        "custom/theme",
         "clock",
         // "cpu",
         // "temperature",
@@ -83,14 +82,6 @@
       "tooltip-format-disconnected": "Disconnected",
       "max-length": 50
   },
-    "custom/theme": {
-        "format": "{}",
-        "interval": "once",
-        "exec": "cat ~/.config/.current-theme | tr '[:lower:]' '[:upper:]'",
-        "on-click": "~/.local/bin/theme-switcher toggle",
-        "tooltip": false,
-        "signal": 9
-    },
     "custom/updates": {
         "format": " {}",
         "interval": 600,                     // every two hours

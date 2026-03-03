@@ -1,6 +1,7 @@
 @import "shadcn.css";
 
 * {
+    --border-radius: 12px;
     font-family: JetBrains Mono NF, monospace;
     font-weight: bold;
     font-size: 14px;
@@ -15,7 +16,7 @@ window#waybar {
 tooltip {
     background: @base;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
 }
 
 #workspaces button {
@@ -31,13 +32,13 @@ tooltip {
 #workspaces button.focused {
     color: @text;
     background: @primary;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
 }
 
 #workspaces button.urgent {
     color: @base;
     background: @green;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
 }
 
 /* #workspaces button:hover { */
@@ -73,14 +74,14 @@ tooltip {
 }
 
 #tray {
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-right: 10px;
 }
 
 #workspaces {
     background: @base;
     border: 2px solid @surface0;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-left: 10px;
     padding-right: 0px;
     padding-left: 5px;
@@ -88,7 +89,7 @@ tooltip {
 
 #custom-caffeine {
     color: @sky;
-    border-radius: 10px 0px 0px 10px;
+    border-radius: var(--border-radius) 0px 0px var(--border-radius);
     border-right: 0px;
     margin-left: 10px;
 }
@@ -102,12 +103,11 @@ tooltip {
 #custom-updates {
     color: @text;
     border: 2px solid @surface0;
-    border-radius: 10px 0px 0px 10px;
     border-right: 0px;
 }
 
 #window {
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-left: 60px;
     margin-right: 60px;
 }
@@ -115,14 +115,14 @@ tooltip {
 #clock {
     color: @text;
     border: 2px solid @surface0;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-left: 10px;
 }
 
 #cpu {
     color: @text;
     border: 2px solid @surface0;
-    border-radius: 10px 0px 0px 10px;
+    border-radius: var(--border-radius) 0px 0px var(--border-radius);
     border-right: 0px;
     margin-right:0px;
     margin-left: 10px;
@@ -130,70 +130,70 @@ tooltip {
 #memory {
     color: @text;
     border: 2px solid @surface0;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-left: 10px;
 }
 #disk {
     color: @text;
     border: 2px solid @surface0;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-right: 10px;
 }
 #temperature {
     border: 2px solid @surface0;
     color: @text;
-    border-radius: 10px 10px 10px 0px;
+    border-radius: 0px var(--border-radius) var(--border-radius) 0px;
     border-left: 0px;
     margin-left: 0px;
 }
 #network {
     border: 2px solid @surface0;
     color: @text;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-right: 10px;
 }
 
 #pulseaudio {
     color: @text;
     border: 2px solid @surface0;
-    border-radius: 10px 10px 10px 0px;
+    border-radius: var(--border-radius) 0px 0px var(--border-radius);
     border-left: 0px;
     margin-right: 10px;
 }
 
 #pulseaudio.microphone {
     color: @mauve;
-    border-radius: 10px 10px 10px 0px;
+    border-radius: 0px var(--border-radius) var(--border-radius) 0px;
     border-left: 0px;
     margin-right: 5px;
 }
 
 #battery {
     color: @green;
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
     margin-right: 10px;
     border-left: 0px;
 }
 
 #custom-gpu-usage {
     border: 2px solid @surface0;
-    border-radius: 10px 0px 0px 10px;
+    border-radius: var(--border-radius) 0px 0px var(--border-radius);
     border-right: 0px;
     margin-left: 10px;
 }
 #custom-gpu-temp {
     border: 2px solid @surface0;
-    border-radius: 10px 10px 10px 0px;
+    border-radius: 0px var(--border-radius) var(--border-radius) 0px;
     border-left: 0px;
     margin-left: 0px;
 }
 #custom-rclone {
     border: 2px solid @surface0;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin-right: 10px;
 }
 #custom-weather {
   border: 2px solid @surface0;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   margin-right: 10px;
 }
