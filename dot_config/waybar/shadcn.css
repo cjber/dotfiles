@@ -1,0 +1,38 @@
+/* Shadcn Theme Colors for Waybar */
+
+@define-color base #121113;
+@define-color mantle #121212;
+@define-color crust #0a0a0a;
+
+@define-color surface0 #222222;
+@define-color surface1 #333333;
+@define-color surface2 #444444;
+
+@define-color overlay0 #555555;
+@define-color overlay1 #666666;
+@define-color overlay2 #777777;
+
+@define-color text #c1c1c1;
+@define-color subtext1 #b0b0b0;
+@define-color subtext0 #999999;
+
+/* Main accent colors */
+@define-color primary #e78a53;
+@define-color secondary #5f8787;
+@define-color tertiary #fbcb97;
+
+/* Semantic colors using shadcn palette */
+@define-color blue #5f8787;
+@define-color lavender #e78a53;
+@define-color sapphire #5f8787;
+@define-color sky #5f8787;
+@define-color teal #5f8787;
+@define-color green #5f8787;
+@define-color yellow #fbcb97;
+@define-color peach #e78a53;
+@define-color maroon #e78a53;
+@define-color red #5f8787;
+@define-color mauve #999999;
+@define-color pink #fbcb97;
+@define-color flamingo #e78a53;
+@define-color rosewater #fbcb97;
