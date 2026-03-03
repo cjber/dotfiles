@@ -4,3 +4,5 @@ zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
 agkozak/zsh-z
+junegunn/fzf-git.sh
+eliyastein/llm-zsh-plugin

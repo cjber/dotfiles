@@ -83,3 +83,16 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.local/lib/mojo
 export PATH=$PATH:~/.modular/pkg/packages.modular.com_mojo/bin/
 
 eval "$(starship init zsh)"
+eval "$(worktree-bin init zsh)"
+
+# Added by microsandbox installer
+export PATH="$HOME/.local/bin:$PATH"
+export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
+
+# GitHub token for MCP server (from gh CLI)
+export GITHUB_PERSONAL_ACCESS_TOKEN="$(gh auth token)"
+
+
+# Composio CLI
+export COMPOSIO_INSTALL_DIR=/home/cjber/.composio
+export PATH="/home/cjber/.composio:$PATH"

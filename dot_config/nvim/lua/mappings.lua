@@ -102,7 +102,7 @@ function M.setup_lsp()
   map("n", "<leader>lk", "<CMD>lua vim.lsp.buf.hover()<CR>", { desc = "Code hover" })
   map("n", "<leader>lg", "<CMD>lua require'neogen'.generate()<CR>", { desc = "Generate doc" })
   map("n", "<leader>lr", function()
-    require "nvchad.lsp.renamer"()
+    require("configs.lsp-rename").rename_fancy()
   end, { desc = "LSP rename" })
   map(
     "n",
@@ -112,10 +112,21 @@ function M.setup_lsp()
   )
   map("n", "<leader>ll", "<CMD>Trouble lsp_document_symbols toggle<CR>", { desc = "LSP symbol list" })
   map("n", "<leader>ld", "<CMD>Trouble lsp_references toggle<CR>", { desc = "LSP references" })
+  
+  -- Standard LSP navigation
+  map("n", "gD", "<CMD>lua vim.lsp.buf.declaration()<CR>", { desc = "Go to declaration" })
   map("n", "gd", "<CMD>lua vim.lsp.buf.definition()<CR>", { desc = "Go to definition" })
   map("n", "gr", "<CMD>lua vim.lsp.buf.references()<CR>", { desc = "Go to references" })
   map("n", "gi", "<CMD>lua vim.lsp.buf.implementation()<CR>", { desc = "Go to implementation" })
   map("n", "gt", "<CMD>lua vim.lsp.buf.type_definition()<CR>", { desc = "Go to type definition" })
+  map("n", "<C-k>", "<CMD>lua vim.lsp.buf.signature_help()<CR>", { desc = "Signature help" })
+  
+  -- Workspace folders
+  map("n", "<leader>wa", "<CMD>lua vim.lsp.buf.add_workspace_folder()<CR>", { desc = "Add workspace folder" })
+  map("n", "<leader>wr", "<CMD>lua vim.lsp.buf.remove_workspace_folder()<CR>", { desc = "Remove workspace folder" })
+  map("n", "<leader>wl", function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, { desc = "List workspace folders" })
 end
 
 -- Telescope and finding mappings
