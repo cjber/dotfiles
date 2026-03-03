@@ -9,43 +9,41 @@
 }
 
 window#waybar {
-    background: rgba(21, 18, 27, 0);
+    background: transparent;
     color: @text;
 }
 
 tooltip {
     background: @base;
-    border: none;
+    border: 1px solid @surface0;
     border-radius: var(--border-radius);
+    padding: 6px 10px;
 }
 
 #workspaces button {
-    padding: 5px;
-    color: @surface1;
-    margin-right: 5px;
+    padding: 5px 8px;
+    color: @surface2;
+    margin-right: 4px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
 }
 
 #workspaces button.active {
     color: @text;
+    background: @surface0;
 }
 
 #workspaces button.focused {
-    color: @text;
+    color: @base;
     background: @primary;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
 }
 
 #workspaces button.urgent {
     color: @base;
     background: @green;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
 }
-
-/* #workspaces button:hover { */
-/*     background: #11111b; */
-/*     color: #cdd6f4; */
-/*     border-radius: 10px; */
-/* } */
 
 #custom-language,
 #custom-updates,
@@ -66,10 +64,10 @@ tooltip {
 #workspaces,
 #tray,
 #backlight {
-    background: @base;
-    padding: 0px 10px;
-    margin: 3px 0px;
-    margin-top: 10px;
+    background: alpha(@base, 0.85);
+    padding: 2px 14px;
+    margin: 4px 0px;
+    margin-top: 8px;
     border: 1px solid @surface0;
 }
 
@@ -79,12 +77,11 @@ tooltip {
 }
 
 #workspaces {
-    background: @base;
-    border: 2px solid @surface0;
+    background: alpha(@base, 0.85);
+    border: 1px solid @surface0;
     border-radius: var(--border-radius);
     margin-left: 10px;
-    padding-right: 0px;
-    padding-left: 5px;
+    padding: 0px 4px;
 }
 
 #custom-caffeine {
@@ -101,61 +98,72 @@ tooltip {
 }
 
 #custom-updates {
-    color: @text;
-    border: 2px solid @surface0;
+    color: @subtext0;
+    font-size: 13px;
+    border: 1px solid @surface0;
     border-right: 0px;
 }
 
 #window {
+    color: @subtext0;
+    font-size: 13px;
     border-radius: var(--border-radius);
     margin-left: 60px;
     margin-right: 60px;
 }
 
 #clock {
-    color: @text;
-    border: 2px solid @surface0;
+    color: @primary;
+    border: 1px solid @surface0;
     border-radius: var(--border-radius);
     margin-left: 10px;
 }
 
 #cpu {
-    color: @text;
-    border: 2px solid @surface0;
+    color: @subtext0;
+    font-size: 13px;
+    border: 1px solid @surface0;
     border-radius: var(--border-radius) 0px 0px var(--border-radius);
     border-right: 0px;
-    margin-right:0px;
+    margin-right: 0px;
     margin-left: 10px;
 }
+
 #memory {
     color: @text;
-    border: 2px solid @surface0;
+    border: 1px solid @surface0;
     border-radius: var(--border-radius);
     margin-left: 10px;
 }
+
 #disk {
-    color: @text;
-    border: 2px solid @surface0;
+    color: @subtext0;
+    font-size: 13px;
+    border: 1px solid @surface0;
     border-radius: var(--border-radius);
     margin-right: 10px;
 }
+
 #temperature {
-    border: 2px solid @surface0;
-    color: @text;
+    color: @subtext0;
+    font-size: 13px;
+    border: 1px solid @surface0;
     border-radius: 0px var(--border-radius) var(--border-radius) 0px;
     border-left: 0px;
     margin-left: 0px;
 }
+
 #network {
-    border: 2px solid @surface0;
-    color: @text;
+    color: @subtext0;
+    font-size: 13px;
+    border: 1px solid @surface0;
     border-radius: var(--border-radius);
     margin-right: 10px;
 }
 
 #pulseaudio {
     color: @text;
-    border: 2px solid @surface0;
+    border: 1px solid @surface0;
     border-radius: var(--border-radius) 0px 0px var(--border-radius);
     border-left: 0px;
     margin-right: 10px;
@@ -176,24 +184,33 @@ tooltip {
 }
 
 #custom-gpu-usage {
-    border: 2px solid @surface0;
+    color: @subtext0;
+    font-size: 13px;
+    border: 1px solid @surface0;
     border-radius: var(--border-radius) 0px 0px var(--border-radius);
     border-right: 0px;
     margin-left: 10px;
 }
+
 #custom-gpu-temp {
-    border: 2px solid @surface0;
+    color: @subtext0;
+    font-size: 13px;
+    border: 1px solid @surface0;
     border-radius: 0px var(--border-radius) var(--border-radius) 0px;
     border-left: 0px;
     margin-left: 0px;
 }
+
 #custom-rclone {
-    border: 2px solid @surface0;
+    color: @subtext0;
+    font-size: 13px;
+    border: 1px solid @surface0;
     border-radius: var(--border-radius);
     margin-right: 10px;
 }
+
 #custom-weather {
-  border: 2px solid @surface0;
-  border-radius: var(--border-radius);
-  margin-right: 10px;
+    border: 1px solid @surface0;
+    border-radius: var(--border-radius);
+    margin-right: 10px;
 }
