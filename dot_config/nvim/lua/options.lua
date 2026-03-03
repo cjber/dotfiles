@@ -19,8 +19,8 @@ autocmd({ "BufWritePost" }, {
 })
 
 g.vscode_snippets_path = vim.fn.stdpath "config" .. "/snips"
-g.loaded_python3_provider = nil
-g.python3_host_prog = vim.fn.stdpath "config" .. ".venv/bin/python3"
+g.loaded_python3_provider = 1
+g.python3_host_prog = vim.fn.stdpath "config" .. "/.venv/bin/python3"
 
 -- options
 opt.conceallevel = 2

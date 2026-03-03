@@ -1,8 +1,16 @@
 return {
+
+  {
+    "neovim/nvim-lspconfig",
+    lazy = false,
+    config = function()
+      require "configs.lspconfig"
+    end,
+  },
+
   -- Imports from configs
   { import = "configs.cmp" },
   { import = "configs.gitsigns" },
-  { import = "configs.copilot" },
   { import = "configs.peek" },
   { import = "configs.notify" },
   { import = "configs.treesitter" },
@@ -15,7 +23,6 @@ return {
   { import = "configs.autosave" },
   { import = "configs.oil" },
   { import = "configs.telescope" },
-  { import = "configs.lspconfig" },
 
   {
     "NeogitOrg/neogit",
@@ -68,7 +75,28 @@ return {
 
   { "freitass/todo.txt-vim", lazy = false },
 
+  {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    opts = {
+      terminal = {
+        split_side = "right",
+        split_width_percentage = 0.30,
+        snacks_win_opts = {
+          position = "bottom",
+          height = 0.30,
+        },
+      },
+    },
+    keys = {
+      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+    },
+  },
+
   -- Disabled Plugins
   { "nvim-tree/nvim-tree.lua", enabled = false },
-  { "williamboman/mason.nvim", enabled = false },
+  -- { "williamboman/mason.nvim", enabled = false },
 }

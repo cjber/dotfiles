@@ -1,6 +1,13 @@
 ---@type ChadrcConfig
 local M = {}
 
+-- Load theme override if it exists
+local theme_override = "catppuccin"
+local ok, override = pcall(require, "custom.theme-override")
+if ok and vim.g.nvchad_theme then
+  theme_override = vim.g.nvchad_theme
+end
+
 M.ui = {
   lsp_semantic_tokens = true,
 
@@ -15,7 +22,7 @@ M.ui = {
 
   statusline = {
     theme = "minimal",
-    separator_style = "block",
+    separator_style = theme_override == "shadcn" and "round" or "block",
   },
   tabufline = {
     enabled = true,
@@ -40,7 +47,7 @@ M.ui = {
 M.lsp = { signature = false }
 
 M.base46 = {
-  theme = "catppuccin",
+  theme = theme_override,
   hl_override = {
     FoldColumn = {
       bg = "black",

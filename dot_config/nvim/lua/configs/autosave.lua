@@ -13,7 +13,7 @@ local spec = {
           -- disable all manually enabled buffers
           for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
             if vim.b[bufnr].autoformat_enabled then
-              table.insert(vim.g.OLD_BUFFER_AUTOFORMATS, bufnr)
+              table.insert(vim.g.OLD_AUTOFORMAT_BUFFERS, bufnr)
               vim.b[bufnr].autoformat_enabled = false
             end
           end

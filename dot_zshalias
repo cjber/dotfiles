@@ -1,7 +1,8 @@
 alias ll="ls -lha"
 alias rm="rm -i"
 alias cm="chezmoi"
-alias upd='paru && antidote update && rustup update && nvim --headless "+Lazy! sync" +qa && uv sync -U --directory $HOME/.config/nvim && echo yes | quarto install tinytex && tlmgr update --self --all && vale sync && uv tool update --all'
+alias upd='topgrade'
+alias codex=codex --search
 alias bat="bat -P --style=numbers --theme base16-256"
 alias empty='trash-empty'
 alias la="ncdu --color dark"
@@ -24,6 +25,10 @@ alias dotdrop='dotdrop --cfg=$HOME/dotfiles/config.yaml'
 alias dotgit="git -C $DOTREPO"
 alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
 alias hx="helix"
+alias wt="worktree"
+alias cc='claude'
+alias g='git'
 
 ## SSH
 alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
+alias s='aichat -e shell'

@@ -19,7 +19,7 @@ if pgrep -fl rclone; then exit 1; fi
     --drive-chunk-size 64M \
     --progress \
     --verbose \
-    --backup-dir $BACKUP_DIR \
+    --backup-dir "$BACKUP_DIR" \
     --suffix ."$(date +"%Y-%m-%d-%H-%M-%S")" \
     --suffix-keep-extension \
     --max-age 7d

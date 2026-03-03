@@ -1,7 +1,7 @@
 {
     "layer": "top",
     "position": "bottom",
-    "output": "HDMI-A-1",
+    "output": "DP-2",
     "mod": "dock",
     "exclusive": true,
     "passthrough": false,
@@ -16,7 +16,7 @@
     "hyprland/workspaces": {
         "persistent-workspaces": {
                      "DP-1": [1, 2, 3], // 5 workspaces by default on every monitor
-                     "HDMI-A-1": [4] // but only three on HDMI-A-1
+                     "DP-2": [4] // but only three on DP-2
                }
     },
 "disk": {

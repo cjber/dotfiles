@@ -32,5 +32,19 @@
   amend = commit --amend
   hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
   fixup = commit --fixup
+	so = switch
+	sc = switch -c
+	rs = restore
+	rss = restore --staged
+	grab = "\\!f() { git fetch origin && git switch \"$1\"; }; f"
+	mm = merge main
 [fetch]
 	prune = true
+[coderabbit]
+	machineId = cli/866e06e3d72848ebae255a8845902f1e
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
