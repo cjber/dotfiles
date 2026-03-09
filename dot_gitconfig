@@ -17,6 +17,7 @@
 	gpgsign = true
 [core]
 	excludesfile = /home/cjber/.gitignore_global
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [help]
 	autocorrect = 1
 [rerere]
@@ -38,6 +39,7 @@
 	rss = restore --staged
 	grab = "\\!f() { git fetch origin && git switch \"$1\"; }; f"
 	mm = merge main
+	fp = \\!git fetch origin && git pull
 [fetch]
 	prune = true
 [coderabbit]
@@ -48,3 +50,5 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
+[delta]
+	side-by-side = true
