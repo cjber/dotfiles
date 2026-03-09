@@ -52,6 +52,7 @@ tooltip {
 #custom-weather,
 #custom-gpu-usage,
 #custom-gpu-temp,
+#custom-tailscale,
 #custom-rclone,
 #window,
 #clock,
@@ -187,10 +188,28 @@ tooltip {
     border-left: 0px;
     margin-left: 0px;
 }
+#custom-tailscale {
+    border: 2px solid @surface0;
+    border-radius: 10px 0px 0px 10px;
+    border-right: 0px;
+}
 #custom-rclone {
     border: 2px solid @surface0;
-    border-radius: 10px;
+    border-radius: 0px 10px 10px 0px;
+    border-left: 0px;
     margin-right: 10px;
+}
+#custom-tailscale.disconnected,
+#custom-rclone.disconnected {
+    color: @subtext0;
+}
+#custom-tailscale.warning,
+#custom-rclone.warning {
+    color: @yellow;
+}
+#custom-tailscale.syncing,
+#custom-rclone.syncing {
+    color: @primary;
 }
 #custom-weather {
   border: 2px solid @surface0;

@@ -18,6 +18,7 @@
     "modules-center": ["cpu", "temperature", "hyprland/workspaces", "custom/gpu-usage", "custom/gpu-temp"],
     "modules-right": [
         "tray",
+        "custom/tailscale",
         "custom/rclone",
         "disk",
         "network",
@@ -142,10 +143,16 @@
   "return-type": "",
   "interval": 1
 },
-"custom/rclone": {
-  "exec": "if [[ $(pgrep -fl rclone | wc -c) -ne 0 ]]; then echo '󰊶  syncing'; else echo ' stopped'; fi",
+"custom/tailscale": {
+  "exec": "~/.config/waybar/tailscale-status.sh",
   "format": "{}",
-  "return-type": "",
+  "return-type": "json",
   "interval": 10
+},
+"custom/rclone": {
+  "exec": "~/.config/waybar/rclone-status.sh",
+  "format": "{}",
+  "return-type": "json",
+  "interval": 5
 }
 }

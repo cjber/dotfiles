@@ -2,7 +2,7 @@ alias ll="ls -lha"
 alias rm="rm -i"
 alias cm="chezmoi"
 alias upd='topgrade'
-alias codex=codex --search
+alias codex=codex --search --dangerously-bypass-approvals-and-sandbox
 alias bat="bat -P --style=numbers --theme base16-256"
 alias empty='trash-empty'
 alias la="ncdu --color dark"
@@ -28,6 +28,8 @@ alias hx="helix"
 alias wt="worktree"
 alias cc='claude'
 alias g='git'
+alias gfp='git fp'
+alias gmm='git mm'
 
 ## SSH
 alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
