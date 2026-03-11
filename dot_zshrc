@@ -96,3 +96,6 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="$(gh auth token)"
 # Composio CLI
 export COMPOSIO_INSTALL_DIR=/home/cjber/.composio
 export PATH="/home/cjber/.composio:$PATH"
+export ANDROID_HOME=$HOME/Android/Sdk
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
