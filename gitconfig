@@ -1,0 +1,54 @@
+[user]
+	email = cjberragan@gmail.com
+	name = cjber
+	signingkey = 81BB85948A4EAB9B
+[init]
+	defaultBranch = main
+[credential]
+	helper = store
+[pull]
+	ff = only
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[commit]
+	gpgsign = true
+[core]
+	excludesfile = /home/cjber/.gitignore_global
+	pager = diff-so-fancy | less --tabs=4 -RFX
+[help]
+	autocorrect = 1
+[rerere]
+	enabled = true
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  lg = log --oneline --graph --decorate --all
+  last = log -1 HEAD
+  unstage = reset HEAD --
+  amend = commit --amend
+  hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+  fixup = commit --fixup
+	so = switch
+	sc = switch -c
+	rs = restore
+	rss = restore --staged
+	grab = "\\!f() { git fetch origin && git switch \"$1\"; }; f"
+	mm = merge main
+	fp = !git fetch && git pull
+[fetch]
+	prune = true
+[coderabbit]
+	machineId = cli/866e06e3d72848ebae255a8845902f1e
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[delta]
+	side-by-side = true

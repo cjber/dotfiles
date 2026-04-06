@@ -1,0 +1,17 @@
+[default.files]
+"config/containers" = "~/.config/containers"
+"config/hypr" = "~/.config/hypr"
+"config/kitty" = "~/.config/kitty"
+"config/nvim" = "~/.config/nvim"
+"config/paru" = "~/.config/paru"
+"config/rofi" = "~/.config/rofi"
+"config/tmux" = "~/.config/tmux"
+"config/waybar" = "~/.config/waybar"
+"config/yazi" = { target = "~/.config/yazi", type = "symbolic" }
+"ipython" = "~/.ipython"
+"gitconfig" = "~/.gitconfig"
+"vale.ini" = "~/.vale.ini"
+"zsh_plugins.txt" = "~/.zsh_plugins.txt"
+"zshalias" = "~/.zshalias"
+"zshenv" = "~/.zshenv"
+"zshrc" = "~/.zshrc"

@@ -1,5 +1,4 @@
 *.sqlite
 *.env*
-*.venv
-config/fish/functions/*virtualenv*
-
+.venv/
+.dotter/local.toml

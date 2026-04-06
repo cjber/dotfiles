@@ -1,0 +1,165 @@
+{
+    "layer": "top",
+    "position": "top",
+    "output": "DP-1",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "height": 0,
+    "modules-left": [
+        "clock",
+        // "cpu",
+        // "temperature",
+        // "custom/gpu-usage",
+        // "custom/gpu-temp",
+        "memory"
+    ],
+    "modules-center": ["cpu", "temperature", "hyprland/workspaces", "custom/gpu-usage", "custom/gpu-temp"],
+    "modules-right": [
+        "tray",
+        "custom/tailscale",
+        "custom/rclone",
+        "disk",
+        "network#ethernet",
+        "network#wifi",
+        "custom/updates",
+        "pulseaudio"
+    ],
+
+    "hyprland/workspaces": {
+        "persistent-workspaces": {
+            "DP-1": [1, 2, 3]
+        }
+    },
+"disk": {
+    "interval": 30,
+    "format": "{used} ({percentage_used}%)  ",
+    "path": "/"
+},
+"idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+        "activated": " ",
+        "deactivated": " "
+    }
+},
+"memory": {
+    "interval": 30,
+    "format": "{used:0.1f}G/{total:0.1f}G   {swapUsed}G/{swapTotal}G 󰯍"
+},
+"cpu": {
+     "interval": 1,
+     "format": " {usage:2}%",
+     "format-icons": [
+          "<span color='#A6E3A1'>▁</span>", // green
+          "<span color='#A6E3A1'>▂</span>", // blue
+          "<span color='#A6E3A1'>▃</span>", // white
+          "<span color='#A6E3A1'>▄</span>", // white
+          "<span color='#A6E3A1'>▅</span>", // yellow
+          "<span color='#A6E3A1'>▆</span>", // yellow
+          "<span color='#A6E3A1'>▇</span>", // orange
+          "<span color='#A6E3A1'>█</span>"  // red
+     ]
+},
+
+   "temperature": {
+      "thermal-zone": 2,
+      "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "critical-threshold": 80,
+      "format-critical": "{temperatureC}°C ",
+      "format": "{temperatureC}°C "
+  },
+  "network#ethernet": {
+      "interface": "eno1",
+      "interval": 5,
+      "format-ethernet": "{bandwidthUpBits:>}  {bandwidthDownBits:>}  ",
+      "format-disconnected": "",
+      "tooltip-format-ethernet": "{ifname} {ipaddr}/{cidr} via {gwaddr}",
+      "tooltip-format-disconnected": "Ethernet disconnected",
+      "max-length": 50
+  },
+  "network#wifi": {
+      "interface": "wlan0",
+      "interval": 5,
+      "format-wifi": "{essid} ({signalStrength}%) 󰤨",
+      "format-disconnected": "󰤭",
+      "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
+      "tooltip-format-disconnected": "WiFi disconnected",
+      "on-click": "kitty -e iwctl station wlan0 get-networks",
+      "max-length": 50
+  },
+    "custom/updates": {
+        "format": " {}",
+        "interval": 600,                     // every two hours
+        "exec": "checkupdates | wc -l",       // # of updates and tooltip details
+        "exec-if": "exit 0",                  // always run; consider advanced run conditions
+        "on-click": "kitty -e sudo pacman -Syu", // update system
+        "signal": 8
+    },
+// "custom/updates": {
+//     "format": "{}",
+//     "interval": 600,
+//     "exec": "~/.config/waybar/updates.sh",
+//     "return-type": "json",
+//     "exec-if": "exit 0",
+//     "signal": 8
+//   },
+    "tray": {
+        "icon-size": 13,
+        "spacing": 10
+    },
+    "clock": {
+        "timezone": "Europe/London",
+        "format": " {:%R    %d/%m}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", ""],
+        "on-scroll-up": "brightnessctl set 1%+",
+        "on-scroll-down": "brightnessctl set 1%-",
+        "min-length": 6
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "tooltip": false,
+        "format-muted": " Muted",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        }
+    },
+    "custom/gpu-usage": {
+  "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
+  "format": "󱤓 {:2}%",
+  "return-type": "",
+  "interval": 1
+},
+
+    "custom/gpu-temp": {
+  "exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits",
+  "format": "{:2}°C ",
+  "return-type": "",
+  "interval": 1
+},
+"custom/tailscale": {
+  "exec": "~/.config/waybar/tailscale-status.sh",
+  "format": "{}",
+  "return-type": "json",
+  "interval": 10
+},
+"custom/rclone": {
+  "exec": "~/.config/waybar/rclone-status.sh",
+  "format": "{}",
+  "return-type": "json",
+  "interval": 5
+}
+}
