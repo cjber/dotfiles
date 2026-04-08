@@ -72,9 +72,6 @@ return {
   },
 
   -- AI
-  { import = "configs.avante" },
-  { import = "configs.codecompanion" },
-  { import = "configs.mcphub" },
   {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },

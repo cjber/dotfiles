@@ -19,6 +19,7 @@ o.splitbelow = true
 o.splitright = true
 o.timeoutlen = 400
 o.updatetime = 250
+o.autoread = true
 
 -- Search
 o.ignorecase = true
@@ -95,4 +96,10 @@ autocmd("BufWritePost", {
   callback = function()
     require("lint").try_lint()
   end,
+})
+
+-- Auto-reload buffers when files change on disk (e.g. Claude Code edits)
+autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI", "TermLeave" }, {
+  pattern = "*",
+  command = "checktime",
 })
