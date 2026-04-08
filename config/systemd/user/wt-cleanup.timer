@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily worktree orphan cleanup
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=30min
+
+[Install]
+WantedBy=timers.target

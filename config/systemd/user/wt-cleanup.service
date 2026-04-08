@@ -1,0 +1,7 @@
+[Unit]
+Description=Worktree orphan cleanup
+
+[Service]
+Type=oneshot
+ExecStart=/home/cjber/scripts/wt_cleanup.sh
+Nice=10

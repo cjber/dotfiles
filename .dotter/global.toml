@@ -15,3 +15,6 @@
 "zshalias" = "~/.zshalias"
 "zshenv" = "~/.zshenv"
 "zshrc" = "~/.zshrc"
+"scripts/wt_cleanup.sh" = "~/scripts/wt_cleanup.sh"
+"config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
+"config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
