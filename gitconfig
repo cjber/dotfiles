@@ -4,8 +4,6 @@
 	signingkey = 81BB85948A4EAB9B
 [init]
 	defaultBranch = main
-[credential]
-	helper = store
 [pull]
 	ff = only
 [filter "lfs"]

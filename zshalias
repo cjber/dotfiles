@@ -26,6 +26,7 @@ alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && do
 alias hx="helix"
 alias wt="worktree"
 alias cc='claude'
+alias cz='ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic ANTHROPIC_AUTH_TOKEN=$(pass show zai/api_key) API_TIMEOUT_MS=3000000 claude'
 alias g='git'
 alias gfp='git fp'
 alias gmm='git mm'
