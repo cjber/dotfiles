@@ -1,20 +1,21 @@
 # Dotfiles Configuration
 
-This repository contains my personal dotfiles configuration for my Arch Linux setup with Hyprland on Wayland, managed using `chezmoi`.
+This repository contains my personal dotfiles configuration for my Arch Linux setup with Hyprland on Wayland, managed using [`dotter`](https://github.com/SuperCuber/dotter).
 
 ![](./screenshots/2024-02-05_16-11.png)
 
 ## Setup
 
-To use these dotfiles, simply execute the following one-liner to install and apply the configurations using `chezmoi`:
+Clone the repo and deploy with dotter:
 
 ```bash
-export GITHUB_USERNAME=cjber
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+git clone git@github.com:cjber/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+dotter deploy
 ```
 
-To update dotfiles on an existing system use:
+To update on an existing system:
 
 ```bash
-chezmoi update
+cd ~/.dotfiles && git pull && dotter deploy
 ```

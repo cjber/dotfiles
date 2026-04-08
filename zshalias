@@ -1,6 +1,5 @@
 alias ll="ls -lha"
 alias rm="rm -i"
-alias cm="chezmoi"
 alias upd='topgrade'
 alias codex=codex --search --dangerously-bypass-approvals-and-sandbox
 alias bat="bat -P --style=numbers --theme base16-256"
@@ -33,4 +32,4 @@ alias gmm='git mm'
 
 ## SSH
 alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
-alias s='aichat -e shell'
+alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
