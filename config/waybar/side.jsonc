@@ -20,7 +20,7 @@
     },
 "disk": {
     "interval": 30,
-    "format": "{used} ({percentage_used}%) 󱛟 ",
+    "format": "{used} ({percentage_used}%)",
     "path": "/"
 },
 "idle_inhibitor": {
@@ -83,7 +83,7 @@
         "spacing": 10
     },
     "clock": {
-        "format": "  {:%R    %d/%m}",
+        "format": "{:%R  %d/%m}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
     "backlight": {

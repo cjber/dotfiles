@@ -34,7 +34,7 @@
     },
 "disk": {
     "interval": 30,
-    "format": "{used} ({percentage_used}%)  ",
+    "format": "{used} ({percentage_used}%)",
     "path": "/"
 },
 "idle_inhibitor": {
@@ -46,11 +46,11 @@
 },
 "memory": {
     "interval": 30,
-    "format": "{used:0.1f}G/{total:0.1f}G   {swapUsed}G/{swapTotal}G 󰯍"
+    "format": "{used:0.1f}G/{total:0.1f}G  swap {swapUsed}G/{swapTotal}G"
 },
 "cpu": {
      "interval": 1,
-     "format": " {usage:2}%",
+     "format": "cpu {usage:2}%",
      "format-icons": [
           "<span color='#A6E3A1'>▁</span>", // green
           "<span color='#A6E3A1'>▂</span>", // blue
@@ -67,14 +67,14 @@
       "thermal-zone": 2,
       "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
       "critical-threshold": 80,
-      "format-critical": "{temperatureC}°C ",
-      "format": "{temperatureC}°C "
+      "format-critical": "{temperatureC}°C",
+      "format": "{temperatureC}°C"
   },
   "network#ethernet": {
       "interface": "eno1",
       "interval": 5,
-      "format-ethernet": "{bandwidthUpBits:>}  {bandwidthDownBits:>}  ",
-      "format-disconnected": "",
+      "format-ethernet": "↑{bandwidthUpBits:>} ↓{bandwidthDownBits:>}",
+      "format-disconnected": "no eth",
       "tooltip-format-ethernet": "{ifname} {ipaddr}/{cidr} via {gwaddr}",
       "tooltip-format-disconnected": "Ethernet disconnected",
       "max-length": 50
@@ -82,15 +82,15 @@
   "network#wifi": {
       "interface": "wlan0",
       "interval": 5,
-      "format-wifi": "{essid} ({signalStrength}%) 󰤨",
-      "format-disconnected": "󰤭",
+      "format-wifi": "{essid} ({signalStrength}%)",
+      "format-disconnected": "no wifi",
       "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
       "tooltip-format-disconnected": "WiFi disconnected",
       "on-click": "kitty -e iwctl station wlan0 get-networks",
       "max-length": 50
   },
     "custom/updates": {
-        "format": " {}",
+        "format": "{} updates",
         "interval": 600,                     // every two hours
         "exec": "checkupdates | wc -l",       // # of updates and tooltip details
         "exec-if": "exit 0",                  // always run; consider advanced run conditions
@@ -111,7 +111,7 @@
     },
     "clock": {
         "timezone": "Europe/London",
-        "format": " {:%R    %d/%m}",
+        "format": "{:%R  %d/%m}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
     "backlight": {
@@ -123,9 +123,9 @@
         "min-length": 6
     },
     "pulseaudio": {
-        "format": "{icon} {volume}%",
+        "format": "vol {volume}%",
         "tooltip": false,
-        "format-muted": " Muted",
+        "format-muted": "muted",
         "scroll-step": 5,
         "format-icons": {
             "headphone": "",
@@ -139,14 +139,14 @@
     },
     "custom/gpu-usage": {
   "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
-  "format": "󱤓 {:2}%",
+  "format": "gpu {:2}%",
   "return-type": "",
   "interval": 1
 },
 
     "custom/gpu-temp": {
   "exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits",
-  "format": "{:2}°C ",
+  "format": "{:2}°C",
   "return-type": "",
   "interval": 1
 },

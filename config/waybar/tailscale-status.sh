@@ -3,7 +3,7 @@
 status=$(tailscale status --json 2>/dev/null)
 
 if [[ -z "$status" ]]; then
-    echo '{"text":"󰖂 off","class":"disconnected","tooltip":"Tailscale is not running"}'
+    echo '{"text":"ts off","class":"disconnected","tooltip":"Tailscale is not running"}'
     exit 0
 fi
 
@@ -15,15 +15,15 @@ peers=$(echo "$status" | jq '[.Peer[] | select(.Online == true)] | length')
 case "$backend_state" in
     Running)
         tooltip="Tailscale connected\nIP: ${self_ip}\nHostname: ${hostname}\nOnline peers: ${peers}"
-        echo "{\"text\":\"󰖂\",\"class\":\"connected\",\"tooltip\":\"${tooltip}\"}"
+        echo "{\"text\":\"ts\",\"class\":\"connected\",\"tooltip\":\"${tooltip}\"}"
         ;;
     Stopped)
-        echo '{"text":"󰖂 off","class":"disconnected","tooltip":"Tailscale is stopped"}'
+        echo '{"text":"ts off","class":"disconnected","tooltip":"Tailscale is stopped"}'
         ;;
     NeedsLogin)
-        echo '{"text":"󰖂 login","class":"warning","tooltip":"Tailscale needs re-authentication"}'
+        echo '{"text":"ts login","class":"warning","tooltip":"Tailscale needs re-authentication"}'
         ;;
     *)
-        echo "{\"text\":\"󰖂 ${backend_state}\",\"class\":\"warning\",\"tooltip\":\"Tailscale: ${backend_state}\"}"
+        echo "{\"text\":\"ts ${backend_state}\",\"class\":\"warning\",\"tooltip\":\"Tailscale: ${backend_state}\"}"
         ;;
 esac
