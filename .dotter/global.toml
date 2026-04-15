@@ -1,3 +1,4 @@
+# Arch Linux (full config)
 [default.files]
 "config/containers" = "~/.config/containers"
 "config/hypr" = "~/.config/hypr"
@@ -18,3 +19,18 @@
 "scripts/wt_cleanup.sh" = "~/scripts/wt_cleanup.sh"
 "config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
+
+# macOS (cross-platform only)
+[macos.files]
+"config/kitty" = "~/.config/kitty"
+"config/nvim" = "~/.config/nvim"
+"config/tmux" = "~/.config/tmux"
+"config/yazi" = { target = "~/.config/yazi", type = "symbolic" }
+"ipython" = "~/.ipython"
+"gitconfig" = "~/.gitconfig"
+"vale.ini" = "~/.vale.ini"
+"zsh_plugins.txt" = "~/.zsh_plugins.txt"
+"zshalias" = "~/.zshalias"
+"zshenv" = "~/.zshenv"
+"zshrc" = "~/.zshrc"
+
