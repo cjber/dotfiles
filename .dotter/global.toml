@@ -2,6 +2,9 @@
 [default.files]
 "config/containers" = "~/.config/containers"
 "config/hypr" = "~/.config/hypr"
+"config/niri" = "~/.config/niri"
+"config/swaylock" = "~/.config/swaylock"
+"scripts/wl-pick-color.sh" = "~/scripts/wl-pick-color.sh"
 "config/kitty" = "~/.config/kitty"
 "config/nvim" = "~/.config/nvim"
 "config/paru" = "~/.config/paru"
@@ -19,6 +22,7 @@
 "scripts/wt_cleanup.sh" = "~/scripts/wt_cleanup.sh"
 "config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
+"claude/skills/commit" = "~/.claude/skills/commit"
 
 # macOS (cross-platform only)
 [macos.files]
@@ -33,4 +37,5 @@
 "zshalias" = "~/.zshalias"
 "zshenv" = "~/.zshenv"
 "zshrc" = "~/.zshrc"
+"claude/skills/commit" = "~/.claude/skills/commit"
 
