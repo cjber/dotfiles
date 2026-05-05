@@ -23,6 +23,7 @@ export BROWSER="google-chrome-stable"
 export GTK_THEME="Catppuccin-Mocha-Standard-Blue-Dark"
 
 export TODOTXT_CFG_FILE="$HOME/.config/todo/todo.cfg"
+export PATH="/home/cjber/.bun/bin:$PATH"
 
 path+=$GOPATH/bin
 path+=$PYENV_ROOT/bin
@@ -37,3 +38,4 @@ path+=$HOME/.local/bin/kitty.app/bin/
 
 fpath+=~/.zfunc
 fpath+=~/.zshcompletions/conda-zsh-completion
+

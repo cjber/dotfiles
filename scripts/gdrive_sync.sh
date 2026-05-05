@@ -22,4 +22,5 @@ if pgrep -fl rclone; then exit 1; fi
     --backup-dir "$BACKUP_DIR" \
     --suffix ."$(date +"%Y-%m-%d-%H-%M-%S")" \
     --suffix-keep-extension \
-    --max-age 7d
+    --max-age 7d \
+    --bwlimit 0:30M
