@@ -1,0 +1,34 @@
+# Compositor-agnostic screen locker. Oxide palette.
+ignore-empty-password
+show-failed-attempts
+daemonize
+
+font=JetBrainsMono Nerd Font
+font-size=24
+indicator-radius=120
+indicator-thickness=8
+indicator-idle-visible
+
+# Background — solid Oxide $mantle (no image, fast)
+color=121212
+
+# Indicator (ring) colors — match niri active/inactive
+inside-color=121212cc
+inside-clear-color=5f8787cc
+inside-ver-color=e78a53cc
+inside-wrong-color=9b0000cc
+
+ring-color=222222
+ring-clear-color=5f8787
+ring-ver-color=e78a53
+ring-wrong-color=9b0000
+
+key-hl-color=5f8787
+bs-hl-color=e78a53
+
+separator-color=00000000
+
+text-color=c1c1c1
+text-clear-color=c1c1c1
+text-ver-color=c1c1c1
+text-wrong-color=c1c1c1

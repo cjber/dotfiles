@@ -1,0 +1,270 @@
+// Niri config — mirrors hyprland.conf where possible.
+// KDL syntax: https://kdl.dev. "/-" comments out a node.
+// Wiki: https://niri-wm.github.io/niri/Configuration:-Introduction
+
+//-- Environment ----------------------------------------------------
+environment {
+    // NVIDIA
+    LIBVA_DRIVER_NAME "nvidia"
+    __GLX_VENDOR_LIBRARY_NAME "nvidia"
+    NVD_BACKEND "direct"
+    GBM_BACKEND "nvidia-drm"
+    __GL_MaxFramesAllowed "1"
+    VDPAU_DRIVER "nvidia"
+
+    MOZ_ENABLE_WAYLAND "1"
+    XDG_SESSION_TYPE "wayland"
+    QT_QPA_PLATFORMTHEME "qt6ct"
+
+    // Cursor
+    HYPRCURSOR_THEME "Bibata-Modern-Ice"
+    HYPRCURSOR_SIZE "24"
+    XCURSOR_THEME "Bibata-Modern-Ice"
+    XCURSOR_SIZE "24"
+    GTK_THEME "Adwaita:dark"
+}
+
+//-- Input ----------------------------------------------------------
+input {
+    keyboard {
+        repeat-delay 400
+        repeat-rate 75
+    }
+
+    touchpad {
+        tap
+        dwt
+    }
+
+    mouse {
+        accel-profile "adaptive"
+    }
+
+    // Hyprland had follow_mouse=1 + mouse_refocus=true. Niri equivalent:
+    focus-follows-mouse
+}
+
+//-- Outputs --------------------------------------------------------
+// Hyprland: DP-2 transform 1 (90°) at 0,0; DP-1 ultrawide at 1440,560
+output "DP-2" {
+    mode "2560x1440@60"
+    transform "90"
+    position x=0 y=0
+}
+
+output "DP-1" {
+    mode "3440x1440@143.920"
+    position x=1440 y=560
+}
+
+output "HDMI-A-1" {
+    off
+}
+
+//-- Layout ---------------------------------------------------------
+// Hyprland Oxide palette:
+//   $base #121113  $mantle #121212  $crust #0a0a0a
+//   $surface0 #222222  $surface1 #333333
+//   $primary/maroon #e78a53 (orange)  $blue/secondary #5f8787 (teal)
+layout {
+    // Hyprland: gaps_in 5 (between windows), gaps_out 10 (around screen).
+    // Niri's `gaps` ≈ inner gap; struts add the extra edge padding.
+    gaps 5
+    center-focused-column "never"
+
+    background-color "#121212"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 2
+        active-color "#5f8787"
+        inactive-color "#222222"
+    }
+
+    border {
+        off
+    }
+
+    shadow {
+        on
+        softness 20
+        spread 0
+        offset x=0 y=4
+        color "#0a0a0a80"
+    }
+
+    // Tabbed-column indicator — match hyprland groupbar colors (maroon active).
+    tab-indicator {
+        width 4
+        gap 6
+        length total-proportion=1.0
+        position "top"
+        corner-radius 6
+        active-color "#e78a53"
+        inactive-color "#222222"
+    }
+
+    struts {
+        left 5
+        right 5
+        top 5
+        bottom 5
+    }
+}
+
+//-- Overview -------------------------------------------------------
+overview {
+    backdrop-color "#0a0a0a"
+}
+
+//-- Decoration / look-and-feel -------------------------------------
+prefer-no-csd
+
+// Rounded corners for all windows.
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+}
+
+// Hyprland inactive_opacity 0.95
+window-rule {
+    match is-active=false
+    opacity 0.95
+}
+
+//-- Workspaces (per-monitor, named) --------------------------------
+// Hyprland: ws 1/2/3 → DP-1, ws 4 → DP-2
+workspace "main" { open-on-output "DP-1"; }
+workspace "code" { open-on-output "DP-1"; }
+workspace "web"  { open-on-output "DP-1"; }
+workspace "side" { open-on-output "DP-2"; }
+
+//-- Startup --------------------------------------------------------
+spawn-at-startup "waybar" "--config" "/home/cjber/.config/waybar/main.jsonc"
+spawn-at-startup "waybar" "--config" "/home/cjber/.config/waybar/side.jsonc"
+spawn-at-startup "mako"
+spawn-sh-at-startup "wl-paste --watch cliphist store"
+spawn-at-startup "udiskie"
+spawn-at-startup "xwayland-satellite"
+
+// Idle daemon — replaces hypridle. Locks after 5 min, locks before sleep,
+// locks on session lock signal (loginctl lock-session). DPMS off disabled
+// to dodge NVIDIA resume issues, matching the previous hypridle config.
+spawn-sh-at-startup "swayidle -w timeout 300 'swaylock' before-sleep 'loginctl lock-session' lock 'swaylock'"
+
+// XDG portal env propagation
+spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+
+// GTK theme
+spawn-sh-at-startup "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"
+spawn-sh-at-startup "gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'"
+
+//-- Animations -----------------------------------------------------
+animations {
+    // Solid defaults; toggle off if you want zero motion.
+    // off
+}
+
+//-- Screenshot path ------------------------------------------------
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+hotkey-overlay {
+    // skip-at-startup
+}
+
+//-- Keybindings ----------------------------------------------------
+binds {
+    // Help overlay
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // -- Apps --
+    Mod+Return        hotkey-overlay-title="Terminal: kitty"        { spawn "kitty"; }
+    Mod+M             hotkey-overlay-title="Launcher: rofi drun"    { spawn "rofi" "-show" "drun"; }
+    Mod+Shift+O       hotkey-overlay-title="Power menu"             { spawn "rofi" "-show" "p" "-modi" "p:rofi-power-menu"; }
+    Mod+Semicolon     hotkey-overlay-title="Browser: chrome"        { spawn "google-chrome-stable"; }
+
+    // -- Window / niri --
+    Mod+Q             repeat=false { close-window; }
+    Mod+Slash         { fullscreen-window; }
+    Mod+Shift+Return  { toggle-window-floating; }
+    Mod+V             { switch-focus-between-floating-and-tiling; }
+
+    // -- Screenshot / picker / record --
+    // Mod+p: capture focused window to clipboard (niri does this natively)
+    Mod+P             { screenshot-window; }
+    Mod+Shift+P       { screenshot; }
+    Print             { screenshot; }
+    Ctrl+Print        { screenshot-screen; }
+    Alt+Print         { screenshot-window; }
+    Mod+C             { spawn "/home/cjber/scripts/wl-pick-color.sh"; }
+    Mod+Shift+R       { spawn-sh "pkill wl-screenrec || wl-screenrec -f ~/Videos/recording-$(date +%Y%m%d-%H%M%S).mp4"; }
+
+    // -- Function / media keys --
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86AudioRaiseVolume  allow-when-locked=true { spawn-sh "pactl set-sink-volume @DEFAULT_SINK@ +5%"; }
+    XF86AudioLowerVolume  allow-when-locked=true { spawn-sh "pactl set-sink-volume @DEFAULT_SINK@ -5%"; }
+    XF86AudioMute         allow-when-locked=true { spawn-sh "pactl set-sink-mute @DEFAULT_SINK@ toggle"; }
+
+    // -- Focus (hjkl, no arrows on 40%) --
+    Mod+H { focus-column-left; }
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+    Mod+L { focus-column-right; }
+
+    // -- Move active window (hyprland-style: Shift instead of niri default Ctrl) --
+    Mod+Shift+H { move-column-left; }
+    Mod+Shift+J { move-window-down; }
+    Mod+Shift+K { move-window-up; }
+    Mod+Shift+L { move-column-right; }
+
+    // -- Move column to monitor (hyprland-style: not present, niri-only). Use Mod+Ctrl+hjkl --
+    Mod+Ctrl+H { focus-monitor-left; }
+    Mod+Ctrl+L { focus-monitor-right; }
+    Mod+Ctrl+Shift+H { move-column-to-monitor-left; }
+    Mod+Ctrl+Shift+L { move-column-to-monitor-right; }
+
+    // -- Groups (≈ tabbed columns in niri) --
+    Mod+G { toggle-column-tabbed-display; }
+    Mod+I { consume-window-into-column; }
+    Mod+O { expel-window-from-column; }
+    Mod+N { focus-window-down; }
+
+    // -- Workspaces (a/s/d → 1/2/3 on DP-1; "side" lives on DP-2) --
+    Mod+A       { focus-workspace "main"; }
+    Mod+S       { focus-workspace "code"; }
+    Mod+D       { focus-workspace "web"; }
+    Mod+Shift+A { move-column-to-workspace "main"; }
+    Mod+Shift+S { move-column-to-workspace "code"; }
+    Mod+Shift+D { move-column-to-workspace "web"; }
+
+    // Niri also has an overview (zoomed-out workspace switcher). Bind Tab to it
+    // since we can't use hyprswitch outside hyprland.
+    Mod+Tab repeat=false { toggle-overview; }
+
+    // -- Column width / window height (replaces hyprland resize submap) --
+    // Hold and tap to nudge.
+    Mod+R { switch-preset-column-width; }
+    Mod+Minus       { set-column-width "-10%"; }
+    Mod+Equal       { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+    Mod+Ctrl+F      { expand-column-to-available-width; }
+    Mod+F           { maximize-column; }
+
+    // -- Lock --
+    Mod+Alt+L { spawn "swaylock"; }
+
+    // -- Quit (confirmation dialog) --
+    Mod+Shift+E { quit; }
+
+    // -- Power off monitors --
+    Mod+Shift+Backspace { power-off-monitors; }
+}
