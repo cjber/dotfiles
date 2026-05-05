@@ -23,6 +23,7 @@
 "config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
 "claude/skills/commit" = "~/.claude/skills/commit"
+"claude/skills/wt" = "~/.claude/skills/wt"
 
 # macOS (cross-platform only)
 [macos.files]
@@ -38,4 +39,5 @@
 "zshenv" = "~/.zshenv"
 "zshrc" = "~/.zshrc"
 "claude/skills/commit" = "~/.claude/skills/commit"
+"claude/skills/wt" = "~/.claude/skills/wt"
 

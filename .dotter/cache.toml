@@ -1,5 +1,6 @@
 [symlinks]
 "claude/skills/commit/SKILL.md" = "/home/cjber/.claude/skills/commit/SKILL.md"
+"claude/skills/wt/SKILL.md" = "/home/cjber/.claude/skills/wt/SKILL.md"
 "config/containers/podman/.keep" = "/home/cjber/.config/containers/podman/.keep"
 "config/containers/registries.conf" = "/home/cjber/.config/containers/registries.conf"
 "config/containers/storage.conf" = "/home/cjber/.config/containers/storage.conf"
