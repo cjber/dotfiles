@@ -9,7 +9,7 @@ set -euo pipefail
 # Map: <parent-repo-checkout-path> => <worktree-dir-name-on-disk>
 declare -A REPOS=(
     [/home/cjber/drive/thirdweb/projects/nebula]=nebula
-    [/home/cjber/drive/thirdweb/projects/nebula-web]=nebula-web
+    [/home/cjber/drive/agl/nebula-web]=nebula-web
 )
 
 WORKTREES_ROOT="$HOME/.worktrees"

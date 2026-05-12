@@ -7,23 +7,15 @@ alias empty='trash-empty'
 alias la="ncdu --color dark"
 alias ls='eza -F --group-directories-first'
 alias lg="lazygit"
-alias py="ipython"
-alias t='todo.sh list'
-alias ta='todo.sh add'
 alias td='nvim $HOME/drive/todo/Todo.txt'
 alias tdm='todotxt-machine $HOME/drive/todo/Todo.txt'
 alias v='nvim'
 alias vv='fd --type f --hidden --exclude .git --print0 | fzf-tmux -p - --read0 --print0 --exit-0 | xargs -r -0 nvim'
 alias vf='fd --type d --hidden --exclude .git --print0 | fzf-tmux -p - --read0 --print0 --exit-0 | xargs -r -0 cd'
 alias vi='nvim'
-alias mb='micromamba'
 alias mvr='rsync -a --progress --partial --append-verify --remove-source-files'
 alias cpr='rsync -a --progress --partial --append-verify'
 alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs -r tldr"
-alias dotdrop='dotdrop --cfg=$HOME/dotfiles/config.yaml'
-alias dotgit="git -C $DOTREPO"
-alias dotsync="dotgit pull origin master && dotgit add -A && dotgit commit && dotgit push origin master; dotdrop install"
-alias hx="helix"
 alias wt="worktree"
 alias cc='claude'
 alias cz='ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic ANTHROPIC_AUTH_TOKEN=$(pass show zai/api_key) API_TIMEOUT_MS=3000000 claude'

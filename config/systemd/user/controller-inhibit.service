@@ -1,0 +1,12 @@
+[Unit]
+Description=Inhibit idle/lock while game controller is active
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/scripts/controller_inhibit.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

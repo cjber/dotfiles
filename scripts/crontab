@@ -1,3 +1,2 @@
-* * * * * /home/cjber/scripts/gdrive_sync.sh 24h
-5 * * * * /home/cjber/scripts/gdrive_sync.sh 5y
+0 * * * * /home/cjber/scripts/gdrive_sync.sh
 
