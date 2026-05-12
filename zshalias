@@ -26,13 +26,14 @@ alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
 alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
 
 # Open Claude Code on the NUC in the same path you're standing in locally.
-# Drops a one-pane layout onto the NUC (cwd + `claude` as the pane command),
-# tells zellij main to open a new tab with it, then mosh-attaches.
-# Pass an arg to override the path.
+# Pushes a one-pane layout, then mosh's a bash that (a) fires zellij
+# new-tab and (b) execs into zellij attach IN THE SAME PROCESS — so the
+# attaching client inherits the server-side focus set by new-tab and
+# lands directly on the just-opened tab. Pass an arg to override the path.
 mcc() {
   local cwd="${1:-$PWD}"
   local name="${cwd##*/}"
-  local kdl=/tmp/mcc-$$.kdl
+  local kdl="/tmp/mcc-$$.kdl"
   cat > "$kdl" <<EOF
 layout {
     pane cwd="$cwd" {
@@ -41,8 +42,12 @@ layout {
 }
 EOF
   scp -q "$kdl" "nuc:$kdl"
-  ssh nuc "XDG_RUNTIME_DIR= zellij --session main action new-tab --name '$name' --layout '$kdl'; rm -f '$kdl'" 2>/dev/null
   rm -f "$kdl"
-  mosh nuc
+  mosh nuc -- bash -c "
+    export XDG_RUNTIME_DIR=
+    zellij --session main action new-tab --name '$name' --layout '$kdl' 2>/dev/null
+    rm -f '$kdl'
+    exec zellij attach --create main
+  "
 }
 {{/if}}
