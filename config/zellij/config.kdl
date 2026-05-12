@@ -12,7 +12,11 @@ show_release_notes false
 mouse_hover_effects false
 visual_bell false
 stacked_resize true
-support_kitty_keyboard_protocol true
+// Kitty keyboard protocol can cause double-echo through mosh (mosh's
+// prediction layer + the enhanced key reporting don't play nice). Off
+// for now; flip back on if you want better modifier-key reporting in
+// nvim and your local terminal handles it.
+support_kitty_keyboard_protocol false
 simplified_ui true
 
 ui {
