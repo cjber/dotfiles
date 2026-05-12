@@ -67,6 +67,11 @@ if ! have pnpm; then
   sudo npm install -g pnpm
 fi
 
+if ! have worktree-bin; then
+  log "Installing worktree (sourced by zshrc as 'worktree-bin init zsh')"
+  cargo install --locked worktree
+fi
+
 log "Enabling user lingering so systemd --user timers run without login"
 sudo loginctl enable-linger "$USER"
 
