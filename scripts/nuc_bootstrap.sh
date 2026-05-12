@@ -52,6 +52,9 @@ fi
 log "Deploying dotfiles"
 ( cd "$HOME/.dotfiles" && dotter deploy --force )
 
+log "Fetching pinned zellij plugins"
+bash "$HOME/.dotfiles/scripts/zellij_plugins.sh"
+
 if [[ "$SHELL" != */zsh ]]; then
   log "Changing login shell to zsh (you may need to log out + back in)"
   sudo chsh -s /usr/bin/zsh "$USER"
