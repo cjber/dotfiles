@@ -1,0 +1,31 @@
+theme "oxide"
+default_mode "normal"
+default_layout "compact"
+pane_frames false
+mouse_mode true
+copy_command "wl-copy"
+copy_on_select false
+session_serialization true
+serialize_pane_viewport true
+scrollback_lines_to_serialize 10000
+show_startup_tips false
+show_release_notes false
+mouse_hover_effects false
+visual_bell false
+stacked_resize true
+support_kitty_keyboard_protocol true
+
+ui {
+    pane_frames {
+        rounded_corners false
+        hide_session_name true
+    }
+}
+
+// Web server on, sharing on — sessions are reachable at http://127.0.0.1:8082
+// by default. Bound to loopback, so no remote exposure unless explicitly
+// Tailscale-Served, in which case Tailscale handles HTTPS + auth.
+web_server true
+web_sharing "on"
+web_server_ip "127.0.0.1"
+web_server_port 8082

@@ -79,30 +79,26 @@ function lf() {
 	rm -f -- "$tmp"
 }
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.local/lib/mojo
-export PATH=$PATH:~/.modular/pkg/packages.modular.com_mojo/bin/
-
 eval "$(starship init zsh)"
 eval "$(worktree-bin init zsh)"
 
-# Added by microsandbox installer
-export PATH="$HOME/.local/bin:$PATH"
+# microsandbox needs libkrun on LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 
-# GitHub token for MCP server (from gh CLI)
 export GITHUB_PERSONAL_ACCESS_TOKEN="$(gh auth token)"
 
-
-# Composio CLI
 export COMPOSIO_INSTALL_DIR=/home/cjber/.composio
 export PATH="/home/cjber/.composio:$PATH"
-export ANDROID_HOME=$HOME/Android/Sdk
+
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-# fnm
 FNM_PATH="/home/cjber/.local/share/fnm"
 if [ -d "$FNM_PATH" ]; then
   export PATH="$FNM_PATH:$PATH"
   eval "$(fnm env --shell zsh)"
+fi
+
+if [[ -n "$SSH_CONNECTION" && -z "$ZELLIJ" && $- == *i* ]] && command -v zellij &>/dev/null; then
+  exec zellij attach --create main
 fi

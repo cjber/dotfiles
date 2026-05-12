@@ -1,16 +1,18 @@
 # Arch Linux (full config)
 [default.files]
-"config/containers" = "~/.config/containers"
 "config/hypr" = "~/.config/hypr"
 "config/niri" = "~/.config/niri"
 "config/swaylock" = "~/.config/swaylock"
 "scripts/wl-pick-color.sh" = "~/scripts/wl-pick-color.sh"
+"scripts/gdrive_sync.sh" = "~/scripts/gdrive_sync.sh"
+"scripts/exclude.txt" = "~/scripts/exclude.txt"
 "config/kitty" = "~/.config/kitty"
 "config/nvim" = "~/.config/nvim"
 "config/paru" = "~/.config/paru"
 "config/rofi" = "~/.config/rofi"
 "config/tmux" = "~/.config/tmux"
 "config/waybar" = "~/.config/waybar"
+"config/zellij" = "~/.config/zellij"
 "config/yazi" = { target = "~/.config/yazi", type = "symbolic" }
 "ipython" = "~/.ipython"
 "gitconfig" = "~/.gitconfig"
@@ -22,7 +24,33 @@
 "scripts/wt_cleanup.sh" = "~/scripts/wt_cleanup.sh"
 "config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
+"scripts/controller_inhibit.sh" = "~/scripts/controller_inhibit.sh"
+"config/systemd/user/controller-inhibit.service" = "~/.config/systemd/user/controller-inhibit.service"
 "claude/skills/commit" = "~/.claude/skills/commit"
+"claude/skills/issue" = "~/.claude/skills/issue"
+"claude/skills/wt" = "~/.claude/skills/wt"
+
+# Headless Linux (NUC / remote server — no GUI, no Wayland)
+[headless.files]
+"config/nvim" = "~/.config/nvim"
+"config/tmux" = "~/.config/tmux"
+"config/yazi" = { target = "~/.config/yazi", type = "symbolic" }
+"config/zellij" = "~/.config/zellij"
+"ipython" = "~/.ipython"
+"gitconfig" = "~/.gitconfig"
+"vale.ini" = "~/.vale.ini"
+"zsh_plugins.txt" = "~/.zsh_plugins.txt"
+"zshalias" = "~/.zshalias"
+"zshenv" = "~/.zshenv"
+"zshrc" = "~/.zshrc"
+"scripts/gdrive_sync.sh" = "~/scripts/gdrive_sync.sh"
+"scripts/exclude.txt" = "~/scripts/exclude.txt"
+"scripts/wt_cleanup.sh" = "~/scripts/wt_cleanup.sh"
+"scripts/nuc_bootstrap.sh" = "~/scripts/nuc_bootstrap.sh"
+"config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
+"config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
+"claude/skills/commit" = "~/.claude/skills/commit"
+"claude/skills/issue" = "~/.claude/skills/issue"
 "claude/skills/wt" = "~/.claude/skills/wt"
 
 # macOS (cross-platform only)
@@ -39,5 +67,6 @@
 "zshenv" = "~/.zshenv"
 "zshrc" = "~/.zshrc"
 "claude/skills/commit" = "~/.claude/skills/commit"
+"claude/skills/issue" = "~/.claude/skills/issue"
 "claude/skills/wt" = "~/.claude/skills/wt"
 
