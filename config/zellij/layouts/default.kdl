@@ -5,8 +5,4 @@ layout {
             plugin location="zjstatus"
         }
     }
-    tab name="claude" focus=true {
-        pane command="claude"
-    }
-    tab name="shell"
 }
