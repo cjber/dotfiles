@@ -58,8 +58,8 @@ if [[ "$SHELL" != */zsh ]]; then
 fi
 
 if ! have uv; then
-  log "Installing uv"
-  curl -LsSf https://astral.sh/uv/install.sh | sh
+  log "Installing uv (NO_MODIFY_PATH so it doesn't append to ~/.zshrc which is a dotfiles symlink)"
+  curl -LsSf https://astral.sh/uv/install.sh | INSTALLER_NO_MODIFY_PATH=1 sh
 fi
 
 if ! have pnpm; then

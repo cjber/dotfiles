@@ -108,5 +108,9 @@ if [ -d "$FNM_PATH" ]; then
 fi
 
 if [[ -n "$SSH_CONNECTION" && -z "$ZELLIJ" && $- == *i* ]] && command -v zellij &>/dev/null; then
-  exec zellij attach --create main
+  # Force zellij to use /tmp/zellij-$UID for its socket regardless of whether
+  # the mosh/ssh server inherited XDG_RUNTIME_DIR. Otherwise PC mosh
+  # (with systemd-logind setting XDG) and phone mosh (without) land on
+  # DIFFERENT sessions with the same name. Unset → both fall through to /tmp.
+  exec env -u XDG_RUNTIME_DIR zellij attach --create main
 fi
