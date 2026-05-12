@@ -63,9 +63,8 @@ if ! have uv; then
 fi
 
 if ! have pnpm; then
-  log "Installing pnpm via corepack"
-  sudo corepack enable
-  corepack prepare pnpm@latest --activate
+  log "Installing pnpm (Arch split corepack out of nodejs; use npm directly)"
+  sudo npm install -g pnpm
 fi
 
 log "Enabling user lingering so systemd --user timers run without login"
