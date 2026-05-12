@@ -34,8 +34,6 @@ mcc() {
   local cwd="${1:-$PWD}"
   local name="${cwd##*/}"
   local kdl="/tmp/mcc-$$.kdl"
-  # Attribute-form command on pane — block form sometimes leaves the pane
-  # with a default shell instead of running the command.
   cat > "$kdl" <<EOF
 layout {
     pane cwd="$cwd" command="claude"
@@ -45,15 +43,25 @@ EOF
   rm -f "$kdl"
   mosh nuc -- bash -c "
     export XDG_RUNTIME_DIR=
-    # Try to fire new-tab against an existing main session. If that fails
-    # (no session, or resurrectable-but-not-active), start main from this
-    # very layout instead so the first tab is the claude tab.
-    if ! zellij --session main action new-tab --name '$name' --layout '$kdl' 2>/dev/null; then
-      rm -f '$kdl'
+    # Kick other zellij clients + orphaned mosh-servers (newest device wins,
+    # matches the zshrc auto-attach behaviour).
+    for p in \$(pgrep -u \"\$USER\" -f 'zellij attach' 2>/dev/null); do
+      [ \"\$p\" != \"\$\$\" ] && kill -TERM \"\$p\" 2>/dev/null
+    done
+    for p in \$(pgrep -u \"\$USER\" -f '^mosh-server new' 2>/dev/null); do
+      [ \"\$p\" != \"\$PPID\" ] && kill -TERM \"\$p\" 2>/dev/null
+    done
+    # If main is EXITED-resurrectable, delete it so we can start fresh with
+    # the layout. Otherwise --layout would error against the existing entry.
+    if zellij list-sessions 2>/dev/null | grep -aq 'main.*EXITED'; then
+      zellij delete-session main --force >/dev/null 2>&1
+    fi
+    # Two paths: active main → action new-tab + attach; no main → start with layout.
+    if zellij --session main action new-tab --name '$name' --layout '$kdl' 2>/dev/null; then
+      exec zellij attach main
+    else
       exec zellij --session main --layout '$kdl'
     fi
-    rm -f '$kdl'
-    exec zellij attach main
   "
 }
 {{/if}}
