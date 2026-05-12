@@ -34,20 +34,26 @@ mcc() {
   local cwd="${1:-$PWD}"
   local name="${cwd##*/}"
   local kdl="/tmp/mcc-$$.kdl"
+  # Attribute-form command on pane — block form sometimes leaves the pane
+  # with a default shell instead of running the command.
   cat > "$kdl" <<EOF
 layout {
-    pane cwd="$cwd" {
-        command "claude"
-    }
+    pane cwd="$cwd" command="claude"
 }
 EOF
   scp -q "$kdl" "nuc:$kdl"
   rm -f "$kdl"
   mosh nuc -- bash -c "
     export XDG_RUNTIME_DIR=
-    zellij --session main action new-tab --name '$name' --layout '$kdl' 2>/dev/null
+    # Try to fire new-tab against an existing main session. If that fails
+    # (no session, or resurrectable-but-not-active), start main from this
+    # very layout instead so the first tab is the claude tab.
+    if ! zellij --session main action new-tab --name '$name' --layout '$kdl' 2>/dev/null; then
+      rm -f '$kdl'
+      exec zellij --session main --layout '$kdl'
+    fi
     rm -f '$kdl'
-    exec zellij attach --create main
+    exec zellij attach main
   "
 }
 {{/if}}
