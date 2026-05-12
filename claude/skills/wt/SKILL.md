@@ -38,11 +38,14 @@ When opening a new zellij tab, detect the repo's dev command and start it in a s
 
 | Detected | Dev command | Note |
 |---|---|---|
+| `bun.lockb` present, **or** `package.json` with `"packageManager": "bun@…"` | `bun dev` (or `bun start` if no `dev` script) | nebula-cli, nebula-desktop |
 | `package.json` with a `dev` script | `pnpm dev` | covers Next.js (nebula-web, nebula-docs), most Node monorepos |
 | `package.json` with `expo` dep and a `start` script | `pnpm start` | nebula-mobile |
 | `Makefile` with a `dev` target | `make dev` | most python services that wrap uv/uvicorn |
 | `pyproject.toml` with `uvicorn`/`fastapi` in deps | `uv run uvicorn <module>:app --reload` (look up module name from `[tool.uvicorn]` or `main.py`) | nebula backend |
 | None of the above | skip the split — just open the shell tab |
+
+Check bun *before* pnpm — some repos have both lockfiles in transition and bun is the actual tool.
 
 Run the detected command in a split pane:
 ```bash
