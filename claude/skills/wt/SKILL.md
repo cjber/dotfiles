@@ -1,6 +1,6 @@
 ---
 name: wt
-description: Create a new git worktree under ~/.worktrees/<repo>/<feature-name> with a cb/-prefixed branch. Use when the user invokes /wt or asks for a worktree, fresh sandbox copy, or feature branch isolation.
+description: Create a git worktree under ~/.worktrees/<repo>/<feature-name> on a cb/-prefixed branch. Inside zellij, also open a new tab named after the feature and (when a dev command is detectable from package.json/Makefile/pyproject) split a side pane running the server. Use when the user invokes /wt or asks for a worktree, sandbox copy, or feature branch.
 argument-hint: "[feature-name]"
 ---
 
@@ -20,12 +20,41 @@ When the user invokes `/wt`, do this without re-asking:
    ```
    - First positional arg = **directory name** (must NOT contain `/`).
    - Second positional arg = **branch name** (`cb/` prefix per the user's convention).
-4. **Enter it** by piping `worktree-bin jump` into `cd` so the binary resolves the path:
-   ```bash
-   cd "$(worktree-bin jump <feature-name>)"
-   ```
-   `worktree-bin jump <feature>` prints the absolute path on stdout and exits. Capture it and `cd`. Don't hand-build `~/.worktrees/<repo>/<feature-name>` paths — let the binary tell you where it lives.
-5. **Confirm**: one-line "Worktree on branch `cb/<feature-name>` ready at `$(pwd)`."
+4. **Capture the path** by running `worktree-bin jump <feature-name>` — it prints the absolute path on stdout. Hold this in a shell variable for the next steps; don't hand-build `~/.worktrees/<repo>/<feature-name>` paths.
+5. **Open the worktree** in a way that depends on whether the user is inside zellij:
+   - **If `$ZELLIJ` is set** (the common case from `mosh nuc`): spawn a new zellij tab named after the feature, cwd'd to the worktree. Then split it for the dev server when appropriate — see [Auto-start dev server](#auto-start-dev-server) below.
+     ```bash
+     wt_path=$(worktree-bin jump <feature-name>)
+     zellij action new-tab --name <feature-name> --cwd "$wt_path"
+     ```
+   - **Otherwise** (plain shell, no multiplexer): `cd "$wt_path"` so the current shell follows.
+6. **Confirm**: one-line "Worktree `cb/<feature-name>` ready at `<wt_path>`" plus, if you opened a server pane, what's running there.
+
+## Auto-start dev server
+
+When opening a new zellij tab, detect the repo's dev command and start it in a split pane so the user sees the server come up alongside their shell. Layout: shell on the left (focused), server on the right.
+
+**Detection priority** (use the first match found at the worktree root):
+
+| Detected | Dev command | Note |
+|---|---|---|
+| `package.json` with a `dev` script | `pnpm dev` | covers Next.js (nebula-web, nebula-docs), most Node monorepos |
+| `package.json` with `expo` dep and a `start` script | `pnpm start` | nebula-mobile |
+| `Makefile` with a `dev` target | `make dev` | most python services that wrap uv/uvicorn |
+| `pyproject.toml` with `uvicorn`/`fastapi` in deps | `uv run uvicorn <module>:app --reload` (look up module name from `[tool.uvicorn]` or `main.py`) | nebula backend |
+| None of the above | skip the split — just open the shell tab |
+
+Run the detected command in a split pane:
+```bash
+zellij action new-pane --direction right --cwd "$wt_path" --name server -- bash -lc '<detected-command>'
+```
+
+Then switch focus back to the left (shell) pane:
+```bash
+zellij action move-focus left
+```
+
+If the user explicitly invoked `/wt <feature> --no-dev` (or you can tell from context that a server isn't wanted), skip the auto-start and just open the tab.
 
 ## Prune merged worktrees
 
