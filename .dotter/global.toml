@@ -40,7 +40,7 @@
 "ipython" = "~/.ipython"
 "gitconfig" = "~/.gitconfig"
 "vale.ini" = "~/.vale.ini"
-"zsh_plugins.txt" = "~/.zsh_plugins.txt"
+"zsh_plugins.headless.txt" = "~/.zsh_plugins.txt"
 "zshalias" = "~/.zshalias"
 "zshenv" = "~/.zshenv"
 "zshrc" = "~/.zshrc"
