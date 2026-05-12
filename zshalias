@@ -25,43 +25,30 @@ alias gmm='git mm'
 alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
 alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
 
-# Open Claude Code on the NUC in the same path you're standing in locally.
-# Pushes a one-pane layout, then mosh's a bash that (a) fires zellij
-# new-tab and (b) execs into zellij attach IN THE SAME PROCESS — so the
-# attaching client inherits the server-side focus set by new-tab and
-# lands directly on the just-opened tab. Pass an arg to override the path.
+# mosh into the NUC and land in a fresh zellij tab cwd'd to your local
+# $PWD (mirrored). No auto-launched claude — just a normal shell so
+# `exit` closes the pane the way you'd expect. Pass an arg to override
+# the path.
 mcc() {
   local cwd="${1:-$PWD}"
   local name="${cwd##*/}"
-  local kdl="/tmp/mcc-$$.kdl"
-  cat > "$kdl" <<EOF
-layout {
-    pane cwd="$cwd" command="claude"
-}
-EOF
-  scp -q "$kdl" "nuc:$kdl"
-  rm -f "$kdl"
-
-  # Step 1 (ssh, no TTY needed): ensure main has the claude tab and is
-  # focused on it. ssh fires zellij actions; no zellij client attaches.
   ssh nuc bash <<BASH
     export XDG_RUNTIME_DIR=
     if zellij list-sessions 2>/dev/null | grep -aq 'main.*EXITED'; then
       zellij delete-session main --force >/dev/null 2>&1
     fi
-    if zellij --session main action new-tab --name '$name' --layout '$kdl' 2>/dev/null; then
-      # main was active → focus the new tab so mosh attaches onto it
+    if zellij --session main action new-tab --name '$name' --cwd '$cwd' 2>/dev/null; then
       zellij --session main action go-to-tab-name '$name' >/dev/null 2>&1
     else
-      # main not active → create it fresh from this layout (panics no-TTY
-      # client-side, but the server + session + claude pane stay alive)
-      zellij -n '$kdl' -s main >/dev/null 2>&1 || true
+      # main not active → create it with a one-pane layout cwd'd to \$cwd.
+      cat >/tmp/mcc-mirror.kdl <<'KDL'
+layout {
+    pane cwd="$cwd"
+}
+KDL
+      zellij -n /tmp/mcc-mirror.kdl -s main >/dev/null 2>&1 || true
     fi
 BASH
-
-  # Step 2 (mosh, interactive): standard attach via zshrc auto-attach.
-  # That gives a real TTY, kicks any lingering client, lands on the
-  # tab we focused in step 1.
   mosh nuc
 }
 {{/if}}
