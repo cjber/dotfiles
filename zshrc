@@ -39,18 +39,26 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey -v '^?' backward-delete-char
 
-# Change cursor shape: block for normal mode, line for insert mode
+# Change cursor shape: block for normal mode, line for insert mode.
+# Write to /dev/tty so the escape bypasses zsh display buffering — this is
+# what makes it reliable through mosh + zellij (the same widget output via
+# echo -ne can be dropped by mosh's predictor inside zellij's alt-screen).
 function zle-keymap-select {
-    if [[ ${KEYMAP} == vicmd ]] || [[ $1 == "block" ]]; then
-        echo -ne "\e[2 q"  # Block cursor
-    else
-        echo -ne "\e[6 q"  # Line cursor
-    fi
+    case $KEYMAP in
+        vicmd)              printf '\e[2 q' > /dev/tty ;;  # block
+        viins|main|*)       printf '\e[6 q' > /dev/tty ;;  # line
+    esac
+    zle -R
 }
 
 function zle-line-init {
-    echo -ne "\e[6 q"  # Ensure line cursor on shell startup
+    printf '\e[6 q' > /dev/tty
 }
+
+# Reset to line on each new prompt — in case a TUI left it in a different state.
+function _reset_cursor_line { printf '\e[6 q' > /dev/tty }
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _reset_cursor_line
 
 zle -N zle-keymap-select
 zle -N zle-line-init
