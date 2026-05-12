@@ -56,11 +56,15 @@ EOF
     if zellij list-sessions 2>/dev/null | grep -aq 'main.*EXITED'; then
       zellij delete-session main --force >/dev/null 2>&1
     fi
-    # Two paths: active main → action new-tab + attach; no main → start with layout.
+    # Two paths: active main → action new-tab + attach; no main → -n
+    # (new-session-with-layout) which actually creates main from the layout.
+    # NB: \`zellij --session main --layout …\` is *attach*-with-extra-tab and
+    # errors when main doesn't exist — that's what made bash exit and mosh
+    # crash on first run.
     if zellij --session main action new-tab --name '$name' --layout '$kdl' 2>/dev/null; then
       exec zellij attach main
     else
-      exec zellij --session main --layout '$kdl'
+      exec zellij -n '$kdl' -s main
     fi
   "
 }
