@@ -22,8 +22,7 @@ sudo pacman -S --needed --noconfirm \
   rsync rclone restic \
   zellij neovim kitty-terminfo \
   unzip jq ripgrep fd starship direnv zoxide fzf yazi \
-  github-cli nodejs npm python python-pip \
-  zsh-antidote
+  github-cli nodejs npm python python-pip
 
 log "Masking sleep targets (server stays awake)"
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
@@ -39,10 +38,8 @@ if ! have paru; then
   rm -rf "$tmp"
 fi
 
-if ! have dotter; then
-  log "Installing dotter"
-  paru -S --needed --noconfirm dotter-rs-bin
-fi
+log "Installing AUR packages (dotter, antidote)"
+paru -S --needed --noconfirm dotter-rs-bin zsh-antidote
 
 if [[ ! -f "$HOME/.dotfiles/.dotter/local.toml" ]]; then
   log "Selecting 'headless' dotter package"
@@ -106,14 +103,9 @@ cat <<'EOF'
        (install per current method)
        claude login
 
-  7. Clone all nebula-* repos:
-       cd ~/drive/agl
-       for r in nebula-web nebula-mobile nebula-desktop nebula-metabase \
-                nebula-cli nebula-docs nebula-live; do
-         gh repo clone <org>/$r
-       done
-     Then per-repo: `pnpm install` (Node) or `uv sync` (Python).
+  7. Clone any project repos you want under ~/drive/<group>/, then
+     per-repo: `pnpm install` (Node) or `uv sync` (Python).
 
-  8. scp .env files from the desktop for each nebula-* repo.
+  8. scp .env files from the desktop for each cloned repo as needed.
 
 EOF
