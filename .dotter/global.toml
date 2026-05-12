@@ -1,6 +1,7 @@
 # Arch Linux (full config)
 [default.variables]
 with_llm = true
+has_gui = true
 
 [default.files]
 "config/hypr" = "~/.config/hypr"
@@ -37,6 +38,7 @@ with_llm = true
 # Headless Linux (NUC / remote server — no GUI, no Wayland)
 [headless.variables]
 with_llm = false
+has_gui = false
 
 [headless.files]
 "config/nvim" = "~/.config/nvim"

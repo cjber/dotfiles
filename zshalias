@@ -7,8 +7,6 @@ alias empty='trash-empty'
 alias la="ncdu --color dark"
 alias ls='eza -F --group-directories-first'
 alias lg="lazygit"
-alias td='nvim $HOME/drive/todo/Todo.txt'
-alias tdm='todotxt-machine $HOME/drive/todo/Todo.txt'
 alias v='nvim'
 alias vv='fd --type f --hidden --exclude .git --print0 | fzf-tmux -p - --read0 --print0 --exit-0 | xargs -r -0 nvim'
 alias vf='fd --type d --hidden --exclude .git --print0 | fzf-tmux -p - --read0 --print0 --exit-0 | xargs -r -0 cd'
@@ -23,6 +21,7 @@ alias g='git'
 alias gfp='git fp'
 alias gmm='git mm'
 
-## SSH
+{{#if has_gui}}## SSH
 alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
 alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
+{{/if}}
