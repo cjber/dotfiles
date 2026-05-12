@@ -1,6 +1,0 @@
-zdharma-continuum/fast-syntax-highlighting
-twang817/zsh-manydots-magic
-zsh-users/zsh-completions
-zsh-users/zsh-autosuggestions
-zsh-users/zsh-history-substring-search
-junegunn/fzf-git.sh

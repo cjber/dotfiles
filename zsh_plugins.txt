@@ -4,4 +4,5 @@ zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
 junegunn/fzf-git.sh
-eliyastein/llm-zsh-plugin
+{{#if with_llm}}eliyastein/llm-zsh-plugin
+{{/if}}

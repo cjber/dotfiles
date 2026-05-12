@@ -1,4 +1,7 @@
 # Arch Linux (full config)
+[default.variables]
+with_llm = true
+
 [default.files]
 "config/hypr" = "~/.config/hypr"
 "config/niri" = "~/.config/niri"
@@ -32,6 +35,9 @@
 "claude/skills/wt" = "~/.claude/skills/wt"
 
 # Headless Linux (NUC / remote server — no GUI, no Wayland)
+[headless.variables]
+with_llm = false
+
 [headless.files]
 "config/nvim" = "~/.config/nvim"
 "config/tmux" = "~/.config/tmux"
@@ -40,7 +46,7 @@
 "ipython" = "~/.ipython"
 "gitconfig" = "~/.gitconfig"
 "vale.ini" = "~/.vale.ini"
-"zsh_plugins.headless.txt" = "~/.zsh_plugins.txt"
+"zsh_plugins.txt" = "~/.zsh_plugins.txt"
 "zshalias" = "~/.zshalias"
 "zshenv" = "~/.zshenv"
 "zshrc" = "~/.zshrc"
