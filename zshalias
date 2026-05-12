@@ -26,18 +26,23 @@ alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
 alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
 
 # Open Claude Code on the NUC in the same path you're standing in locally.
-# Spawns a new zellij tab named after the dir, runs `claude`, then drops you
-# into the mosh session. Pass an arg to override the path.
+# Drops a one-pane layout onto the NUC (cwd + `claude` as the pane command),
+# tells zellij main to open a new tab with it, then mosh-attaches.
+# Pass an arg to override the path.
 mcc() {
   local cwd="${1:-$PWD}"
   local name="${cwd##*/}"
-  ssh nuc bash -c "
-    export XDG_RUNTIME_DIR=
-    zellij --session main action new-tab --cwd '$cwd' --name '$name' 2>/dev/null || true
-    sleep 0.2
-    zellij --session main action write-chars 'claude' 2>/dev/null
-    zellij --session main action write 10 2>/dev/null
-  " 2>/dev/null
+  local kdl=/tmp/mcc-$$.kdl
+  cat > "$kdl" <<EOF
+layout {
+    pane cwd="$cwd" {
+        command "claude"
+    }
+}
+EOF
+  scp -q "$kdl" "nuc:$kdl"
+  ssh nuc "XDG_RUNTIME_DIR= zellij --session main action new-tab --name '$name' --layout '$kdl'; rm -f '$kdl'" 2>/dev/null
+  rm -f "$kdl"
   mosh nuc
 }
 {{/if}}
