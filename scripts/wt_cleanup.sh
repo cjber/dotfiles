@@ -6,11 +6,19 @@
 
 set -euo pipefail
 
-# Map: <parent-repo-checkout-path> => <worktree-dir-name-on-disk>
-declare -A REPOS=(
-    [/home/cjber/drive/thirdweb/projects/nebula]=nebula
-    [/home/cjber/drive/agl/nebula-web]=nebula-web
-)
+# Repo map sourced from a local, gitignored config:
+#   ~/.config/wt-cleanup/repos.conf
+# That file populates the REPOS associative array, e.g.:
+#   REPOS[/path/to/my-repo]=my-repo
+declare -A REPOS=()
+CONF="${XDG_CONFIG_HOME:-$HOME/.config}/wt-cleanup/repos.conf"
+if [[ -f "$CONF" ]]; then
+    # shellcheck disable=SC1090
+    source "$CONF"
+else
+    echo "[wt-cleanup] no $CONF — nothing to do." >&2
+    exit 0
+fi
 
 WORKTREES_ROOT="$HOME/.worktrees"
 PROTECTED_BRANCHES_RE='^(main|master|develop|HEAD)$'

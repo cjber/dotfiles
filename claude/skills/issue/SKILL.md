@@ -40,24 +40,24 @@ Before drafting anything, map the actual code surface:
 - For each, `grep -rn "<symbol>"` from the repo root (or appropriate src/ root). Note call sites with `path:line`.
 - `Read` the 3 to 5 most central files end-to-end. Skim the rest to confirm structure.
 - If the issue references a commit SHA: `git show <sha> --stat` then `git log <sha>..HEAD -- <paths>` to see drift since.
-- For Nebula specifically (per project CLAUDE.md): tools live in `src/nebula/tools/`, agents in `src/nebula/agents/`, runtime in `src/nebula/runtime/agent/core.py`, SQL belongs on the model class, integration adapters in `src/services/integration/`.
+- If the repo has a `CLAUDE.md`, read it for layout conventions (where tools, runtime, models, integrations live) and follow them in the plan's path references.
 
 Don't speculate about code you haven't opened. Don't write the plan from the issue text alone. If the issue is vague, the investigation phase tells you what to ask.
 
 ### 3. Synthesise the plan
 
-Write to `~/.claude/plans/<slug>.md` where `<slug>` = `<repo>-<issue#>-<kebab-title>` (e.g. `nebula-3765-agent-gets-lost.md`). Sections, in order:
+Write to `~/.claude/plans/<slug>.md` where `<slug>` = `<repo>-<issue#>-<kebab-title>`. Sections, in order:
 
 1. **Issue summary** - 2 to 4 sentences. What's broken or wanted, who reported it, current state, link to the issue.
 2. **Current behaviour** - what the code does today, with `path/to/file.py:LN` refs for each relevant function or branch. Quote short snippets only when they clarify a subtlety.
 3. **Desired behaviour** - what should change, derived from the issue and comments. If the comments reframed the problem, lead with the reframed version.
 4. **Approach** - numbered implementation steps. Each step names the file and roughly where (function, class, or section). Each step should map to one logical commit.
-5. **Tests and verification** - how we'll know it works. Per project CLAUDE.md: prefer pure-function unit tests, integration tests for orchestration, and `uv run benchmark` cases for any LLM-facing change (tool descriptions, system prompts, agent-facing schemas). Avoid constant-checking and mock-the-world tests.
+5. **Tests and verification** - how we'll know it works. Defer to the repo's CLAUDE.md and existing test patterns; favour pure-function unit tests, integration tests for orchestration, and project-specific benchmark runs for any behaviour that depends on an LLM. Avoid constant-checking and mock-the-world tests.
 6. **Risks and edge cases** - what could regress; concurrent-write hazards; soft-delete cascades; cache invalidation; LLM-judgment fragility; auth-scope changes; migration ordering.
 7. **Out of scope** - adjacent things the issue might tempt us into but we're explicitly deferring.
 8. **Open questions** - what to confirm with the user, the issue author, or a reviewer before merging. Empty list is fine.
 
-Keep references concrete. `src/nebula/runtime/agent/core.py:142` beats "the agent loop." One sentence per bullet; the reader can click through.
+Keep references concrete. `path/to/file.py:142` beats "the function that does X." One sentence per bullet; the reader can click through.
 
 Style rules for the plan body:
 - No em-dashes anywhere. Use hyphens, commas, or rephrase.
@@ -85,5 +85,5 @@ When the user passes multiple numbers, write one plan file per issue. After all 
 - Plans live at `~/.claude/plans/`. Don't put them in the repo, don't commit them.
 - This skill never branches, commits, or pushes. Use `/wt` to start the worktree once the plan is approved, then `/commit` once changes are ready.
 - If the same issue already has a plan file, read it first and update in place rather than writing a sibling.
-- If the issue is in a different repo than the current cwd (e.g. user is in `nebula` but asks about an issue in `dashboard`), surface that mismatch and confirm before proceeding.
-- Memory check: before writing the plan, scan `~/.claude/projects/<cwd-slug>/memory/MEMORY.md` for any existing project memory tied to the issue (e.g. `project_agent_gets_lost.md` for #3765). Cite and reuse rather than rediscover.
+- If the issue is in a different repo than the current cwd, surface that mismatch and confirm before proceeding.
+- Memory check: before writing the plan, scan `~/.claude/projects/<cwd-slug>/memory/MEMORY.md` for any existing project memory tied to the issue. Cite and reuse rather than rediscover.
