@@ -43,27 +43,30 @@ EOF
   rm -f "$kdl"
   mosh nuc -- bash -c "
     export XDG_RUNTIME_DIR=
-    # Kick other zellij clients + orphaned mosh-servers (newest device wins,
-    # matches the zshrc auto-attach behaviour).
+    {
+      echo '=== mcc \$(date) ==='
+      echo \"kdl=$kdl name=$name cwd=$cwd\"
+      echo '--- kdl content ---'
+      cat '$kdl' 2>&1 || echo '(kdl missing on NUC)'
+      echo '--- sessions before ---'
+      zellij list-sessions 2>&1
+    } >>/tmp/mcc-debug.log 2>&1
+
     for p in \$(pgrep -u \"\$USER\" -f 'zellij attach' 2>/dev/null); do
       [ \"\$p\" != \"\$\$\" ] && kill -TERM \"\$p\" 2>/dev/null
     done
     for p in \$(pgrep -u \"\$USER\" -f '^mosh-server new' 2>/dev/null); do
       [ \"\$p\" != \"\$PPID\" ] && kill -TERM \"\$p\" 2>/dev/null
     done
-    # If main is EXITED-resurrectable, delete it so we can start fresh with
-    # the layout. Otherwise --layout would error against the existing entry.
     if zellij list-sessions 2>/dev/null | grep -aq 'main.*EXITED'; then
       zellij delete-session main --force >/dev/null 2>&1
     fi
-    # Two paths: active main → action new-tab + attach; no main → -n
-    # (new-session-with-layout) which actually creates main from the layout.
-    # NB: \`zellij --session main --layout …\` is *attach*-with-extra-tab and
-    # errors when main doesn't exist — that's what made bash exit and mosh
-    # crash on first run.
-    if zellij --session main action new-tab --name '$name' --layout '$kdl' 2>/dev/null; then
+
+    if zellij --session main action new-tab --name '$name' --layout '$kdl' 2>>/tmp/mcc-debug.log; then
+      echo 'path=attach-existing' >>/tmp/mcc-debug.log
       exec zellij attach main
     else
+      echo 'path=new-session-with-layout' >>/tmp/mcc-debug.log
       exec zellij -n '$kdl' -s main
     fi
   "
