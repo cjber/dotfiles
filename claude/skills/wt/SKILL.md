@@ -47,14 +47,14 @@ When opening a new zellij tab, detect the repo's dev command and start it in a s
 
 Check bun *before* pnpm — some repos have both lockfiles in transition and bun is the actual tool.
 
-Run the detected command in a split pane:
+Run the detected command in a split pane *below* (matches the user's narrow-window default):
 ```bash
-zellij action new-pane --direction right --cwd "$wt_path" --name server -- bash -lc '<detected-command>'
+zellij action new-pane --direction down --cwd "$wt_path" --name server -- bash -lc '<detected-command>'
 ```
 
-Then switch focus back to the left (shell) pane:
+Then switch focus back to the top (shell) pane:
 ```bash
-zellij action move-focus left
+zellij action move-focus up
 ```
 
 If the user explicitly invoked `/wt <feature> --no-dev` (or you can tell from context that a server isn't wanted), skip the auto-start and just open the tab.

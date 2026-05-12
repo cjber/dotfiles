@@ -22,6 +22,18 @@ ui {
     }
 }
 
+// Narrow-window friendly: default `new pane` always splits down rather than
+// zellij's largest-space heuristic (which goes right and crowds the columns).
+// Use Ctrl-P r explicitly when you do want a right-split.
+keybinds {
+    pane {
+        bind "n" { NewPane "Down"; SwitchToMode "normal"; }
+    }
+    shared_except "locked" {
+        bind "Alt n" { NewPane "Down"; }
+    }
+}
+
 plugins {
     compact-bar location="zellij:compact-bar"
     status-bar location="zellij:status-bar"
