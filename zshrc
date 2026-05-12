@@ -112,5 +112,16 @@ if [[ -n "$SSH_CONNECTION" && -z "$ZELLIJ" && $- == *i* ]] && command -v zellij 
   # the mosh/ssh server inherited XDG_RUNTIME_DIR. Otherwise PC mosh
   # (with systemd-logind setting XDG) and phone mosh (without) land on
   # DIFFERENT sessions with the same name. Unset → both fall through to /tmp.
+
+  # Kick any other zellij clients + their stale mosh-servers so the new
+  # connection's terminal size becomes the session size (zellij sizes
+  # panes to the smallest attached client; we'd rather "newest wins").
+  for _pid in $(pgrep -u "$USER" -f 'zellij attach.*main' 2>/dev/null); do
+    (( _pid != $$ )) && kill -TERM "$_pid" 2>/dev/null
+  done
+  for _pid in $(pgrep -u "$USER" -f '^mosh-server new' 2>/dev/null); do
+    (( _pid != PPID )) && kill -TERM "$_pid" 2>/dev/null
+  done
+
   exec env -u XDG_RUNTIME_DIR zellij attach --create main
 fi
