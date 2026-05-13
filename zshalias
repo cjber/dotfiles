@@ -25,10 +25,13 @@ alias gmm='git mm'
 alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
 alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
 
+# Plain mosh to nuc with sane echo behaviour — `--predict-overwrite`
+# makes mosh's local-echo predictor overwrite the real char when it
+# arrives instead of appending it, fixing the `yo`→`yyo` double-echo.
+alias mn='mosh --predict-overwrite nuc'
+
 # mosh into the NUC and land in a fresh zellij tab cwd'd to your local
-# $PWD (mirrored). No auto-launched claude — just a normal shell so
-# `exit` closes the pane the way you'd expect. Pass an arg to override
-# the path.
+# $PWD (mirrored). No auto-launched claude — `exit` closes the pane.
 mcc() {
   local cwd="${1:-$PWD}"
   local name="${cwd##*/}"
@@ -40,7 +43,6 @@ mcc() {
     if zellij --session main action new-tab --name '$name' --cwd '$cwd' 2>/dev/null; then
       zellij --session main action go-to-tab-name '$name' >/dev/null 2>&1
     else
-      # main not active → create it with a one-pane layout cwd'd to \$cwd.
       cat >/tmp/mcc-mirror.kdl <<'KDL'
 layout {
     pane cwd="$cwd"
@@ -49,6 +51,6 @@ KDL
       zellij -n /tmp/mcc-mirror.kdl -s main >/dev/null 2>&1 || true
     fi
 BASH
-  mosh nuc
+  mosh --predict-overwrite nuc
 }
 {{/if}}
