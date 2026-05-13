@@ -1,3 +1,9 @@
+# Guarantee TERM is set. Some launchers (zellij resurrecting an EXITED
+# session created without TERM, dumb sshd configs) leave it empty, which
+# breaks terminfo lookups and scrambles cursor positioning on every redraw.
+: "${TERM:=xterm-256color}"
+export TERM
+
 export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 export OLLAMA_API_BASE=http://127.0.0.1:11434
 export CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1
