@@ -25,6 +25,11 @@ alias gmm='git mm'
 alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
 alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
 
+# Mosh on LAN is instant anyway — disable local-echo prediction so the
+# predictor can't double-render keystrokes when fast-syntax-highlighting /
+# autosuggestions rewrite the line under it.
+alias mn='mosh --predict=never nuc'
+
 # mosh into the NUC and land in a fresh zellij tab cwd'd to your local
 # $PWD (mirrored). No auto-launched claude — `exit` closes the pane.
 mcc() {
@@ -46,6 +51,6 @@ KDL
       zellij -n /tmp/mcc-mirror.kdl -s main >/dev/null 2>&1 || true
     fi
 BASH
-  mosh nuc
+  mosh --predict=never nuc
 }
 {{/if}}
