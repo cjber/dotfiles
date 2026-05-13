@@ -1,8 +1,7 @@
-zdharma-continuum/fast-syntax-highlighting
 twang817/zsh-manydots-magic
 zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
 junegunn/fzf-git.sh
 {{#if with_llm}}eliyastein/llm-zsh-plugin
-{{/if}}
+{{/if}}zdharma-continuum/fast-syntax-highlighting
