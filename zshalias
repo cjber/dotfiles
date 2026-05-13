@@ -25,11 +25,6 @@ alias gmm='git mm'
 alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
 alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
 
-# Plain mosh to nuc with sane echo behaviour — `--predict-overwrite`
-# makes mosh's local-echo predictor overwrite the real char when it
-# arrives instead of appending it, fixing the `yo`→`yyo` double-echo.
-alias mn='mosh --predict-overwrite nuc'
-
 # mosh into the NUC and land in a fresh zellij tab cwd'd to your local
 # $PWD (mirrored). No auto-launched claude — `exit` closes the pane.
 mcc() {
@@ -51,6 +46,6 @@ KDL
       zellij -n /tmp/mcc-mirror.kdl -s main >/dev/null 2>&1 || true
     fi
 BASH
-  mosh --predict-overwrite nuc
+  mosh nuc
 }
 {{/if}}
