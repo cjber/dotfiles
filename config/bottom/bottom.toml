@@ -1,0 +1,43 @@
+# bottom — graphs-only scratchpad layout, oxide-aligned colors.
+# Row 1: memory. Row 2: network. No CPU/proc/disk/temp.
+
+[flags]
+hide_avg_cpu  = false
+disable_click = true
+hide_time     = true
+
+[styles]
+[styles.cpu]
+all_entry_color  = "#e78a53"
+avg_entry_color  = "#5f8787"
+cpu_core_colors  = ["#e78a53", "#fbcb97", "#5f8787", "#c1c1c1", "#999999", "#e78a53", "#fbcb97", "#5f8787"]
+
+[styles.memory]
+ram_color   = "#e78a53"
+swap_color  = "#fbcb97"
+cache_color = "#5f8787"
+
+[styles.network]
+rx_color       = "#5f8787"
+tx_color       = "#e78a53"
+rx_total_color = "#999999"
+tx_total_color = "#c1c1c1"
+
+[styles.widgets]
+border_color  = "#444444"
+widget_title  = { color = "#c1c1c1" }
+text          = { color = "#c1c1c1" }
+
+[styles.graphs]
+graph_color = "#666666"
+legend_text = { color = "#999999" }
+
+[[row]]
+ratio = 1
+  [[row.child]]
+  type = "mem"
+
+[[row]]
+ratio = 1
+  [[row.child]]
+  type = "net"
