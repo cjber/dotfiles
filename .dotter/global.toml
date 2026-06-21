@@ -45,6 +45,7 @@ has_gui = true
 "claude/skills/commit" = "~/.claude/skills/commit"
 "claude/skills/issue" = "~/.claude/skills/issue"
 "claude/skills/wt" = "~/.claude/skills/wt"
+"claude/skills/grilling" = "~/.claude/skills/grilling"
 
 # Headless Linux (NUC / remote server — no GUI, no Wayland)
 [headless.variables]
@@ -73,6 +74,7 @@ has_gui = false
 "claude/skills/commit" = "~/.claude/skills/commit"
 "claude/skills/issue" = "~/.claude/skills/issue"
 "claude/skills/wt" = "~/.claude/skills/wt"
+"claude/skills/grilling" = "~/.claude/skills/grilling"
 
 # macOS (cross-platform only)
 [macos.files]
@@ -90,4 +92,5 @@ has_gui = false
 "claude/skills/commit" = "~/.claude/skills/commit"
 "claude/skills/issue" = "~/.claude/skills/issue"
 "claude/skills/wt" = "~/.claude/skills/wt"
+"claude/skills/grilling" = "~/.claude/skills/grilling"
 

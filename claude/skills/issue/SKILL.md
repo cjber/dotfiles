@@ -1,6 +1,6 @@
 ---
 name: issue
-description: Fetch a GitHub issue (and any linked PRs/issues), investigate the relevant code, and write a comprehensive implementation plan to ~/.claude/plans/. Use when the user invokes /issue <number> or asks for a full plan against one or more issues.
+description: "Turns a GitHub issue into a concrete, file-level implementation plan written to `~/.claude/plans/` (fetches the issue plus linked PRs/comments, investigates the actual code surface, then synthesizes approach/tests/risks). Planning only, never branches, commits, or implements. Use when the user gives an issue number or asks to review/scope/plan/triage a GitHub issue (e.g. 'look at issue 3765', 'plan out #3801'), even if they don't say 'issue'."
 argument-hint: "[issue-number] [issue-number...]"
 allowed-tools: Bash, Read, Glob, Grep, Edit, Write, WebFetch
 ---
@@ -45,6 +45,13 @@ Before drafting anything, map the actual code surface:
 Don't speculate about code you haven't opened. Don't write the plan from the issue text alone. If the issue is vague, the investigation phase tells you what to ask.
 
 ### 3. Synthesise the plan
+
+If the issue is materially ambiguous - a fork in the approach where
+guessing wrong would mean replanning, not a detail you can default -
+run `/grilling` to resolve it with the user *before* writing the plan,
+rather than baking a guess into the steps and dumping it in "Open
+questions." Open questions are for things to confirm at review time;
+they are not a place to launder decisions you could have made now.
 
 Write to `~/.claude/plans/<slug>.md` where `<slug>` = `<repo>-<issue#>-<kebab-title>`. Sections, in order:
 
