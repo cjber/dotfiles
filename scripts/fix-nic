@@ -1,0 +1,17 @@
+#!/bin/sh
+# Recover a dead RTL8125 2.5GbE port without rebooting: PCI remove + rescan.
+# ponytail: hardcoded to the eno1 NIC; rederives PCI addr each run so a bus
+# renumber won't break it.
+set -e
+IFACE=eno1
+DEV=$(basename "$(readlink -f /sys/class/net/$IFACE/device)")
+echo "Resetting $IFACE ($DEV) ..."
+echo 1 | sudo tee /sys/bus/pci/devices/$DEV/remove >/dev/null
+sleep 1
+echo 1 | sudo tee /sys/bus/pci/rescan >/dev/null
+sleep 2
+if ip -br link show "$IFACE" 2>/dev/null | grep -q UP; then
+  echo "OK: $IFACE back up — $(ethtool $IFACE 2>/dev/null | awk '/Speed:/{print $2}')"
+else
+  echo "Still down. A full power-off (cold boot) is needed to reset the chip."
+fi

@@ -1,0 +1,13 @@
+[Unit]
+Description=Reset RTL8125 NIC at shutdown for clean dual-boot handoff
+After=network.target
+Before=shutdown.target reboot.target halt.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/true
+ExecStop=/usr/local/bin/reset-r8125-shutdown.sh
+
+[Install]
+WantedBy=multi-user.target

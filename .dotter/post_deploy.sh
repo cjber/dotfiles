@@ -11,6 +11,27 @@
 # it is itself root, so root must be authorised in /etc/sudoers.
 set -u
 
+# --- RTL8125 dual-boot NIC reset (system service + rescue helper) ---------
+# Installs the shutdown-time NIC reset so a warm reboot hands Windows a clean
+# chip (the RTL8125 strands its link across OS handoffs otherwise). The
+# `fix-nic` rescue command is deployed by dotter to ~/scripts. Idempotent:
+# no-op (and no sudo prompt) once installed; only runs on a host with eno1.
+NIC_SRC="$HOME/.dotfiles/system"
+if [ -e /sys/class/net/eno1 ] && [ -d "$NIC_SRC" ]; then
+    nic_changed=0
+    if ! cmp -s "$NIC_SRC/reset-r8125-shutdown.sh" /usr/local/bin/reset-r8125-shutdown.sh 2>/dev/null; then
+        sudo install -m 755 "$NIC_SRC/reset-r8125-shutdown.sh" /usr/local/bin/reset-r8125-shutdown.sh
+        nic_changed=1
+    fi
+    if ! cmp -s "$NIC_SRC/reset-r8125.service" /etc/systemd/system/reset-r8125.service 2>/dev/null; then
+        sudo install -m 644 "$NIC_SRC/reset-r8125.service" /etc/systemd/system/reset-r8125.service
+        nic_changed=1
+    fi
+    [ "$nic_changed" = 1 ] && { sudo systemctl daemon-reload; echo "[dotter] installed RTL8125 reset service"; }
+    systemctl is-enabled reset-r8125.service >/dev/null 2>&1 || sudo systemctl enable reset-r8125.service
+fi
+# --- end NIC -------------------------------------------------------------
+
 PARU_CONF="$HOME/.config/paru/paru.conf"
 REPO_DIR="/var/cache/aur_local"
 REPO_NAME="aur_local"

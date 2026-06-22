@@ -33,6 +33,7 @@ has_gui = true
 "config/systemd/user/controller-inhibit.service" = "~/.config/systemd/user/controller-inhibit.service"
 "scripts/aur-malware-scan.sh" = "~/scripts/aur-malware-scan.sh"
 "config/systemd/user/aur-malware-scan.service" = "~/.config/systemd/user/aur-malware-scan.service"
+"scripts/fix-nic" = "~/scripts/fix-nic"
 "config/systemd/user/aur-malware-scan.timer" = "~/.config/systemd/user/aur-malware-scan.timer"
 "config/btop" = "~/.config/btop"
 "config/bottom" = "~/.config/bottom"
