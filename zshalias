@@ -43,7 +43,7 @@ mcc() {
     if zellij --session main action new-tab --name '$name' --cwd '$cwd' 2>/dev/null; then
       zellij --session main action go-to-tab-name '$name' >/dev/null 2>&1
     else
-      cat >/tmp/mcc-mirror.kdl <<'KDL'
+      cat >/tmp/mcc-mirror.kdl <<KDL
 layout {
     pane cwd="$cwd"
 }

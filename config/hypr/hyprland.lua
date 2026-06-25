@@ -324,8 +324,8 @@ hl.bind(mod .. " + B", hl.dsp.exec_cmd(
 --------------------------------------------------------------------
 -- Binds: function keys
 --------------------------------------------------------------------
-hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("$backlight --inc"),                       { repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("$backlight --dec"),                       { repeating = true })
+hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl set +5%"),                   { repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"),                   { repeating = true })
 hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ +5%"), { repeating = true, locked = true })
 hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ -5%"), { repeating = true, locked = true })
 hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("pactl set-sink-mute @DEFAULT_SINK@ toggle"), { locked = true })

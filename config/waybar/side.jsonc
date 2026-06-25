@@ -123,7 +123,7 @@
   "interval": 1
 },
 "custom/rclone": {
-  "exec": "if [[ 'pgrep -fl rclone' ]]; then echo '  syncing'; else echo ' stopped'; fi",
+  "exec": "if pgrep -fl rclone >/dev/null; then echo '  syncing'; else echo ' stopped'; fi",
   "format": "{}",
   "return-type": "",
   "interval": 60

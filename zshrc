@@ -80,7 +80,7 @@ function lf() {
 }
 
 eval "$(starship init zsh)"
-eval "$(worktree-bin init zsh)"
+eval "$(worktree init zsh)"
 
 # microsandbox needs libkrun on LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
