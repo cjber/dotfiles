@@ -264,6 +264,7 @@ hl.config({
     cursor = {
         use_cpu_buffer    = 2,
         enable_hyprcursor = true,
+        inactive_timeout  = 3,  -- hide cursor after 3s of inactivity
     },
 
     --------------------------------------------------------------------
