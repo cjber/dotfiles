@@ -50,7 +50,19 @@ if hyprctl monitors | grep -q "Monitor $TV"; then
   notify-send -a tv "TV off" "windows → DP-1, audio → desk"
 else
   # TV is off -> 4K120, open Steam Big Picture on ws5, sound to soundbar.
+  # The Hisense EDID has NO native 4K@120 mode (max 4K@60, dotclock 600 MHz).
+  # 119.88Hz is NVIDIA-driver-created via VRR. The TV sometimes fails to lock
+  # onto this driver-created mode, causing flicker until power-cycled.
+  # Fix: enable, wait for handshake, then do a quick disable+re-enable to force
+  # a fresh HDMI negotiation. Also explicitly disable VRR for this output since
+  # the TV doesn't report vrr_capable and vrr=2 (global) may interfere.
   hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"3840x2160@119.88Hz\", position=\"4880x0\", scale=1.60 })" >/dev/null
+  sleep 1  # let the initial HDMI handshake settle
+  # Force a clean re-handshake: disable, wait, re-enable at the target mode.
+  hyprctl eval "hl.monitor({ output=\"$TV\", disabled=true })" >/dev/null
+  sleep 0.5
+  hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"3840x2160@119.88Hz\", position=\"4880x0\", scale=1.60 })" >/dev/null
+  sleep 1  # let the re-handshake settle before launching Steam
   # Mirror the TV onto DP-1 so the game is visible from the desk
   wl-mirror --fullscreen-output DP-1 "$TV" {LOCK_FD}>&- >/dev/null 2>&1 &
   # Kill any running Steam first so it re-detects the TV at 4K instead of

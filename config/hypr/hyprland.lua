@@ -59,12 +59,10 @@ hl.monitor({
     scale     = 1,
     transform = 1, -- 90° rotation
 })
-hl.monitor({
-    output   = "HDMI-A-1",
-    mode     = "3840x2160@119.88Hz",
-    position = "4880x0",
-    scale    = 1,
-})
+-- HDMI-A-1 (Hisense TV) is NOT declared statically. The tv-toggle script
+-- enables/disables it on demand. A static declaration with scale=1 conflicts
+-- with the toggle's scale=1.60, causing a double-reconfigure that prevents
+-- the TV from locking onto the 119.88Hz signal (flicker until power-cycle).
 
 --------------------------------------------------------------------
 -- Look & feel
