@@ -47,7 +47,7 @@ if hyprctl monitors | grep -q "Monitor $TV"; then
   notify-send -a tv "TV off" "windows → DP-1, audio → desk"
 else
   # TV is off -> 4K120, open Steam Big Picture on ws5, sound to soundbar.
-  hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"highrr\", position=\"4880x0\", scale=1.60 })" >/dev/null
+  hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"3840x2160@119.88Hz\", position=\"4880x0\", scale=1.60 })" >/dev/null
   # Mirror the TV onto DP-1 so the game is visible from the desk
   wl-mirror --fullscreen-output DP-1 "$TV" >/dev/null 2>&1 &
   # Kill any running Steam first so it re-detects the TV at 4K instead of
