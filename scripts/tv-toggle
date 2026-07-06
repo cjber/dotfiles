@@ -50,19 +50,11 @@ if hyprctl monitors | grep -q "Monitor $TV"; then
   notify-send -a tv "TV off" "windows → DP-1, audio → desk"
 else
   # TV is off -> 4K120, open Steam Big Picture on ws5, sound to soundbar.
-  # The Hisense EDID has NO native 4K@120 mode (max 4K@60, dotclock 600 MHz).
-  # 119.88Hz is NVIDIA-driver-created. The TV sometimes fails to lock onto
-  # this mode, causing flicker until physically power-cycled.
-  # Fix: enable at 119.88Hz, then DPMS off/on to cut and restore the actual
-  # HDMI signal — this forces a full link re-training (like a power cycle)
-  # without disabling the output (which would break ARC audio routing).
+  # FreeSync must be OFF on the TV itself — if on, it interferes with Instant
+  # Game Response, causing the TV to spam the "Optimized for game settings"
+  # OSD popup on/off repeatedly. This is a TV-side setting, not fixable in software.
   hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"3840x2160@119.88Hz\", position=\"4880x0\", scale=1.60 })" >/dev/null
-  sleep 1  # let the initial HDMI handshake settle
-  # DPMS off/on: cut the HDMI signal to force full link re-training.
-  hyprctl eval 'hl.dispatch(hl.dsp.dpms({ output = "HDMI-A-1", action = "off" }))' >/dev/null 2>&1
-  sleep 2  # hold signal low long enough for the TV to detect signal loss
-  hyprctl eval 'hl.dispatch(hl.dsp.dpms({ output = "HDMI-A-1", action = "on" }))' >/dev/null 2>&1
-  sleep 2  # let the TV re-lock onto the 119.88Hz signal
+  sleep 2  # let the HDMI handshake settle
   # Mirror the TV onto DP-1 so the game is visible from the desk
   wl-mirror --fullscreen-output DP-1 "$TV" {LOCK_FD}>&- >/dev/null 2>&1 &
   # Kill any running Steam first so it re-detects the TV at 4K instead of
