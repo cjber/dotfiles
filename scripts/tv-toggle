@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# tv-toggle — bring the Hisense Frame TV up at 4K120 with sound on the soundbar,
+# or drop it and send sound back to the desk. Bound to SUPER+SHIFT+T.
+# ponytail: hardcoded sink/card names — they're stable PCI paths on this box;
+# if the GPU/audio moves slot, update TV_SINK/DESK_SINK (see `pactl list short sinks`).
+
+set -uo pipefail
+
+LOCKFILE=/tmp/tv-toggle.lock
+# flock — kernel-level advisory lock so two rapid toggles don't race.
+# -n = non-blocking: exit silently if another instance holds the lock.
+exec {LOCK_FD}>"$LOCKFILE"
+flock -n "$LOCK_FD" || exit 0
+
+TV=HDMI-A-1
+TV_CARD=alsa_card.pci-0000_01_00.1
+TV_SINK=alsa_output.pci-0000_01_00.1.hdmi-stereo
+DESK_SINK=alsa_output.pci-0000_0d_00.6.analog-stereo
+
+move_streams() {  # move every active stream onto $1 so the switch is immediate
+  pactl list short sink-inputs | cut -f1 | while read -r i; do
+    [ -n "$i" ] && pactl move-sink-input "$i" "$1" 2>/dev/null
+  done
+}
+
+if hyprctl monitors | grep -q "Monitor $TV"; then
+  # TV is on -> pull its windows back to DP-1, drop the output, sound to desk
+  # Kill wl-mirror first so DP-1 is fully restored
+  pkill wl-mirror 2>/dev/null || true
+  # Exit Steam Big Picture mode and close any running game windows on the TV
+  hyprctl clients -j 2>/dev/null | jq -r '.[] | select(.title | test("Big Picture"; "i")) | .address' | while read -r addr; do
+    [ -n "$addr" ] && hyprctl eval "hl.dispatch(hl.dsp.window.close({ window = \"$addr\" }))" 2>/dev/null
+  done
+  # Also close any steam_app game windows
+  hyprctl clients -j 2>/dev/null | jq -r '.[] | select(.class | test("^steam_app_")) | .address' | while read -r addr; do
+    [ -n "$addr" ] && hyprctl eval "hl.dispatch(hl.dsp.window.close({ window = \"$addr\" }))" 2>/dev/null
+  done
+  sleep 0.5  # let Steam finish exiting Big Picture
+  # Pull remaining windows back from ws5 to DP-1
+  hyprctl eval 'for _,w in ipairs(hl.get_workspace_windows(5) or {}) do hl.dispatch(hl.dsp.focus({ window = w })); hl.dispatch(hl.dsp.window.move({ workspace = 1 })) end' >/dev/null
+  hyprctl eval "hl.monitor({ output=\"$TV\", disabled=true })" >/dev/null
+  hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = 1 }))' >/dev/null
+  pactl set-default-sink "$DESK_SINK"
+  move_streams "$DESK_SINK"
+  notify-send -a tv "TV off" "windows → DP-1, audio → desk"
+else
+  # TV is off -> 4K120, open Steam Big Picture on ws5, sound to soundbar.
+  hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"highrr\", position=\"4880x0\", scale=1.60 })" >/dev/null
+  # Mirror the TV onto DP-1 so the game is visible from the desk
+  wl-mirror --fullscreen-output DP-1 "$TV" >/dev/null 2>&1 &
+  steam steam://open/bigpicture >/dev/null 2>&1 &
+  # Poll for the Big Picture window (title "Steam Big Picture Mode"), then send it to ws5.
+  win=""
+  for _ in $(seq 1 60); do  # ~15s: Big Picture is slow to map when Steam was in tray
+    win=$(hyprctl clients -j | jq -r '.[] | select(.title|test("Big Picture";"i")) | .address' | head -1)
+    [ -n "$win" ] && break
+    sleep 0.25
+  done
+  [ -n "$win" ] && hyprctl eval "hl.dispatch(hl.dsp.focus({ window = \"$win\" })); hl.dispatch(hl.dsp.window.move({ workspace = 5 }))" >/dev/null
+  hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = 5 }))' >/dev/null
+  pactl set-card-profile "$TV_CARD" output:hdmi-stereo
+  pactl set-default-sink "$TV_SINK"
+  move_streams "$TV_SINK"
+  notify-send -a tv "TV on — 4K120" "Big Picture → TV, audio → soundbar"
+fi
