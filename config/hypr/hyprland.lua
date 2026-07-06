@@ -587,11 +587,10 @@ hl.bind(mod .. " + bracketright",hl.dsp.layout("colresize +conf")) -- cycle widt
 hl.bind(mod .. " + u",           hl.dsp.layout("promote"))
 
 --------------------------------------------------------------------
--- Workspace overview: hyprview (~/src/hyprview, symlinked into
--- ~/.config/hypr/hyprview so require() can find it). Float-grid hack
--- around 0.55's plugin-dispatcher gap. See [[hyprland-lua-plugin-config-broken]].
+-- Workspace overview: hyprview. Load the real checkout directly instead
+-- of relying on package.path to resolve ~/.config/hypr/hyprview.
 --------------------------------------------------------------------
-require("hyprview").setup({
+dofile("/home/cjber/src/hyprview/init.lua").setup({
     bind                     = mod .. " + Tab",
     center_on_exit           = true,
     restore_focus_fit_method = 1, -- matches scrolling.focus_fit_method above
