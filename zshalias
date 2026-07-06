@@ -3,6 +3,7 @@ alias rm="rm -i"
 alias upd='topgrade'
 alias codex=codex --search --dangerously-bypass-approvals-and-sandbox
 alias bat="bat -P --style=numbers --theme base16-256"
+alias wa='wowaddon'
 alias empty='trash-empty'
 alias la="ncdu --color dark"
 alias ls='eza -F --group-directories-first'
@@ -15,14 +16,13 @@ alias mvr='rsync -a --progress --partial --append-verify --remove-source-files'
 alias cpr='rsync -a --progress --partial --append-verify'
 alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs -r tldr"
 alias wt="worktree"
-alias cc='claude'
+alias cc='claude agents'
 alias cz='ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic ANTHROPIC_AUTH_TOKEN=$(pass show zai/api_key) API_TIMEOUT_MS=3000000 claude'
 alias g='git'
 alias gfp='git fp'
 alias gmm='git mm'
 
 {{#if has_gui}}## SSH
-alias sdl="ssh -t cillian@sasha -t distrobox enter arch"
 alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
 
 # Mosh on LAN is instant anyway — disable local-echo prediction so the
@@ -43,7 +43,7 @@ mcc() {
     if zellij --session main action new-tab --name '$name' --cwd '$cwd' 2>/dev/null; then
       zellij --session main action go-to-tab-name '$name' >/dev/null 2>&1
     else
-      cat >/tmp/mcc-mirror.kdl <<KDL
+      cat >/tmp/mcc-mirror.kdl <<'KDL'
 layout {
     pane cwd="$cwd"
 }

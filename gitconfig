@@ -43,10 +43,10 @@
 [coderabbit]
 	machineId = cli/866e06e3d72848ebae255a8845902f1e
 [credential "https://github.com"]
-	helper =
+	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper =
+	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [delta]
 	side-by-side = true

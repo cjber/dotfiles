@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Analyze git changes, create a signed commit, open a PR, and poll CI + review comments until they settle
+description: "Runs the full ship loop in this repo: drafts a Conventional-Commits message, stages explicitly named files, creates a signed commit (git commit -S), opens a PR with summary/test-plan, then polls CI checks and review comments (CodeRabbit, reviewers) until they settle. Use whenever the user wants to commit, push, open a PR, or watch CI, even if they just say 'commit this', 'ship it', 'make a PR', or '/commit'."
 allowed-tools: Bash, Read, Glob, Grep, Edit
 ---
 

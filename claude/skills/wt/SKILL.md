@@ -1,159 +1,156 @@
 ---
 name: wt
-description: Create a git worktree under ~/.worktrees/<repo>/<feature-name> on a cb/-prefixed branch. Inside zellij, also open a new tab named after the feature and (when a dev command is detectable from package.json/Makefile/pyproject) split a side pane running the server. Use when the user invokes /wt or asks for a worktree, sandbox copy, or feature branch.
+description: "Creates an isolated git worktree on a cb/-prefixed branch off fresh origin/main via gwq (auto-copies .env, opens a zellij tab, auto-starts the repo's dev server) and prunes merged worktrees first. Use when the user wants a new worktree, to start isolated/parallel work on a feature or branch, or to spin up/clean up a scratch checkout, even if they don't say 'worktree' or 'wt'."
 argument-hint: "[feature-name]"
 ---
 
 # `/wt` — Create a worktree
 
-Spin up a feature worktree under `~/.worktrees/<repo>/<feature-name>` with a `cb/`-prefixed branch off `main`. Then `cd` into it so the rest of the session works against the isolated copy.
+Spin up a feature worktree on a `cb/`-prefixed branch off `origin/main`, then `cd` into it so the rest of the session works against the isolated copy.
+
+Backed by **[gwq](https://github.com/d-kuro/gwq)** (`go install github.com/d-kuro/gwq/cmd/gwq@latest`), which replaced the unmaintained `worktree`/`worktree-bin` crate (it deleted the local `main` branch on `remove --delete-branch` — see Gotchas). gwq config lives at `~/.config/gwq/config.toml`: `basedir = ~/.worktrees`, `cd.launch_shell = false`, and per-repo `copy_files` that copy `.env*` / `.envrc` into each new worktree (so `dev_check.py` works immediately).
+
+**gwq is branch-addressed.** A worktree *is* its branch — there's no separate "feature name vs directory" split the old tool had. The branch `cb/<feature>` lands in a directory `~/.worktrees/github.com/<owner>/<repo>/cb-<feature>` (the `/` in the branch is sanitized to `-` for the dir; the git branch keeps the slash). You address it by any unique substring of the branch, e.g. `<feature>`.
 
 ## Default flow
 
 When the user invokes `/wt`, do this without re-asking:
 
-1. **Prune merged worktrees first** — see [Prune merged worktrees](#prune-merged-worktrees) below. Run it silently before creating; it's a no-op when there's nothing to remove.
+1. **Prune merged worktrees first** — see [Prune merged worktrees](#prune-merged-worktrees). Run it silently before creating; it's a no-op when there's nothing to remove.
 2. **Pick a feature name** — kebab-case, no slashes. Derive from the approved plan, the current task, or recent conversation.
-3. **Create the worktree:**
+3. **Create the branch off fresh `origin/main`, then add the worktree:**
    ```bash
-   wt create <feature-name> cb/<feature-name> --from main
+   git fetch --quiet origin main
+   git branch cb/<feature> origin/main      # base off FRESH origin/main, not the local checkout's HEAD
+   gwq add cb/<feature>                      # worktree for the existing branch
    ```
-   - First positional arg = **directory name** (must NOT contain `/`).
-   - Second positional arg = **branch name** (`cb/` prefix per the user's convention).
-4. **Capture the path** by running `worktree-bin jump <feature-name>` — it prints the absolute path on stdout. Hold this in a shell variable for the next steps; don't hand-build `~/.worktrees/<repo>/<feature-name>` paths.
-5. **Open the worktree** in a way that depends on whether the user is inside zellij:
-   - **If `$ZELLIJ` is set** (the common case from `mosh nuc`): spawn a new zellij tab named after the feature, cwd'd to the worktree. Then split it for the dev server when appropriate — see [Auto-start dev server](#auto-start-dev-server) below.
+   - gwq's `-b` flag branches off the *current HEAD*, which is usually NOT `main` here — so create the branch explicitly off `origin/main` first, then `gwq add` the existing branch. This also sidesteps the old "stale local `main`" gotcha.
+   - If the branch already exists: `git branch -D cb/<feature>` first (when safe) or pick a new name.
+4. **Capture the path** with `gwq get <feature>` — it prints the absolute path on stdout. Hold it in a shell variable; don't hand-build paths.
+   ```bash
+   wt_path="$(gwq get <feature>)"
+   ```
+5. **Open the worktree** depending on whether the user is inside zellij:
+   - **If `$ZELLIJ` is set** (the common case from `mosh nuc`): spawn a new zellij tab named after the feature, cwd'd to the worktree, then split for the dev server when appropriate (see [Auto-start dev server](#auto-start-dev-server)).
      ```bash
-     wt_path=$(worktree-bin jump <feature-name>)
-     zellij action new-tab --name <feature-name> --cwd "$wt_path"
+     zellij action new-tab --name <feature> --cwd "$wt_path"
      ```
-   - **Otherwise** (plain shell, no multiplexer): `cd "$wt_path"` so the current shell follows.
-6. **Confirm**: one-line "Worktree `cb/<feature-name>` ready at `<wt_path>`" plus, if you opened a server pane, what's running there.
+   - **Otherwise** (plain shell): `cd "$wt_path"` so the current shell follows.
+6. **Confirm**: one-line "Worktree `cb/<feature>` ready at `<wt_path>`" plus, if you opened a server pane, what's running there.
 
 ## Auto-start dev server
 
-When opening a new zellij tab, detect the repo's dev command and start it in a split pane so the user sees the server come up alongside their shell. Layout: shell on the left (focused), server on the right.
+When opening a new zellij tab, detect the repo's dev command and start it in a split pane so the user sees the server come up alongside their shell. Layout: shell on top (focused), server below.
 
-**Detection priority** (use the first match found at the worktree root):
+**Detection priority** (first match at the worktree root):
 
 | Detected | Dev command | Note |
 |---|---|---|
 | `bun.lockb` present, **or** `package.json` with `"packageManager": "bun@…"` | `bun dev` (or `bun start` if no `dev` script) | nebula-cli, nebula-desktop |
-| `package.json` with a `dev` script | `pnpm dev` | covers Next.js (nebula-web, nebula-docs), most Node monorepos |
+| `package.json` with a `dev` script | `pnpm dev` | Next.js (nebula-web, nebula-docs), most Node monorepos |
 | `package.json` with `expo` dep and a `start` script | `pnpm start` | nebula-mobile |
-| `Makefile` with a `dev` target | `make dev` | most python services that wrap uv/uvicorn |
-| `pyproject.toml` with `uvicorn`/`fastapi` in deps | `uv run uvicorn <module>:app --reload` (look up module name from `[tool.uvicorn]` or `main.py`) | nebula backend |
+| `Makefile` with a `dev` target | `make dev` | python services wrapping uv/uvicorn |
+| `pyproject.toml` with `uvicorn`/`fastapi` in deps | `uv run uvicorn <module>:app --reload` (module from `[tool.uvicorn]` or `main.py`) | nebula backend |
 | None of the above | skip the split — just open the shell tab |
 
 Check bun *before* pnpm — some repos have both lockfiles in transition and bun is the actual tool.
 
-Run the detected command in a split pane *below* (matches the user's narrow-window default):
+Run the detected command in a split pane *below*:
 ```bash
 zellij action new-pane --direction down --cwd "$wt_path" --name server -- bash -lc '<detected-command>'
-```
-
-Then switch focus back to the top (shell) pane:
-```bash
 zellij action move-focus up
 ```
 
-If the user explicitly invoked `/wt <feature> --no-dev` (or you can tell from context that a server isn't wanted), skip the auto-start and just open the tab.
+If the user invoked `/wt <feature> --no-dev` (or context says no server is wanted), skip the split.
+
+## Never move `main` off the main dir
+
+The single hard invariant of this skill: **`main` must always stay checked out in the primary repo dir, and must never be deleted, moved, or relocated to a worktree.** Everything below is built to make that impossible.
+
+- **Never run `gh pr merge --delete-branch` from inside a worktree.** gwq's old crate ancestor deleted the local `main` ref this way; even with gwq, deleting the PR branch while standing in its worktree is the footgun. Do merges and any branch deletion **from the main checkout** (the repo's primary dir, e.g. `/home/cjber/drive/agl/<repo>`), never from `~/.worktrees/...`. `gh pr merge` acts on the remote PR regardless of cwd, so there is no reason to run it from a worktree.
+- **Don't delete the remote branch by hand.** GitHub auto-deletes the PR head branch on merge (repo setting). Locally you just `git fetch --prune` to drop the now-stale remote-tracking ref — see the prune flow below.
+- **Recovery:** if `main` ever goes missing locally, `git branch main origin/main` from the primary dir restores it.
 
 ## Prune merged worktrees
 
-`wt cleanup` only removes **orphaned git refs** (dir was `rm -rf`'d but the `git worktree` ref remained). It does NOT remove healthy worktrees whose branch has already been merged. Run this loop from the **main checkout** (not a worktree) to drop those.
+Pruning is **a full local removal of each merged worktree (worktree dir + local branch) plus a remote-tracking prune** — the remote branch itself is already gone (auto-deleted on merge), so we never push a delete.
 
-**Important details:**
-- Use **absolute paths** for `git`/`awk`/`basename` etc. The Bash tool's pipeline subshells sometimes strip PATH, so bare `git` inside a `while read` body silently fails.
-- **Detect squash-merges** — `--is-ancestor` only catches fast-forward / true merges. Most PRs are squash-merged on GitHub, leaving the local branch tip with a tree that's identical to a commit on `main` but a different parent chain. The trick: synthesize a one-parent commit from the branch's tree and ask `git cherry` whether `main` already contains an equivalent (`-` in cherry output = already there).
+**Run the checked-in script — do NOT re-type an inline loop:**
 
 ```bash
-/usr/bin/git fetch --quiet origin main
-/usr/bin/git worktree list --porcelain | /usr/bin/awk '/^worktree /{p=$2} /^branch /{print p, $2}' \
-  | while read path ref; do
-      [ "$path" = "$(/usr/bin/git rev-parse --show-toplevel)" ] && continue   # skip main checkout
-      branch=${ref#refs/heads/}
-      [ -d "$path" ] || continue                                              # missing dir → wt cleanup handles it
-      [ -z "$(/usr/bin/git -C "$path" status --porcelain 2>/dev/null)" ] || continue   # skip dirty
-      tip=$(/usr/bin/git rev-parse "$branch" 2>/dev/null) || continue
-      mb=$(/usr/bin/git merge-base origin/main "$branch" 2>/dev/null) || continue
-      merged=0
-      if [ "$mb" = "$tip" ]; then
-        merged=1                                                               # fast-forward / true merge
-      else
-        synth=$(/usr/bin/git commit-tree "$branch^{tree}" -p "$mb" -m _ 2>/dev/null)
-        /usr/bin/git cherry origin/main "$synth" 2>/dev/null | /usr/bin/grep -q '^-' && merged=1   # squash-merged
-      fi
-      [ $merged -eq 1 ] && wt remove "$(/usr/bin/basename "$path")" --delete-branch
-    done
-wt cleanup   # mop up any newly-orphaned refs
+bash /home/cjber/.claude/skills/wt/prune.sh /home/cjber/drive/agl/<repo>
 ```
 
-**Skip rules** (a worktree is kept if any apply):
-- Directory missing (handled by `wt cleanup` afterwards).
-- Working tree is dirty (uncommitted changes).
-- Branch tip is neither an ancestor of `origin/main` nor tree-equivalent to a commit on it.
+(The repo-path argument is optional; it defaults to `$PWD`. The script is idempotent — safe to run before every worktree create.)
 
-Always run from the main checkout — `git worktree list` shows everything from anywhere, but `wt remove` resolves feature names relative to the current repo's worktree root, so staying in main avoids edge cases.
+Everything the old inline snippet did lives in `prune.sh`, plus the fixes for the two ways the inline version kept breaking:
+- **No gwq for removal.** `gwq remove` re-invokes `git` from PATH and dies silently in Claude Code's PATH-stripped pipeline subshells ("failed to list worktrees"), so runs reported success while removing nothing. The script uses plain `git worktree remove` + `git branch -D` and exports a sane PATH up front.
+- **No side effects inside a pipeline.** The worktree list is collected to a temp file first, then acted on — nothing mutates inside a `| while read` subshell.
 
-`.env`, `.envrc`, and `.vscode` are auto-copied; git config is inherited. If the project ships a `.worktree-config.toml`, its `on-create` hooks also run automatically.
+What the script enforces (unchanged contract):
+- **GitHub-authoritative merged detection, ONE `gh` call.** A branch is removable iff its name is in the `gh pr list --state merged` head set, or it is a literal fast-forward ancestor of `origin/main` (no-PR local branch). No tree-equivalence heuristics — the old `git cherry` approach flagged unmerged branches as merged. Per-branch `gh pr view` calls get secondary-rate-limited to empty; never do that either.
+- **Open-PR guard:** a branch with an open PR is always kept, even if a same-named merged PR exists.
+- **Three main-safety guards:** refuses to run from a worktree, skips the main checkout dir, skips `main`/`master`.
+- **Skip rules** (worktree kept if any apply): dirty working tree, open PR, not a `cb/` branch, directory missing, not merged.
+- **Second pass:** merged `cb/` local branches with no worktree at all are also deleted (they accumulate otherwise).
+- Ends with `git worktree prune` to mop up orphaned admin refs.
 
-## How `wt jump` works under Claude Code
+## How `gwq get`/`gwq cd` work under Claude Code
 
-`wt jump` (the **shell function** installed by `eval "$(worktree-bin init zsh)"`) does two things: runs `worktree-bin jump <feature>` to capture the worktree path on stdout, then `cd`s to it. Claude Code's non-interactive Bash subshell never sources the function, so the bare alias `wt jump` exits silently with no `cd`.
+`gwq cd <feature>` is a **shell function** (installed by `source <(gwq completion zsh)` in `.zshrc`, active because `cd.launch_shell = false`) that resolves the path and `cd`s the *current* shell. Claude Code's non-interactive Bash subshell never sources that function, so `gwq cd` won't move the Bash tool's CWD.
 
-The fix is to do the same thing the function does, explicitly: `cd "$(worktree-bin jump <feature>)"`. The binary still resolves the path, you still `cd` into it, and Claude Code's Bash tool preserves the new `cwd` across subsequent calls. Same outcome as an interactive shell, no path arithmetic on your end.
-
-Use `wt list --current` first if you don't know the feature name.
-
-## Why `wt jump cb/<branch-name>` fails (even in your interactive shell)
-
-`wt jump` only takes the **feature name (directory name)**, never a branch. The binary's argument is the dir under `~/.worktrees/<repo>/`, and dirs can't contain `/` — so `wt jump cb/foo` always returns "No worktree found matching 'cb/foo'".
-
-It used to feel like it worked when the dir name and branch name were the same (no prefix). Now that branches use `cb/<name>` while dirs are plain `<name>`, the two have diverged.
-
-**Find the right name to jump to:**
+The fix is to use `gwq get` (which just prints the path) inside a `cd`:
 ```bash
-wt list --current   # feature name on the left, branch in (parens) on the right
+cd "$(gwq get <feature>)"
 ```
+The Bash tool preserves the new CWD across subsequent calls — same outcome as the interactive shell, no path arithmetic.
 
-Pass the **left column** to `wt jump`:
-```bash
-wt jump miniapp-launch-polish   # ✓ — dir name
-wt jump cb/miniapp-launch-polish   # ✗ — branch name
-```
+`gwq get <pattern>` matches `<pattern>` against branch name or path. `<feature>` matches `cb/<feature>`. If multiple worktrees match, gwq opens a fuzzy finder — which hangs the non-TTY Bash tool, so pass a pattern unique enough to single-match (use the full `cb/<feature>` if needed). `gwq list` (run inside the repo) is the canonical lookup when unsure.
 
 ## Quick reference
 
 ```bash
-# Create
-wt create <feature> cb/<feature> --from main
+# Create (branch off fresh origin/main, then add the worktree)
+git fetch --quiet origin main && git branch cb/<feature> origin/main && gwq add cb/<feature>
 
-# Jump — interactive shell uses the alias; Claude Code captures the binary stdout
-wt jump <feature>                           # interactive zsh
-cd "$(worktree-bin jump <feature>)"         # Claude Code Bash tool
+# Resolve path / cd
+gwq get <feature>                 # prints absolute path
+cd "$(gwq get <feature>)"         # Claude Code Bash tool
+gwq cd <feature>                  # interactive zsh (current-shell cd)
 
-# List worktrees for the current repo
-wt list --current
+# List worktrees (current repo when inside it; --json for scripting; -g for all repos)
+gwq list
+gwq list --json
 
-# Remove (use the feature name, not the branch)
-wt remove <feature>
-wt remove <feature> --delete-branch   # also delete the git branch
+# Remove (full local removal = worktree dir + local branch). Run from the MAIN checkout.
+gwq remove <feature>              # remove worktree, KEEP branch
+gwq remove -b cb/<feature>        # also delete the local branch (names it explicitly — never main)
+gwq remove -b --force-delete-branch cb/<feature>   # branch not merged
 
-# Clean up orphaned git worktree refs (after a manual rm -rf)
-wt cleanup
+# Merge a PR — ALWAYS from the main checkout, never from a worktree, never --delete-branch
+cd /home/cjber/drive/agl/<repo> && gh pr merge <pr#> --squash   # remote head branch auto-deletes on merge
 
-# Prune merged worktrees (run from main checkout) — see "Prune merged worktrees" section
+# Clean up orphaned worktree admin refs (after a manual rm -rf)
+gwq prune
 
-# Back to the main checkout (interactive shell only — Claude Code: cd to the main repo path)
-wt back
+# Status of all worktrees (git status across them)
+gwq status
+
+# Prune merged worktrees (idempotent, run from anywhere in the main checkout)
+bash /home/cjber/.claude/skills/wt/prune.sh /home/cjber/drive/agl/<repo>
 ```
+
+`wt` is aliased to `gwq` in `.zshrc` for muscle memory, so `wt add` / `wt get` / `wt cd` / `wt list` / `wt remove` / `wt prune` all work interactively. The verbs are gwq's, not the old tool's (`wt create`/`wt jump`/`wt cleanup` are gone — use `gwq add`/`gwq get`/`gwq prune`).
 
 ## Gotchas
 
-- **Feature name cannot contain `/`** — that's the directory. The `cb/` prefix lives on the **branch** arg only.
-- **Two positional args** — `wt create <feature> <branch> --from main`. One arg drops you into an interactive prompt that fails under Claude Code's non-TTY Bash tool.
-- **`wt jump` (the alias) and `wt back` won't move Claude Code's CWD** — wrap the binary instead: `cd "$(worktree-bin jump <feature>)"` or `cd "$(worktree-bin back)"`.
-- **Always use `cb/` prefix** on the branch.
-- **Worktrees live at** `~/.worktrees/<repo>/<feature-name>` — the path uses the feature name, not the branch.
-- **`wt jump` takes a feature name, never a branch** — see the section above. `wt list --current` is the canonical lookup.
+- **Branch-addressed, not dir-addressed.** Address a worktree by its branch (or a unique substring), e.g. `gwq get <feature>` or `gwq remove -b cb/<feature>`. The directory is `cb-<feature>` (slash sanitized to dash) but you rarely name it directly.
+- **`gwq -b` branches off current HEAD, not `main`.** Always `git branch cb/<feature> origin/main` first, then `gwq add cb/<feature>`. Don't use `gwq add -b cb/<feature>` from a non-main checkout — it inherits the wrong base.
+- **`gwq cd`/`gwq get` won't move Claude Code's CWD via the alias** — use `cd "$(gwq get <feature>)"` in the Bash tool.
+- **A bare `gwq get`/`gwq remove`/`gwq cd` with no/ambiguous pattern opens a fuzzy finder** that hangs the non-TTY Bash tool. Always pass a single-match pattern in scripts.
+- **Always use the `cb/` prefix** on the branch.
+- **Worktrees live at** `~/.worktrees/github.com/<owner>/<repo>/cb-<feature>` (gwq's host/owner/repo/branch hierarchy under `basedir`).
+- **`.env*` / `.envrc` are copied** into each new nebula worktree via gwq `copy_files` (config). To add copy targets for another repo, add a `[[repository_settings]]` block in `~/.config/gwq/config.toml`.
+- **Never merge or delete branches from inside a worktree.** `gh pr merge --delete-branch` (or any branch delete) run from a worktree is the footgun that can drop the local `main` ref. Always `cd` to the main checkout first; `gh pr merge` works on the remote PR from anywhere, so the worktree buys you nothing. The remote head branch auto-deletes on merge; locally `git fetch --prune` cleans the stale ref.
+- **Pruning is gh-authoritative, not a guess.** Use `prune.sh` — a merged worktree is removed only when its branch name is in the one-call `gh pr list --state merged` head set (or the branch is a literal ancestor of `origin/main`). The old tree-equivalence/`git cherry` heuristic produced false positives on still-open, far-ahead branches, and per-branch `gh pr view` calls get rate-limited to empty — never resurrect either.
+- **Old-tool fallout:** `worktree-bin remove --delete-branch` could delete the local `main` ref. gwq can't — it deletes only the explicitly-named branch of the worktree it's removing. If `main` ever goes missing locally, restore with `git branch main origin/main`.

@@ -34,6 +34,7 @@ has_gui = true
 "scripts/aur-malware-scan.sh" = "~/scripts/aur-malware-scan.sh"
 "config/systemd/user/aur-malware-scan.service" = "~/.config/systemd/user/aur-malware-scan.service"
 "scripts/fix-nic" = "~/scripts/fix-nic"
+"scripts/tv-toggle" = "~/scripts/tv-toggle"
 "config/systemd/user/aur-malware-scan.timer" = "~/.config/systemd/user/aur-malware-scan.timer"
 "config/btop" = "~/.config/btop"
 "config/bottom" = "~/.config/bottom"

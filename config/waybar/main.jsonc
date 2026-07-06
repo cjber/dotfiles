@@ -7,22 +7,18 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "height": 0,
-    "modules-left": [
-        "clock",
-        // "cpu",
-        // "temperature",
-        // "custom/gpu-usage",
-        // "custom/gpu-temp",
-        "memory"
-    ],
+    "modules-left": ["clock", "memory"],
     "modules-center": ["cpu", "temperature", "hyprland/workspaces", "custom/gpu-usage", "custom/gpu-temp"],
     "modules-right": [
+        "custom/tv-status",
         "tray",
         "custom/tailscale",
         "custom/rclone",
         "disk",
         "network#ethernet",
         "network#wifi",
+        "bluetooth",
+        "upower",
         "custom/updates",
         "pulseaudio"
     ],
@@ -37,37 +33,19 @@
     "format": "{used} ({percentage_used}%)",
     "path": "/"
 },
-"idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": {
-        "activated": " ",
-        "deactivated": " "
-    }
-},
 "memory": {
     "interval": 30,
     "format": "{used:0.1f}G/{total:0.1f}G  swap {swapUsed}G/{swapTotal}G"
 },
 "cpu": {
      "interval": 1,
-     "format": "cpu {usage:2}%",
-     "format-icons": [
-          "<span color='#A6E3A1'>▁</span>", // green
-          "<span color='#A6E3A1'>▂</span>", // blue
-          "<span color='#A6E3A1'>▃</span>", // white
-          "<span color='#A6E3A1'>▄</span>", // white
-          "<span color='#A6E3A1'>▅</span>", // yellow
-          "<span color='#A6E3A1'>▆</span>", // yellow
-          "<span color='#A6E3A1'>▇</span>", // orange
-          "<span color='#A6E3A1'>█</span>"  // red
-     ]
+     "format": "cpu {usage:2}%"
 },
 
    "temperature": {
-      "thermal-zone": 2,
-      "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-      "critical-threshold": 80,
-      "format-critical": "{temperatureC}°C",
+      "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
+      "input-filename": "temp1_input",
+      "critical-threshold": 90,
       "format": "{temperatureC}°C"
   },
   "network#ethernet": {
@@ -91,20 +69,11 @@
   },
     "custom/updates": {
         "format": "{} updates",
-        "interval": 600,                     // every two hours
-        "exec": "checkupdates | wc -l",       // # of updates and tooltip details
-        "exec-if": "exit 0",                  // always run; consider advanced run conditions
-        "on-click": "kitty -e sudo pacman -Syu", // update system
+        "interval": 600,
+        "exec": "checkupdates | wc -l",
+        "on-click": "kitty -e sudo pacman -Syu",
         "signal": 8
     },
-// "custom/updates": {
-//     "format": "{}",
-//     "interval": 600,
-//     "exec": "~/.config/waybar/updates.sh",
-//     "return-type": "json",
-//     "exec-if": "exit 0",
-//     "signal": 8
-//   },
     "tray": {
         "icon-size": 13,
         "spacing": 10
@@ -114,28 +83,11 @@
         "format": "{:%R  %d/%m}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "{icon} {percent}%",
-        "format-icons": ["", "", ""],
-        "on-scroll-up": "brightnessctl set 1%+",
-        "on-scroll-down": "brightnessctl set 1%-",
-        "min-length": 6
-    },
     "pulseaudio": {
         "format": "vol {volume}%",
         "tooltip": false,
         "format-muted": "muted",
-        "scroll-step": 5,
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        }
+        "scroll-step": 5
     },
     "custom/gpu-usage": {
   "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
@@ -150,6 +102,13 @@
   "return-type": "",
   "interval": 1
 },
+"custom/tv-status": {
+  "exec": "~/.config/waybar/tv-status.sh",
+  "format": "{}",
+  "return-type": "json",
+  "interval": 5,
+  "on-click": "~/scripts/tv-toggle"
+},
 "custom/tailscale": {
   "exec": "~/.config/waybar/tailscale-status.sh",
   "format": "{}",
@@ -161,5 +120,26 @@
   "format": "{}",
   "return-type": "json",
   "interval": 5
+},
+"bluetooth": {
+  "format": "bt",
+  "format-off": "bt off",
+  "format-disabled": "bt off",
+  "format-connected": "bt on",
+  "format-connected-battery": "bt {device_battery_percentage}%",
+  "tooltip-format": "bluetooth on",
+  "tooltip-format-off": "bluetooth off",
+  "tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
+  "tooltip-format-enumerate-connected": "{device_alias}",
+  "tooltip-format-enumerate-connected-battery": "{device_alias} {device_battery_percentage}%",
+  "on-click": "kitty -e bluetoothctl"
+},
+"upower": {
+  "native-path": "hidpp_battery_0",
+  "icon-size": 0,
+  "hide-if-empty": true,
+  "format": "mouse {percentage}",
+  "tooltip": true,
+  "tooltip-spacing": 20
 }
 }

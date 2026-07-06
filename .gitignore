@@ -2,3 +2,4 @@
 *.env*
 .venv/
 .dotter/local.toml
+.dotter/cache/

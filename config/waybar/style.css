@@ -46,6 +46,7 @@ tooltip {
 /*     border-radius: 10px; */
 /* } */
 
+#custom-tv-status,
 #custom-language,
 #custom-updates,
 #custom-caffeine,
@@ -61,8 +62,10 @@ tooltip {
 #memory,
 #temperature,
 #battery,
+#upower,
 #pulseaudio,
 #network,
+#bluetooth,
 #workspaces,
 #tray,
 #backlight {
@@ -186,6 +189,14 @@ tooltip {
     border-left: 0px;
 }
 
+#upower {
+    color: @text;
+    border: 2px solid @surface0;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 #custom-gpu-usage {
     border: 2px solid @surface0;
     border-radius: 10px 0px 0px 10px;
@@ -197,6 +208,24 @@ tooltip {
     border-radius: 10px 10px 10px 0px;
     border-left: 0px;
     margin-left: 0px;
+}
+#custom-tv-status {
+    border: 2px solid @surface0;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#custom-tv-status.off {
+    color: @surface1;
+}
+#custom-tv-status.idle {
+    color: @text;
+}
+#custom-tv-status.gaming {
+    color: @green;
+}
+#custom-tv-status.bigpicture {
+    color: @primary;
 }
 #custom-tailscale {
     border: 2px solid @surface0;
@@ -225,4 +254,17 @@ tooltip {
   border: 2px solid @surface0;
   border-radius: 10px;
   margin-right: 10px;
+}
+#bluetooth {
+    color: @text;
+    border: 2px solid @surface0;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+#bluetooth.off,
+#bluetooth.disabled {
+    color: @subtext0;
+}
+#bluetooth.connected {
+    color: @primary;
 }
