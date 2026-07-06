@@ -267,6 +267,16 @@ hl.config({
         use_cpu_buffer    = 2,
         enable_hyprcursor = true,
     },
+
+    --------------------------------------------------------------------
+    -- XWayland: report native (unscaled) resolutions to X11 apps.
+    -- Without this, the TV at scale 1.60 reports 2400x1350 to XWayland
+    -- instead of 3840x2160, so Proton games cap at 1920x1080.
+    -- Cursor is unscaled too, so bump XCURSOR_SIZE to compensate.
+    --------------------------------------------------------------------
+    xwayland = {
+        force_zero_scaling = true,
+    },
 })
 
 --------------------------------------------------------------------
