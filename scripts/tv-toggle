@@ -14,7 +14,7 @@ flock -n "$LOCK_FD" || exit 0
 
 TV=HDMI-A-1
 TV_CARD=alsa_card.pci-0000_01_00.1
-TV_SINK=alsa_output.pci-0000_01_00.1.hdmi-stereo
+TV_SINK=alsa_output.pci-0000_01_00.1.hdmi-surround
 DESK_SINK=alsa_output.pci-0000_0d_00.6.analog-stereo
 
 move_streams() {  # move every active stream onto $1 so the switch is immediate
@@ -40,6 +40,8 @@ if hyprctl monitors | grep -q "Monitor $TV"; then
   hyprctl eval 'for _,w in ipairs(hl.get_workspace_windows(5) or {}) do hl.dispatch(hl.dsp.focus({ window = w })); hl.dispatch(hl.dsp.window.move({ workspace = 1 })) end' >/dev/null
   hyprctl eval "hl.monitor({ output=\"$TV\", disabled=true })" >/dev/null
   hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = 1 }))' >/dev/null
+  pactl set-card-profile "$TV_CARD" off
+  sleep 0.3
   pactl set-default-sink "$DESK_SINK"
   move_streams "$DESK_SINK"
   notify-send -a tv "TV off" "windows → DP-1, audio → desk"
@@ -48,6 +50,10 @@ else
   hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"highrr\", position=\"4880x0\", scale=1.60 })" >/dev/null
   # Mirror the TV onto DP-1 so the game is visible from the desk
   wl-mirror --fullscreen-output DP-1 "$TV" >/dev/null 2>&1 &
+  # Kill any running Steam first so it re-detects the TV at 4K instead of
+  # reusing its cached 1600x900 Big Picture resolution from the desk monitor.
+  pkill -f "steam" 2>/dev/null || true
+  sleep 1
   steam steam://open/bigpicture >/dev/null 2>&1 &
   # Poll for the Big Picture window (title "Steam Big Picture Mode"), then send it to ws5.
   win=""
@@ -58,7 +64,8 @@ else
   done
   [ -n "$win" ] && hyprctl eval "hl.dispatch(hl.dsp.focus({ window = \"$win\" })); hl.dispatch(hl.dsp.window.move({ workspace = 5 }))" >/dev/null
   hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = 5 }))' >/dev/null
-  pactl set-card-profile "$TV_CARD" output:hdmi-stereo
+  pactl set-card-profile "$TV_CARD" output:hdmi-surround
+  sleep 0.5  # let PipeWire create the sink before switching to it
   pactl set-default-sink "$TV_SINK"
   move_streams "$TV_SINK"
   notify-send -a tv "TV on — 4K120" "Big Picture → TV, audio → soundbar"
