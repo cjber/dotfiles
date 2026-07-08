@@ -36,7 +36,7 @@ browser = [
 
 [open]
 rules = [
-	{ name = "*/", use = [ "edit", "open", "reveal" ] },
+	# { name = "*/", use = [ "edit", "open", "reveal" ] },
 
 	{ mime = "text/html", use = "browser" },
 

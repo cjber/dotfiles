@@ -80,11 +80,6 @@ function lf() {
 }
 
 eval "$(starship init zsh)"
-# git worktree manager: gwq (https://github.com/d-kuro/gwq) — replaces the
-# unmaintained `worktree`/worktree-bin crate. Completion + the `gwq cd`
-# current-shell wrapper (active because cd.launch_shell=false in gwq config).
-source <(gwq completion zsh)
-alias wt=gwq   # keep `wt` muscle memory → gwq (verbs: add / get / cd / list / remove / prune)
 
 # microsandbox needs libkrun on LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
