@@ -1,7 +1,7 @@
 [user]
 	email = cillian@nebula.gg
 	name = cjber
-	signingkey = 81BB85948A4EAB9B
+	signingkey = /home/cjber/.ssh/id_ed25519.pub
 [init]
 	defaultBranch = main
 [pull]
@@ -50,3 +50,7 @@
 	helper = !/usr/bin/gh auth git-credential
 [delta]
 	side-by-side = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = /home/cjber/.config/git/allowed_signers
