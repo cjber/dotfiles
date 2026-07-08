@@ -16,7 +16,8 @@ dotter deploy >> "$LOGFILE" 2>&1 || log "WARN: dotter deploy returned non-zero"
 # 2. Commit any local changes.
 git add -A
 if ! git diff --cached --quiet; then
-  git commit -q -m "chore(dotfiles): auto-sync $(hostname) $(date '+%Y-%m-%d %H:%M')" >> "$LOGFILE" 2>&1
+  # Signing disabled: runs headless from a timer with no pinentry. Manual commits stay signed.
+  git -c commit.gpgsign=false commit -q -m "chore(dotfiles): auto-sync $(hostname) $(date '+%Y-%m-%d %H:%M')" >> "$LOGFILE" 2>&1
   log "committed local changes"
 fi
 
