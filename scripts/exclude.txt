@@ -1,11 +1,47 @@
+# rclone filter for gdrive_sync.sh (~/drive -> gdrive:drive, --delete-excluded).
+# Lines are rclone filter rules; "- pattern" excludes at any depth.
+
+# --- loose files ---
 - *.pyc
 - *.ckpt
 - *.th
+- *.log
+- .DS_Store
 
-- .venv/**
+# --- VCS / envs / language deps ---
 - .git/**
+- .venv/**
 - venv/**
 - renv/**
-- target/**
-- public/**
 - node_modules/**
+- target/**
+
+# --- python caches ---
+- __pycache__/**
+- .mypy_cache/**
+- .ruff_cache/**
+- .pytest_cache/**
+- .ipynb_checkpoints/**
+
+# --- JS/TS build outputs & caches ---
+- dist/**
+- dist-electron/**
+- build/**
+- out/**
+- release/**
+- .next/**
+- .nuxt/**
+- .svelte-kit/**
+- .vite/**
+- .turbo/**
+- .parcel-cache/**
+- .rollup.cache/**
+- coverage/**
+- public/**
+
+# --- tooling / ephemeral caches ---
+- .cache/**
+- .direnv/**
+- .claude/worktrees/**
+- .gradle/**
+- tmp/**
