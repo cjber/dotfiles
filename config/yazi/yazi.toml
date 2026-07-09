@@ -40,8 +40,8 @@ rules = [
 
 	{ mime = "text/html", use = "browser" },
 
-	{ name = "*.parquet", use = "visidata" },
-	{ name = "*.csv", use = "visidata" },
+	{ url = "*.parquet", use = "visidata" },
+	{ url = "*.csv", use = "visidata" },
 
 	{ mime = "text/*",          use = [ "edit", "reveal" ] },
 	{ mime = "image/*",         use = [ "open", "reveal" ] },
