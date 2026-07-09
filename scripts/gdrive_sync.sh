@@ -9,6 +9,12 @@
 # --delete-excluded) with no way to resurface it. That's what wiped
 # other/ and several agl/ dirs. Removed both flags; restic now owns
 # retention/history instead of an unbounded pile of dated backup-dir folders.
+#
+# No --fast-list: it does one bulk recursive listing of the whole remote
+# tree and applies filters client-side afterward, so it can't skip
+# excluded subtrees. Plain per-directory listing respects filters during
+# the walk and actually skips descending into /agl/** (by far the
+# largest, and fully excluded below), which is what makes this fast.
 
 LOCAL_DRIVE=$HOME/drive
 REMOTE_DRIVE=gdrive:drive
@@ -19,7 +25,6 @@ if pgrep -fl rclone; then exit 1; fi
 
 /usr/bin/rclone sync "$LOCAL_DRIVE" $REMOTE_DRIVE \
     --filter-from "$EXCLUDE_FILE" \
-    --fast-list \
     --transfers 16 \
     --checkers 16 \
     --drive-chunk-size 64M \

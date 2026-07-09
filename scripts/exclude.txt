@@ -14,6 +14,12 @@
 - /backups/**
 - /todo/**
 
+# --- agl/: all git-backed (GitHub remotes) and already covered by the NAS
+# restic backup (restic-backup.sh). No need to also live-mirror it to
+# Drive - it's the largest thing under ~/drive by far (tens of thousands
+# of files) and walking it dominates every sync run for no benefit. ---
+- /agl/**
+
 # --- loose files ---
 - *.pyc
 - *.ckpt
