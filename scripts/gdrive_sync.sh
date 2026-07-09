@@ -1,25 +1,27 @@
 #!/bin/bash
+# Pure live mirror: ~/drive -> gdrive:drive, for convenience access from other
+# devices (phone/web). NOT a backup - safety/history is restic's job now
+# (restic-backup.sh to the NAS, restic-backup-gdrive.sh to Drive itself).
+#
+# Previously this also used --backup-dir/--max-age as a poor-man's backup.
+# --max-age 7d + --delete-excluded silently deleted anything untouched for
+# a week (treated as "excluded" by the age filter, then removed by
+# --delete-excluded) with no way to resurface it. That's what wiped
+# other/ and several agl/ dirs. Removed both flags; restic now owns
+# retention/history instead of an unbounded pile of dated backup-dir folders.
 
 LOCAL_DRIVE=$HOME/drive
 REMOTE_DRIVE=gdrive:drive
 
 EXCLUDE_FILE=$HOME/scripts/exclude.txt
 
-BACKUP_TIMESTAMP=$(date +"%Y-%m-%d")
-BACKUP_DIR="gdrive:backup/$BACKUP_TIMESTAMP"
-
 if pgrep -fl rclone; then exit 1; fi
 
 /usr/bin/rclone sync "$LOCAL_DRIVE" $REMOTE_DRIVE \
     --filter-from "$EXCLUDE_FILE" \
-    --delete-excluded \
     --fast-list \
     --transfers 16 \
     --checkers 16 \
     --drive-chunk-size 64M \
     --progress \
-    --verbose \
-    --backup-dir "$BACKUP_DIR" \
-    --suffix ."$(date +"%Y-%m-%d-%H-%M-%S")" \
-    --suffix-keep-extension \
-    --max-age 7d
+    --verbose

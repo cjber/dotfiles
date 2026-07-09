@@ -1,5 +1,18 @@
-# rclone filter for gdrive_sync.sh (~/drive -> gdrive:drive, --delete-excluded).
+# rclone filter for gdrive_sync.sh (~/drive -> gdrive:drive).
 # Lines are rclone filter rules; "- pattern" excludes at any depth.
+
+# --- Drive-only content: exists on gdrive:drive but was never part of the
+# local ~/drive mirror (uploaded independently, not via this sync). Sync is
+# local-wins, so without these excludes any hourly run would delete them
+# from remote just because local doesn't have them. Root-anchored (leading
+# /) so this only protects the top-level folders, not same-named dirs
+# nested elsewhere in agl/ or other/. Recovered from Trash 2026-07-09 after
+# the --max-age bug wiped them; do not remove these excludes without first
+# reconciling local and remote. ---
+- /proj/**
+- /ext/**
+- /backups/**
+- /todo/**
 
 # --- loose files ---
 - *.pyc
