@@ -31,3 +31,17 @@ if pgrep -fl rclone; then exit 1; fi
     --drive-chunk-size 64M \
     --progress \
     --verbose
+SYNC_EXIT=$?
+
+# Push status to the NAS's HA config dir (mirrors restic-backup.sh's
+# pattern) so HA can alert if this hasn't run successfully in a while -
+# exactly the kind of silent failure that caused the original incident.
+python3 -c "
+import json, datetime
+print(json.dumps({
+    'last_run': datetime.datetime.now().astimezone().isoformat(),
+    'exit_code': $SYNC_EXIT,
+}))
+" | ssh cillian@192.168.0.64 "cat > /volume1/docker/homeassistant/config/sync_status.json" >/dev/null 2>&1
+
+exit $SYNC_EXIT
