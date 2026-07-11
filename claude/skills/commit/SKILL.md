@@ -28,13 +28,15 @@ End-to-end ship loop: from a clean working tree of staged-or-unstaged changes to
 
 ## Phase 2 — PR
 
-1. `git push -u origin <branch>` (only push if not already on the remote, or if there are new commits).
-2. `gh pr create --title "<conv-commit title>" --body "$(cat <<'EOF' ... EOF)"`. Body sections:
+**One PR per repo per session — reuse before you create.** First check whether this session already has an open PR for this repo (one you opened earlier, or `gh pr list --head <branch>`). If a multi-phase effort keeps touching the same repo, push the new commits to the *same* branch and let the existing PR update — do **not** open a fresh PR per phase. One coherent PR per repo is far more maintainable to review and merge, and keeps coupled changes (e.g. a source edit and its regenerated artifact) reviewed together. Open a *separate* PR only across a repo boundary, or when a change is security-sensitive or independently riskier (its own design spike/review) and would otherwise block the safe work.
+
+1. `git push -u origin <branch>` (only push if not already on the remote, or if there are new commits). If a PR already exists for this branch, this push is all Phase 2 needs — skip to step 3 to reconcile the title/body, then Phase 3.
+2. **Only if no PR exists yet for this branch/repo:** `gh pr create --title "<conv-commit title>" --body "$(cat <<'EOF' ... EOF)"`. Body sections:
    - **Summary** — 1–3 bullets, what changed and why
    - **Scope notes** — anything that diverged from plan, anything explicitly out of scope
    - **Test plan** — `[x]` for what's already verified (e.g. `dev_check.py`), `[ ]` checklist for what still needs human sign-off
-3. PR title must match Conventional Commits (the `pr-title-lint` workflow blocks merge if it doesn't).
-4. Capture the PR number from the create output for Phase 3.
+3. PR title must match Conventional Commits (the `pr-title-lint` workflow blocks merge if it doesn't). When new commits grew the scope past the original title/body, update them with `gh pr edit` so the PR still describes everything it now contains.
+4. Capture the PR number (from the create output, or `gh pr view --json number`) for Phase 3.
 
 ## Phase 3 — Poll
 
