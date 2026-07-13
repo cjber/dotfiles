@@ -44,10 +44,14 @@ has_gui = true
 "config/gh/config.yml" = "~/.config/gh/config.yml"
 "config/lazygit/config.yml" = "~/.config/lazygit/config.yml"
 "config/mako" = "~/.config/mako"
+"config/topgrade.toml" = "~/.config/topgrade.toml"
+"config/mimeapps.list" = "~/.config/mimeapps.list"
 "claude/skills/commit" = "~/.claude/skills/commit"
 "claude/skills/issue" = "~/.claude/skills/issue"
 "claude/skills/wt" = "~/.claude/skills/wt"
 "claude/skills/grilling" = "~/.claude/skills/grilling"
+"claude/skills/monitor" = "~/.claude/skills/monitor"
+"claude/skills/pr" = "~/.claude/skills/pr"
 
 # Headless Linux (NUC / remote server — no GUI, no Wayland)
 [headless.variables]
@@ -73,10 +77,13 @@ has_gui = false
 "scripts/zellij_plugins.sh" = "~/scripts/zellij_plugins.sh"
 "config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
+"config/topgrade.toml" = "~/.config/topgrade.toml"
 "claude/skills/commit" = "~/.claude/skills/commit"
 "claude/skills/issue" = "~/.claude/skills/issue"
 "claude/skills/wt" = "~/.claude/skills/wt"
 "claude/skills/grilling" = "~/.claude/skills/grilling"
+"claude/skills/monitor" = "~/.claude/skills/monitor"
+"claude/skills/pr" = "~/.claude/skills/pr"
 
 # macOS (cross-platform only)
 [macos.files]
@@ -95,4 +102,6 @@ has_gui = false
 "claude/skills/issue" = "~/.claude/skills/issue"
 "claude/skills/wt" = "~/.claude/skills/wt"
 "claude/skills/grilling" = "~/.claude/skills/grilling"
+"claude/skills/monitor" = "~/.claude/skills/monitor"
+"claude/skills/pr" = "~/.claude/skills/pr"
 
