@@ -373,6 +373,20 @@ hl.window_rule({
     opacity         = 1.0,
 })
 
+-- Ascension runs directly under Proton/XWayland rather than gamescope. Its
+-- legacy WoW display mode falls back to a 1024x768 floating window under
+-- Wayland, so let Hyprland provide the fullscreen-windowed presentation.
+hl.window_rule({
+    match           = { class = "^steam_app_2324329088$", title = "^Ascension$" },
+    fullscreen      = true,
+    confine_pointer = true,
+    idle_inhibit    = "fullscreen",
+    immediate       = true,
+    opaque          = true,
+    no_blur         = true,
+    opacity         = 1.0,
+})
+
 --------------------------------------------------------------------
 -- ws4 auto-arrange (vertical monitor):
 --   1 win  → fullscreen (via scrolling.fullscreen_on_one_column)
