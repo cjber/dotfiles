@@ -15,7 +15,7 @@ alias vi='nvim'
 alias mvr='rsync -a --progress --partial --append-verify --remove-source-files'
 alias cpr='rsync -a --progress --partial --append-verify'
 alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs -r tldr"
-alias wt="worktree"
+alias wt="git worktree"
 alias cc='claude agents'
 alias cz='ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic ANTHROPIC_AUTH_TOKEN=$(pass show zai/api_key) API_TIMEOUT_MS=3000000 claude'
 alias g='git'
