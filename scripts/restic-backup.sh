@@ -11,8 +11,9 @@
 # Drive now gets the same full /home/cjber coverage as the NAS instead
 # of a narrower slice.
 #
-# NAS repo: sftp:cillian@192.168.0.64:/home/cillian/restic/barry
-# Drive repo: rclone:gdrive:restic-backup
+# Repo URIs, the NAS SSH target and the HA status path are host-specific
+# and live in ~/.config/restic/backup.env (untracked) so no internal
+# hostnames or paths land in this public dotfiles repo.
 #
 # After both legs, pushes a status JSON to the NAS's Home Assistant config
 # dir (mounted as /config in the HA container) so HA can surface backup
@@ -23,6 +24,11 @@ set -uo pipefail
 LOGFILE="/home/cjber/scripts/restic-backup.log"
 EXCLUDES="/home/cjber/scripts/restic-excludes.txt"
 RESTIC="/usr/bin/restic"
+
+# Host-specific settings (NAS_SSH, NAS_REPO, GDRIVE_REPO, HA_STATUS_PATH)
+BACKUP_ENV="${RESTIC_BACKUP_ENV:-$HOME/.config/restic/backup.env}"
+if [ -r "$BACKUP_ENV" ]; then . "$BACKUP_ENV"; else echo "missing $BACKUP_ENV" >&2; exit 1; fi
+: "${NAS_SSH:?}" "${NAS_REPO:?}" "${GDRIVE_REPO:?}" "${HA_STATUS_PATH:?}"
 START_EPOCH=$(date +%s)
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "$LOGFILE"; }
@@ -68,10 +74,10 @@ except Exception:
   echo "$backup_exit $size_bytes"
 }
 
-read -r NAS_EXIT NAS_SIZE_BYTES <<< "$(backup_to nas "sftp:cillian@192.168.0.64:/home/cillian/restic/barry" \
+read -r NAS_EXIT NAS_SIZE_BYTES <<< "$(backup_to nas "$NAS_REPO" \
   "restic/barry")"
 
-read -r GDRIVE_EXIT GDRIVE_SIZE_BYTES <<< "$(backup_to gdrive "rclone:gdrive:restic-backup" \
+read -r GDRIVE_EXIT GDRIVE_SIZE_BYTES <<< "$(backup_to gdrive "$GDRIVE_REPO" \
   "restic/gdrive-backup")"
 
 log "=== all backups done (nas_exit=$NAS_EXIT gdrive_exit=$GDRIVE_EXIT) ==="
@@ -101,8 +107,8 @@ print(json.dumps({
 ' 2>>"$LOGFILE")
 
 if [ -n "$STATUS_JSON" ]; then
-  echo "$STATUS_JSON" | ssh cillian@192.168.0.64 \
-    "cat > /volume1/docker/homeassistant/config/backup_status.json" >> "$LOGFILE" 2>&1
+  echo "$STATUS_JSON" | ssh "$NAS_SSH" \
+    "cat > $HA_STATUS_PATH" >> "$LOGFILE" 2>&1
   log "status JSON pushed to NAS (exit=$?)"
 else
   log "WARNING: failed to build status JSON, not pushed"
