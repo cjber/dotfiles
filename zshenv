@@ -28,5 +28,7 @@ path+=$GOPATH/bin
 path+=$HOME/.cargo/bin
 path+=$HOME/bin
 path+=$HOME/.local/bin
+export PNPM_HOME="$HOME/.local/share/pnpm"
+path+=$PNPM_HOME/bin
 {{#if has_gui}}path+=$HOME/.TinyTeX/bin/x86_64-linux
 {{/if}}path+=$HOME/scripts
