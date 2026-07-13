@@ -1,0 +1,10 @@
+[Unit]
+Description=Nightly restic backup of home to NAS (SFTP)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/scripts/restic-backup.sh
+Nice=19
+IOSchedulingClass=idle
