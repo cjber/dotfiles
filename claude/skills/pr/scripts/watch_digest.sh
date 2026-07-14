@@ -41,7 +41,7 @@ while true; do
       elif .type == "item.started" and .item.type == "todo_list" then
         "TODO:\n" + ([.item.items[] | "  - " + (if .completed then "[x] " else "[ ] " end) + .text] | join("\n"))
       else empty end
-    ')
+    ' 2>/dev/null || true)
     last_line=$total
   fi
 
@@ -50,19 +50,26 @@ while true; do
   if [ -n "$ROLLOUT" ] && [ -f "$ROLLOUT" ]; then
     rl_json=$(jq -c 'select(.payload.rate_limits != null) | .payload' "$ROLLOUT" 2>/dev/null | tail -1)
     if [ -n "$rl_json" ]; then
-      rl_line=$(echo "$rl_json" | jq -r '
-        def fmt_reset: (now) as $n | (.resets_at - $n) as $d |
-          if $d < 3600 then (($d/60)|floor|tostring) + "m"
-          elif $d < 86400 then (($d/3600)|floor|tostring) + "h"
-          else (($d/86400)|floor|tostring) + "d" end;
-        "5hr " + (.rate_limits.primary.used_percent|tostring) + "% used (resets in " + (.rate_limits.primary|fmt_reset) + ")  |  " +
-        "week " + (.rate_limits.secondary.used_percent|tostring) + "% used (resets in " + (.rate_limits.secondary|fmt_reset) + ")"
-      ' 2>/dev/null)
+      # Null-safe: team plans have no `secondary` (weekly) window, and a window
+      # may lack `used_percent`/`resets_at`. Guard every index so a missing field
+      # degrades to "?" / omits the weekly segment instead of a jq exit-5 crash.
+      computed_rl=$(echo "$rl_json" | jq -r '
+        def fmt_reset: if . == null or (.resets_at // null) == null then "?"
+          else (now) as $n | (.resets_at - $n) as $d |
+            if $d < 3600 then (($d/60)|floor|tostring) + "m"
+            elif $d < 86400 then (($d/3600)|floor|tostring) + "h"
+            else (($d/86400)|floor|tostring) + "d" end end;
+        (.rate_limits.primary) as $p | (.rate_limits.secondary) as $s |
+        "5hr " + (($p.used_percent // "?")|tostring) + "% used (resets in " + ($p|fmt_reset) + ")" +
+        (if $s == null then "" else
+          "  |  week " + (($s.used_percent // "?")|tostring) + "% used (resets in " + ($s|fmt_reset) + ")" end)
+      ' 2>/dev/null || true)
+      [ -n "$computed_rl" ] && rl_line="$computed_rl"
       tok_line=$(echo "$rl_json" | jq -r '
-        "tokens: " + (.info.total_token_usage.total_tokens|tostring) + " total this session, " +
-        (.info.last_token_usage.total_tokens|tostring) + " last turn, ctx window " +
-        (.info.model_context_window|tostring)
-      ' 2>/dev/null)
+        "tokens: " + ((.info.total_token_usage.total_tokens // "?")|tostring) + " total this session, " +
+        ((.info.last_token_usage.total_tokens // "?")|tostring) + " last turn, ctx window " +
+        ((.info.model_context_window // "?")|tostring)
+      ' 2>/dev/null || true)
     fi
   fi
 
