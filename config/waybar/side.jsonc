@@ -10,13 +10,18 @@
     "modules-left": [
         "clock"
     ],
-    "modules-center": ["hyprland/workspaces"],
+    "modules-center": ["custom/keyboard-mode"],
     "modules-right": ["custom/weather"],
 
     "hyprland/workspaces": {
         "persistent-workspaces": {
             "DP-2": [4]
         }
+    },
+    "custom/keyboard-mode": {
+        "exec": "~/.config/waybar/keyboard-mode.sh",
+        "return-type": "json",
+        "signal": 12
     },
 "disk": {
     "interval": 30,
@@ -136,4 +141,3 @@
     "return-type": "json"
 }
 }
-

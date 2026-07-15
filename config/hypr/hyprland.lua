@@ -482,6 +482,7 @@ hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("$backlight --dec"),           
 hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ +5%"), { repeating = true, locked = true })
 hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ -5%"), { repeating = true, locked = true })
 hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("pactl set-sink-mute @DEFAULT_SINK@ toggle"), { locked = true })
+hl.bind("F24", hl.dsp.exec_cmd("/home/cjber/.config/waybar/keyboard-mode.sh toggle"), { locked = true })
 
 --------------------------------------------------------------------
 -- Binds: Hyprland
@@ -651,6 +652,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("waybar --config /home/cjber/.config/waybar/main.jsonc")
     hl.exec_cmd("waybar --config /home/cjber/.config/waybar/side.jsonc")
     hl.exec_cmd("mako")
+    hl.exec_cmd("/home/cjber/.config/waybar/keyboard-mode.sh apply")
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("udiskie &")
     -- hypridle, hyprpolkitagent, hyprsunset now started via systemd --user services

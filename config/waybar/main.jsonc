@@ -7,7 +7,7 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "height": 0,
-    "modules-left": ["clock", "memory"],
+    "modules-left": ["clock", "memory", "custom/keyboard-mode"],
     "modules-center": ["cpu", "temperature", "hyprland/workspaces", "custom/gpu-usage", "custom/gpu-temp"],
     "modules-right": [
         "custom/tv-status",
@@ -27,6 +27,11 @@
         "persistent-workspaces": {
             "DP-1": [1, 2, 3]
         }
+    },
+    "custom/keyboard-mode": {
+        "exec": "~/.config/waybar/keyboard-mode.sh",
+        "return-type": "json",
+        "signal": 12
     },
 "disk": {
     "interval": 30,

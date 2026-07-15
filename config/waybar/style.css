@@ -47,6 +47,7 @@ tooltip {
 /* } */
 
 #custom-tv-status,
+#custom-keyboard-mode,
 #custom-language,
 #custom-updates,
 #custom-caffeine,
@@ -223,6 +224,24 @@ tooltip {
 }
 #custom-tv-status.gaming {
     color: @green;
+}
+#custom-keyboard-mode {
+    min-width: 220px;
+    padding: 0 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: @text;
+    background: @base;
+    border: 2px solid @surface0;
+    border-radius: 10px;
+    font-weight: bold;
+    letter-spacing: 0;
+}
+#custom-keyboard-mode.base {
+    color: @text;
+}
+#custom-keyboard-mode.game {
+    color: @primary;
 }
 #custom-tv-status.bigpicture {
     color: @primary;
