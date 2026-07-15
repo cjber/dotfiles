@@ -2,3 +2,4 @@
 [Default Applications]
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 x-scheme-handler/nebula=nebula-desktop.desktop
+x-scheme-handler/webcal=google-chrome.desktop
