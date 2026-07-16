@@ -22,8 +22,8 @@ Fetch `origin/main` fresh first, then resolve the argument:
 
 ## Model and cost contract
 
-- **Opus for all Claude work.** The harness and any `Agent` sub-agents are `model: opus`.
-- **Codex = `gpt-5.6-sol` at `medium` effort** — review is a single bounded pass where the extra reasoning is worth it. `-m`/`-c`/`-C` are **top-level** flags and MUST precede the `review` subcommand (`codex review -m …` fails with `unexpected argument '-m'`). (Confirm the slug against `~/.codex/models_cache.json`; the lineup changes.)
+- **Claude runs in `opusplan`** — Opus for the final cross-reconciliation/verdict (the judgment step 3), Sonnet for the multi-agent `/code-review` pass and any per-worktree reviewer Agents (session default; no `model` override). Reserve an explicit `model: opus` Agent only where a reviewer genuinely needs Opus-level judgment. The user opted into this for cost — don't relitigate it.
+- **Codex = `gpt-5.6-sol` at `low` effort, never the `fast` service tier** — review is a single bounded pass; sol at low is enough. Pass `-c service_tier="default"` so it doesn't inherit a `fast` default from `~/.codex/config.toml`. `-m`/`-c`/`-C` are **top-level** flags and MUST precede the `review` subcommand (`codex review -m …` fails with `unexpected argument '-m'`). (Confirm the slug against `~/.codex/models_cache.json`; the lineup changes — today `sol` frontier / `terra` balanced / `luna` fast.)
 
 ## 1. Two independent reviews, in parallel
 
@@ -31,10 +31,10 @@ Launch both concurrently — neither should see the other's output yet:
 
 - **Codex** (background): global flags first, then `review`, then the review flag mapping the target —
   ```bash
-  codex -m gpt-5.6-sol -c model_reasoning_effort=medium -C <dir> review --base origin/main   # branch/range
+  codex -m gpt-5.6-sol -c model_reasoning_effort=low -c service_tier="default" -C <dir> review --base origin/main   # branch/range
   # review-subcommand flags (AFTER `review`): --base <ref> | --uncommitted | --commit <SHA>
   ```
-  Use `-C <dir>` to point Codex at a worktree instead of `cd`. Prefer `--base origin/main` over `--base main` (local `main` may lag origin). For a PR#, check its head into a worktree and review vs `origin/main`. **`--base`/`--uncommitted`/`--commit` are mutually exclusive with a custom `[PROMPT]`** (`the argument '--base' cannot be used with '[PROMPT]'`) — with `--base` you get Codex's default review instructions, so carry any focused scope in the Claude-side Opus agents instead, not the Codex call.
+  Use `-C <dir>` to point Codex at a worktree instead of `cd`. Prefer `--base origin/main` over `--base main` (local `main` may lag origin). For a PR#, check its head into a worktree and review vs `origin/main`. **`--base`/`--uncommitted`/`--commit` are mutually exclusive with a custom `[PROMPT]`** (`the argument '--base' cannot be used with '[PROMPT]'`) — with `--base` you get Codex's default review instructions, so carry any focused scope in the Claude-side reviewer agents instead, not the Codex call.
   **Launch gotchas (bit me every time):** `codex` is usually a shell **alias** (adds `--dangerously-bypass-approvals-and-sandbox` etc.) that does NOT expand in non-interactive/background shells — call the real binary (`/usr/bin/codex`) with those flags inline. And in **zsh** an unquoted `$VAR` holding `"bin --flag"` does NOT word-split, so it's read as one filename — inline the command, don't stash it in a variable.
 - **Claude** (concurrent): `/code-review medium` for a local diff, or `/code-review medium <PR#>` for a PR. This is the expensive multi-agent Claude pass. `/code-review` is cwd-bound to the current repo; for a **multi-repo / paired-PR** target (below) spawn one Opus `Agent` reviewer per worktree instead, each pointed at its worktree diff.
 

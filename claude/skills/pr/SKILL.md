@@ -1,38 +1,39 @@
 ---
 name: pr
-description: "End-to-end ship loop, Opus end-to-end on the Claude side: plan in parallel with Codex (both draft, cross-review, you synthesize), then implement in ONE worktree with Codex doing the bulk and an Opus arm doing a disjoint slice alongside for speed, cross-review, one /review, finishing with a single green ready-for-review (non-draft) PR per repo. Use for 'ship this as a PR', 'build this end-to-end', or '/pr'."
+description: "End-to-end ship loop, opusplan on the Claude side (Opus plans, Sonnet executes): plan in parallel with Codex (both draft, cross-review, you synthesize), then implement in ONE worktree with Codex (terra) doing the bulk and a Claude arm doing a disjoint slice alongside for speed, cross-review, one /review, finishing with a single green ready-for-review (non-draft) PR per repo. Use for 'ship this as a PR', 'build this end-to-end', or '/pr'."
 argument-hint: "[feature-name]"
 effort: high
 ---
 
 # `/pr` — parallel Opus+Codex plan → coordinated Codex+Opus build → cross-review → one green PR
 
-Deliver a reviewed, green PR. Two non-negotiables, enforced throughout (full rules in §3, completion gate in §5): **(1) exactly ONE PR per repo** — every further change goes as a commit on that same branch, never a second PR; **(2) the PR stays up to date with the latest `main`** — merge `origin/main` in and re-run the gate before handoff, so it's never left behind/conflicting. The PR is always opened ready-for-review, never a draft. Claude runs on Opus throughout; Codex carries the bulk of the implementation with an Opus arm working a disjoint slice alongside it for speed.
+Deliver a reviewed, green PR. Two non-negotiables, enforced throughout (full rules in §3, completion gate in §5): **(1) exactly ONE PR per repo** — every further change goes as a commit on that same branch, never a second PR; **(2) the PR stays up to date with the latest `main`** — merge `origin/main` in and re-run the gate before handoff, so it's never left behind/conflicting. The PR is always opened ready-for-review, never a draft. Claude runs in `opusplan` (Opus plans, Sonnet executes); Codex carries the bulk of the implementation (terra) with a Claude arm working a disjoint slice alongside it for speed.
 
 ## Model and cost contract
 
-- **Opus for all Claude work, end to end.** The harness is Opus and every Claude `Agent` sub-agent you spawn is `model: opus`. Run this in a fresh **`model: opus`** session — do **not** use `opusplan`, which downgrades post-plan execution to Sonnet; this workflow is Opus for planning *and* execution. The user has explicitly opted into that cost ("opus is fine for all") — do not relitigate it at runtime.
+- **Claude runs in `opusplan`** — Opus for planning, Sonnet for execution. Run this skill in an `opusplan` session: the plan/synthesis turns (step 1) and the cross-review reconciliation (step 4) get Opus's judgment; the implementation-side Claude work (the disjoint arm in step 3, the CI/fix loops) runs on Sonnet. The user opted into this to keep cost down — do not relitigate it, and do NOT blanket-force `model: opus` on execution sub-agents. Reserve an explicit `model: opus` Agent only for genuine judgment slices (a hard planning fan-out, final review reconciliation); scouting and edits-only arms run on the session default (Sonnet under opusplan).
 - Keep this skill at `high` effort. Use `ultrathink` on a single unusually hard planning turn rather than making the whole workflow `xhigh`/`max`.
-- **Codex model + effort.** Query `~/.codex/models_cache.json` (`.models[].slug`/`.description`) for the current lineup rather than trusting hardcoded slugs — it changes. The user's own `~/.codex/config.toml` already defaults to `model = "gpt-5.6-sol"`, `service_tier = "fast"`, `model_reasoning_effort = "low"`, so "sol fast" is the baseline. **Pass the effort flag explicitly on every call** (self-contained beats inheriting a config that can drift):
-  - **Implementation** (step 3): `-m gpt-5.6-sol -c model_reasoning_effort=low` — fast, cheap, the long multi-hour loop.
-  - **Planning** (step 1) and **review** (step 4): `-m gpt-5.6-sol -c model_reasoning_effort=medium` — bounded single passes where the extra reasoning is worth it.
+- **Codex model + effort — three roles, and NEVER the `fast` service tier.** Query `~/.codex/models_cache.json` (`.models[].slug`/`.description`) for the current lineup rather than trusting hardcoded slugs — it changes. Today it's `gpt-5.6-sol` (frontier), `gpt-5.6-terra` (balanced everyday), `gpt-5.6-luna` (fast/cheap). Pass the model + effort explicitly on every call (self-contained beats inheriting `~/.codex/config.toml`, which may default to `fast`), and force the standard tier with `-c service_tier="default"` so no call silently bills at `fast`:
+  - **Discovery / fan-out scouting** (optional, before step 1): `-m gpt-5.6-luna -c model_reasoning_effort=low -c service_tier="default"` — a fast, cheap, high-recall sweep to locate the relevant files/functions/symbols and hand a map to the planners, so sol/Opus don't burn reasoning blind-searching. Use it for larger/unfamiliar targets; skip it when the surface is already well-scoped. Prefer luna over a Haiku Explore pass for *code* discovery (coding-tuned, better grep/read tool use); one `codex exec` per scout, fan them out in parallel.
+  - **Planning** (step 1) and **review** (step 4): `-m gpt-5.6-sol -c model_reasoning_effort=low -c service_tier="default"` — sol for the reasoning-heavy plan draft and the bounded cross-review pass.
+  - **Implementation** (step 3): `-m gpt-5.6-terra -c model_reasoning_effort=medium -c service_tier="default"` — terra carries the long build/fix loop at medium effort.
 - Keep one persistent Codex thread for implementation and all fixes. `codex review` (step 4) is a separate bounded pass, not part of the implementation loop.
-- **Rate-limit fallback.** If `codex exec` / `codex exec resume` *returns* a usage-cap error (weekly or 5-hour Codex limit — distinct from a code/tool error; confirm via an `ERROR` line in `$STATE/codex-stderr.log` and a `CODEX_EXIT`, not merely a 100% `used_percent` reading), do not retry the same call. Because an Opus arm is **already implementing part of this feature in parallel** (step 3), the degradation is clean: hand the *remainder of Codex's slice* to that Opus arm (or a fresh `Agent`, `subagent_type: general-purpose`, `model: opus`, in the same worktree, picking up from `git status`/`diff`), and skip the Codex cross-review. The `/review` gate still runs — with Codex capped it falls back to its Claude-only path (see `/review`'s fallback). State plainly that you switched and why.
+- **Rate-limit fallback.** If `codex exec` / `codex exec resume` *returns* a usage-cap error (weekly or 5-hour Codex limit — distinct from a code/tool error; confirm via an `ERROR` line in `$STATE/codex-stderr.log` and a `CODEX_EXIT`, not merely a 100% `used_percent` reading), do not retry the same call. Because a Claude arm is **already implementing part of this feature in parallel** (step 3), the degradation is clean: hand the *remainder of Codex's slice* to that Claude arm (or a fresh `Agent`, `subagent_type: general-purpose`, in the same worktree, picking up from `git status`/`diff`), and skip the Codex cross-review. The `/review` gate still runs — with Codex capped it falls back to its Claude-only path (see `/review`'s fallback). State plainly that you switched and why.
 
 ## 1. Plan — Codex and Opus in parallel, cross-review, then you own it
 
 Read `AGENTS.md` and the domain skills it routes to. Then produce the plan through a parallel-draft → cross-review → synthesize loop:
 
 1. **In parallel**, kick off two independent drafts:
-   - **Codex draft** (background): `codex exec` at medium effort, read-only, told to produce a decision-complete plan and **not** implement. Capture its final message with `--output-last-message` (that's written by the wrapper, so a read-only sandbox is fine — no git needed at plan time):
+   - **Codex draft** (background): `codex exec` with sol at low effort, read-only, told to produce a decision-complete plan and **not** implement. Capture its final message with `--output-last-message` (that's written by the wrapper, so a read-only sandbox is fine — no git needed at plan time):
      ```bash
      codex exec --json --cd "$REPO" --sandbox read-only \
-       -m gpt-5.6-sol -c model_reasoning_effort=medium \
+       -m gpt-5.6-sol -c model_reasoning_effort=low -c service_tier="default" \
        --output-last-message "$STATE/codex-plan.md" - < "$STATE/plan-prompt.md"
      ```
    - **Opus draft**: while Codex runs, you (Opus) draft your own plan from the same sources.
 2. **Cross-review**: read Codex's plan and critique it; resume the same thread once with your plan for its critique. Keep this bounded — one exchange, not a debate.
-3. **You own the synthesis.** Merge the two into one final plan: scope, affected files/contracts, regression coverage, verification, migration/rollout concerns, explicit non-goals, **and the implementation partition** (which files Codex owns vs. the Opus arm — see step 3). For a reported bug, require the regression test to fail before the fix.
+3. **You own the synthesis.** Merge the two into one final plan: scope, affected files/contracts, regression coverage, verification, migration/rollout concerns, explicit non-goals, **and the implementation partition** (which files Codex owns vs. the Claude arm — see step 3). For a reported bug, require the regression test to fail before the fix.
 
 Present the synthesized plan for approval. Do not start implementation until it is approved.
 
@@ -59,7 +60,7 @@ Record the absolute worktree path, the approved plan, and the file-ownership par
 **Git coordination — this is the part to get right.** To avoid a shared-index race, git is single-owner:
 
 - **Codex owns the entire git lifecycle** of the branch — every signed commit, the push, the single PR, and CI. It only ever `git add`s its own files by explicit pathspec (never `git add -A`/`.`).
-- **The Opus arm is edits-only.** It writes its slice and runs focused checks, but runs **no git at all** — no add, commit, push, or PR. When it finishes, you verify its slice, then **resume the Codex thread** to fold the Opus arm's files into signed commits and integrate.
+- **The Claude arm is edits-only.** It writes its slice and runs focused checks, but runs **no git at all** — no add, commit, push, or PR. When it finishes, you verify its slice, then **resume the Codex thread** to fold the Claude arm's files into signed commits and integrate.
 - **No whole-tree checks during the parallel phase.** While both arms are live, each runs only *focused* checks scoped to its own files. The full `dev_check.py` / test suite (which imports/collects across all of `src/`) must NOT run mid-run — the other arm's in-flight *uncommitted* edits would fail it for a reason the running arm didn't cause and can't fix. The full check runs **once, after the Opus slice is folded in** and the tree is coherent.
 - **HARD RULE — ONE PR per repo, no exceptions.** A session opens **exactly one** PR per affected repo. Once this session has opened a PR for a repo, EVERY further change to that repo — new work, review fixes, CI fixes, follow-on scope — is another signed commit pushed to that **same branch/PR**. NEVER open a second PR for a repo you already have one open in. Before opening a PR, check (`gh pr list --head <branch>` / recall this session's PRs); if one exists, push to it instead. Multi-repo work = one PR per repo (backend + each frontend), still one-per-repo. The only split is across a *repo boundary*, or a genuinely security-sensitive/independently-riskier change the user has agreed to carve out — and that carve-out is still one PR in its own right.
 - **HARD RULE — every PR must be up to date with the latest `main` before you hand it off.** A long `/pr` run can take hours; `origin/main` moves under you, so a PR that was current at push time can silently go **behind / conflicting** by the time you finish. Before declaring done (and again any time you learn `main` advanced): `git fetch origin main`, and if the branch is behind, **merge** it in — `git merge origin/main` in the worktree (NOT rebase: this workflow bans force-push, and rebase would need one; merge preserves the signed commits and adds one signed merge commit). Resolve conflicts **semantically**, not by blindly taking one side — a file that arrived from `main` *un-conflicted* can still carry logic that silently reverts this PR's feature (e.g. `main` moved a function this PR rewrote into a new module); grep for this PR's key symbols after merging to prove they survived. Then re-run the **full** `dev_check.py` + test gate over the merged tree and push. Verify with `gh pr view <#> --json mergeable,mergeStateStatus` → must be `MERGEABLE`/`CLEAN`, never `CONFLICTING`/`DIRTY`/`BEHIND`. A PR left behind or conflicting with `main` is **not done**.
@@ -70,7 +71,7 @@ Launch both arms concurrently:
 - **Codex** (background, the bulk):
   ```bash
   codex exec --json --cd "$WORKTREE" --dangerously-bypass-approvals-and-sandbox \
-    -m gpt-5.6-sol -c model_reasoning_effort=low \
+    -m gpt-5.6-terra -c model_reasoning_effort=medium -c service_tier="default" \
     --output-last-message "$STATE/codex-last.md" - < "$STATE/codex-prompt.md" \
     | tee "$STATE/codex-events.jsonl"
   ```
@@ -80,15 +81,15 @@ Launch both arms concurrently:
   worktree — only the files listed as Codex-owned; do NOT touch the Opus-owned
   files (you'll be told when to fold them in). Obey every applicable AGENTS.md and
   required domain skill. For a bug, prove the regression test fails before the fix.
-  While the Opus arm is still working, run ONLY focused checks on your own files —
-  do NOT run the full repo check suite yet (the Opus arm is editing other files
+  While the Claude arm is still working, run ONLY focused checks on your own files —
+  do NOT run the full repo check suite yet (the Claude arm is editing other files
   uncommitted in this same worktree; a whole-tree check would trip on its in-flight
   edits). Own all git for this branch: signed commits (explicit pathspecs, never
   `git add -A`), open ONE ready-for-review (non-draft) PR (or push to this session's
   existing PR for this repo rather than opening another), and drive CI/review
   comments green. Never merge.
   ```
-- **Opus arm** (concurrent, the disjoint slice): spawn a Claude `Agent`, `subagent_type: general-purpose`, `model: opus`, working directly in the same worktree. Prompt: implement only the Opus-owned files, obey AGENTS.md + required skills, run focused checks, **run no git commands**, and report back when the slice is complete and checks pass.
+- **Claude arm** (concurrent, the disjoint slice): spawn a Claude `Agent`, `subagent_type: general-purpose` (session default model — Sonnet under opusplan; no `model` override), working directly in the same worktree. Prompt: implement only the Claude-arm-owned files, obey AGENTS.md + required skills, run focused checks, **run no git commands**, and report back when the slice is complete and checks pass.
 
 Run the Codex launch as a background command (do not block the session on a multi-hour `codex exec`). Watch it through two channels; the Opus `Agent` reports back to you directly on completion.
 
@@ -154,7 +155,7 @@ jq -r 'select(.type == "thread.started") | .thread_id' \
   "$STATE/codex-events.jsonl" | head -1 > "$STATE/codex-thread-id"
 ```
 
-Inspect Codex's final report, `git status --short`, `git diff --stat origin/main...HEAD`, signed commits, and check results — avoid rereading the whole codebase. To send focused feedback or trigger integration, resume the same thread. **Integration order once both arms report done:** (1) resume Codex to fold the Opus arm's now-verified files into signed commits so the tree is coherent, then (2) run the full `dev_check.py` / suite once over the whole worktree — this is the first point a whole-tree check is valid. Fix any fallout on the same thread.
+Inspect Codex's final report, `git status --short`, `git diff --stat origin/main...HEAD`, signed commits, and check results — avoid rereading the whole codebase. To send focused feedback or trigger integration, resume the same thread. **Integration order once both arms report done:** (1) resume Codex to fold the Claude arm's now-verified files into signed commits so the tree is coherent, then (2) run the full `dev_check.py` / suite once over the whole worktree — this is the first point a whole-tree check is valid. Fix any fallout on the same thread.
 
 ```bash
 codex exec resume "$(<"$STATE/codex-thread-id")" \
@@ -170,13 +171,13 @@ Once both slices are integrated on the branch:
 
 1. **Cross-review the arms against each other.** Run Codex's built-in review over the whole diff (a separate, non-implementing pass):
    ```bash
-   codex review -m gpt-5.6-sol -c model_reasoning_effort=medium --base main
+   codex review -m gpt-5.6-sol -c model_reasoning_effort=low -c service_tier="default" --base main
    # or --uncommitted if changes aren't committed yet
    ```
-   And have the Opus side review Codex's bulk slice (you, or the Opus arm). Treat findings like a human reviewer's: real issues get fixed (resume the persistent Codex thread, or the Opus arm per the fallback if Codex is rate-limited), noise gets a one-line rationale.
+   And have the Opus side review Codex's bulk slice (you, or the Claude arm). Treat findings like a human reviewer's: real issues get fixed (resume the persistent Codex thread, or the Claude arm per the fallback if Codex is rate-limited), noise gets a one-line rationale.
 2. **The review gate.** Once cross-review is clean, invoke `/review <pr#>` exactly once — the expensive multi-agent cross-check, not an inner loop.
    - Nothing actionable → continue to the final gate.
-   - Real findings → resume the same Codex thread (or the Opus arm) with the exact findings; verify each, fix valid ones, rerun required checks, new signed commits, push, resolve addressed threads.
+   - Real findings → resume the same Codex thread (or the Claude arm) with the exact findings; verify each, fix valid ones, rerun required checks, new signed commits, push, resolve addressed threads.
    - Don't rerun the full review for small fixes. After substantial semantic fixes, permit one final `/review <pr#>`, then stop.
 
 ## 5. Finish CI and review threads through Codex
@@ -191,6 +192,6 @@ Report the PR URL, worktree/branch, the Codex/Opus implementation split, Codex t
 
 ## Fallback
 
-If Codex is unavailable or unauthenticated, say so before implementation and have the **Opus arm implement the whole feature** directly in the worktree, then `/commit` → one `/review` → CI loop, still as a single PR. Do not silently degrade to a lesser Claude model — Opus is the intended executor here.
+If Codex is unavailable or unauthenticated, say so before implementation and have the **Claude arm implement the whole feature** directly in the worktree, then `/commit` → one `/review` → CI loop, still as a single PR. This is the opusplan session default (Sonnet execution); escalate a specific slice to an explicit `model: opus` Agent only if it needs Opus-level judgment.
 
 **If auto mode's classifier blocks the `codex exec --dangerously-bypass-approvals-and-sandbox` launch itself** (seen: flagged as "functionally equivalent to full-auto" for a task with real blast radius — DB migrations, deleting core modules, opening a PR): don't reframe/retry around it. Stop, explain concretely what you're launching and why (the task's actual scope), and let the user unblock it explicitly. Once unblocked for a session, subsequent `codex exec resume` calls on the same thread are a continuation, not a new launch, and haven't re-triggered the gate in practice — the risky moment is the *first* invocation.
