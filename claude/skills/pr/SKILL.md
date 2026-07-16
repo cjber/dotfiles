@@ -165,6 +165,22 @@ codex exec resume "$(<"$STATE/codex-thread-id")" \
 
 Never use `resume --last` when other Codex sessions may be running.
 
+## 3.5. Verify agent-visible surfaces end-to-end (`cli verify`)
+
+`dev_check.py` proves the code is correct; it does NOT prove the LLM actually picks the new tool, that a renamed event lands with the right shape, or that a reworded prompt/skill steers behaviour. For any **agent-visible** surface in the diff, drive it end-to-end with the existing `/cli` skill's `cli verify` (one real prompt per surface against a real user, on `nebula:auto`) — don't hand-roll a new harness:
+
+```bash
+uv run cli verify \
+  --prompt "<naturalistic prompt that should exercise the surface>" \
+  --user <real_user_id_or_omit_for_the_eval_test_user> \
+  --require-tool <expected_tool> --forbid-tool <tool_that_must_not_fire> \
+  --report "$STATE/verify-<surface>.json"
+```
+
+Run it for: agent-facing tool descriptions / param annotations / toolset registration; system-prompt sections and bundled-skill/SKILL.md bodies; new/renamed event types or discriminators; explore/plan-mode filters; agent-reachable HTTP endpoints. Then read the report (`jq '.tool_calls[].name'`, `.final_message`, `.events[].type`) and confirm the fields the `/cli` surface-recipe names. A failing surface is fixed on the same branch before the review gate. **Skip** it for pure-infra diffs (refactors, migrations, build config) with no agent-visible behaviour — it's a real billed LLM call.
+
+**Sandbox constraint (known):** `cli verify` provisions only a *stub* device (`ensure_test_device` → `vm_name=None`, no exe.dev VM — the eval `sandbox_pool` warm-VM borrow is used by the full eval `runner.py`, NOT the ad-hoc verify path). So it validates tool-routing / prompt / event / description surfaces, but a prompt needing a **live sandbox (bash, file writes)** fails with "device deprovisioned / create a new device" in a dev env without a real device. For sandbox-dependent behaviour, lean on real-shell unit tests (run the composed command through host `bash`/`find`) and say plainly in the handoff that the live-sandbox path was not exercised. Do not treat a "sandbox gone" verify as a branch failure.
+
 ## 4. Cross-review, then the Claude quality gate
 
 Once both slices are integrated on the branch:
@@ -184,11 +200,11 @@ Once both slices are integrated on the branch:
 
 Resume the same Codex thread and explicitly request `$gh-fix-ci` for failing Actions checks and `$gh-address-comments` for actionable review threads. Require root-cause fixes, local verification, signed commits, and pushes. Self-pace polling; do not repeatedly poll unchanged checks.
 
-Terminate only when ALL of these hold: required checks green; no actionable review thread remains; the branch is **up to date with `origin/main`** (fetch + merge main in and re-run the full gate if it drifted — see the HARD RULE in §3; `gh pr view` shows `MERGEABLE`/`CLEAN`, not `CONFLICTING`/`BEHIND`); and this repo has exactly **one** PR (this one). Leave the single PR ready-for-review (never draft) and unmerged.
+Terminate only when ALL of these hold: required checks green; no actionable review thread remains; every agent-visible surface was driven through `cli verify` (§3.5) and passed, or was explicitly noted as sandbox-blocked / infra-only; the branch is **up to date with `origin/main`** (fetch + merge main in and re-run the full gate if it drifted — see the HARD RULE in §3; `gh pr view` shows `MERGEABLE`/`CLEAN`, not `CONFLICTING`/`BEHIND`); and this repo has exactly **one** PR (this one). Leave the single PR ready-for-review (never draft) and unmerged.
 
 ## Handoff
 
-Report the PR URL, worktree/branch, the Codex/Opus implementation split, Codex thread-id location (not credentials), signed commits, checks run, both review results (Codex + Claude), final CI state, and residual risks or external blockers.
+Report the PR URL, worktree/branch, the Codex/Opus implementation split, Codex thread-id location (not credentials), signed commits, checks run, both review results (Codex + Claude), the `cli verify` result per agent-visible surface (and any sandbox-blocked surface), final CI state, and residual risks or external blockers.
 
 ## Fallback
 

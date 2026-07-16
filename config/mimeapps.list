@@ -1,5 +1,9 @@
-
 [Default Applications]
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 x-scheme-handler/nebula=nebula-desktop.desktop
 x-scheme-handler/webcal=google-chrome.desktop
+x-scheme-handler/rshub=jagex-launcher.desktop
+x-scheme-handler/discord-409416265891971072=discord-409416265891971072.desktop
+
+[Added Associations]
+x-scheme-handler/rshub=jagex-launcher.desktop;
