@@ -36,9 +36,15 @@ Read `AGENTS.md` and the domain skills it routes to. Then produce the plan throu
 
 Present the synthesized plan for approval. Do not start implementation until it is approved.
 
-## 2. Exit Plan Mode and isolate — one worktree, one branch
+## 2. Exit Plan Mode and isolate — worktrees off fresh `origin/main`, one branch per repo
 
-Call `ExitPlanMode`, then invoke `/wt` to create or enter a single `cb/<feature>` worktree from fresh `origin/main`. Copy `.env` from the primary Nebula checkout as `/wt` requires. Never edit the shared checkout. Both implementation arms share this one worktree and branch.
+**ALWAYS work in fresh git worktrees — never in the primary checkouts under `/home/cjber/drive/agl/*`.** The primary checkouts are the user's own working space (often mid-task on a dirty feature branch); mutating them risks losing his work. This is non-negotiable, even for a one-repo change.
+
+**Before creating worktrees, get the primary checkouts onto latest `main` — safely:**
+- For each affected repo, `git fetch origin main`. If the primary checkout is **clean and on `main`**, `git merge --ff-only origin/main` so worktrees branch from the true latest.
+- If a primary checkout is **dirty or on another branch**, DO NOT `checkout`/`reset`/`merge`/stash-drop it. **Preserve first**: commit the uncommitted work to its own branch (signed, explicit pathspecs) and `git push` it for backup, then switch that checkout to latest `main`. Report what you preserved and whether it looks superseded by an already-merged PR (compare the diff to `origin/main`) — let the user decide whether to keep the branch. Never silently discard.
+
+**One worktree per repo, off fresh `origin/main`.** Multi-repo change → a worktree for EVERY affected repo (backend + each frontend), not just the backend. Use `/wt` or plain `git worktree add -b cb/<feature> <path> origin/main`; copy `.env` (and `.env.local`) from that repo's primary checkout. Both implementation arms share the one worktree/branch per repo. Never edit a primary checkout.
 
 **Run the implementation Codex without its own sandbox** — pass `--dangerously-bypass-approvals-and-sandbox` (this environment is already externally isolated in a git worktree, so Codex's filesystem sandbox adds nothing but breakage). Its `--sandbox workspace-write` mode makes the worktree's real gitdir (`<main-repo>/.git/worktrees/<name>`, which lives OUTSIDE the worktree dir) read-only, so Codex can edit files but **cannot `git add`/`commit`/`push`** and stalls before the first commit. Bypassing the sandbox lets Codex own commits/push/PR directly, as this workflow intends.
 
