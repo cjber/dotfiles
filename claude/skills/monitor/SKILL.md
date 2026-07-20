@@ -1,17 +1,20 @@
 ---
 name: monitor
-description: Health overview skill — queries Sentry, Langfuse, Metabase, PostHog, and GitHub from the command line (curl + gh, credentials from the repo .env) to produce a consolidated health report for the last 12 hours.
+description: Health overview skill — queries Sentry, Langfuse, Metabase, and GitHub from the command line (curl + gh, credentials from the repo .env) to produce a consolidated health report for the last 12 hours.
 allowed-tools: Bash, Read
 ---
 
 # Platform Health Monitor
 
-Queries Sentry, Langfuse, Metabase, PostHog, and GitHub to produce a consolidated
+Queries Sentry, Langfuse, Metabase, and GitHub to produce a consolidated
 health report covering the last 12 hours.
 
 **No MCP servers.** Every source is hit directly over its REST API with `curl`
 (or `gh` for GitHub). Credentials come from the repo's git-ignored `.env`
 (`/home/cjber/drive/agl/nebula/.env`) — never hard-code secrets in this file.
+
+**PostHog and Metabase `interaction_evaluation` are intentionally not
+queried** — see "Retired sources" below.
 
 ## Prerequisites
 
@@ -30,22 +33,22 @@ health report covering the last 12 hours.
 | Langfuse host | `https://us.cloud.langfuse.com` (`$LANGFUSE_HOST`) — use the **PROD** key pair |
 | Metabase URL | `https://metabase.nebula.gg` (`$EVAL_CRED_METABASE_URL`) |
 | Metabase database id | **`2`** (`nebula-read-only`) — NOT 40 |
-| PostHog host | `https://us.posthog.com` (US region; `.env` says `app.posthog.com` but the API lives on `us.`) |
-| PostHog project id | `224690` (`$EVAL_CRED_POSTHOG_PROJECT_ID`, team `nebula.gg`) |
 | GitHub repo | `agent-labs-dev/nebula` |
 
-### Known credential gaps (check these first, report as UNAVAILABLE if unfixed)
+### Retired sources (do not query — checked 2026-07-20)
 
-- **PostHog**: `EVAL_CRED_POSTHOG_API_KEY` is a narrowly-scoped *eval* key. It
-  authenticates but returns **403 on every project endpoint** (`events`,
-  `insights`, `query`, `error_tracking`). Sections 2/3/4/7 (activity, funnel,
-  billing, landing) and PostHog frontend errors need a **personal API key with
-  `query:read` + `insight:read` scopes** on project 224690. Until then, mark
-  those sections UNAVAILABLE — do not fabricate numbers.
-- **Metabase `interaction_evaluation`**: as of 2026-07-09 the table is stale
-  (latest `evaluation_date` = 2026-04-29, 0 rows in 7d). Query
-  `MAX(evaluation_date)` first; if it's old, mark Section 5 STALE rather than
-  reporting empty results as healthy.
+- **PostHog**: `EVAL_CRED_POSTHOG_API_KEY` is a narrowly-scoped *eval* key
+  that returns **403 on every project endpoint** (`events`, `insights`,
+  `query`, `error_tracking`). This has been true on every run since
+  2026-07-09 with no fix in sight — a personal key with `query:read` +
+  `insight:read` scopes on project `224690` would unblock it, but until one
+  is added to `.env`, don't spend a query round-trip confirming the 403
+  again. If a working key ever lands, user activity / signup funnel /
+  billing / top-of-funnel traffic sections can be reinstated.
+- **Metabase `interaction_evaluation`**: confirmed dead, not just delayed —
+  tracked in [nebula#5778](https://github.com/agent-labs-dev/nebula/issues/5778)
+  (table unfed since PR #3568). Don't query it or report it as a gap; the
+  GitHub issue is the source of truth until that's fixed.
 
 ## Step 0 — Load credentials
 
@@ -56,7 +59,7 @@ Bash block — shell state does not persist between tool calls):
 cd /home/cjber/drive/agl/nebula
 set -a
 # shellcheck disable=SC2046
-eval "$(grep -E '^(LANGFUSE_HOST|LANGFUSE_PUBLIC_KEY_PROD|LANGFUSE_SECRET_KEY_PROD|SENTRY_AUTH_TOKEN|SENTRY_ORG_SLUG|SENTRY_PROJECT|METABASE_API_KEY|EVAL_CRED_METABASE_URL|EVAL_CRED_POSTHOG_API_KEY|EVAL_CRED_POSTHOG_PROJECT_ID)=' .env | sed -E 's/^([A-Z_]+)=\"?(.*[^\"])\"?$/\1=\2/')"
+eval "$(grep -E '^(LANGFUSE_HOST|LANGFUSE_PUBLIC_KEY_PROD|LANGFUSE_SECRET_KEY_PROD|SENTRY_AUTH_TOKEN|SENTRY_ORG_SLUG|SENTRY_PROJECT|METABASE_API_KEY|EVAL_CRED_METABASE_URL)=' .env | sed -E 's/^([A-Z_]+)=\"?(.*[^\"])\"?$/\1=\2/')"
 set +a
 FROM=$(date -u -d '12 hours ago' +%Y-%m-%dT%H:%M:%SZ)
 NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
@@ -83,13 +86,29 @@ curl -s -G -H "Authorization: Bearer $SENTRY_AUTH_TOKEN" \
   | jq -r '.[] | "\(.count)x  \(.title)  [\(.culprit)]"'
 ```
 
-2. **Top active issues by volume** (backend load; 24h is the finest stats bucket):
+2. **Top issues by volume** (`sort=freq` with `statsPeriod=24h` still returns
+each issue's **lifetime** `count`, not a 24h-scoped count — confirmed
+2026-07-20. Always pull `lastSeen` alongside it and treat anything not seen
+in the last 24h as dormant, not active, no matter how large its lifetime
+count is — a stale issue with a huge lifetime count (e.g. one that fired
+constantly for months and stopped) will otherwise look like today's biggest
+problem):
 ```bash
 curl -s -G -H "Authorization: Bearer $SENTRY_AUTH_TOKEN" \
   --data-urlencode "query=is:unresolved" --data-urlencode "statsPeriod=24h" \
   --data-urlencode "sort=freq" --data-urlencode "limit=12" "$S/issues/" \
-  | jq -r '.[] | "\(.count)x  \(.title)"'
+  | jq -r '.[] | "\(.count)x  lastSeen=\(.lastSeen)  \(.title)"'
 ```
+
+Report two buckets: **active now** (`lastSeen` within the 24h window) and
+**dormant** (large lifetime count but stale `lastSeen`) — don't merge them
+into one "top issues" list. Cross-reference the active ones against open
+GitHub issues (`gh issue list --search "<key phrase from title>"`) — flag any
+large, untracked, currently-active issue as an action item to file. Also
+sanity-check the top *active* issue's latest event tags
+(`GET /api/0/issues/{id}/events/latest/` → `.tags`) for `environment` before
+treating it as a production problem — `environment=local` / `sentry.purpose=
+migration` means it's dev-machine noise, not prod (see nebula#5807).
 
 ### Langfuse (REST — Basic auth, PROD key pair)
 
@@ -113,27 +132,21 @@ run_mb () { jq -n --arg q "$1" '{database:2,type:"native",native:{query:$q}}' \
   | jq -r 'if .data then (.data.rows[]|@tsv) else "ERR: "+(.error//tostring) end'; }
 ```
 
-1. **Interaction quality** (check freshness first — see credential gaps):
-```sql
-SELECT interaction_label, COUNT(*) AS total,
-       ROUND(AVG(interaction_score)::numeric,2) AS avg_score,
-       SUM(observation_error_count) AS obs_errors,
-       ROUND(SUM(trace_total_cost_usd)::numeric,4) AS cost
-FROM interaction_evaluation
-WHERE evaluation_date >= CURRENT_DATE - INTERVAL '1 day'
-GROUP BY interaction_label ORDER BY total DESC
-```
-
-2. **Trigger executions** (status + failed errors + skip reasons):
+1. **Trigger executions** (status + failed errors + skip reasons):
 ```sql
 SELECT status, COUNT(*) FROM trigger_execution
 WHERE started_at > (EXTRACT(EPOCH FROM NOW())*1000)::bigint - 43200000
 GROUP BY status ORDER BY 2 DESC
 ```
 Follow up with `WHERE status='failed' ... GROUP BY LEFT(error_message,140)` and
-`WHERE status='skipped' ... GROUP BY skip_reason` for samples.
+`WHERE status='skipped' ... GROUP BY skip_reason` for samples. Within the skip
+reasons, watch specifically for `fetch_failed_auth: <toolkit>: ... REVOKED`
+or `... not found - user likely disconnected it` — a large count on one
+account id means the same trigger is repeatedly firing into a dead
+connection every cycle, not a one-off blip. Group by the account id
+substring to see if it's concentrated.
 
-3. **Task status:**
+2. **Task status:**
 ```sql
 SELECT status, COUNT(*) AS total, COUNT(DISTINCT user_id) AS users,
        SUM(CASE WHEN trigger_id IS NOT NULL THEN 1 ELSE 0 END) AS trig
@@ -142,20 +155,6 @@ WHERE created_at > (EXTRACT(EPOCH FROM NOW())*1000)::bigint - 43200000
   AND deleted_at IS NULL
 GROUP BY status ORDER BY total DESC
 ```
-
-### PostHog (REST — `Authorization: Bearer $EVAL_CRED_POSTHOG_API_KEY`)
-
-**Only works with a `query:read`-scoped key** (see credential gaps). When
-available, use the HogQL query endpoint (simpler than InsightVizNode over curl):
-```bash
-PH="https://us.posthog.com/api/projects/$EVAL_CRED_POSTHOG_PROJECT_ID/query/"
-curl -s -H "Authorization: Bearer $EVAL_CRED_POSTHOG_API_KEY" -H "Content-Type: application/json" \
-  -d '{"query":{"kind":"HogQLQuery","query":"SELECT event, count() FROM events WHERE timestamp > now() - interval 12 hour AND event IN ('\''chat.message.sent'\'','\''auth.login.success'\'','\''auth.signup.started'\'','\''auth.signup.completed'\'','\''billing.checkout.completed'\'','\''billing.subscription.cancelled'\'') GROUP BY event"}}' \
-  "$PH" | jq -r '.results[] | @tsv'
-```
-Frontend exceptions: `SELECT properties.$exception_type, count() FROM events
-WHERE event='$exception' AND timestamp > now() - interval 12 hour GROUP BY 1
-ORDER BY 2 DESC`. If the key returns 403/permission_denied, report UNAVAILABLE.
 
 ### GitHub (`gh` CLI)
 ```bash
@@ -168,15 +167,18 @@ Group by label; flag P0/P1/bug and issues with no update in 30+ days.
 
 Analyze all results and produce a structured report with inline ASCII
 visualizations. Mark any UNAVAILABLE/STALE source explicitly — never present a
-missing source as healthy.
+missing source as healthy. Sources listed under "Retired sources" above don't
+need an UNAVAILABLE line every run — one line noting they're retired (with
+the tracking issue link) is enough; don't re-litigate the 403/staleness each
+time.
 
 ### Overall Status
 
 | Status | Criteria |
 |--------|----------|
-| **HEALTHY** | No new Sentry issues, Langfuse error count < 5, no failed triggers, avg interaction score > 0.7, signup funnel > 30%, frontend exceptions < 50 |
-| **DEGRADED** | 1-3 new Sentry issues, OR Langfuse errors 5-20, OR some failed triggers, OR avg score 0.5-0.7, OR signup funnel 15-30%, OR frontend exceptions 50-150 |
-| **UNHEALTHY** | 4+ new Sentry issues, OR Langfuse errors > 20, OR many failed triggers, OR avg score < 0.5, OR signup funnel < 15%, OR frontend exceptions > 150 |
+| **HEALTHY** | No new Sentry issues, Langfuse error count < 5, no failed triggers |
+| **DEGRADED** | 1-3 new Sentry issues, OR Langfuse errors 5-20, OR some failed triggers |
+| **UNHEALTHY** | 4+ new Sentry issues, OR Langfuse errors > 20, OR many failed triggers |
 
 When a threshold trips on noise (e.g. Langfuse errors dominated by LLM
 retry behavior), state the mechanical status AND the real driver.
@@ -194,40 +196,28 @@ Display the status prominently:
 Use ASCII art where indicated.
 
 **1. Errors & Exceptions** — New Sentry issues (count + titles); top active
-Sentry issues by volume; Langfuse error count + top exception types; PostHog
-frontend exceptions (if available). Horizontal bar chart of error sources
+Sentry issues by volume, cross-referenced against open GitHub issues; Langfuse
+error count + top exception types. Horizontal bar chart of error sources
 (scale bars to the largest value, `█` filled / `░` empty, max 20 chars):
 ```
 Error Sources (12h)
   Langfuse (LLM)     ████████████████████  74
   Sentry (new)       █░░░░░░░░░░░░░░░░░░░░   4
-  PostHog (frontend) ────── unavailable
 ```
 
-**2. User Activity (PostHog)** — sparkline bars scaled to the largest value.
-**3. Signup Funnel (PostHog)** — narrowing ASCII funnel + conversion %.
-**4. Billing (PostHog)** — checkouts/credit buys `[+]`, cancellations `[-]`, net.
-**7. Top-of-Funnel Traffic (PostHog)** — page views / CTA / signups with CTR.
-(2/3/4/7 are UNAVAILABLE while PostHog is on an eval-scoped key.)
-
-**5. Interaction Quality (Metabase)** — table of labels (total, avg score,
-obs_errors, cost); `[!]` on avg < 0.7; 10-char score bars. Report STALE if the
-freshness check shows old data.
-
-**6. Triggers & Tasks (Metabase)** — trigger status stacked bar
-(success/skipped/failed), sample failed errors, top 5 skip reasons, task status
-with user counts.
+**2. Triggers & Tasks (Metabase)** — trigger status stacked bar
+(success/skipped/failed), sample failed errors, top 5 skip reasons (flag any
+concentrated `fetch_failed_auth` pattern per above), task status with user
+counts.
 ```
 Trigger Executions (12h) — 946 total
   [██████████████████░░░░░░░░░░░░░░░░░░░░░░] success 444 (47%) · skip 497 (53%) · fail 5 (0.5%)
 ```
 
-**8. GitHub Issues** — total count; grouped by label; flag P0/P1/bug; flag
+**3. GitHub Issues** — total count; grouped by label; flag P0/P1/bug; flag
 stale (30+ days) and likely-resolved/duplicate issues; recommend closures with
 reasoning (cross-reference Sentry/trigger data).
 
-**9. Action Items** — specific recommendations: link Sentry issues needing
-attention, underperforming interaction labels, trigger failure patterns, funnel
-drop-offs (<30%), billing churn (cancellations > checkouts), frontend exception
-trends, relevant GitHub issues, and any credential/pipeline gaps found (e.g.
-PostHog key scope, stale eval table).
+**4. Action Items** — specific recommendations: link Sentry issues needing
+attention (file untracked ones), trigger failure patterns, relevant GitHub
+issues, and any new credential/pipeline gaps found.
