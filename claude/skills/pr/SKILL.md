@@ -27,7 +27,7 @@ Read `AGENTS.md` and the domain skills it routes to. Then produce the plan throu
 1. **In parallel**, kick off two independent drafts:
    - **Codex draft** (background): `codex exec` with sol at low effort, read-only, told to produce a decision-complete plan and **not** implement. Capture its final message with `--output-last-message` (that's written by the wrapper, so a read-only sandbox is fine — no git needed at plan time):
      ```bash
-     codex exec --json --cd "$REPO" --sandbox read-only \
+     cd "$REPO" && codex exec --json --sandbox read-only \
        -m gpt-5.6-sol -c model_reasoning_effort=low -c service_tier="default" \
        --output-last-message "$STATE/codex-plan.md" - < "$STATE/plan-prompt.md"
      ```
@@ -70,7 +70,7 @@ Launch both arms concurrently:
 
 - **Codex** (background, the bulk):
   ```bash
-  codex exec --json --cd "$WORKTREE" --dangerously-bypass-approvals-and-sandbox \
+  cd "$WORKTREE" && codex exec --json --dangerously-bypass-approvals-and-sandbox \
     -m gpt-5.6-terra -c model_reasoning_effort=medium -c service_tier="default" \
     --output-last-message "$STATE/codex-last.md" - < "$STATE/codex-prompt.md" \
     | tee "$STATE/codex-events.jsonl"
