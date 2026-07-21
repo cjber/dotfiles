@@ -1,7 +1,9 @@
 alias ll="ls -lha"
+alias kk="kiln"
+alias nb="nebula-ai"
 alias rm="rm -i"
 alias upd='topgrade'
-alias codex=codex --search --dangerously-bypass-approvals-and-sandbox
+alias codex="codex --search --dangerously-bypass-approvals-and-sandbox"
 alias bat="bat -P --style=numbers --theme base16-256"
 alias wa='wowaddon'
 alias empty='trash-empty'
