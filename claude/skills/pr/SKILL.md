@@ -1,13 +1,11 @@
 ---
 name: pr
 description: "End-to-end ship loop, opusplan on the Claude side (Opus plans, Sonnet executes): plan in parallel with Codex (both draft, cross-review, you synthesize), then implement in ONE worktree with Codex (terra) doing the bulk and a Claude arm doing a disjoint slice alongside for speed, cross-review, one /review, finishing with a single green ready-for-review (non-draft) PR per repo. Use for 'ship this as a PR', 'build this end-to-end', or '/pr'."
-argument-hint: "[feature-name]"
-effort: high
 ---
 
 # `/pr` — parallel Opus+Codex plan → coordinated Codex+Opus build → cross-review → one green PR
 
-Deliver a reviewed, green PR. Two non-negotiables, enforced throughout (full rules in §3, completion gate in §5): **(1) exactly ONE PR per repo** — every further change goes as a commit on that same branch, never a second PR; **(2) the PR stays up to date with the latest `main`** — merge `origin/main` in and re-run the gate before handoff, so it's never left behind/conflicting. The PR is always opened ready-for-review, never a draft. Claude runs in `opusplan` (Opus plans, Sonnet executes); Codex carries the bulk of the implementation (terra) with a Claude arm working a disjoint slice alongside it for speed.
+Deliver a reviewed, green PR. Two non-negotiables, enforced throughout (full rules in §3, completion gate in §5): **(1) exactly ONE PR per repo** — every further change goes as a commit on that same branch, never a second PR; **(2) task PRs target and stay current with `cb/staging`**, the shared pre-main branch run by `/dev`. Only the final bundle promotion PR targets `main`. The PR is always opened ready-for-review, never a draft. Claude runs in `opusplan` (Opus plans, Sonnet executes); Codex carries the bulk of the implementation (terra) with a Claude arm working a disjoint slice alongside it for speed.
 
 ## Model and cost contract
 
@@ -37,15 +35,15 @@ Read `AGENTS.md` and the domain skills it routes to. Then produce the plan throu
 
 Present the synthesized plan for approval. Do not start implementation until it is approved.
 
-## 2. Exit Plan Mode and isolate — worktrees off fresh `origin/main`, one branch per repo
+## 2. Exit Plan Mode and isolate — worktrees off fresh `origin/cb/staging`, one branch per repo
 
-**ALWAYS work in fresh git worktrees — never in the primary checkouts under `/home/cjber/drive/agl/*`.** The primary checkouts are the user's own working space (often mid-task on a dirty feature branch); mutating them risks losing his work. This is non-negotiable, even for a one-repo change.
+**ALWAYS work in fresh git worktrees — never in the primary checkouts under `$HOME/drive/agl/*`.** The primary checkouts are the user's own working space (often mid-task on a dirty feature branch); mutating them risks losing work. This is non-negotiable, even for a one-repo change.
 
-**Before creating worktrees, get the primary checkouts onto latest `main` — safely:**
-- For each affected repo, `git fetch origin main`. If the primary checkout is **clean and on `main`**, `git merge --ff-only origin/main` so worktrees branch from the true latest.
-- If a primary checkout is **dirty or on another branch**, DO NOT `checkout`/`reset`/`merge`/stash-drop it. **Preserve first**: commit the uncommitted work to its own branch (signed, explicit pathspecs) and `git push` it for backup, then switch that checkout to latest `main`. Report what you preserved and whether it looks superseded by an already-merged PR (compare the diff to `origin/main`) — let the user decide whether to keep the branch. Never silently discard.
+**Before creating worktrees, fetch `main` and `cb/staging` without mutating primary checkouts:**
+- For each affected repo, fetch both branches. If `origin/cb/staging` is absent, create it exactly from current `origin/main` and push it.
+- Never switch, reset, merge, or otherwise clean a primary checkout. `$dev` owns synchronizing newer `main` into the shared staging branch in a dedicated staging worktree.
 
-**One worktree per repo, off fresh `origin/main`.** Multi-repo change → a worktree for EVERY affected repo (backend + each frontend), not just the backend. Use `/wt` or plain `git worktree add -b cb/<feature> <path> origin/main`; copy `.env` (and `.env.local`) from that repo's primary checkout. Both implementation arms share the one worktree/branch per repo. Never edit a primary checkout.
+**One worktree per repo, off fresh `origin/cb/staging`.** Multi-repo change → a worktree for EVERY affected repo (backend + each frontend), not just the backend. Use `/wt` or plain `git worktree add -b cb/<feature> <path> origin/cb/staging`; copy `.env` (and `.env.local`) from that repo's primary checkout. Both implementation arms share the one worktree/branch per repo. Never edit a primary checkout.
 
 **HARD RULE — give the worktree its OWN database, cloned from the primary checkout's; never share the primary/base DB.** A worktree that copies `.env` verbatim inherits the primary's `DATABASE_URL` and runs `dev_check`/`alembic` against the *same* shared local Postgres DB. That shared DB accumulates orphan tables from other branches — a model removed on `main` leaves its table behind with no drop migration — so the worktree's autogenerate check **falsely flags phantom drift**, and the run then burns cycles "fixing" it by authoring migrations that DROP tables which don't exist on a clean CI DB (real incident: a stale `user_progress_summary` orphan sent a whole run down this hole and produced a migration that would have broken the clean DB). Prevent it: after copying `.env`, provision a per-worktree database **seeded from the primary checkout's current DB** and repoint the worktree's `DATABASE_URL` at it — `createdb nebula_wt_<name> --template <primary_db>` (fast exact clone; requires no active connections to the template) or `pg_dump <primary_db> | psql nebula_wt_<name>`. This isolates the worktree (its runs can't mutate the primary's DB) and keeps its schema consistent with what `main` sees. If `alembic check` still flags *only* orphan tables afterward, the primary's DB itself carries cruft — seed a fresh DB with `alembic upgrade head` instead (matches the migration head exactly, no orphans). CI (clean DB) is always the drift arbiter: a local-only flag on unrelated tables is never a reason to write a migration.
 
@@ -55,7 +53,11 @@ Record the absolute worktree path, the approved plan, and the file-ownership par
 
 ## 3. Coordinated parallel implementation — Codex (bulk) + Opus (slice), one branch, one PR
 
-`$SKILL_DIR` below is this skill's own base directory (`/home/cjber/.claude/skills/pr`), where the permanent watch scripts live (`scripts/watch_human.sh`, `scripts/watch_digest.sh`). It is distinct from `$STATE`, the per-run orchestration-state directory under `${TMPDIR:-/tmp}` created in step 2.
+`$SKILL_DIR` below is this skill's deployed base directory (for example,
+`$HOME/.claude/skills/pr`), where the permanent watch scripts live
+(`scripts/watch_human.sh`, `scripts/watch_digest.sh`). It is distinct from
+`$STATE`, the per-run orchestration-state directory under `${TMPDIR:-/tmp}`
+created in step 2.
 
 **Partition first, then launch both arms.** From the approved plan, split the work into **disjoint file/module ownership**: Codex owns the majority; an Opus `Agent` owns a smaller, self-contained slice, running alongside purely for speed. Write the exact ownership into both prompts. Neither arm touches the other's files.
 
@@ -65,7 +67,7 @@ Record the absolute worktree path, the approved plan, and the file-ownership par
 - **The Claude arm is edits-only.** It writes its slice and runs focused checks, but runs **no git at all** — no add, commit, push, or PR. When it finishes, you verify its slice, then **resume the Codex thread** to fold the Claude arm's files into signed commits and integrate.
 - **No whole-tree checks during the parallel phase.** While both arms are live, each runs only *focused* checks scoped to its own files. The full `dev_check.py` / test suite (which imports/collects across all of `src/`) must NOT run mid-run — the other arm's in-flight *uncommitted* edits would fail it for a reason the running arm didn't cause and can't fix. The full check runs **once, after the Opus slice is folded in** and the tree is coherent.
 - **HARD RULE — ONE PR per repo, no exceptions.** A session opens **exactly one** PR per affected repo. Once this session has opened a PR for a repo, EVERY further change to that repo — new work, review fixes, CI fixes, follow-on scope — is another signed commit pushed to that **same branch/PR**. NEVER open a second PR for a repo you already have one open in. Before opening a PR, check (`gh pr list --head <branch>` / recall this session's PRs); if one exists, push to it instead. Multi-repo work = one PR per repo (backend + each frontend), still one-per-repo. The only split is across a *repo boundary*, or a genuinely security-sensitive/independently-riskier change the user has agreed to carve out — and that carve-out is still one PR in its own right.
-- **HARD RULE — every PR must be up to date with the latest `main` before you hand it off.** A long `/pr` run can take hours; `origin/main` moves under you, so a PR that was current at push time can silently go **behind / conflicting** by the time you finish. Before declaring done (and again any time you learn `main` advanced): `git fetch origin main`, and if the branch is behind, **merge** it in — `git merge origin/main` in the worktree (NOT rebase: this workflow bans force-push, and rebase would need one; merge preserves the signed commits and adds one signed merge commit). Resolve conflicts **semantically**, not by blindly taking one side — a file that arrived from `main` *un-conflicted* can still carry logic that silently reverts this PR's feature (e.g. `main` moved a function this PR rewrote into a new module); grep for this PR's key symbols after merging to prove they survived. Then re-run the **full** `dev_check.py` + test gate over the merged tree and push. Verify with `gh pr view <#> --json mergeable,mergeStateStatus` → must be `MERGEABLE`/`CLEAN`, never `CONFLICTING`/`DIRTY`/`BEHIND`. A PR left behind or conflicting with `main` is **not done**.
+- **HARD RULE — every task PR must be up to date with `cb/staging` before handoff.** A long `/pr` run can take hours; staging moves as other work lands. Fetch `origin/cb/staging`, merge it into the task branch when behind, and never rebase or force-push. Resolve conflicts semantically, re-run the full repository gate, push, and verify `gh pr view <#> --json baseRefName,mergeable,mergeStateStatus` reports base `cb/staging` and a clean merge state. `$dev` separately keeps staging current with `main` and proves the integrated deployment.
 - **HARD RULE — no PR ships with a stale generated SDK.** Any repo whose PR is affected by a backend API/OpenAPI change (the backend PR itself, or a frontend PR built against one) MUST regenerate its client SDK and commit the delta before finishing — never leave hand-edited or drifted generated code. Run the repo's generate script (`pnpm run build:generate` for nebula-web / nebula-mobile; `bun run sdk:generate` for nebula-desktop — check `package.json`), staging the generated dir by explicit pathspec. **Generate against the correct spec, not blindly against the default dev URL:** the generators pull `${NEBULA_URL:-https://api.nebula-dev.ai}/openapi.json` (override per repo: `NEXT_PUBLIC_NEBULA_URL` / `EXPO_PUBLIC_NEBULA_URL` / `API_URL`). If the backend branch's schema is **not yet deployed to that URL**, generating against it will silently *revert* the branch's schema additions — point the override at a local backend running the branch (or a dumped `openapi.json`) instead. Confirm the target actually serves the branch's new schemas before regenerating. For **paired frontend PRs**, regenerate all of them against the **same** spec so their SDKs stay mutually consistent, and do the frontend regen **after** the backend PR's schema has settled. An empty diff is the success signal (provably already in sync); a non-empty diff was real drift now fixed — commit it.
 
 Launch both arms concurrently:
@@ -157,7 +159,7 @@ jq -r 'select(.type == "thread.started") | .thread_id' \
   "$STATE/codex-events.jsonl" | head -1 > "$STATE/codex-thread-id"
 ```
 
-Inspect Codex's final report, `git status --short`, `git diff --stat origin/main...HEAD`, signed commits, and check results — avoid rereading the whole codebase. To send focused feedback or trigger integration, resume the same thread. **Integration order once both arms report done:** (1) resume Codex to fold the Claude arm's now-verified files into signed commits so the tree is coherent, then (2) run the full `dev_check.py` / suite once over the whole worktree — this is the first point a whole-tree check is valid. Fix any fallout on the same thread.
+Inspect Codex's final report, `git status --short`, `git diff --stat origin/cb/staging...HEAD`, signed commits, and check results — avoid rereading the whole codebase. To send focused feedback or trigger integration, resume the same thread. **Integration order once both arms report done:** (1) resume Codex to fold the Claude arm's now-verified files into signed commits so the tree is coherent, then (2) run the full `dev_check.py` / suite once over the whole worktree — this is the first point a whole-tree check is valid. Fix any fallout on the same thread.
 
 ```bash
 codex exec resume "$(<"$STATE/codex-thread-id")" \
@@ -189,7 +191,7 @@ Once both slices are integrated on the branch:
 
 1. **Cross-review the arms against each other.** Run Codex's built-in review over the whole diff (a separate, non-implementing pass):
    ```bash
-   codex review -m gpt-5.6-sol -c model_reasoning_effort=low -c service_tier="default" --base main
+   codex review -m gpt-5.6-sol -c model_reasoning_effort=low -c service_tier="default" --base cb/staging
    # or --uncommitted if changes aren't committed yet
    ```
    And have the Opus side review Codex's bulk slice (you, or the Claude arm). Treat findings like a human reviewer's: real issues get fixed (resume the persistent Codex thread, or the Claude arm per the fallback if Codex is rate-limited), noise gets a one-line rationale.
@@ -202,9 +204,9 @@ Once both slices are integrated on the branch:
 
 Resume the same Codex thread and explicitly request `$gh-fix-ci` for failing Actions checks and `$gh-address-comments` for actionable review threads. Require root-cause fixes, local verification, signed commits, and pushes. Self-pace polling; do not repeatedly poll unchanged checks.
 
-**Final step — a runtime `cli verify` pass over the FINAL diff.** The §3.5 pass ran mid-flow; review fixes, the merge-with-`main`, and CI fixes have changed the tree since. So as the **last action before termination**, re-derive the testable surfaces from the *final* `git diff origin/main` (not the set you noticed at §3.5) and re-run `cli verify` (one real prompt per surface, on `nebula:auto`) over everything agent-visible that changed — this catches surfaces added or altered during review/merge. Enumerate any surface you skip and *why* (pure-infra with no agent-visible behaviour, or live-sandbox-blocked per §3.5's known constraint) — never a silent skip. A failing surface is fixed on the same branch and the pass re-run; terminate only on a green final pass (or an explicitly-justified skip list).
+**Final step — a runtime `cli verify` pass over the FINAL diff.** The §3.5 pass ran mid-flow; review fixes, the merge-with-staging, and CI fixes have changed the tree since. So as the **last action before termination**, re-derive the testable surfaces from the *final* `git diff origin/cb/staging` (not the set you noticed at §3.5) and re-run `cli verify` (one real prompt per surface, on `nebula:auto`) over everything agent-visible that changed — this catches surfaces added or altered during review/merge. Enumerate any surface you skip and *why* (pure-infra with no agent-visible behaviour, or live-sandbox-blocked per §3.5's known constraint) — never a silent skip. A failing surface is fixed on the same branch and the pass re-run; terminate only on a green final pass (or an explicitly-justified skip list).
 
-Terminate only when ALL of these hold: required checks green; no actionable review thread remains; the **final `cli verify` pass over the final diff** (above) is green or every skipped surface is explicitly justified (sandbox-blocked / infra-only); the branch is **up to date with `origin/main`** (fetch + merge main in and re-run the full gate if it drifted — see the HARD RULE in §3; `gh pr view` shows `MERGEABLE`/`CLEAN`, not `CONFLICTING`/`BEHIND`); and this repo has exactly **one** PR (this one). Leave the single PR ready-for-review (never draft) and unmerged.
+Terminate only when ALL of these hold: required checks green; no actionable review thread remains; the **final `cli verify` pass over the final diff** (above) is green or every skipped surface is explicitly justified (sandbox-blocked / infra-only); the branch is **up to date with `origin/cb/staging`** (fetch + merge staging and re-run the full gate if it drifted; `gh pr view` shows base `cb/staging` and `MERGEABLE`/`CLEAN`, not `CONFLICTING`/`BEHIND`); and this repo has exactly **one** task PR (this one). Leave it ready-for-review and unmerged. After approved task PRs land, `$dev` owns composed `/dev` verification and the eventual `cb/staging` → `main` promotion PR.
 
 ## Handoff
 

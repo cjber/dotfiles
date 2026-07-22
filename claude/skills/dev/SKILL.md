@@ -1,12 +1,48 @@
 ---
 name: dev
-description: "Starts the current repo's local dev server (backend or frontend) in the CURRENT checkout/worktree - no new worktree created. Auto-detects the run command (uv run api / uvicorn for python backends, pnpm dev / bun dev for JS frontends), copies .env from the primary checkout if missing, and opens it in a zellij split (or background bash) so you can exercise the app live. Use when the user wants to 'spin up the backend', 'start the dev server', 'run this locally', or '/dev'. For a NEW isolated worktree use /wt instead (its own auto-start-dev-server step supersedes this)."
-argument-hint: "[repo-relative-subdir]"
+description: "Runs each repository's local development server from its cb/staging integration branch, using a stable staging worktree so primary and feature checkouts stay untouched. Auto-detects backend/frontend commands, supplies local env files, starts services in zellij or the background, and verifies health. Use for '/dev', starting the shared development stack, or proving the composed pre-main environment. Use /wt for a feature-specific server instead."
 ---
 
-# `/dev` — Start the current repo's dev server, in place
+# `/dev` — Run the shared `cb/staging` development stack
 
-Spin up whatever's already checked out — the current repo dir, worktree, or `[repo-relative-subdir]` if the user names a specific app/package in a monorepo (e.g. nebula-desktop's `apps/cli`). This never creates a worktree; for that, use `/wt` (its "Auto-start dev server" step already does this as part of creating one).
+`/dev` represents integrated pre-main state. For every repository in scope, run the server from that repository's `cb/staging`, never from `main` or an individual task branch. Use `/wt` when the user explicitly wants to exercise a feature branch instead.
+
+## Status and promotion safety net
+
+`/dev status` is read-only. For every repository in scope, fetch remote refs and
+report: `main` SHA, `cb/staging` SHA, ahead/behind counts, newest staging commit
+and age, open task PRs targeting staging, the single `cb/staging` -> `main`
+promotion PR (or `missing`), its draft/readiness state, mergeability, and checks.
+End with one explicit state: `empty`, `collecting`, `promotion-ready`,
+`promotion-blocked`, or `stale`.
+
+Use GitHub's promotion PR as the durable reminder. After a normal `/dev` run has
+proved composed health and staging is ahead of main, ensure exactly one draft PR
+exists from `cb/staging` to `main`; create it if absent and otherwise refresh its
+body with the verified repository SHAs, checks, timestamp, and residual blockers.
+Do not create duplicates. `/dev promote` reruns the complete status and composed
+health checks, synchronizes newer main into staging without rewriting history,
+and marks that promotion PR ready only when green. It never merges or deploys.
+When staging equals main, report `empty` and close an obsolete draft promotion PR
+only if it contains no unique commits.
+
+Useful manual check:
+
+```bash
+git fetch origin main cb/staging
+git rev-list --left-right --count origin/main...origin/cb/staging
+gh pr list --base main --head cb/staging \
+  --json number,url,isDraft,mergeStateStatus,statusCheckRollup,updatedAt
+```
+
+## 0. Resolve the staging checkout
+
+- Resolve all repositories named by the user. For a multi-repository product stack, do not silently start only the current repository.
+- Fetch `origin/main` and `origin/cb/staging`. If the remote staging branch is absent, create it exactly from current `origin/main` and push it.
+- Reuse an existing worktree whose branch is `cb/staging`. Otherwise create a stable dedicated worktree outside the primary checkout from `origin/cb/staging`; never switch, reset, or overwrite the user's primary checkout.
+- Fast-forward the local staging worktree to `origin/cb/staging`. If it has local changes, diverges, or conflicts, stop and report the exact state rather than cleaning it destructively.
+- Run the remaining steps with that staging worktree as `repo`. A `[repo-relative-subdir]` selects a package inside it, such as `apps/cli`.
+- Staging synchronization with newer `main`, deployed-SHA proof, and promotion PRs follow the shared `$dev` contract used by Codex: merge `main` into staging without rewriting history; `/dev` must run staging; production remains untouched.
 
 ## 1. Confirm `.env` is present
 
@@ -56,4 +92,4 @@ Poll the expected port/health endpoint (nebula: `curl -sf http://localhost:8000/
 
 ## When paired with `/wt` on another repo
 
-A common pattern (e.g. testing a backend PR's UI surface): `/dev` the backend in the current worktree, then `/wt` a fresh frontend worktree pointed at the same feature area — the frontend dev server env should point at the backend's local port (check the frontend's `.env.local` / `NEXT_PUBLIC_API_URL`-style var; don't silently leave it pointed at a remote/dev environment when the point is to exercise local backend changes).
+A common pattern is `/dev` for the integrated staging backend plus `/wt` for one feature-specific frontend. Point the feature worktree at the local staging service explicitly; do not silently leave it pointed at a remote environment.
