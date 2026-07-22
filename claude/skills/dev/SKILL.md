@@ -3,9 +3,9 @@ name: dev
 description: "Runs each repository's local development server from its cb/staging integration branch, using a stable staging worktree so primary and feature checkouts stay untouched. Auto-detects backend/frontend commands, supplies local env files, starts services in zellij or the background, and verifies health. Use for '/dev', starting the shared development stack, or proving the composed pre-main environment. Use /wt for a feature-specific server instead."
 ---
 
-# `/dev` — Run the shared `cb/staging` development stack
+# `/dev` — Run the owner's `cb/staging` development stack
 
-`/dev` represents integrated pre-main state. For every repository in scope, run the server from that repository's `cb/staging`, never from `main` or an individual task branch. Use `/wt` when the user explicitly wants to exercise a feature branch instead.
+`/dev` represents the configured staging owner's integrated pre-main state. For every repository in scope, run the server from that repository's `cb/staging`, never from `main` or an individual task branch. This convention is personal to that owner; do not redirect another contributor's PRs or impose checks on their workflow. Use `/wt` when the user explicitly wants to exercise a feature branch instead.
 
 ## Status and promotion safety net
 
@@ -14,26 +14,27 @@ report: `main` SHA, `cb/staging` SHA, ahead/behind counts, newest staging commit
 and age, open task PRs targeting staging, the single `cb/staging` -> `main`
 promotion PR (or `missing`), its draft/readiness state, mergeability, and checks.
 End with one explicit state: `empty`, `collecting`, `promotion-ready`,
-`promotion-blocked`, or `stale`.
+`needs-attention`, or `stale`.
 
-The repository's `staging-promotion.yml` workflow owns the durable tracker. On
-every staging push it creates or refreshes exactly one draft promotion PR,
+The repository's `staging-promotion.yml` workflow owns the configured owner's
+advisory tracker. Only owner-triggered activity and scheduled maintenance may
+mutate it. On an owner staging push it creates or refreshes exactly one draft promotion PR,
 invalidates the `composed-dev-verified` label, and publishes divergence, pending
-task PRs, staging age, exact SHAs, and blockers. Its promotion gate requires
-staging to contain current main, no task PRs to remain, and composed proof for the
-current staging SHA. On main or staging pushes, CI merges main into staging when
-GitHub can do so cleanly; conflicts or branch-policy failures remain explicit
-blockers. Scheduled runs keep forgotten staging visible. CI never merges a task
-PR, promotes staging to main, or deploys.
+owner-authored task PRs, staging age, exact SHAs, and readiness concerns. On owner main or
+staging pushes, and on scheduled maintenance, CI merges main into staging when
+GitHub can do so cleanly; conflicts or branch-policy failures remain visible.
+Scheduled runs keep forgotten staging visible. This status is advisory: it is not
+a required check or branch-protection rule and must not affect other contributors.
+CI never merges a task PR, promotes staging to main, or deploys.
 
 `/dev promote` reruns the complete status and composed health checks. When every
 affected repository is green, dispatch that repository's **Staging promotion**
-workflow with the exact tested `origin/cb/staging` SHA; CI rejects a stale SHA,
+workflow with the exact tested `origin/cb/staging` SHA as the configured owner; CI rejects a stale SHA,
 records the actor/run URL as a successful commit status bound to that SHA, and
 adds a display label to the current promotion. The commit status—not the mutable
-label—is authoritative. Do not edit the tracker or label directly, and do not
-attest if staging moved during verification. Leave readiness and every
-repository's ordinary promotion checks to CI; leave merge/deployment to a human.
+label—is authoritative evidence, but remains advisory. Do not edit the tracker
+or label directly, and do not attest if staging moved during verification. Leave
+merge/deployment to a human.
 
 Useful manual check:
 

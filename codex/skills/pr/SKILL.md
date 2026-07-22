@@ -5,10 +5,10 @@ description: Take an approved change end-to-end through parallel planning where 
 
 # Ship one reviewed, green PR per repository
 
-Match Claude's `/pr` outcome contract while using Codex-native agents and tools. Exactly one task PR is allowed per repository in a session. Task PRs target `cb/staging`; `/dev` runs composed staging; only the bundle promotion PR targets `main`.
+Match Claude's `/pr` outcome contract while using Codex-native agents and tools. Exactly one task PR is allowed per repository in a session. For the configured staging owner's work, task PRs target `cb/staging`; `/dev` runs composed staging; only the bundle promotion PR targets `main`. This is a personal convention, not a required repository gate, and must not alter other contributors' PR bases or checks.
 
 One narrowly-scoped bootstrap exception exists: infrastructure that must already
-exist on the default branch to dispatch or enforce the staging workflow may use a
+exist on the default branch to dispatch or maintain the staging workflow may use a
 single installation PR directly to `main`. State the bootstrap reason, never mix
 product work into it, and return immediately to staging-based task PRs after CI
 synchronizes that commit into `cb/staging`.
@@ -72,7 +72,7 @@ synchronizes that commit into `cb/staging`.
 
 - A task PR being green does not prove `/dev`: it must first be approved and integrated into staging.
 - `$dev` verifies that every scoped repository's development service runs a SHA descended from current `origin/cb/staging` and exercises the composed smoke path.
-- When the bundle is ready, open or update one `cb/staging` to `main` promotion PR per repository and review `origin/main...origin/cb/staging`. Never merge it without explicit user authority.
+- When the bundle is ready, open or update one advisory `cb/staging` to `main` promotion PR per repository and review `origin/main...origin/cb/staging`. Do not add a required promotion check or ruleset. Never merge it without explicit user authority.
 
 ## Handoff
 

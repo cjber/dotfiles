@@ -5,10 +5,10 @@ description: "End-to-end ship loop, opusplan on the Claude side (Opus plans, Son
 
 # `/pr` — parallel Opus+Codex plan → coordinated Codex+Opus build → cross-review → one green PR
 
-Deliver a reviewed, green PR. Two non-negotiables, enforced throughout (full rules in §3, completion gate in §5): **(1) exactly ONE PR per repo** — every further change goes as a commit on that same branch, never a second PR; **(2) task PRs target and stay current with `cb/staging`**, the shared pre-main branch run by `/dev`. Only the final bundle promotion PR targets `main`. The PR is always opened ready-for-review, never a draft. Claude runs in `opusplan` (Opus plans, Sonnet executes); Codex carries the bulk of the implementation (terra) with a Claude arm working a disjoint slice alongside it for speed.
+Deliver a reviewed, green PR. Two non-negotiables, enforced throughout (full rules in §3, completion gate in §5): **(1) exactly ONE PR per repo** — every further change goes as a commit on that same branch, never a second PR; **(2) for the configured staging owner's work, task PRs target and stay current with `cb/staging`**, the personal pre-main branch run by `/dev`. This convention is advisory and must not redirect or gate other contributors. Only the final bundle promotion PR targets `main`. The PR is always opened ready-for-review, never a draft. Claude runs in `opusplan` (Opus plans, Sonnet executes); Codex carries the bulk of the implementation (terra) with a Claude arm working a disjoint slice alongside it for speed.
 
 One narrowly-scoped bootstrap exception exists: infrastructure that must already
-exist on the default branch to dispatch or enforce the staging workflow may use a
+exist on the default branch to dispatch or maintain the staging workflow may use a
 single installation PR directly to `main`. State the bootstrap reason in the PR,
 never combine product work into it, and return immediately to staging-based task
 PRs after CI synchronizes that commit into `cb/staging`.
