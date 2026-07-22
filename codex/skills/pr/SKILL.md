@@ -77,8 +77,25 @@ synchronizes that commit into `cb/staging`.
 
 - A task PR being green does not prove `/dev`: it must first be approved and integrated into staging.
 - `$dev` verifies that every scoped repository's development service runs a SHA descended from current `origin/cb/staging` and exercises the composed smoke path.
+- Persistent remote staging is the Vercel branch URL
+  `https://nebula-web-git-cb-staging-agent-labs.vercel.app` backed by
+  `https://api.nebula-dev.ai`. It follows authorized changes after they reach
+  `cb/staging`; it is not a task-branch preview contract. Never retarget provider
+  projects, deploy an unmerged task branch, mutate the dedicated staging
+  database, or claim remote availability from a green PR. That database is
+  cloned one-way from development; staging services and migrations must never
+  connect to, migrate, or write development.
+- Include a read-only `$dev audit` snapshot for repositories feeding remote
+  staging. Report the current Vercel and Zeet deployment SHAs (or unavailable
+  provider evidence), mobile/desktop artifact SHAs, HTTP readiness,
+  authentication gates, safe database-isolation evidence without connection
+  material, and whether each SHA contains current staging. `/dev`
+  and `/dev audit` are remote-first; `/dev local` is diagnostic evidence only and
+  cannot authorize promotion. The expected pre-merge state is `not yet deployed`;
+  after human integration, provider automation deploys and `$dev audit` proves
+  SHA convergence.
 - When the bundle is ready, open or update one advisory `cb/staging` to `main` promotion PR per repository and review `origin/main...origin/cb/staging`. Do not add a required promotion check or ruleset. Never merge it without explicit user authority.
 
 ## Handoff
 
-Report each PR URL and base, repository/worktree/branch, implementation ownership, signed commits, focused/full/end-to-end checks, review outcomes, final CI and review state, generated-client status, staging divergence, whether `/dev` validation is pending or proven, promotion order, and residual risks. Leave every PR ready for review and unmerged.
+Report each PR URL and base, repository/worktree/branch, implementation ownership, signed commits, focused/full/end-to-end checks, review outcomes, final CI and review state, generated-client status, staging divergence, whether remote `/dev audit` validation is pending or proven, promotion order, and residual risks. Leave every PR ready for review and unmerged.

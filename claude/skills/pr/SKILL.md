@@ -76,6 +76,17 @@ created in step 2.
 - **No whole-tree checks during the parallel phase.** While both arms are live, each runs only *focused* checks scoped to its own files. The full `dev_check.py` / test suite (which imports/collects across all of `src/`) must NOT run mid-run — the other arm's in-flight *uncommitted* edits would fail it for a reason the running arm didn't cause and can't fix. The full check runs **once, after the Opus slice is folded in** and the tree is coherent.
 - **HARD RULE — ONE PR per repo, no exceptions.** A session opens **exactly one** PR per affected repo. Once this session has opened a PR for a repo, EVERY further change to that repo — new work, review fixes, CI fixes, follow-on scope — is another signed commit pushed to that **same branch/PR**. NEVER open a second PR for a repo you already have one open in. Before opening a PR, check (`gh pr list --head <branch>` / recall this session's PRs); if one exists, push to it instead. Multi-repo work = one PR per repo (backend + each frontend), still one-per-repo. The only split is across a *repo boundary*, or a genuinely security-sensitive/independently-riskier change the user has agreed to carve out — and that carve-out is still one PR in its own right.
 - **HARD RULE — every task PR must be up to date with `cb/staging` before handoff.** A long `/pr` run can take hours; staging moves as other work lands. Fetch `origin/cb/staging`, merge it into the task branch when behind, and never rebase or force-push. Resolve conflicts semantically, re-run the full repository gate, push, and verify `gh pr view <#> --json baseRefName,mergeable,mergeStateStatus` reports base `cb/staging` and a clean merge state. `$dev` separately keeps staging current with `main` and proves the integrated deployment.
+- **HARD RULE — remote staging follows integration, never the task branch.** The
+  persistent browser environment at
+  `https://nebula-web-git-cb-staging-agent-labs.vercel.app` and the hosted
+  development API at `https://api.nebula-dev.ai` deploy from `cb/staging`.
+  `/pr` must not retarget provider projects, deploy the task branch, mutate the
+  dedicated staging database, or claim that a ready PR is remotely available.
+  Remote staging uses a database cloned one-way from development; staging runtime
+  and migration jobs must never connect to, migrate, or write development.
+  After a human integrates the PR, provider automation updates remote staging and
+  `$dev audit` proves the deployed web/backend and client-artifact SHAs contain
+  current staging. `/dev local` is diagnostic evidence only.
 - **HARD RULE — no PR ships with a stale generated SDK.** Any repo whose PR is affected by a backend API/OpenAPI change (the backend PR itself, or a frontend PR built against one) MUST regenerate its client SDK and commit the delta before finishing — never leave hand-edited or drifted generated code. Run the repo's generate script (`pnpm run build:generate` for nebula-web / nebula-mobile; `bun run sdk:generate` for nebula-desktop — check `package.json`), staging the generated dir by explicit pathspec. **Generate against the correct spec, not blindly against the default dev URL:** the generators pull `${NEBULA_URL:-https://api.nebula-dev.ai}/openapi.json` (override per repo: `NEXT_PUBLIC_NEBULA_URL` / `EXPO_PUBLIC_NEBULA_URL` / `API_URL`). If the backend branch's schema is **not yet deployed to that URL**, generating against it will silently *revert* the branch's schema additions — point the override at a local backend running the branch (or a dumped `openapi.json`) instead. Confirm the target actually serves the branch's new schemas before regenerating. For **paired frontend PRs**, regenerate all of them against the **same** spec so their SDKs stay mutually consistent, and do the frontend regen **after** the backend PR's schema has settled. An empty diff is the success signal (provably already in sync); a non-empty diff was real drift now fixed — commit it.
 
 Launch both arms concurrently:
@@ -214,7 +225,16 @@ Resume the same Codex thread and explicitly request `$gh-fix-ci` for failing Act
 
 **Final step — a runtime `cli verify` pass over the FINAL diff.** The §3.5 pass ran mid-flow; review fixes, the merge-with-staging, and CI fixes have changed the tree since. So as the **last action before termination**, re-derive the testable surfaces from the *final* `git diff origin/cb/staging` (not the set you noticed at §3.5) and re-run `cli verify` (one real prompt per surface, on `nebula:auto`) over everything agent-visible that changed — this catches surfaces added or altered during review/merge. Enumerate any surface you skip and *why* (pure-infra with no agent-visible behaviour, or live-sandbox-blocked per §3.5's known constraint) — never a silent skip. A failing surface is fixed on the same branch and the pass re-run; terminate only on a green final pass (or an explicitly-justified skip list).
 
-Terminate only when ALL of these hold: required checks green; no actionable review thread remains; the **final `cli verify` pass over the final diff** (above) is green or every skipped surface is explicitly justified (sandbox-blocked / infra-only); the branch is **up to date with `origin/cb/staging`** (fetch + merge staging and re-run the full gate if it drifted; `gh pr view` shows base `cb/staging` and `MERGEABLE`/`CLEAN`, not `CONFLICTING`/`BEHIND`); and this repo has exactly **one** task PR (this one). Leave it ready-for-review and unmerged. After approved task PRs land, `$dev` owns composed `/dev` verification and the eventual `cb/staging` → `main` promotion PR.
+Terminate only when ALL of these hold: required checks green; no actionable review thread remains; the **final `cli verify` pass over the final diff** (above) is green or every skipped surface is explicitly justified (sandbox-blocked / infra-only); the branch is **up to date with `origin/cb/staging`** (fetch + merge staging and re-run the full gate if it drifted; `gh pr view` shows base `cb/staging` and `MERGEABLE`/`CLEAN`, not `CONFLICTING`/`BEHIND`); and this repo has exactly **one** task PR (this one). Leave it ready-for-review and unmerged. After approved task PRs land, `$dev audit` owns composed remote verification and the eventual `cb/staging` → `main` promotion PR.
+
+For repositories that feed the persistent remote environment, include a read-only
+`$dev audit` snapshot in the handoff. It is expected to show the task change as
+not yet deployed because this workflow never merges its PR. Report the stable
+browser URL, current deployed SHA or unavailable evidence, database-isolation
+status without connection material, and the explicit next
+transition: human merge into `cb/staging` -> automatic provider deployment ->
+`$dev audit` confirms SHA convergence. Never wait for remote staging to contain
+an unmerged PR and never use deployment credentials to make that happen.
 
 ## Handoff
 
