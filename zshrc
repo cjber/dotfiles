@@ -120,3 +120,4 @@ fi
 # Composio CLI
 export COMPOSIO_INSTALL_DIR="/home/cjber/.composio"
 export PATH="$COMPOSIO_INSTALL_DIR:$PATH"
+export PATH=$PATH:$HOME/.maestro/bin
