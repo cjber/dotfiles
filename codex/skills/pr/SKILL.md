@@ -60,6 +60,7 @@ synchronizes that commit into `cb/staging`.
 - Create signed Conventional Commits with `git commit -S`. Do not amend or bypass hooks.
 - Push the task branch and open one ready-for-review PR per repository with base `cb/staging`. If that branch already has a PR, update it instead of opening another. Never turn a ready PR back into a draft.
 - Include Why/Summary, Scope, Test plan, cross-repository or generated-client impact, risks, rollout order, and deliberate deferrals. Make the staging base conspicuous.
+- For every staging-targeted draft PR, derive the entire body from `origin/main...HEAD`, not only `origin/cb/staging...HEAD`. Before every push/handoff, re-read that full diff and update the PR body so it describes all code GitHub would ultimately promote to main, including staging-only changes. A body that is stale or narrower than the main diff is a blocking defect.
 - For contract retirements, list the supported stale-client behavior and the explicit legacy-removal gate in every affected PR body.
 - Never push to `main`, force-push, merge a task PR, or deploy production.
 

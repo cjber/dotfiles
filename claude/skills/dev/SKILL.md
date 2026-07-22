@@ -9,6 +9,33 @@ description: "Runs the complete local Nebula development stack from each reposit
 
 ## Status and promotion safety net
 
+`/dev audit plan` inventories the exact `origin/main` → `origin/cb/staging`
+delta in all four repositories and records one order-independent composition
+digest. Every changed file must be classified by its repository adapter;
+unknown behavioral files make the audit incomplete rather than disappearing.
+
+`/dev audit` runs the changed-surface scenarios against the composed local
+stack and writes a versioned JSON report under `/tmp`. `/dev audit --full`
+adds each repository's fixed promotion regression pack. Adapter statuses are
+`pass`, `fail`, `blocked`, `inconclusive`, `infrastructure_error`, and
+`not_applicable`; anything other than required passes prevents an overall
+`pass`. LLMs may generate scenarios and judge semantic artifacts, but they may
+not waive deterministic assertions or missing evidence.
+
+Use the bundled coordinator:
+
+```bash
+python ~/.claude/skills/dev/scripts/dev-audit plan --product-parent <parent> --output /tmp/nebula-dev-audit/plan.json
+python ~/.claude/skills/dev/scripts/dev-audit run --product-parent <parent> --output /tmp/nebula-dev-audit/report.json
+python ~/.claude/skills/dev/scripts/dev-audit attest --product-parent <parent> --output /tmp/nebula-dev-audit/report.json
+```
+
+The audit world is deterministic: scenario-scoped test identities, a recorded
+Faker seed and clock, Composio-shaped account/tool fixtures, and isolated mock
+service state. Pipedream is legacy-only and runs solely when a changed legacy
+surface selects that compatibility profile. Raw reports may contain operational
+metadata and stay under `/tmp`; only redacted aggregate summaries belong in PRs.
+
 `/dev status` is read-only. For every repository in scope, fetch remote refs and
 report: `main` SHA, `cb/staging` SHA, ahead/behind counts, newest staging
 commit and age, and owner-authored task PRs targeting staging. End with one
@@ -24,9 +51,13 @@ cleanly; conflicts or branch-policy failures remain visible. It requires no bot
 secret and never mutates issues, labels, statuses, or PRs. This is not a required
 check or branch-protection rule and must not affect other contributors.
 
-`/dev promote` reruns the complete status and composed health checks. When every
+`/dev promote` reruns the complete status and composed health checks, then runs
+the bundled `attest` command against the selected audit report. When every
 affected repository is green, dispatch that repository's **Staging promotion**
 workflow with the exact tested `origin/cb/staging` SHA as the configured owner.
+The audit must have verdict `pass` and its composition digest must match all
+four freshly fetched staging SHAs; movement in any repository invalidates the
+whole attestation.
 The durable workflow run and its summary record whether that exact SHA still
 matched synchronized staging. Do not attest if staging moved during verification.
 Open or refresh the promotion PR separately; leave merge/deployment to a human.

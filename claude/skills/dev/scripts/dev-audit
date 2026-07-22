@@ -1,0 +1,488 @@
+#!/usr/bin/env python3
+"""Cross-repository changed-surface audit coordinator for /dev."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import subprocess
+import sys
+from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Literal
+
+REPOSITORIES = ("nebula", "nebula-web", "nebula-mobile", "nebula-desktop")
+Verdict = Literal["pass", "fail", "incomplete", "error"]
+
+
+@dataclass(frozen=True)
+class RepositorySnapshot:
+    repo: str
+    path: str
+    base_sha: str
+    tested_sha: str
+    checkout_sha: str
+    dirty: bool
+
+
+def run_git(repo: Path, *args: str) -> str:
+    result = subprocess.run(
+        ["git", "-C", str(repo), *args],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"git {' '.join(args)} failed in {repo}: {result.stderr.strip()}"
+        )
+    return result.stdout.strip()
+
+
+def resolve_repositories(
+    product_parent: Path, names: tuple[str, ...] = REPOSITORIES
+) -> list[RepositorySnapshot]:
+    snapshots: list[RepositorySnapshot] = []
+    for name in names:
+        repo = product_parent / name
+        if not repo.is_dir():
+            raise RuntimeError(f"required repository is missing: {repo}")
+        run_git(repo, "fetch", "origin", "main", "cb/staging")
+        snapshots.append(
+            RepositorySnapshot(
+                repo=name,
+                path=str(repo.resolve()),
+                base_sha=run_git(repo, "rev-parse", "origin/main"),
+                tested_sha=run_git(repo, "rev-parse", "origin/cb/staging"),
+                checkout_sha=run_git(repo, "rev-parse", "HEAD"),
+                dirty=bool(run_git(repo, "status", "--porcelain")),
+            )
+        )
+    return snapshots
+
+
+def composition_digest(snapshots: list[RepositorySnapshot]) -> str:
+    canonical = json.dumps(
+        [
+            {
+                "repo": snapshot.repo,
+                "base_sha": snapshot.base_sha,
+                "tested_sha": snapshot.tested_sha,
+                "checkout_sha": snapshot.checkout_sha,
+                "dirty": snapshot.dirty,
+            }
+            for snapshot in sorted(snapshots, key=lambda item: item.repo)
+        ],
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    return hashlib.sha256(canonical.encode()).hexdigest()
+
+
+def changed_files(snapshot: RepositorySnapshot) -> list[str]:
+    return [
+        path
+        for path in run_git(
+            Path(snapshot.path),
+            "diff",
+            "--name-only",
+            f"{snapshot.base_sha}...{snapshot.tested_sha}",
+        ).splitlines()
+        if path
+    ]
+
+
+def build_plan(snapshots: list[RepositorySnapshot]) -> dict[str, object]:
+    repos = []
+    for snapshot in snapshots:
+        files = changed_files(snapshot)
+        repos.append(
+            {
+                **asdict(snapshot),
+                "changed_files": files,
+                "changed_file_count": len(files),
+            }
+        )
+    ready = all(
+        not snapshot.dirty and snapshot.checkout_sha == snapshot.tested_sha
+        for snapshot in snapshots
+    )
+    verdict: Verdict = "pass" if ready else "incomplete"
+    return {
+        "schema_version": "1",
+        "kind": "dev_audit_plan",
+        "created_at": datetime.now(UTC).isoformat(),
+        "composition_digest": composition_digest(snapshots),
+        "verdict": verdict,
+        "repositories": repos,
+    }
+
+
+def run_adapters(
+    plan: dict[str, object], artifact_dir: Path, *, full: bool
+) -> dict[str, object]:
+    artifact_dir.mkdir(parents=True, exist_ok=True)
+    results: list[dict[str, object]] = []
+    for repo_data in plan["repositories"]:
+        if not isinstance(repo_data, dict):
+            raise TypeError("plan repository entry must be an object")
+        name = str(repo_data["repo"])
+        output = adapter_output_path(name, artifact_dir)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.unlink(missing_ok=True)
+        command = adapter_command(name, repo_data, output, full=full)
+        try:
+            completed = subprocess.run(
+                command,
+                cwd=str(repo_data["path"]),
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=3600,
+            )
+        except subprocess.TimeoutExpired as exc:
+            results.append(
+                adapter_error_result(
+                    repo_data,
+                    error_kind="timeout",
+                    error=f"adapter timed out after {exc.timeout} seconds",
+                )
+            )
+            continue
+        except OSError as exc:
+            results.append(
+                adapter_error_result(
+                    repo_data,
+                    error_kind="launch_error",
+                    error=f"adapter could not be launched: {exc}",
+                )
+            )
+            continue
+        if output.exists():
+            result = json.loads(output.read_text())
+            validation_error = validate_adapter_result(result, repo_data)
+            adapter_passed = result.get("verdict") == "pass"
+            if not validation_error and adapter_passed != (completed.returncode == 0):
+                validation_error = f"adapter exit code {completed.returncode} is inconsistent with verdict {result.get('verdict')}"
+            if validation_error:
+                result = {**result, "verdict": "error", "error": validation_error}
+        else:
+            result = adapter_error_result(
+                repo_data,
+                error_kind="missing_report",
+                error=f"adapter exited {completed.returncode} without a report",
+            )
+        if full and name == "nebula" and result.get("verdict") == "pass":
+            gate = subprocess.run(
+                ["uv", "run", "python", "scripts/dev_check.py", "--ci"],
+                cwd=str(repo_data["path"]),
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=3600,
+            )
+            result["full_gate"] = {
+                "command": "uv run python scripts/dev_check.py --ci",
+                "exit_code": gate.returncode,
+            }
+            if gate.returncode != 0:
+                result["verdict"] = "fail"
+                result["error"] = "backend full repository gate failed"
+        results.append(result)
+    verdict = aggregate_verdict(results)
+    if plan.get("verdict") != "pass" and verdict == "pass":
+        verdict = "incomplete"
+    return {
+        **plan,
+        "kind": "dev_audit_report",
+        "verdict": verdict,
+        "adapter_results": results,
+    }
+
+
+def adapter_error_result(
+    repo_data: dict[str, object], *, error_kind: str, error: str
+) -> dict[str, object]:
+    return {
+        "schema_version": "1",
+        "repository": str(repo_data["repo"]),
+        "base_sha": str(repo_data["base_sha"]),
+        "tested_sha": str(repo_data["tested_sha"]),
+        "verdict": "error",
+        "error_kind": error_kind,
+        "error": error,
+    }
+
+
+def adapter_command(
+    name: str, repo_data: dict[str, object], output: Path, *, full: bool
+) -> list[str]:
+    base = str(repo_data["base_sha"])
+    head = str(repo_data["tested_sha"])
+    if name == "nebula":
+        return [
+            "uv",
+            "run",
+            "audit",
+            "--base",
+            base,
+            "--head",
+            head,
+            "--json-output",
+            str(output),
+        ]
+    if name == "nebula-web":
+        return [
+            "pnpm",
+            "dev:audit",
+            "--",
+            "--base-sha",
+            base,
+            "--head-sha",
+            head,
+            "--backend-url",
+            "http://localhost:4242",
+            "--artifacts",
+            str(output.parent),
+            *(["--full"] if full else []),
+        ]
+    if name == "nebula-mobile":
+        return [
+            "pnpm",
+            "dev:audit",
+            "--",
+            "--base",
+            base,
+            "--head",
+            head,
+            "--report",
+            str(output),
+            *(["--full"] if full else []),
+        ]
+    if name == "nebula-desktop":
+        return [
+            "bun",
+            "run",
+            "dev:audit",
+            "--base",
+            base,
+            "--head",
+            head,
+            "--output",
+            str(output),
+            *(["--full"] if full else []),
+        ]
+    raise ValueError(f"unsupported repository adapter: {name}")
+
+
+def adapter_output_path(name: str, artifact_dir: Path) -> Path:
+    if name == "nebula-web":
+        return artifact_dir / "nebula-web" / "audit-result.json"
+    return artifact_dir / f"{name}.json"
+
+
+def aggregate_verdict(results: list[dict[str, object]]) -> Verdict:
+    verdicts = {str(result.get("verdict", "error")) for result in results}
+    if "error" in verdicts:
+        return "error"
+    if "fail" in verdicts:
+        return "fail"
+    if "incomplete" in verdicts or verdicts != {"pass"}:
+        return "incomplete"
+    return "pass"
+
+
+def validate_adapter_result(result: object, expected: dict[str, object]) -> str | None:
+    if not isinstance(result, dict):
+        return "adapter report must be a JSON object"
+    if str(result.get("schema_version")) != "1":
+        return "unsupported or missing adapter schema_version"
+    if result.get("repository") != expected.get("repo"):
+        return "adapter repository does not match the requested repository"
+    if result.get("base_sha") != expected.get("base_sha"):
+        return "adapter base_sha does not match the requested composition"
+    if result.get("tested_sha") != expected.get("tested_sha"):
+        return "adapter tested_sha does not match the requested composition"
+    if result.get("verdict") not in {"pass", "fail", "incomplete", "error"}:
+        return "adapter verdict is missing or unknown"
+    return None
+
+
+def validate_attestation_report(
+    report: object, snapshots: list[RepositorySnapshot]
+) -> list[str]:
+    if not isinstance(report, dict):
+        return ["report must be a JSON object"]
+    errors: list[str] = []
+    if report.get("schema_version") != "1":
+        errors.append("unsupported or missing report schema_version")
+    if report.get("kind") != "dev_audit_report":
+        errors.append("report kind must be dev_audit_report")
+    if report.get("verdict") != "pass":
+        errors.append("report verdict is not pass")
+    if len(snapshots) != len(REPOSITORIES) or {item.repo for item in snapshots} != set(
+        REPOSITORIES
+    ):
+        errors.append(
+            "current composition does not contain the four required repositories"
+        )
+    if any(item.dirty or item.checkout_sha != item.tested_sha for item in snapshots):
+        errors.append(
+            "current repositories are dirty or not checked out at their tested staging SHA"
+        )
+    if report.get("composition_digest") != composition_digest(snapshots):
+        errors.append("report composition digest does not match current staging")
+
+    repositories = report.get("repositories")
+    expected = {snapshot.repo: snapshot for snapshot in snapshots}
+    if not isinstance(repositories, list) or len(repositories) != len(REPOSITORIES):
+        errors.append("report must contain exactly four repository snapshots")
+        report_repositories: dict[str, dict[str, object]] = {}
+    else:
+        report_repositories = {
+            str(item.get("repo")): item
+            for item in repositories
+            if isinstance(item, dict) and item.get("repo")
+        }
+        if set(report_repositories) != set(REPOSITORIES):
+            errors.append(
+                "report repository snapshots do not match the required repositories"
+            )
+        for name, snapshot in expected.items():
+            item = report_repositories.get(name)
+            if item is None:
+                continue
+            if (
+                item.get("base_sha") != snapshot.base_sha
+                or item.get("tested_sha") != snapshot.tested_sha
+            ):
+                errors.append(
+                    f"{name} report snapshot does not match current composition"
+                )
+            if (
+                item.get("checkout_sha") != snapshot.checkout_sha
+                or item.get("dirty") is not False
+            ):
+                errors.append(
+                    f"{name} report was not produced from a clean exact staging checkout"
+                )
+
+    adapter_results = report.get("adapter_results")
+    if not isinstance(adapter_results, list) or len(adapter_results) != len(
+        REPOSITORIES
+    ):
+        errors.append("report must contain exactly four adapter results")
+    else:
+        adapter_repositories = {
+            str(item.get("repository")): item
+            for item in adapter_results
+            if isinstance(item, dict) and item.get("repository")
+        }
+        if set(adapter_repositories) != set(REPOSITORIES):
+            errors.append("adapter results do not match the required repositories")
+        for name, snapshot in expected.items():
+            item = adapter_repositories.get(name)
+            if item is None:
+                continue
+            expected_item = {
+                "repo": name,
+                "base_sha": snapshot.base_sha,
+                "tested_sha": snapshot.tested_sha,
+            }
+            adapter_error = validate_adapter_result(item, expected_item)
+            if adapter_error:
+                errors.append(f"{name}: {adapter_error}")
+            elif item.get("verdict") != "pass":
+                errors.append(f"{name} adapter verdict is not pass")
+    return errors
+
+
+def write_report(report: dict[str, object], output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    output.with_suffix(".md").write_text(render_markdown(report))
+
+
+def render_markdown(report: dict[str, object]) -> str:
+    lines = [
+        "# Nebula composed staging audit",
+        "",
+        f"- Verdict: **{str(report.get('verdict', 'error')).upper()}**",
+        f"- Composition: `{report.get('composition_digest', 'unknown')}`",
+        f"- Generated: {report.get('created_at', 'unknown')}",
+        "",
+        "## Repositories",
+        "",
+        "| Repository | Base SHA | Tested SHA | Changed files | Dirty |",
+        "|---|---|---|---:|---|",
+    ]
+    repositories = report.get("repositories", [])
+    if isinstance(repositories, list):
+        for repository in repositories:
+            if not isinstance(repository, dict):
+                continue
+            lines.append(
+                f"| {repository.get('repo')} | `{str(repository.get('base_sha', ''))[:12]}` | "
+                f"`{str(repository.get('tested_sha', ''))[:12]}` | {repository.get('changed_file_count', 0)} | "
+                f"{repository.get('dirty', False)} |"
+            )
+    adapter_results = report.get("adapter_results")
+    if isinstance(adapter_results, list):
+        lines.extend(
+            ["", "## Adapter verdicts", "", "| Repository | Verdict |", "|---|---|"]
+        )
+        for result in adapter_results:
+            if isinstance(result, dict):
+                lines.append(
+                    f"| {result.get('repository', result.get('repo', 'unknown'))} | {result.get('verdict', 'error')} |"
+                )
+    lines.extend(
+        [
+            "",
+            "## Attestation",
+            "",
+            "Promotion is permitted only when this report is `pass` and a fresh four-repository composition digest matches exactly.",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("command", choices=("plan", "run", "report", "attest"))
+    parser.add_argument("--product-parent", type=Path, default=Path.cwd().parent)
+    parser.add_argument(
+        "--output", type=Path, default=Path("/tmp/nebula-dev-audit/report.json")
+    )
+    parser.add_argument("--full", action="store_true")
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    if args.command == "report":
+        print(args.output.read_text())
+        return 0
+    snapshots = resolve_repositories(args.product_parent)
+    plan = build_plan(snapshots)
+    if args.command == "plan":
+        write_report(plan, args.output)
+        print(json.dumps(plan, indent=2))
+        return 0 if plan["verdict"] == "pass" else 1
+    if args.command == "attest":
+        existing = json.loads(args.output.read_text())
+        errors = validate_attestation_report(existing, snapshots)
+        print(json.dumps({"attested": not errors, "errors": errors}))
+        return 0 if not errors else 1
+    report = run_adapters(plan, args.output.parent, full=args.full)
+    write_report(report, args.output)
+    print(json.dumps(report, indent=2))
+    return 0 if report["verdict"] == "pass" else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
