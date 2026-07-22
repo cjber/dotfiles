@@ -49,6 +49,7 @@ synchronizes that commit into `cb/staging`.
 
 ## 5. Review the complete staging diff
 
+- Treat draft provenance as a hard release boundary. A commit or PR explicitly marked draft, experimental, spike, prototype, or not approved for staging must never be merged or bundled into `cb/staging`, regardless of CI, approvals, feature flags, or whether its UI is hidden. Before incorporating another PR/commit, verify its author-approved release state from authoritative PR metadata and comments. If draft work is already present in staging, remove it with an explicit revert; disabling or hiding it is not remediation.
 - Invoke `$code-review` on `origin/cb/staging...HEAD` and fix every verified blocking finding.
 - Run one independent fresh-context review with `codex exec review --base origin/cb/staging`; use `--uncommitted` when appropriate.
 - For substantial review-driven changes, permit at most one final independent review. Avoid recursive review loops.
@@ -59,6 +60,7 @@ synchronizes that commit into `cb/staging`.
 - Stage explicit paths; never use `git add -A` or `git add .`.
 - Create signed Conventional Commits with `git commit -S`. Do not amend or bypass hooks.
 - Push the task branch and open one ready-for-review PR per repository with base `cb/staging`. If that branch already has a PR, update it instead of opening another. Never turn a ready PR back into a draft.
+- Never promote, bundle, or cherry-pick a draft PR/commit into staging. Draft means not release-authorized, not merely “hidden behind a flag.” Require an explicit ready-for-review transition or author approval before it can enter a staging-bound diff.
 - Include Why/Summary, Scope, Test plan, cross-repository or generated-client impact, risks, rollout order, and deliberate deferrals. Make the staging base conspicuous.
 - For contract retirements, list the supported stale-client behavior and the explicit legacy-removal gate in every affected PR body.
 - Never push to `main`, force-push, merge a task PR, or deploy production.
