@@ -50,6 +50,7 @@ synchronizes that commit into `cb/staging`.
 ## 5. Review the complete staging diff
 
 - Treat draft provenance as a hard release boundary. A commit or PR explicitly marked draft, experimental, spike, prototype, or not approved for staging must never be merged or bundled into `cb/staging`, regardless of CI, approvals, feature flags, or whether its UI is hidden. Before incorporating another PR/commit, verify its author-approved release state from authoritative PR metadata and comments. If draft work is already present in staging, remove it with an explicit revert; disabling or hiding it is not remediation.
+- Invoke the repository's `$simplify` skill on the complete coherent diff before review. Apply its deletion, unification, dependency/SDK, test, documentation, and changed-file disposition gates. Run it again after substantive review fixes or a staging merge. Do not push until this gate, `$code-review`, and the final repository check are complete.
 - Invoke `$code-review` on `origin/cb/staging...HEAD` and fix every verified blocking finding.
 - Run one independent fresh-context review with `codex exec review --base origin/cb/staging`; use `--uncommitted` when appropriate.
 - For substantial review-driven changes, permit at most one final independent review. Avoid recursive review loops.

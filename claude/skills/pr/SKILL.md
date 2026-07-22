@@ -167,7 +167,7 @@ jq -r 'select(.type == "thread.started") | .thread_id' \
   "$STATE/codex-events.jsonl" | head -1 > "$STATE/codex-thread-id"
 ```
 
-Inspect Codex's final report, `git status --short`, `git diff --stat origin/cb/staging...HEAD`, signed commits, and check results — avoid rereading the whole codebase. To send focused feedback or trigger integration, resume the same thread. **Integration order once both arms report done:** (1) resume Codex to fold the Claude arm's now-verified files into signed commits so the tree is coherent, then (2) run the full `dev_check.py` / suite once over the whole worktree — this is the first point a whole-tree check is valid. Fix any fallout on the same thread.
+Inspect Codex's final report, `git status --short`, `git diff --stat origin/cb/staging...HEAD`, signed commits, and check results — avoid rereading the whole codebase. To send focused feedback or trigger integration, resume the same thread. **Integration order once both arms report done:** (1) resume Codex to fold the Claude arm's now-verified files into signed commits so the tree is coherent, (2) invoke the repository's `$simplify` skill on the complete diff and apply every proved deletion, unification, SDK/dependency, test, documentation, and changed-file disposition, (3) run `$code-review`, then (4) run the full `dev_check.py` / suite once over the whole worktree. Repeat `$simplify` after substantive review fixes or staging merges. No remote push may precede these gates.
 
 ```bash
 codex exec resume "$(<"$STATE/codex-thread-id")" \
