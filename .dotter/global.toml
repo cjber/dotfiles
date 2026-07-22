@@ -57,10 +57,6 @@ has_gui = true
 "claude/skills/monitor" = "~/.claude/skills/monitor"
 "claude/skills/pr" = "~/.claude/skills/pr"
 "claude/skills/dev" = "~/.claude/skills/dev"
-"agents/skills/dev" = { target = "~/.agents/skills/dev", type = "symbolic" }
-"agents/skills/pr" = { target = "~/.agents/skills/pr", type = "symbolic" }
-"codex/skills/dev" = { target = "~/.codex/skills/dev", type = "symbolic" }
-"codex/skills/pr" = "~/.codex/skills/pr"
 
 # Headless Linux (NUC / remote server — no GUI, no Wayland)
 [headless.variables]
@@ -94,10 +90,6 @@ has_gui = false
 "claude/skills/monitor" = "~/.claude/skills/monitor"
 "claude/skills/pr" = "~/.claude/skills/pr"
 "claude/skills/dev" = "~/.claude/skills/dev"
-"agents/skills/dev" = { target = "~/.agents/skills/dev", type = "symbolic" }
-"agents/skills/pr" = { target = "~/.agents/skills/pr", type = "symbolic" }
-"codex/skills/dev" = { target = "~/.codex/skills/dev", type = "symbolic" }
-"codex/skills/pr" = "~/.codex/skills/pr"
 
 # macOS (cross-platform only)
 [macos.files]
@@ -119,7 +111,3 @@ has_gui = false
 "claude/skills/monitor" = "~/.claude/skills/monitor"
 "claude/skills/pr" = "~/.claude/skills/pr"
 "claude/skills/dev" = "~/.claude/skills/dev"
-"agents/skills/dev" = { target = "~/.agents/skills/dev", type = "symbolic" }
-"agents/skills/pr" = { target = "~/.agents/skills/pr", type = "symbolic" }
-"codex/skills/dev" = { target = "~/.codex/skills/dev", type = "symbolic" }
-"codex/skills/pr" = "~/.codex/skills/pr"

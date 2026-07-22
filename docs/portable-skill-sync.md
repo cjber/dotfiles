@@ -1,10 +1,13 @@
 # Portable skill sync
 
 Dotter deploys the canonical `dev` skill body to Claude, Codex, and the shared
-`~/.agents` skill directory. The shared Claude/agent `pr` skill and Codex-native
-`pr` skill have separate tracked bodies because their orchestration mechanics
-differ, but they implement the same staging/promotion contract. Edit both `pr`
-bodies when that contract changes, then run `dotter deploy`.
+`~/.agents` skill directory. Its post-deploy hook installs the Codex and shared
+copies as whole-directory symlinks because Codex skill discovery supports that
+layout, while Dotter's normal directory expansion creates per-file symlinks.
+The shared Claude/agent `pr` skill and Codex-native `pr` skill have separate
+tracked bodies because their orchestration mechanics differ, but they implement
+the same staging/promotion contract. Edit both `pr` bodies when that contract
+changes, then run `dotter deploy`.
 
 Only static skill instructions, references, templates, and deterministic helper
 scripts belong in this repository. Never add `.env` files, credentials, tokens,

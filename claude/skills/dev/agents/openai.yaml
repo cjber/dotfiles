@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dev staging"
+  short_description: "Run the shared staging development stack"
+  default_prompt: "Start and verify the scoped development services from each repository cb/staging worktree."

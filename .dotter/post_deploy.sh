@@ -11,6 +11,28 @@
 # it is itself root, so root must be authorised in /etc/sudoers.
 set -u
 
+# Dotter expands source directories, including directory symlinks, into links
+# for each contained file. Codex discovers symlinked skill directories but can
+# omit a real directory containing a symlinked SKILL.md, so install portable
+# skills as whole-directory links after Dotter has reconciled its file cache.
+DOTFILES_DIR=$(pwd -P)
+link_skill_directory() {
+    skill_source=$1
+    skill_target=$2
+    mkdir -p "$(dirname -- "$skill_target")"
+
+    if [ -L "$skill_target" ] || [ ! -e "$skill_target" ]; then
+        ln -sfn "$skill_source" "$skill_target"
+    else
+        echo "[dotter] warning: $skill_target exists and is not a symlink; leaving it alone" >&2
+    fi
+}
+
+link_skill_directory "$DOTFILES_DIR/claude/skills/dev" "$HOME/.agents/skills/dev"
+link_skill_directory "$DOTFILES_DIR/claude/skills/pr" "$HOME/.agents/skills/pr"
+link_skill_directory "$DOTFILES_DIR/claude/skills/dev" "$HOME/.codex/skills/dev"
+link_skill_directory "$DOTFILES_DIR/codex/skills/pr" "$HOME/.codex/skills/pr"
+
 # Keep the Hyprland Lua helper module available without letting Dotter expand
 # and manage the external ~/src/hyprview git checkout.
 HYPRVIEW_SRC="$HOME/src/hyprview"

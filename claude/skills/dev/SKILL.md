@@ -1,6 +1,6 @@
 ---
 name: dev
-description: "Runs each repository's local development server from its cb/staging integration branch, using a stable staging worktree so primary and feature checkouts stay untouched. Auto-detects backend/frontend commands, supplies local env files, starts services in zellij or the background, and verifies health. Use for '/dev', starting the shared development stack, or proving the composed pre-main environment. Use /wt for a feature-specific server instead."
+description: "Runs the complete local Nebula development stack from each repository root on its cb/staging integration branch, while PR branches live in separate worktrees. Auto-detects backend/frontend commands, supplies local env files, starts services in zellij or the background, and verifies health. Use for '/dev', starting the shared development stack, or proving the composed pre-main environment. Use /wt for a feature-specific server instead."
 ---
 
 # `/dev` — Run the owner's `cb/staging` development stack
@@ -44,58 +44,89 @@ gh workflow run staging-promotion.yml \
 
 ## 0. Resolve the staging checkout
 
-- Resolve all repositories named by the user. For a multi-repository product stack, do not silently start only the current repository.
+- With no repository scope supplied, run the complete local Nebula product stack: `nebula`, `nebula-web`, `nebula-mobile`, and `nebula-desktop`. Discover these as sibling checkouts under the current repository's parent directory; report any missing checkout instead of silently omitting it.
+- If the user explicitly narrows the repository scope, run only that scope. Include any additional repositories they explicitly name.
 - Fetch `origin/main` and `origin/cb/staging`. If the remote staging branch is absent, create it exactly from current `origin/main` and push it.
-- Reuse an existing worktree whose branch is `cb/staging`. Otherwise create a stable dedicated worktree outside the primary checkout from `origin/cb/staging`; never switch, reset, or overwrite the user's primary checkout.
-- Fast-forward the local staging worktree to `origin/cb/staging`. If it has local changes, diverges, or conflicts, stop and report the exact state rather than cleaning it destructively.
-- Run the remaining steps with that staging worktree as `repo`. A `[repo-relative-subdir]` selects a package inside it, such as `apps/cli`.
+- Treat each repository's primary/root checkout as the stable `cb/staging` checkout. Keep PR and task branches in separate worktrees; never develop a PR directly in the root checkout.
+- If a root checkout is clean but on another branch, switch it to the local `cb/staging` branch, creating that branch to track `origin/cb/staging` when needed. If the root contains uncommitted work, diverges, or cannot switch cleanly, stop for that repository and report the exact state rather than stashing, resetting, or moving work automatically.
+- Fast-forward the root checkout to `origin/cb/staging`. Then merge the latest `origin/main` into local `cb/staging` without rewriting history so every service includes current main. If either operation cannot complete cleanly, stop and report the exact state rather than resolving conflicts speculatively. Do not push this local synchronization as part of ordinary `/dev`; promotion owns remote staging mutation.
+- Run the remaining steps with that root checkout as `repo`. A `[repo-relative-subdir]` selects a package inside it, such as `apps/cli`.
 - Staging synchronization with newer `main`, deployed-SHA proof, and promotion PRs follow the shared `$dev` contract used by Codex: merge `main` into staging without rewriting history; `/dev` must run staging; production remains untouched.
 
 ## 1. Confirm `.env` is present
 
-Worktrees are git-ignored for `.env`, so a fresh worktree boots with none. Before starting anything:
+The root staging checkout should retain its local ignored environment files. Before starting anything:
 
 ```bash
 repo="$(git rev-parse --show-toplevel)"
-if [ ! -f "$repo/.env" ]; then
-  primary="$(git worktree list | head -1 | awk '{print $1}')"
-  for f in .env .env.local .env.development .envrc; do
-    [ -f "$primary/$f" ] && cp "$primary/$f" "$repo/$f"
-  done
-fi
+for f in .env .env.local .env.development .envrc; do
+  [ -f "$repo/$f" ] && printf 'found %s\n' "$f"
+done
 ```
 
-If no primary checkout has a `.env` either, stop and ask — don't fabricate one.
+If a repository requires an environment file and its root checkout has none, stop and ask—don't fabricate one. When `/wt` creates a feature worktree, copy the applicable ignored environment files from this root staging checkout.
 
-## 2. Detect the dev command
+## 2. Synchronize dependencies
+
+After branch synchronization and before starting any service, install each repository's locked dependencies:
+
+- Nebula: `uv sync`.
+- pnpm repositories with a pinned `packageManager`: honor that exact pnpm version. Use `corepack pnpm install --frozen-lockfile` when Corepack is available; otherwise parse the declared version and run `npx --yes pnpm@<version> install --frozen-lockfile`. Use unversioned `pnpm` only when the repository does not pin a version.
+- Bun repositories: `bun install --frozen-lockfile`.
+
+Stop an existing dev process before updating its repository or dependencies, then relaunch it. If a locked install would modify a lockfile or fails, stop for that repository and report it; do not silently regenerate dependency state.
+
+## 3. Detect the dev command
 
 Same detection table as `/wt`'s auto-start step — check in this order at the target dir root:
 
 | Detected | Dev command | Note |
 |---|---|---|
-| `pyproject.toml` with `uvicorn`/`fastapi` in deps AND a `uv run api` script (check `[project.scripts]`) | `uv run api` | nebula backend — the documented Quick Start command |
+| `pyproject.toml` with `uvicorn`/`fastapi` in deps AND a `uv run dev` script (check `[project.scripts]`) | `uv run dev` | nebula backend — the documented development command |
 | `pyproject.toml` with `uvicorn`/`fastapi`, no packaged script | `uv run uvicorn <module>:app --reload` | module from `[tool.uvicorn]` or `main.py` |
 | `Makefile` with a `dev` target | `make dev` | python services wrapping uv/uvicorn |
-| `bun.lockb` present, or `package.json` with `"packageManager": "bun@…"` | `bun dev` (or `bun start` if no `dev` script) | nebula-cli, nebula-desktop |
-| `package.json` with a `dev` script | `pnpm dev` | Next.js (nebula-web, nebula-docs) |
-| `package.json` with `expo` dep and a `start` script | `pnpm start` | nebula-mobile |
+| `bun.lockb` present, or `package.json` with `"packageManager": "bun@…"` | `bun run dev` if present; otherwise `bun run dev:desktop`; otherwise `bun run start` | nebula-cli, nebula-desktop |
+| `package.json` with `expo` dep and a `dev` script | run `pnpm dev` through the exact pinned pnpm version (Corepack, or the `npx` fallback above) | nebula-mobile |
+| `package.json` with a `dev` script | run `pnpm dev` through the exact pinned pnpm version (Corepack, or the `npx` fallback above) | Next.js (nebula-web, nebula-docs) |
 
 Check bun before pnpm - some repos carry both lockfiles mid-transition.
 
-For nebula specifically, also confirm local Postgres/Redis are reachable first (`psql -h 127.0.0.1 -U postgres -d postgres -c '\q'`) — if not, say so rather than starting a server that will just crash-loop.
+For nebula specifically, also confirm local Postgres and Redis are reachable first:
 
-## 3. Run it
+```bash
+psql -h 127.0.0.1 -U postgres -d postgres -c '\q'
+redis-cli -h 127.0.0.1 ping
+```
+
+If either check fails, say so rather than starting a server that will just crash-loop.
+
+## 4. Run it
 
 - **If `$ZELLIJ` is set**: open a split pane in the current tab so the server runs alongside the shell, rather than blocking it.
   ```bash
   zellij action new-pane --direction down --cwd "$repo" --name dev -- bash -lc '<detected-command>'
   zellij action move-focus up
   ```
-- **Otherwise**: run it with the Bash tool's `run_in_background: true` so it doesn't block the turn, and note the background task id for later log checks.
+- **Otherwise**: run it in a persistent background shell session so it doesn't block the turn, and note the session identifier for later log checks.
 
-## 4. Confirm it's up
+Starting the server processes is not enough for the default full-stack invocation. Once their readiness checks pass, present every client surface:
 
-Poll the expected port/health endpoint (nebula: `curl -sf http://localhost:8000/health` or similar; Next.js: `curl -sf http://localhost:3000`) for a few seconds before declaring done. Report the URL and, if backgrounded, how to tail logs.
+- Open the Next.js URL in the default browser (`xdg-open` on Linux, `open` on macOS).
+- Launch the Expo app on an available attached device or emulator. On Linux, start an Android AVD when no device is attached, wait for `adb` readiness, then trigger Expo's Android target. On macOS, prefer the iOS simulator unless the user requests Android. Do not report mobile as running when only Metro is ready.
+- Start the desktop app with its `dev:desktop` script and confirm the application process remains running.
+- Open the CLI in a detached Kitty window rooted at `nebula-desktop` and run its `cli` script. If Kitty is unavailable, report that surface as blocked instead of substituting another terminal silently.
+
+## 5. Confirm it's up
+
+Poll each service using its own readiness surface for a few seconds before declaring done:
+
+- Nebula: use `SERVER_PORT` from `.env` when set and default to `4242` (`curl -sf "http://localhost:${SERVER_PORT:-4242}/health/ready"`).
+- Next.js: use `curl -sf http://localhost:3000`.
+- Expo and desktop: inspect startup output for their ready state and report the URL, QR code, simulator, or application target they expose; do not pretend they use the Next.js health check.
+- Browser: confirm the open command succeeded after the Next.js readiness check.
+- CLI: confirm the Kitty process/window was launched with the interactive CLI command.
+
+Report every started service and how to inspect its logs. If any repository fails to start or become ready, report the partial stack explicitly rather than declaring `$dev` complete.
 
 ## When paired with `/wt` on another repo
 
