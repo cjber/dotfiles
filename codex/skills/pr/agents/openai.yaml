@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ship a PR"
+  short_description: "Implement, review, publish, and green a PR"
+  default_prompt: "Use $pr to take this approved change from an isolated staging-based worktree to one reviewed, green, ready-for-review task PR per repository."

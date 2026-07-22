@@ -16,15 +16,24 @@ promotion PR (or `missing`), its draft/readiness state, mergeability, and checks
 End with one explicit state: `empty`, `collecting`, `promotion-ready`,
 `promotion-blocked`, or `stale`.
 
-Use GitHub's promotion PR as the durable reminder. After a normal `/dev` run has
-proved composed health and staging is ahead of main, ensure exactly one draft PR
-exists from `cb/staging` to `main`; create it if absent and otherwise refresh its
-body with the verified repository SHAs, checks, timestamp, and residual blockers.
-Do not create duplicates. `/dev promote` reruns the complete status and composed
-health checks, synchronizes newer main into staging without rewriting history,
-and marks that promotion PR ready only when green. It never merges or deploys.
-When staging equals main, report `empty` and close an obsolete draft promotion PR
-only if it contains no unique commits.
+The repository's `staging-promotion.yml` workflow owns the durable tracker. On
+every staging push it creates or refreshes exactly one draft promotion PR,
+invalidates the `composed-dev-verified` label, and publishes divergence, pending
+task PRs, staging age, exact SHAs, and blockers. Its promotion gate requires
+staging to contain current main, no task PRs to remain, and composed proof for the
+current staging SHA. On main or staging pushes, CI merges main into staging when
+GitHub can do so cleanly; conflicts or branch-policy failures remain explicit
+blockers. Scheduled runs keep forgotten staging visible. CI never merges a task
+PR, promotes staging to main, or deploys.
+
+`/dev promote` reruns the complete status and composed health checks. When every
+affected repository is green, dispatch that repository's **Staging promotion**
+workflow with the exact tested `origin/cb/staging` SHA; CI rejects a stale SHA,
+records the actor/run URL as a successful commit status bound to that SHA, and
+adds a display label to the current promotion. The commit status—not the mutable
+label—is authoritative. Do not edit the tracker or label directly, and do not
+attest if staging moved during verification. Leave readiness and every
+repository's ordinary promotion checks to CI; leave merge/deployment to a human.
 
 Useful manual check:
 
@@ -33,6 +42,8 @@ git fetch origin main cb/staging
 git rev-list --left-right --count origin/main...origin/cb/staging
 gh pr list --base main --head cb/staging \
   --json number,url,isDraft,mergeStateStatus,statusCheckRollup,updatedAt
+gh workflow run staging-promotion.yml \
+  -f verified_staging_sha="$(git rev-parse origin/cb/staging)" --ref main
 ```
 
 ## 0. Resolve the staging checkout
