@@ -10,31 +10,26 @@ description: "Runs each repository's local development server from its cb/stagin
 ## Status and promotion safety net
 
 `/dev status` is read-only. For every repository in scope, fetch remote refs and
-report: `main` SHA, `cb/staging` SHA, ahead/behind counts, newest staging commit
-and age, open task PRs targeting staging, the single `cb/staging` -> `main`
-promotion PR (or `missing`), its draft/readiness state, mergeability, and checks.
-End with one explicit state: `empty`, `collecting`, `promotion-ready`,
-`needs-attention`, or `stale`.
+report: `main` SHA, `cb/staging` SHA, ahead/behind counts, newest staging
+commit and age, and owner-authored task PRs targeting staging. End with one
+explicit state: `empty`, `collecting`, `promotion-candidate`,
+`awaiting-dev-verification`, `needs-attention`, or `stale`.
 
-The repository's `staging-promotion.yml` workflow owns the configured owner's
-advisory tracker. Only owner-triggered activity and scheduled maintenance may
-mutate it. On an owner staging push it creates or refreshes exactly one draft promotion PR,
-invalidates the `composed-dev-verified` label, and publishes divergence, pending
-owner-authored task PRs, staging age, exact SHAs, and readiness concerns. On owner main or
-staging pushes, and on scheduled maintenance, CI merges main into staging when
-GitHub can do so cleanly; conflicts or branch-policy failures remain visible.
-Scheduled runs keep forgotten staging visible. This status is advisory: it is not
-a required check or branch-protection rule and must not affect other contributors.
-CI never merges a task PR, promotes staging to main, or deploys.
+The repository's `staging-promotion.yml` workflow publishes an advisory Actions
+summary for the configured owner. Only owner-triggered pushes/manual dispatches
+and scheduled maintenance run it. It reports divergence, owner-authored task PRs,
+staging age, exact SHAs, and readiness concerns. On owner main or staging pushes,
+and on scheduled maintenance, CI merges main into staging when GitHub can do so
+cleanly; conflicts or branch-policy failures remain visible. It requires no bot
+secret and never mutates issues, labels, statuses, or PRs. This is not a required
+check or branch-protection rule and must not affect other contributors.
 
 `/dev promote` reruns the complete status and composed health checks. When every
 affected repository is green, dispatch that repository's **Staging promotion**
-workflow with the exact tested `origin/cb/staging` SHA as the configured owner; CI rejects a stale SHA,
-records the actor/run URL as a successful commit status bound to that SHA, and
-adds a display label to the current promotion. The commit status—not the mutable
-label—is authoritative evidence, but remains advisory. Do not edit the tracker
-or label directly, and do not attest if staging moved during verification. Leave
-merge/deployment to a human.
+workflow with the exact tested `origin/cb/staging` SHA as the configured owner.
+The durable workflow run and its summary record whether that exact SHA still
+matched synchronized staging. Do not attest if staging moved during verification.
+Open or refresh the promotion PR separately; leave merge/deployment to a human.
 
 Useful manual check:
 
