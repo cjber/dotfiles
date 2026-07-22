@@ -44,6 +44,8 @@ synchronizes that commit into `cb/staging`.
 - Regenerate each affected client with its repository command against the correct branch specification. Never regenerate against a remote endpoint that does not yet expose the branch schema.
 - Paired client PRs use the same settled schema. An empty generated diff is acceptable evidence of parity; commit a real generated delta.
 - Validate mixed-version compatibility, deployment order, and rollback constraints when repositories cannot land atomically.
+- Treat native mobile and desktop clients as asynchronously updatable. Before removing or narrowing an API route, schema field, enum/discriminator, event, deep link, or persisted shape, identify the minimum supported native version and prove old installed clients remain functional after the backend deploys. Hiding a feature in new clients does not authorize deleting its server contract.
+- Use a phased retirement by default: stop new use and ship updated clients; retain a tested legacy compatibility surface with a named removal condition; observe adoption through the supported-version window; remove the contract only in a later PR. Label retained code as legacy compatibility and state the minimum-version/date/telemetry gate that permits deletion. If no authoritative retirement gate exists, removal is blocked.
 
 ## 5. Review the complete staging diff
 
@@ -58,6 +60,7 @@ synchronizes that commit into `cb/staging`.
 - Create signed Conventional Commits with `git commit -S`. Do not amend or bypass hooks.
 - Push the task branch and open one ready-for-review PR per repository with base `cb/staging`. If that branch already has a PR, update it instead of opening another. Never turn a ready PR back into a draft.
 - Include Why/Summary, Scope, Test plan, cross-repository or generated-client impact, risks, rollout order, and deliberate deferrals. Make the staging base conspicuous.
+- For contract retirements, list the supported stale-client behavior and the explicit legacy-removal gate in every affected PR body.
 - Never push to `main`, force-push, merge a task PR, or deploy production.
 
 ## 7. Stay current and drive the PR green
