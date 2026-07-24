@@ -2,9 +2,9 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "cleanupPeriodDays": 30,
   "env": {
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "70",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "100",
     "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "200000",
-    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "0",
     "BASH_MAX_OUTPUT_LENGTH": "30000",
     "TASK_MAX_OUTPUT_LENGTH": "16000"
   },
@@ -15,7 +15,7 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "sonnet",
+  "model": "opusplan",
   "hooks": {
     "Notification": [
       {
