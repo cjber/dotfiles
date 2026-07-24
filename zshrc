@@ -117,6 +117,11 @@ if [[ -n "$SSH_CONNECTION" && -z "$ZELLIJ" && $- == *i* ]] && command -v zellij 
   exec env -u XDG_RUNTIME_DIR zellij attach --create main
 fi
 
+# Claude Code: settings.json's `env` block only reaches spawned subprocesses
+# (e.g. Bash tool calls), not the CLI's own process - so the autocompact
+# percentage override has to be a real shell env var to take effect.
+export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=95
+
 # Composio CLI
 export COMPOSIO_INSTALL_DIR="/home/cjber/.composio"
 export PATH="$COMPOSIO_INSTALL_DIR:$PATH"
