@@ -1,6 +1,6 @@
 ---
 name: pr
-description: Take an approved change end-to-end through parallel planning where useful, isolated staging-based worktrees, coordinated implementation, repository verification, independent review, signed commits, one ready-for-review PR per repository, CI repair, and review-comment resolution. Task PRs target cb/staging; never merge.
+description: Take an approved change end-to-end through one concise plan, serial implementation, repository verification, one review, signed commits, and one ready-for-review PR per repository. Task PRs target cb/staging; never merge.
 ---
 
 # Ship one reviewed, green PR per repository
@@ -16,7 +16,9 @@ synchronizes that commit into `cb/staging`.
 ## 1. Plan and establish scope
 
 - Read every applicable `AGENTS.md` and domain skill before editing.
-- For a large or unfamiliar change, run bounded independent discovery/plan drafts in parallel, cross-review them once, and synthesize one decision-complete plan. Skip fan-out for an already narrow change.
+- Produce one decision-complete plan. Do not fan out planning by default. Use at
+  most one bounded discovery helper only when the area is unfamiliar and the
+  helper can return a concrete file/contract map without duplicating work.
 - Cover scope, contracts, affected repositories, files, migration/rollout concerns, regression coverage, verification, explicit non-goals, and implementation ownership.
 - For a reported bug, add a focused failing regression test before production changes. When repository rules require delegation, have a separate agent attempt the fix and prove it with the test.
 - Ask only when a missing product or architecture decision would materially change behavior.
@@ -32,9 +34,10 @@ synchronizes that commit into `cb/staging`.
 ## 3. Coordinate implementation
 
 - Make the smallest coherent change that satisfies the approved intent. Preserve unrelated changes.
-- Use one executor for small work. For substantial work, partition disjoint files/modules between agents and state ownership explicitly.
-- With parallel editors in one worktree, designate one git owner. Other agents edit and run focused checks only; they do not stage, commit, push, or open PRs.
-- During parallel edits, run only ownership-scoped checks. Run whole-tree checks after all slices are integrated and coherent.
+- Use one executor and one git owner. Do not use parallel editors by default.
+  A second executor is allowed only for a genuinely independent repository or
+  generated artifact with explicit ownership; never duplicate the same search,
+  implementation, or verification.
 - Fix producers and authoritative seams, remove superseded paths, and avoid opportunistic cleanup outside the approved scope.
 - Run focused verification after each batch and the repository's required full gate before every commit. In Nebula, use `uv run python scripts/dev_check.py`.
 
@@ -52,8 +55,9 @@ synchronizes that commit into `cb/staging`.
 - Treat draft provenance as a hard release boundary. A commit or PR explicitly marked draft, experimental, spike, prototype, or not approved for staging must never be merged or bundled into `cb/staging`, regardless of CI, approvals, feature flags, or whether its UI is hidden. Before incorporating another PR/commit, verify its author-approved release state from authoritative PR metadata and comments. If draft work is already present in staging, remove it with an explicit revert; disabling or hiding it is not remediation.
 - Invoke the repository's `$simplify` skill on the complete coherent diff before review. Apply its deletion, unification, dependency/SDK, test, documentation, and changed-file disposition gates. Run it again after substantive review fixes or a staging merge. Do not push until this gate, `$code-review`, and the final repository check are complete.
 - Invoke `$code-review` on `origin/cb/staging...HEAD` and fix every verified blocking finding.
-- Run one independent fresh-context review with `codex exec review --base origin/cb/staging`; use `--uncommitted` when appropriate.
-- For substantial review-driven changes, permit at most one final independent review. Avoid recursive review loops.
+- Run one `$code-review` pass. A separate fresh-context review is reserved for
+  security, authorization, billing, migrations/data loss, concurrency, or
+  public-contract risk. Scope it to that risk and never cross-review reviewers.
 - For agent-visible tools, prompts, schemas, events, or routes, run the repository's end-to-end agent validation. In Nebula, derive surfaces from the final staging diff and use `cli verify`; explicitly justify infra-only or live-sandbox-blocked skips.
 
 ## 6. Commit and publish exactly once

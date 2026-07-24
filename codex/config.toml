@@ -1,0 +1,117 @@
+approvals_reviewer = "user"
+service_tier = "default"
+model = "gpt-5.6-terra"
+model_reasoning_effort = "low"
+model_verbosity = "low"
+model_auto_compact_token_limit = 140000
+model_auto_compact_token_limit_scope = "total"
+tool_output_token_limit = 8000
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+
+[projects."/home/cjber/drive/agl/parallax"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/agl/nebula"]
+trust_level = "trusted"
+
+[projects."/home/cjber"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/agl/nebula-web"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/agl/nebula-mobile"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/agl/nebula-desktop"]
+trust_level = "trusted"
+
+[projects."/tmp"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/agl"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/agl/nebula-ai-skill"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/agl/nebula-metabase"]
+trust_level = "trusted"
+
+[projects."/home/cjber/dotfiles"]
+trust_level = "trusted"
+
+[tui.model_availability_nux]
+"gpt-5.6-sol" = 4
+
+[apps.connector_76869538009648d5b282a4bb21c3d157.tools."github.update_pull_request"]
+approval_mode = "approve"
+
+[apps.connector_76869538009648d5b282a4bb21c3d157.tools."github.resolve_review_thread"]
+approval_mode = "approve"
+
+[apps.connector_76869538009648d5b282a4bb21c3d157.tools."github.reply_to_review_comment"]
+approval_mode = "approve"
+
+[apps.connector_76869538009648d5b282a4bb21c3d157.tools."github.create_issue"]
+approval_mode = "approve"
+
+[apps.connector_76869538009648d5b282a4bb21c3d157.tools."github.add_comment_to_issue"]
+approval_mode = "approve"
+
+[notice]
+hide_rate_limit_model_nudge = true
+
+[agents]
+max_concurrent_threads_per_session = 2
+default_subagent_model = "gpt-5.6-luna"
+default_subagent_reasoning_effort = "low"
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/migrate-to-codex/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/agents-sdk/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/cloudflare/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/cloudflare-email-service/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/cloudflare-one/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/cloudflare-one-migrations/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/durable-objects/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/sandbox-sdk/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/turnstile-spin/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/web-perf/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/workers-best-practices/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "/home/cjber/.codex/skills/wrangler/SKILL.md"
+enabled = false
