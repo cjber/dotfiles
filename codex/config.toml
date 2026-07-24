@@ -18,7 +18,16 @@ trust_level = "trusted"
 [projects."/home/cjber"]
 trust_level = "trusted"
 
+[projects."/home/cjber/.claude/jobs/757479f2/tmp/repos/nebula-desktop"]
+trust_level = "trusted"
+
 [projects."/home/cjber/drive/agl/nebula-web"]
+trust_level = "trusted"
+
+[projects."/home/cjber/.claude/jobs/757479f2/tmp/repos/nebula-web"]
+trust_level = "trusted"
+
+[projects."/home/cjber/.claude/jobs/757479f2/tmp/repos/nebula-mobile"]
 trust_level = "trusted"
 
 [projects."/home/cjber/drive/agl/nebula-mobile"]

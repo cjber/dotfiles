@@ -59,6 +59,7 @@ has_gui = true
 "claude/skills/pr" = "~/.claude/skills/pr"
 "claude/skills/dev" = "~/.claude/skills/dev"
 "claude/settings.json" = "~/.claude/settings.json"
+"claude/CLAUDE.md" = "~/.claude/CLAUDE.md"
 "codex/config.toml" = "~/.codex/config.toml"
 "codex/deep.config.toml" = "~/.codex/deep.config.toml"
 "codex/economy.config.toml" = "~/.codex/economy.config.toml"
