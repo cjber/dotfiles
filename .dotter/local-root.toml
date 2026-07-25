@@ -1,0 +1,6 @@
+# Package selection for the root-owned (/etc) files only. Used via `-l` so the
+# normal user deploy, which reads local.toml, never touches system paths.
+packages = ["root"]
+includes = []
+files = {}
+variables = {}

@@ -98,6 +98,23 @@ has_gui = false
 "claude/skills/pr" = "~/.claude/skills/pr"
 "claude/skills/dev" = "~/.claude/skills/dev"
 
+# Root-owned system config. NOT in local.toml's package list, because these
+# targets are outside $HOME and need root. Deploy them on their own, via the
+# root-only local config and a separate cache, so the normal user deploy (which
+# reads local.toml) is unaffected:
+#   sudo dotter -l .dotter/local-root.toml \
+#     --cache-file .dotter/cache-root.toml --cache-directory .dotter/cache-root \
+#     deploy
+# (add --force the first time on a machine that already has these files in
+# /etc, so dotter adopts them instead of skipping.) Run `sudo keyd reload`
+# afterwards to pick the changes up.
+# Copied (type = "template") rather than symlinked on purpose: keyd runs as
+# root, and a symlink into a user-writable repo would let any process running
+# as this user change what the root daemon loads.
+[root.files]
+"etc/keyd/keychron-m7-mouse.conf" = { target = "/etc/keyd/keychron-m7-mouse.conf", type = "template" }
+"etc/keyd/logitech-g-mouse.conf" = { target = "/etc/keyd/logitech-g-mouse.conf", type = "template" }
+
 # macOS (cross-platform only)
 [macos.files]
 "config/kitty" = "~/.config/kitty"
