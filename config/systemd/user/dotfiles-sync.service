@@ -1,0 +1,9 @@
+[Unit]
+Description=Sync dotfiles (dotter deploy + git commit/pull/push)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/dotfiles/scripts/dotfiles-sync.sh
+Nice=19

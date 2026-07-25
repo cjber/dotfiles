@@ -14,7 +14,7 @@
 [commit]
 	gpgsign = true
 [core]
-	excludesfile = /home/cjber/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [help]
 	autocorrect = 1

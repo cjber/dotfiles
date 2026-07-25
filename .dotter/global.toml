@@ -21,6 +21,7 @@ has_gui = true
 "config/yazi" = { target = "~/.config/yazi", type = "symbolic" }
 "ipython" = "~/.ipython"
 "gitconfig" = "~/.gitconfig"
+"gitignore_global" = "~/.gitignore_global"
 "vale.ini" = "~/.vale.ini"
 "zsh_plugins.txt" = "~/.zsh_plugins.txt"
 "zshalias" = "~/.zshalias"
@@ -37,6 +38,15 @@ has_gui = true
 "scripts/fix-nic" = "~/scripts/fix-nic"
 "scripts/tv-toggle" = "~/scripts/tv-toggle"
 "config/systemd/user/aur-malware-scan.timer" = "~/.config/systemd/user/aur-malware-scan.timer"
+# The timer that runs dotter deploy + git sync. Tracked so a fresh clone can
+# start the mechanism that keeps itself up to date.
+# NB: never `systemctl --user reenable` a unit dotter manages. Dotter deploys
+# these as symlinks, and systemd treats a symlinked unit file in its search
+# path as an enablement link - `disable` deletes the unit itself. Enable by
+# linking into timers.target.wants/ (pointing at the repo path), as the other
+# timers here are, and re-run `dotter deploy` if a unit ever goes missing.
+"config/systemd/user/dotfiles-sync.service" = "~/.config/systemd/user/dotfiles-sync.service"
+"config/systemd/user/dotfiles-sync.timer" = "~/.config/systemd/user/dotfiles-sync.timer"
 "scripts/restic-backup.sh" = "~/scripts/restic-backup.sh"
 "scripts/restic-excludes.txt" = "~/scripts/restic-excludes.txt"
 "config/systemd/user/restic-backup.service" = "~/.config/systemd/user/restic-backup.service"
@@ -58,6 +68,8 @@ has_gui = true
 "claude/skills/monitor" = "~/.claude/skills/monitor"
 "claude/skills/pr" = "~/.claude/skills/pr"
 "claude/skills/dev" = "~/.claude/skills/dev"
+"claude/skills/review" = "~/.claude/skills/review"
+"claude/skills/deadcode" = "~/.claude/skills/deadcode"
 "claude/settings.json" = "~/.claude/settings.json"
 "claude/CLAUDE.md" = "~/.claude/CLAUDE.md"
 "codex/config.toml" = "~/.codex/config.toml"
@@ -77,6 +89,7 @@ has_gui = false
 "config/zellij" = "~/.config/zellij"
 "ipython" = "~/.ipython"
 "gitconfig" = "~/.gitconfig"
+"gitignore_global" = "~/.gitignore_global"
 "vale.ini" = "~/.vale.ini"
 "zsh_plugins.txt" = "~/.zsh_plugins.txt"
 "zshalias" = "~/.zshalias"
@@ -89,6 +102,8 @@ has_gui = false
 "scripts/zellij_plugins.sh" = "~/scripts/zellij_plugins.sh"
 "config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
+"config/systemd/user/dotfiles-sync.service" = "~/.config/systemd/user/dotfiles-sync.service"
+"config/systemd/user/dotfiles-sync.timer" = "~/.config/systemd/user/dotfiles-sync.timer"
 "config/topgrade.toml" = "~/.config/topgrade.toml"
 "claude/skills/commit" = "~/.claude/skills/commit"
 "claude/skills/issue" = "~/.claude/skills/issue"
@@ -97,6 +112,8 @@ has_gui = false
 "claude/skills/monitor" = "~/.claude/skills/monitor"
 "claude/skills/pr" = "~/.claude/skills/pr"
 "claude/skills/dev" = "~/.claude/skills/dev"
+"claude/skills/review" = "~/.claude/skills/review"
+"claude/skills/deadcode" = "~/.claude/skills/deadcode"
 
 # Root-owned system config. NOT in local.toml's package list, because these
 # targets are outside $HOME and need root. Deploy them on their own, via the
@@ -114,6 +131,9 @@ has_gui = false
 [root.files]
 "etc/keyd/keychron-m7-mouse.conf" = { target = "/etc/keyd/keychron-m7-mouse.conf", type = "template" }
 "etc/keyd/logitech-g-mouse.conf" = { target = "/etc/keyd/logitech-g-mouse.conf", type = "template" }
+# Disables the internal Intel BT adapter so the UGreen BT6.0 dongle is the
+# default. Needs `sudo udevadm control --reload` after deploying.
+"etc/udev/rules.d/81-disable-intel-bluetooth.rules" = { target = "/etc/udev/rules.d/81-disable-intel-bluetooth.rules", type = "template" }
 
 # macOS (cross-platform only)
 [macos.files]
@@ -124,6 +144,7 @@ has_gui = false
 "config/starship.toml" = "~/.config/starship.toml"
 "ipython" = "~/.ipython"
 "gitconfig" = "~/.gitconfig"
+"gitignore_global" = "~/.gitignore_global"
 "vale.ini" = "~/.vale.ini"
 "zsh_plugins.txt" = "~/.zsh_plugins.txt"
 "zshalias" = "~/.zshalias"
@@ -136,3 +157,5 @@ has_gui = false
 "claude/skills/monitor" = "~/.claude/skills/monitor"
 "claude/skills/pr" = "~/.claude/skills/pr"
 "claude/skills/dev" = "~/.claude/skills/dev"
+"claude/skills/review" = "~/.claude/skills/review"
+"claude/skills/deadcode" = "~/.claude/skills/deadcode"
