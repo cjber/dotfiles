@@ -66,7 +66,7 @@
         "interface": "eno1",
         "interval": 5,
         "format-ethernet": "↑{bandwidthUpBits:>} ↓{bandwidthDownBits:>}",
-        "format-disconnected": "no eth",
+        "format-disconnected": "",
         "tooltip-format-ethernet": "{ifname} {ipaddr}/{cidr} via {gwaddr}",
         "tooltip-format-disconnected": "Ethernet disconnected",
         "max-length": 50
@@ -75,16 +75,21 @@
         "interface": "wlan0",
         "interval": 5,
         "format-wifi": "{essid} ({signalStrength}%)",
-        "format-disconnected": "no wifi",
+        "format-disconnected": "",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
         "tooltip-format-disconnected": "WiFi disconnected",
         "on-click": "kitty -e iwctl station wlan0 get-networks",
         "max-length": 50
     },
+    // waybar hides a module whose formatted output is empty, so the
+    // conditional modules below simply render nothing when they have nothing
+    // to say. The count has to move into `exec` rather than `format`: with
+    // "{} updates" as the format, a zero-length exec output still formats to
+    // " updates" -- non-empty, so it would keep its slot on the bar.
     "custom/updates": {
-        "format": "{} updates",
+        "format": "{}",
         "interval": 600,
-        "exec": "checkupdates | wc -l",
+        "exec": "n=$(checkupdates 2>/dev/null | wc -l); [ \"$n\" -gt 0 ] && printf '%s updates' \"$n\"; true",
         "on-click": "kitty -e sudo pacman -Syu",
         "signal": 8
     },
@@ -111,9 +116,9 @@
         "on-click": "~/scripts/tv-toggle"
     },
     "bluetooth": {
-        "format": "bt",
-        "format-off": "bt off",
-        "format-disabled": "bt off",
+        "format": "",
+        "format-off": "",
+        "format-disabled": "",
         "format-connected": "bt on",
         "format-connected-battery": "bt {device_battery_percentage}%",
         "tooltip-format": "bluetooth on",

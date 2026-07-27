@@ -13,8 +13,11 @@ set -uo pipefail
 
 TV=HDMI-A-1
 
+# Empty text when the TV is off, which waybar renders as a hidden module. The
+# TV is off almost all the time, so a permanent "TV off" pill was noise; the
+# on-click toggle is not lost with it, since mod+SHIFT+t runs the same script.
 if ! hyprctl monitors 2>/dev/null | grep -q "Monitor $TV"; then
-    printf '{"text":"TV off","tooltip":"TV off — click to turn on","class":"off"}\n'
+    printf '{"text":"","tooltip":"TV off","class":"off"}\n'
     exit 0
 fi
 
