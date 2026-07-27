@@ -333,7 +333,7 @@ window#waybar {
     border-radius: 0;
     box-shadow: none;
     margin: 0;
-    padding: 0 9px;
+    padding: 4px 14px;
     min-width: 0;
 }
 
@@ -341,7 +341,7 @@ window#waybar {
 #custom-ws1,
 #custom-ws2,
 #custom-ws3 {
-    padding: 0 6px;
+    padding: 4px 10px;
     color: @surface2;
 }
 
@@ -359,7 +359,7 @@ window#waybar {
 
 /* Give the column indicator a little air from the workspace numbers. */
 #custom-columns {
-    padding-left: 16px;
+    padding: 4px 14px;
 }
 
 /* The keyboard-mode pill was the one boxed element worth keeping legible,
@@ -368,5 +368,19 @@ window#waybar {
     background: transparent;
     border: none;
     min-width: 0;
-    padding: 0 9px;
+    padding: 4px 14px;
+}
+
+/* These three are #id.class selectors, so they outrank the plain #id rules
+   in the flat block above no matter what order the file is in -- they have
+   to be flattened by name or their borders survive. */
+#network.ethernet,
+#network.wifi,
+#network.wifi.disconnected,
+#pulseaudio.microphone {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 4px 14px;
 }
