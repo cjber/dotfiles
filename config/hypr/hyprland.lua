@@ -148,7 +148,9 @@ hl.config({
         focus_fit_method         = 1,
         follow_focus             = true,
         follow_min_visible       = 0.4,
-        explicit_column_widths   = "0.333, 0.5, 0.667, 1.0",
+        -- 0.25 added for the ultrawide: 4 columns of ~860px, still ~85 text
+        -- columns each, so four terminals fit without anything scrolling off.
+        explicit_column_widths   = "0.25, 0.333, 0.5, 0.667, 1.0",
         wrap_focus               = true,
         wrap_swapcol             = true,
         direction                = "right",
@@ -580,8 +582,13 @@ hl.bind(mod .. " + i",           hl.dsp.layout("consume"))
 hl.bind(mod .. " + o",           hl.dsp.layout("expel"))
 hl.bind(mod .. " + period",      hl.dsp.layout("move +col"))      -- scroll layout right
 hl.bind(mod .. " + comma",       hl.dsp.layout("move -col"))      -- scroll layout left
-hl.bind(mod .. " + f",           hl.dsp.layout("fit active"))
-hl.bind(mod .. " + SHIFT + f",   hl.dsp.layout("fit visible"))
+-- f = show the whole tape. `fit all` shrinks every column until they all fit
+-- the viewport, which is the only built-in way to see what has scrolled
+-- off-screen (the layout has no overview/peek dispatcher). SHIFT+f puts the
+-- widths back; CTRL+f soft-maximises the active column.
+hl.bind(mod .. " + f",           hl.dsp.layout("fit all"))
+hl.bind(mod .. " + SHIFT + f",   hl.dsp.layout("colresize all 0.333"))
+hl.bind(mod .. " + CTRL + f",    hl.dsp.layout("fit active"))
 hl.bind(mod .. " + bracketleft", hl.dsp.layout("colresize -conf")) -- cycle widths down
 hl.bind(mod .. " + bracketright",hl.dsp.layout("colresize +conf")) -- cycle widths up
 hl.bind(mod .. " + u",           hl.dsp.layout("promote"))

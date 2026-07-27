@@ -8,7 +8,7 @@
     "gtk-layer-shell": true,
     "height": 0,
     "modules-left": ["clock", "memory", "custom/keyboard-mode"],
-    "modules-center": ["cpu", "temperature", "hyprland/workspaces", "custom/gpu-usage", "custom/gpu-temp"],
+    "modules-center": ["cpu", "temperature", "hyprland/workspaces", "custom/columns", "custom/gpu-usage", "custom/gpu-temp"],
     "modules-right": [
         "custom/tv-status",
         "tray",
@@ -27,6 +27,17 @@
         "persistent-workspaces": {
             "DP-1": [1, 2, 3]
         }
+    },
+
+    // Scrolling-layout column indicator. Shows every column on the active
+    // workspace; dims the ones scrolled off-screen. Click to fit them all
+    // into view, right-click to reset column widths.
+    "custom/columns": {
+        "exec": "$HOME/.config/waybar/hypr-columns.sh",
+        "return-type": "json",
+        "escape": false,
+        "on-click": "hyprctl dispatch 'hl.dsp.layout(\"fit all\")'",
+        "on-click-right": "hyprctl dispatch 'hl.dsp.layout(\"colresize all 0.333\")'"
     },
     "custom/keyboard-mode": {
         "exec": "~/.config/waybar/keyboard-mode.sh",
