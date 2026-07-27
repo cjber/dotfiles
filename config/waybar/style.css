@@ -287,3 +287,86 @@ tooltip {
 #bluetooth.connected {
     color: @primary;
 }
+
+/* ====================================================================
+   Flat mode
+   --------------------------------------------------------------------
+   Every module's chrome removed -- no backgrounds, no borders, no pills.
+   The bar reads as plain coloured text floating on the desktop, matching
+   the column indicator. Text colours from the rules above still apply;
+   only the boxes go.
+
+   Appended last so it overrides every rule earlier in the file. To go
+   back to the boxed look, delete this block.
+   ==================================================================== */
+
+window#waybar {
+    background: transparent;
+    border: none;
+}
+
+#clock,
+#memory,
+#cpu,
+#disk,
+#temperature,
+#network,
+#bluetooth,
+#upower,
+#pulseaudio,
+#tray,
+#custom-keyboard-mode,
+#custom-ws1,
+#custom-ws2,
+#custom-ws3,
+#custom-columns,
+#custom-gpu-usage,
+#custom-gpu-temp,
+#custom-tv-status,
+#custom-tailscale,
+#custom-rclone,
+#custom-updates,
+#custom-weather {
+    background: transparent;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: 0 9px;
+    min-width: 0;
+}
+
+/* Workspace buttons: state shown by colour and weight, not a filled pill. */
+#custom-ws1,
+#custom-ws2,
+#custom-ws3 {
+    padding: 0 6px;
+    color: @surface2;
+}
+
+#custom-ws1.occupied,
+#custom-ws2.occupied,
+#custom-ws3.occupied {
+    color: @subtext0;
+}
+
+#custom-ws1.active,
+#custom-ws2.active,
+#custom-ws3.active {
+    color: @primary;
+}
+
+/* Give the column indicator a little air from the workspace numbers. */
+#custom-columns {
+    padding-left: 16px;
+}
+
+/* The keyboard-mode pill was the one boxed element worth keeping legible,
+   but flatten it too so nothing in the bar has a filled background. */
+#custom-keyboard-mode {
+    background: transparent;
+    border: none;
+    min-width: 0;
+    padding: 0 9px;
+}
