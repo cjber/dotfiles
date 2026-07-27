@@ -88,20 +88,43 @@ except Exception:
 # sensor history -- HA restores and runs fine without it), HA's own native
 # backups under config/backups, and regenerable TTS cache.
 #
-# Needs `sudo rsync` remotely because config/.cloud is root-owned 0600. A
-# failure here is logged and ignored: a NAS hiccup must not cost us the
+# Transferred with tar over ssh rather than rsync: the UGREEN's sshd runs a
+# ForceCommand wrapper that puts rsync into daemon mode, so rsync-over-ssh
+# fails with "invalid path" for every path on that box. Needs `sudo` remotely
+# because config/.cloud is root-owned 0600.
+#
+# Extracted into a .new directory and swapped, so files deleted on the NAS
+# stop appearing in the mirror -- a plain extract would accumulate forever.
+# tar preserves mtimes, so restic's parent-snapshot check still short-circuits
+# on unchanged files. Ownership becomes cjber rather than root; on restore the
+# HA container's config needs chown back.
+#
+# A failure here is logged and ignored: a NAS hiccup must not cost us the
 # /home/cjber backup, which is the more important half.
 HA_CONFIG_PATH="${HA_CONFIG_PATH:-}"
 HA_MIRROR="/home/cjber/backups/homeassistant"
 if [ -n "$HA_CONFIG_PATH" ]; then
-  mkdir -p "$HA_MIRROR"
   log "=== HA config mirror start ==="
-  rsync -a --delete --rsync-path="sudo rsync" \
-    --exclude 'backups/' \
-    --exclude 'tts/' \
-    --exclude 'home-assistant_v2.db*' \
-    "$NAS_SSH:$HA_CONFIG_PATH/" "$HA_MIRROR/" >> "$LOGFILE" 2>&1
-  log "HA config mirror finished (exit=$?)"
+  rm -rf "$HA_MIRROR.new"
+  mkdir -p "$HA_MIRROR.new"
+  ssh "$NAS_SSH" "sudo tar -cf - \
+      --exclude=./backups \
+      --exclude=./tts \
+      --exclude='./home-assistant_v2.db*' \
+      -C '$HA_CONFIG_PATH' ." 2>>"$LOGFILE" \
+    | tar -xf - -C "$HA_MIRROR.new" 2>>"$LOGFILE"
+  ha_exit=${PIPESTATUS[0]}
+  # .storage holds the entity registry and every integration's credentials --
+  # a mirror without it would restore to an empty HA, so treat its absence as
+  # a failed transfer rather than publishing a useless snapshot.
+  if [ "$ha_exit" -eq 0 ] && [ -d "$HA_MIRROR.new/.storage" ]; then
+    rm -rf "$HA_MIRROR"
+    mv "$HA_MIRROR.new" "$HA_MIRROR"
+    log "HA config mirror ok ($(du -sh "$HA_MIRROR" | cut -f1))"
+  else
+    rm -rf "$HA_MIRROR.new"
+    log "WARNING: HA config mirror failed (exit=$ha_exit), keeping previous mirror"
+  fi
 else
   log "HA_CONFIG_PATH unset, skipping HA mirror"
 fi
