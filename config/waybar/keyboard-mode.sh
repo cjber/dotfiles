@@ -3,19 +3,60 @@
 state_dir="${XDG_STATE_HOME:-$HOME/.local/state}"
 state_file="$state_dir/zerosprey42-mode"
 
+# Hyprland 0.56 rejects `hyprctl keyword` outright -- "keyword can't work with
+# non-legacy parsers. Use eval." -- because the config is Lua now. Every colour
+# and allow_tearing line here used to be a silent no-op, so game mode only ever
+# managed to toggle mako's do-not-disturb. That is what made the indicator look
+# inverted: the pill said game, the desktop stayed base, and notifications went
+# quiet with no visible reason.
+#
+# `hyprctl eval` runs Lua against the live config, and hl.config() takes the
+# same nested table shape as hyprland.lua itself.
 apply_desktop_mode() {
     mode=$1
     if [ "$mode" = "game" ]; then
         active='rgba(e78a53ff)'
         inactive='rgba(4a2d22ff)'
         locked='rgba(fbcb97ff)'
-        hyprctl --batch "keyword general:col.active_border $active ; keyword general:col.inactive_border $inactive ; keyword general:col.nogroup_border $inactive ; keyword general:col.nogroup_border_active $active ; keyword group:col.border_active $active ; keyword group:col.border_inactive $inactive ; keyword group:col.border_locked_active $locked ; keyword group:col.border_locked_inactive $inactive ; keyword group:groupbar:col.active $active ; keyword group:groupbar:col.inactive $inactive ; keyword group:groupbar:col.locked_active $locked ; keyword group:groupbar:col.locked_inactive $inactive ; keyword general:allow_tearing true ; keyword misc:vrr 2" >/dev/null
-        makoctl mode -a do-not-disturb >/dev/null 2>&1 || true
+        tearing=true
     else
         active='rgba(5f8787ff)'
         inactive='rgba(222222ff)'
         locked='rgba(8fbabaff)'
-        hyprctl --batch "keyword general:col.active_border $active ; keyword general:col.inactive_border $inactive ; keyword general:col.nogroup_border $inactive ; keyword general:col.nogroup_border_active $active ; keyword group:col.border_active $active ; keyword group:col.border_inactive $inactive ; keyword group:col.border_locked_active $locked ; keyword group:col.border_locked_inactive $inactive ; keyword group:groupbar:col.active $active ; keyword group:groupbar:col.inactive $inactive ; keyword group:groupbar:col.locked_active $locked ; keyword group:groupbar:col.locked_inactive $inactive ; keyword general:allow_tearing false ; keyword misc:vrr 2" >/dev/null
+        tearing=false
+    fi
+
+    hyprctl eval "hl.config({
+        general = {
+            col = {
+                active_border        = '$active',
+                inactive_border      = '$inactive',
+                nogroup_border       = '$inactive',
+                nogroup_border_active= '$active',
+            },
+            allow_tearing = $tearing,
+        },
+        group = {
+            col = {
+                border_active         = '$active',
+                border_inactive       = '$inactive',
+                border_locked_active  = '$locked',
+                border_locked_inactive= '$inactive',
+            },
+            groupbar = {
+                col = {
+                    active         = '$active',
+                    inactive       = '$inactive',
+                    locked_active  = '$locked',
+                    locked_inactive= '$inactive',
+                },
+            },
+        },
+    })" >/dev/null
+
+    if [ "$mode" = "game" ]; then
+        makoctl mode -a do-not-disturb >/dev/null 2>&1 || true
+    else
         makoctl mode -r do-not-disturb >/dev/null 2>&1 || true
     fi
 }
