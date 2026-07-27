@@ -657,10 +657,14 @@ hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 --------------------------------------------------------------------
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar --config /home/cjber/.config/waybar/main.jsonc")
-    -- Second bar layer on DP-1, stacked under the main one (margin-top 24).
-    -- Waybar has no multi-row bar, so the column indicator gets its own
-    -- surface -- that way it and the workspace numbers are each centred.
-    hl.exec_cmd("waybar --config /home/cjber/.config/waybar/columns.jsonc")
+    -- Second bar layer on DP-1, stacked directly under the main one. Waybar
+    -- has no multi-row bar, so the column indicator gets its own layer-shell
+    -- surface; that way it and the workspace numbers are each centred.
+    --
+    -- The delay is load-bearing: top-anchored exclusive layers claim their
+    -- slot in creation order, so launching this one concurrently makes it a
+    -- coin-flip whether the window names land above or below the main bar.
+    hl.exec_cmd("bash -c 'sleep 2; exec waybar --config /home/cjber/.config/waybar/columns.jsonc'")
     hl.exec_cmd("waybar --config /home/cjber/.config/waybar/side.jsonc")
     hl.exec_cmd("mako")
     hl.exec_cmd("/home/cjber/.config/waybar/keyboard-mode.sh apply")

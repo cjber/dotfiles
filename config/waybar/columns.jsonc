@@ -1,8 +1,9 @@
 {
     // Second bar layer on the ultrawide, stacked directly under main.jsonc.
     // Waybar has no multi-row bar, so "two layers" means two layer-shell
-    // surfaces: this one is offset by margin-top equal to the main bar's
-    // height (24px), so the two read as one two-row bar.
+    // surfaces. Both are exclusive and top-anchored, so the compositor stacks
+    // them automatically -- an explicit margin-top double-counts against the
+    // exclusive zone and pushes the pair down the screen.
     //
     // Splitting them lets the workspace numbers and the column indicator each
     // be centred independently -- in a single bar they would share one centre
@@ -11,8 +12,11 @@
     "layer": "top",
     "position": "top",
     "output": "DP-1",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
     "height": 0,
-    "margin-top": 24,
     "fixed-center": true,
     "modules-left": [],
     "modules-center": ["custom/columns"],
