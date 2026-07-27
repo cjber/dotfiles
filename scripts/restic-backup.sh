@@ -74,6 +74,38 @@ except Exception:
   echo "$backup_exit $size_bytes"
 }
 
+# Home Assistant lives entirely on the NAS: a root cron tars config/ nightly
+# and keeps 7 days, but every copy is on the same box. One NAS failure loses
+# the lot. Mirroring config/ into /home/cjber first means the existing restic
+# run carries it to Drive too, which is the only genuinely offsite copy.
+#
+# Mirrored rather than shipping the nightly tarball because restic dedupes
+# file trees well and compressed tarballs not at all -- custom_components is
+# ~118MB that almost never changes, so after the first run this costs close to
+# nothing per night.
+#
+# Excluded: the recorder DB (308MB, rewritten constantly, and it is only
+# sensor history -- HA restores and runs fine without it), HA's own native
+# backups under config/backups, and regenerable TTS cache.
+#
+# Needs `sudo rsync` remotely because config/.cloud is root-owned 0600. A
+# failure here is logged and ignored: a NAS hiccup must not cost us the
+# /home/cjber backup, which is the more important half.
+HA_CONFIG_PATH="${HA_CONFIG_PATH:-}"
+HA_MIRROR="/home/cjber/backups/homeassistant"
+if [ -n "$HA_CONFIG_PATH" ]; then
+  mkdir -p "$HA_MIRROR"
+  log "=== HA config mirror start ==="
+  rsync -a --delete --rsync-path="sudo rsync" \
+    --exclude 'backups/' \
+    --exclude 'tts/' \
+    --exclude 'home-assistant_v2.db*' \
+    "$NAS_SSH:$HA_CONFIG_PATH/" "$HA_MIRROR/" >> "$LOGFILE" 2>&1
+  log "HA config mirror finished (exit=$?)"
+else
+  log "HA_CONFIG_PATH unset, skipping HA mirror"
+fi
+
 read -r NAS_EXIT NAS_SIZE_BYTES <<< "$(backup_to nas "$NAS_REPO" \
   "restic/barry")"
 
