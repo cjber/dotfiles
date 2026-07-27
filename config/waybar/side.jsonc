@@ -1,11 +1,18 @@
 {
-    // Vertical BenQ (DP-2), bottom edge.
+    // Vertical BenQ (DP-2), bottom edge -- the monitoring bar.
     //
-    // Only three modules are on this bar. It previously carried definitions
-    // for eleven more (cpu, memory, disk, temperature, network, pulseaudio,
-    // tray, backlight, idle_inhibitor, updates, gpu-*, rclone) that were not
-    // referenced by any modules list -- dead config, and the source of most of
-    // the Nerd Font private-use glyphs in the setup. Removed.
+    // Everything here is glance-only: no clicks, no state changes that need
+    // your attention mid-task. It sits in peripheral vision on the second
+    // monitor, which is exactly where a number you check occasionally belongs
+    // and exactly where it stops competing with the workspace/column readout
+    // on the ultrawide.
+    //
+    // The clock and keyboard-mode duplicates that used to be here are gone --
+    // both live on main.jsonc, and a second copy 40cm away earns nothing.
+    //
+    // Width budget: DP-2 is rotated, so this bar is 1440px. The modules below
+    // come to roughly 1100px including padding, which leaves headroom for the
+    // wifi/tailscale strings to grow.
     "layer": "top",
     "position": "bottom",
     "output": "DP-2",
@@ -15,22 +22,71 @@
     "gtk-layer-shell": true,
     "height": 0,
     "fixed-center": true,
-    "modules-left": ["clock"],
-    "modules-center": ["custom/keyboard-mode"],
-    "modules-right": ["custom/weather"],
+    "modules-left": ["cpu", "memory", "temperature"],
+    "modules-center": ["custom/gpu-usage", "custom/gpu-temp"],
+    "modules-right": [
+        "disk",
+        "custom/tailscale",
+        "custom/rclone",
+        "upower",
+        "custom/weather"
+    ],
 
-    "custom/keyboard-mode": {
-        "exec": "~/.config/waybar/keyboard-mode.sh",
+    "cpu": {
+        "interval": 1,
+        "format": "cpu {usage:2}%"
+    },
+    // Shortened from "{used}G/{total}G  swap {swapUsed}G/{swapTotal}G" -- the
+    // swap figure was the single widest string on either bar and is never
+    // interesting until it is, at which point the tooltip has it.
+    "memory": {
+        "interval": 30,
+        "format": "mem {used:0.1f}/{total:0.1f}G",
+        "tooltip-format": "RAM {used:0.1f}G / {total:0.1f}G ({percentage}%)\nSwap {swapUsed:0.1f}G / {swapTotal:0.1f}G"
+    },
+    "temperature": {
+        "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
+        "input-filename": "temp1_input",
+        "critical-threshold": 90,
+        "format": "{temperatureC}°C"
+    },
+    "custom/gpu-usage": {
+        "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
+        "format": "gpu {:2}%",
+        "return-type": "",
+        "interval": 1
+    },
+    "custom/gpu-temp": {
+        "exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits",
+        "format": "{:2}°C",
+        "return-type": "",
+        "interval": 1
+    },
+    "disk": {
+        "interval": 30,
+        "format": "disk {used} ({percentage_used}%)",
+        "path": "/"
+    },
+    "custom/tailscale": {
+        "exec": "~/.config/waybar/tailscale-status.sh",
+        "format": "{}",
         "return-type": "json",
-        "signal": 12
+        "interval": 10
     },
-
-    "clock": {
-        "timezone": "Europe/London",
-        "format": "{:%R  %d/%m}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    "custom/rclone": {
+        "exec": "~/.config/waybar/rclone-status.sh",
+        "format": "{}",
+        "return-type": "json",
+        "interval": 5
     },
-
+    "upower": {
+        "native-path": "hidpp_battery_0",
+        "icon-size": 0,
+        "hide-if-empty": true,
+        "format": "mouse {percentage}",
+        "tooltip": true,
+        "tooltip-spacing": 20
+    },
     "custom/weather": {
         "format": "{}°",
         "tooltip": true,
