@@ -1,4 +1,11 @@
 {
+    // Vertical BenQ (DP-2), bottom edge.
+    //
+    // Only three modules are on this bar. It previously carried definitions
+    // for eleven more (cpu, memory, disk, temperature, network, pulseaudio,
+    // tray, backlight, idle_inhibitor, updates, gpu-*, rclone) that were not
+    // referenced by any modules list -- dead config, and the source of most of
+    // the Nerd Font private-use glyphs in the setup. Removed.
     "layer": "top",
     "position": "bottom",
     "output": "DP-2",
@@ -7,9 +14,8 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "height": 0,
-    "modules-left": [
-        "clock"
-    ],
+    "fixed-center": true,
+    "modules-left": ["clock"],
     "modules-center": ["custom/keyboard-mode"],
     "modules-right": ["custom/weather"],
 
@@ -18,121 +24,18 @@
         "return-type": "json",
         "signal": 12
     },
-"disk": {
-    "interval": 30,
-    "format": "{used} ({percentage_used}%)",
-    "path": "/"
-},
-"idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": {
-        "activated": " ",
-        "deactivated": " "
-    }
-},
-"memory": {
-    "interval": 30,
-    "format": "{used:0.1f}G/{total:0.1f}G   {swapUsed}G/{swapTotal}G 󰯍"
-},
-"cpu": {
-     "interval": 1,
-     "format": " {usage:2}%   {icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
-     "format-icons": [
-          "<span color='#A6E3A1'>▁</span>", // green
-          "<span color='#A6E3A1'>▂</span>", // blue
-          "<span color='#A6E3A1'>▃</span>", // white
-          "<span color='#A6E3A1'>▄</span>", // white
-          "<span color='#A6E3A1'>▅</span>", // yellow
-          "<span color='#A6E3A1'>▆</span>", // yellow
-          "<span color='#A6E3A1'>▇</span>", // orange
-          "<span color='#A6E3A1'>█</span>"  // red
-     ]
-},
 
-   "temperature": {
-      "thermal-zone": 2,
-      "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-      "critical-threshold": 80,
-      "format-critical": "{temperatureC}°C ",
-      "format": "{temperatureC}°C "
-  },
-  "network": {
-      // "interface": "enp5s0",
-      "interval": 5,
-      "format": "{ifname}",
-      "format-wifi": "{essid} ({signalStrength}%) ",
-      "format-ethernet": "{bandwidthUpBits:>}  {bandwidthDownBits:>}  ",
-      "format-disconnected": "", //An empty format will hide the module.
-      "tooltip-format": "{ifname} via {gwaddr} 󰊗",
-      "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-      "tooltip-format-ethernet": "{ifname} ",
-      "tooltip-format-disconnected": "Disconnected",
-      "max-length": 50
-  },
-
-    "custom/updates": {
-        "format": " {}",
-        "interval": 7200,                     // every two hours
-        "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'",       // # of updates and tooltip details
-        "exec-if": "exit 0",                  // always run; consider advanced run conditions
-        "on-click": "kitty -e sudo pacman -Syu", // update system
-        "signal": 8
-    },
-    "tray": {
-        "icon-size": 13,
-        "spacing": 10
-    },
     "clock": {
+        "timezone": "Europe/London",
         "format": "{:%R  %d/%m}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "{icon} {percent}%",
-        "format-icons": ["", "", ""],
-        "on-scroll-up": "brightnessctl set 1%+",
-        "on-scroll-down": "brightnessctl set 1%-",
-        "min-length": 6
-    },
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "tooltip": false,
-        "format-muted": " Muted",
-        "scroll-step": 5,
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        }
-    },
-    "custom/gpu-usage": {
-  "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
-  "format": "󱤓 {}%",
-  "return-type": "",
-  "interval": 1
-},
 
-    "custom/gpu-temp": {
-  "exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits",
-  "format": "{}°C ",
-  "return-type": "",
-  "interval": 1
-},
-"custom/rclone": {
-  "exec": "if pgrep -fl rclone >/dev/null; then echo '  syncing'; else echo ' stopped'; fi",
-  "format": "{}",
-  "return-type": "",
-  "interval": 60
-},
-"custom/weather": {
-    "format": "{}°",
-    "tooltip": true,
-    "interval": 3600,
-    "exec": "wttrbar",
-    "return-type": "json"
-}
+    "custom/weather": {
+        "format": "{}°",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "wttrbar",
+        "return-type": "json"
+    }
 }

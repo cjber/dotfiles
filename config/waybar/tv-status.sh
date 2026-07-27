@@ -14,7 +14,7 @@ set -uo pipefail
 TV=HDMI-A-1
 
 if ! hyprctl monitors 2>/dev/null | grep -q "Monitor $TV"; then
-    printf '{"text":"󰍹","tooltip":"TV off — click to turn on","class":"off"}\n'
+    printf '{"text":"TV off","tooltip":"TV off — click to turn on","class":"off"}\n'
     exit 0
 fi
 
@@ -50,13 +50,13 @@ big = next((c for c in on_tv
 suffix = " (%s)" % mode if mode else ""
 if game:
     title = (game.get("title") or game.get("class") or "game").strip()
-    out = {"text": "󰊴 %s" % title[:22], "class": "gaming",
+    out = {"text": "%s" % title[:22], "class": "gaming",
            "tooltip": "Playing on TV%s — click to turn off" % suffix}
 elif big:
-    out = {"text": "󰔂 Big Picture", "class": "bigpicture",
+    out = {"text": "Big Picture", "class": "bigpicture",
            "tooltip": "Steam Big Picture on TV%s — click to turn off" % suffix}
 else:
-    out = {"text": "󰔂 TV", "class": "idle",
+    out = {"text": "TV", "class": "idle",
            "tooltip": "TV on%s, idle — click to turn off" % suffix}
 
 print(json.dumps(out))
