@@ -6,3 +6,7 @@
 .dotter/cache.toml
 .dotter/cache-root/
 .dotter/cache-root.toml
+
+# Git worktrees live here. An auto-sync `git add -A` committed one as a
+# submodule gitlink (mode 160000), which left the repo permanently dirty.
+.claude/worktrees/
