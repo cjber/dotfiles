@@ -7,9 +7,19 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "height": 0,
+    // Pin modules-center to the true centre of the bar rather than letting it
+    // float between the left and right groups, which have very different
+    // widths on a 3440px display.
+    "fixed-center": true,
     "modules-left": ["clock", "memory", "custom/keyboard-mode"],
-    "modules-center": ["cpu", "temperature", "hyprland/workspaces", "custom/columns", "custom/gpu-usage", "custom/gpu-temp"],
+    // Centre stays deliberately quiet: just where you are, and what's on the
+    // tape. System metrics moved right so the centre reads at a glance.
+    "modules-center": ["custom/ws1", "custom/ws2", "custom/ws3", "custom/columns"],
     "modules-right": [
+        "cpu",
+        "temperature",
+        "custom/gpu-usage",
+        "custom/gpu-temp",
         "custom/tv-status",
         "tray",
         "custom/tailscale",
@@ -23,10 +33,24 @@
         "pulseaudio"
     ],
 
-    "hyprland/workspaces": {
-        "persistent-workspaces": {
-            "DP-1": [1, 2, 3]
-        }
+    // Workspace buttons. waybar's own hyprland/workspaces renders fine but its
+    // clicks are dead on Hyprland 0.56 -- v0.15.0 still sends the hyprlang-era
+    // `dispatch workspace N`, which a Lua-only Hyprland rejects. These use the
+    // Lua dispatch form, so clicking works again.
+    "custom/ws1": {
+        "exec": "$HOME/.config/waybar/ws-button.sh 1",
+        "return-type": "json",
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 1 })'"
+    },
+    "custom/ws2": {
+        "exec": "$HOME/.config/waybar/ws-button.sh 2",
+        "return-type": "json",
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 2 })'"
+    },
+    "custom/ws3": {
+        "exec": "$HOME/.config/waybar/ws-button.sh 3",
+        "return-type": "json",
+        "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 3 })'"
     },
 
     // Scrolling-layout column indicator. Shows every column on the active

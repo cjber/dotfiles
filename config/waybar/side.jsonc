@@ -13,11 +13,6 @@
     "modules-center": ["custom/keyboard-mode"],
     "modules-right": ["custom/weather"],
 
-    "hyprland/workspaces": {
-        "persistent-workspaces": {
-            "DP-2": [4]
-        }
-    },
     "custom/keyboard-mode": {
         "exec": "~/.config/waybar/keyboard-mode.sh",
         "return-type": "json",
