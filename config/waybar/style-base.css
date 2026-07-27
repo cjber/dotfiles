@@ -52,6 +52,7 @@ tooltip {
 #custom-gpu-usage,
 #custom-gpu-temp,
 #custom-rclone,
+#custom-columns,
 #window,
 #clock,
 #cpu,
@@ -74,6 +75,18 @@ tooltip {
 #tray {
     border-radius: var(--border-radius);
     margin-right: 10px;
+}
+
+/* Scrolling-layout column indicator. Colours come from pango markup in
+   hypr-columns.sh, so only the frame is styled here. The border warms up
+   when columns are scrolled off-screen. */
+#custom-columns {
+    border-radius: var(--border-radius);
+    padding: 2px 12px;
+}
+
+#custom-columns.has-hidden {
+    border: 1px solid @primary;
 }
 
 #workspaces {
