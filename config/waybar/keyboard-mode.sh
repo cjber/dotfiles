@@ -26,6 +26,10 @@ if [ "${1:-}" = "apply" ]; then
     mode=$(cat "$state_file" 2>/dev/null)
     [ "$mode" = "game" ] || mode=base
     apply_desktop_mode "$mode"
+    # The waybar module has no interval -- it renders once and then only on
+    # RTMIN+12. Without this, a re-apply fixes the desktop but leaves the pill
+    # showing whatever it last drew.
+    pkill -RTMIN+12 waybar 2>/dev/null || true
     exit 0
 fi
 

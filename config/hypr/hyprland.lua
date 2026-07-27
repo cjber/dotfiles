@@ -486,6 +486,20 @@ hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT
 hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("pactl set-sink-mute @DEFAULT_SINK@ toggle"), { locked = true })
 hl.bind("F24", hl.dsp.exec_cmd("/home/cjber/.config/waybar/keyboard-mode.sh toggle"), { locked = true })
 
+-- Game mode is applied as runtime `keyword` overrides (border colours,
+-- allow_tearing). A config reload re-reads this file and resets every one of
+-- them back to the base values -- but the mode is *stored* in a state file,
+-- and mako's do-not-disturb is not a Hyprland keyword, so neither reverts.
+-- The result is a half-reverted desktop: base borders and no tearing, while
+-- the state file and the waybar pill still say "game" and notifications stay
+-- suppressed. That reads as the indicator being inverted.
+--
+-- Re-applying on config.reloaded makes the state file the single source of
+-- truth again, so reloads (including autoreload on save) stop desyncing it.
+hl.on("config.reloaded", function()
+    hl.exec_cmd("/home/cjber/.config/waybar/keyboard-mode.sh apply")
+end)
+
 --------------------------------------------------------------------
 -- Binds: Hyprland
 --------------------------------------------------------------------
