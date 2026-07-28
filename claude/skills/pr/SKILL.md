@@ -36,8 +36,7 @@ phase bounded and avoid spawning any agents beyond those two arms.
 
 ## 2. Isolate the work
 
-- For the configured staging workflow, branch from fresh `origin/cb/staging`;
-  otherwise preserve the contributor's existing base.
+- Branch from fresh `origin/main`.
 - Use one `cb/<slug>` worktree per repository. Copy permitted ignored local
   configuration such as `.env`; never commit it.
 - Use an isolated database for migration work. Never test branch migrations
@@ -80,7 +79,7 @@ phase bounded and avoid spawning any agents beyond those two arms.
 
 - Stage explicit paths and create signed Conventional Commits.
 - Push one branch and open or update one ready-for-review PR per repository.
-  Task PRs for the configured staging workflow target `cb/staging`; never merge.
+  Task PRs target `main`; never merge.
 - Include why, scope, tests, risks, rollout order, and deliberate deferrals.
 - Address CI failures and actionable review comments with focused fixes. Avoid
   polling through model turns; use the available wait/monitor mechanism.
