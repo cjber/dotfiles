@@ -1,6 +1,6 @@
 approvals_reviewer = "user"
 service_tier = "default"
-model = "gpt-5.6-terra"
+model = "gpt-5.6-sol"
 model_reasoning_effort = "low"
 model_verbosity = "low"
 model_auto_compact_token_limit = 200000
@@ -50,6 +50,9 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/cjber/dotfiles"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/proj/kiln"]
 trust_level = "trusted"
 
 [tui.model_availability_nux]
