@@ -6,7 +6,7 @@ copies as whole-directory symlinks because Codex skill discovery supports that
 layout, while Dotter's normal directory expansion creates per-file symlinks.
 The shared Claude/agent `pr` skill and Codex-native `pr` skill have separate
 tracked bodies because their orchestration mechanics differ, but they implement
-the same staging/promotion contract. Edit both `pr` bodies when that contract
+the same main-targeting contract. Edit both `pr` bodies when that contract
 changes, then run `dotter deploy`.
 
 Only static skill instructions, references, templates, and deterministic helper
@@ -29,5 +29,5 @@ Before committing a skill sync:
 Nebula's `renovate`, `calibrate`, `improve`, `align`, and domain skills remain
 project-local and versioned with the behavior they govern. Dotter must not copy
 their production evidence ledgers or notebooks. Their portable cross-agent
-handoff is the shared `pr`/`dev` contract: task PRs target `cb/staging`, composed
-pre-main proof runs from staging, and promotion to `main` stays separate.
+handoff is the shared `pr`/`dev` contract: task PRs target `main`, and the
+shared development stack runs from `main`.
