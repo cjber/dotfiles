@@ -8,4 +8,3 @@ x-scheme-handler/slack=slack.desktop
 
 [Added Associations]
 x-scheme-handler/rshub=jagex-launcher.desktop;
-x-scheme-handler/slack=slack.desktop;
