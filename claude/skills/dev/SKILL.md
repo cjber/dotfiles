@@ -1,61 +1,43 @@
 ---
 name: dev
-description: "Runs the complete local Nebula development stack from each repository root on its cb/staging integration branch, while PR branches live in separate worktrees. Auto-detects backend/frontend commands, supplies local env files, starts services in zellij or the background, and verifies health. Use for '/dev', starting the shared development stack, or proving the composed pre-main environment. Use /wt for a feature-specific server instead."
+description: "Runs the complete local Nebula development stack from each repository root on main, while PR branches live in separate worktrees. Auto-detects backend/frontend commands, supplies local env files, starts services in zellij or the background, and verifies health. Use for '/dev' or starting the shared development stack. Use /wt for a feature-specific server instead."
 ---
 
-# `/dev` — Run the owner's `cb/staging` development stack
+# `/dev` — Run the `main` development stack
 
-`/dev` represents the configured staging owner's integrated pre-main state. For every repository in scope, run the server from that repository's `cb/staging`, never from `main` or an individual task branch. This convention is personal to that owner; do not redirect another contributor's PRs or impose checks on their workflow. Use `/wt` when the user explicitly wants to exercise a feature branch instead.
+For every repository in scope, run the shared development server from that
+repository's `main`, never from an individual task branch. Use `/wt` when the
+user explicitly wants to exercise a feature branch instead.
 
-## Status and promotion safety net
+## Status
 
 `/dev status` is read-only. For every repository in scope, fetch remote refs and
-report: `main` SHA, `cb/staging` SHA, ahead/behind counts, newest staging
-commit and age, and owner-authored task PRs targeting staging. End with one
-explicit state: `empty`, `collecting`, `promotion-candidate`,
-`awaiting-dev-verification`, `needs-attention`, or `stale`.
-
-The repository's `staging-promotion.yml` workflow publishes an advisory Actions
-summary for the configured owner. Only owner-triggered pushes/manual dispatches
-and scheduled maintenance run it. It reports divergence, owner-authored task PRs,
-staging age, exact SHAs, and readiness concerns. On owner main or staging pushes,
-and on scheduled maintenance, CI merges main into staging when GitHub can do so
-cleanly; conflicts or branch-policy failures remain visible. It requires no bot
-secret and never mutates issues, labels, statuses, or PRs. This is not a required
-check or branch-protection rule and must not affect other contributors.
-
-`/dev promote` reruns the complete status and composed health checks. When every
-affected repository is green, dispatch that repository's **Staging promotion**
-workflow with the exact tested `origin/cb/staging` SHA as the configured owner.
-The durable workflow run and its summary record whether that exact SHA still
-matched synchronized staging. Do not attest if staging moved during verification.
-Open or refresh the promotion PR separately; leave merge/deployment to a human.
+report the local and `origin/main` SHAs, ahead/behind counts, newest main commit
+and age, and open task PRs targeting main. End with one explicit state: `current`,
+`behind`, `diverged`, `needs-attention`, or `stale`.
 
 Useful manual check:
 
 ```bash
-git fetch origin main cb/staging
-git rev-list --left-right --count origin/main...origin/cb/staging
-gh pr list --base main --head cb/staging \
+git fetch origin main
+git rev-list --left-right --count main...origin/main
+gh pr list --base main \
   --json number,url,isDraft,mergeStateStatus,statusCheckRollup,updatedAt
-gh workflow run staging-promotion.yml \
-  -f verified_staging_sha="$(git rev-parse origin/cb/staging)" --ref main
 ```
 
-## 0. Resolve the staging checkout
+## 0. Resolve the main checkout
 
 - With no repository scope supplied, run the complete local Nebula product stack: `nebula`, `nebula-web`, `nebula-mobile`, and `nebula-desktop`. Discover these as sibling checkouts under the current repository's parent directory; report any missing checkout instead of silently omitting it.
 - If the user explicitly narrows the repository scope, run only that scope. Include any additional repositories they explicitly name.
-- Fetch `origin/main` and `origin/cb/staging`. If the remote staging branch is absent, create it exactly from current `origin/main` and push it.
-- Treat each repository's primary/root checkout as the stable `cb/staging` checkout. Keep PR and task branches in separate worktrees; never develop a PR directly in the root checkout.
-- If a root checkout is clean but on another branch, switch it to the local `cb/staging` branch, creating that branch to track `origin/cb/staging` when needed. If the root contains uncommitted work, diverges, or cannot switch cleanly, stop for that repository and report the exact state rather than stashing, resetting, or moving work automatically.
-- Fast-forward the root checkout to `origin/cb/staging`. Then merge the latest `origin/main` into local `cb/staging` without rewriting history so every service includes current main. If either operation cannot complete cleanly, stop and report the exact state rather than resolving conflicts speculatively. Do not push this local synchronization as part of ordinary `/dev`; promotion owns remote staging mutation.
+- Fetch `origin/main`.
+- Treat each repository's primary/root checkout as the stable `main` checkout. Keep PR and task branches in separate worktrees; never develop a PR directly in the root checkout.
+- If a root checkout is clean but on another branch, switch it to the local `main` branch, creating that branch to track `origin/main` when needed. If the root contains uncommitted work, diverges, or cannot switch cleanly, stop for that repository and report the exact state rather than stashing, resetting, or moving work automatically.
+- Fast-forward the root checkout to `origin/main`. If it cannot fast-forward cleanly, stop and report the exact state rather than resolving conflicts speculatively.
 - Run the remaining steps with that root checkout as `repo`. A `[repo-relative-subdir]` selects a package inside it, such as `apps/cli`.
-- Staging synchronization with newer `main`, deployed-SHA proof, and promotion PRs follow the shared `$dev` contract used by Codex: merge `main` into staging without rewriting history; `/dev` must run staging; production remains untouched.
 
 ## 1. Confirm `.env` is present
 
-The root staging checkout should retain its local ignored environment files. Before starting anything:
+The root main checkout should retain its local ignored environment files. Before starting anything:
 
 ```bash
 repo="$(git rev-parse --show-toplevel)"
@@ -64,7 +46,7 @@ for f in .env .env.local .env.development .envrc; do
 done
 ```
 
-If a repository requires an environment file and its root checkout has none, stop and ask—don't fabricate one. When `/wt` creates a feature worktree, copy the applicable ignored environment files from this root staging checkout.
+If a repository requires an environment file and its root checkout has none, stop and ask—don't fabricate one. When `/wt` creates a feature worktree, copy the applicable ignored environment files from this root main checkout.
 
 ## 2. Synchronize dependencies
 
@@ -130,4 +112,4 @@ Report every started service and how to inspect its logs. If any repository fail
 
 ## When paired with `/wt` on another repo
 
-A common pattern is `/dev` for the integrated staging backend plus `/wt` for one feature-specific frontend. Point the feature worktree at the local staging service explicitly; do not silently leave it pointed at a remote environment.
+A common pattern is `/dev` for the shared main backend plus `/wt` for one feature-specific frontend. Point the feature worktree at the local main service explicitly; do not silently leave it pointed at a remote environment.
