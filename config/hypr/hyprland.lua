@@ -28,7 +28,7 @@ hl.env("LIBVA_DRIVER_NAME",          "nvidia")
 hl.env("__GLX_VENDOR_LIBRARY_NAME",  "nvidia")
 hl.env("NVD_BACKEND",                "direct")
 hl.env("GBM_BACKEND",                "nvidia-drm")
-hl.env("__GL_VRR_ALLOWED",           "1")
+-- hl.env("__GL_VRR_ALLOWED",           "1")  -- disabled: causes TV OSD flicker 48<->120Hz at desktop
 hl.env("__GL_MaxFramesAllowed",      "1")
 hl.env("VDPAU_DRIVER",               "nvidia")
 hl.env("MOZ_ENABLE_WAYLAND",         "1")
@@ -202,7 +202,7 @@ hl.config({
         background_color             = C.mantle,
         disable_hyprland_logo        = true,
         disable_splash_rendering     = false,
-        vrr                          = 2,
+        vrr                          = 0,
         mouse_move_enables_dpms      = true,
         key_press_enables_dpms       = true,
         always_follow_on_dnd         = true,
