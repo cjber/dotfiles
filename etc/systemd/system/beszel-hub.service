@@ -1,0 +1,13 @@
+[Unit]
+Description=Beszel Hub Service
+After=network.target
+
+[Service]
+ExecStart=/opt/beszel/beszel serve --http "127.0.0.1:8090"
+WorkingDirectory=/opt/beszel
+User=beszel
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

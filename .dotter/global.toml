@@ -57,6 +57,7 @@ has_gui = true
 "config/git" = "~/.config/git"
 "config/aichat" = "~/.config/aichat"
 "config/gh/config.yml" = "~/.config/gh/config.yml"
+"config/direnv/direnvrc" = "~/.config/direnv/direnvrc"
 "config/lazygit/config.yml" = "~/.config/lazygit/config.yml"
 "config/mako" = "~/.config/mako"
 "config/topgrade.toml" = "~/.config/topgrade.toml"
@@ -131,6 +132,9 @@ has_gui = false
 [root.files]
 "etc/keyd/keychron-m7-mouse.conf" = { target = "/etc/keyd/keychron-m7-mouse.conf", type = "template" }
 "etc/keyd/logitech-g-mouse.conf" = { target = "/etc/keyd/logitech-g-mouse.conf", type = "template" }
+"etc/nftables.conf" = { target = "/etc/nftables.conf", type = "template" }
+"etc/ssh/sshd_config.d/10-hardening.conf" = { target = "/etc/ssh/sshd_config.d/10-hardening.conf", type = "template" }
+"etc/systemd/system/beszel-hub.service" = { target = "/etc/systemd/system/beszel-hub.service", type = "template" }
 # Disables the internal Intel BT adapter so the UGreen BT6.0 dongle is the
 # default. Needs `sudo udevadm control --reload` after deploying.
 "etc/udev/rules.d/81-disable-intel-bluetooth.rules" = { target = "/etc/udev/rules.d/81-disable-intel-bluetooth.rules", type = "template" }

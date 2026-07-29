@@ -1,0 +1,17 @@
+source_env_pass() {
+    local pass_entry="${1:?usage: source_env_pass PASS_ENTRY}"
+    local runtime_dir="${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is required}"
+    local env_file
+
+    env_file="$(mktemp "${runtime_dir}/direnv-pass.XXXXXX")"
+    chmod 600 "${env_file}"
+
+    if ! pass show "${pass_entry}" >"${env_file}"; then
+        command rm -f -- "${env_file}"
+        log_error "unable to decrypt pass entry: ${pass_entry}"
+        return 1
+    fi
+
+    dotenv "${env_file}"
+    command rm -f -- "${env_file}"
+}
