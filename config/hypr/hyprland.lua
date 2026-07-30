@@ -361,6 +361,39 @@ hl.window_rule({
     opacity         = 1.0,
 })
 
+-- Ascension (non-Steam Steam shortcut, GE-Proton). It matches the generic
+-- "^steam_app_" rule above, which parks games on ws5 — that workspace is bound
+-- to HDMI-A-1 (the TV), so with the TV off the client lands wherever Hyprland
+-- falls back to, at whatever size XWayland guessed. These two rules override it:
+-- the Electron launcher stays a small float on the current workspace, and the
+-- game client goes fullscreen on the ultrawide.
+--
+-- The client runs *windowed* at 3440x1440 (Config.wtf gxWindow=1, gxMaximize=0)
+-- and Hyprland fullscreens it. Do not use gxMaximize=1: XWayland reports one
+-- screen spanning DP-1 + DP-2, so "maximize" straddles both monitors.
+hl.window_rule({
+    match     = { class = "^steam_app_2324329088$", title = "Launcher$" },
+    workspace = 2,
+    float     = true,
+    size      = { 1266, 684 },
+    center    = true,
+})
+-- Client title is literally "World of Warcraft" (GxWindowClassD3d9Ex), so the
+-- anchored regex cannot collide with the "Ascension Launcher" rule above.
+hl.window_rule({
+    match           = { class = "^steam_app_2324329088$", title = "^World of Warcraft$" },
+    monitor         = "DP-1",
+    workspace       = 2,
+    float           = false,
+    fullscreen      = true,
+    confine_pointer = true,
+    idle_inhibit    = "fullscreen",
+    immediate       = true,
+    opaque          = true,
+    no_blur         = true,
+    opacity         = 1.0,
+})
+
 -- WoW (Lutris) runs inside a nested gamescope (class "gamescope"). Force it
 -- fullscreen on open so Hyprland never tiles it — tiling misaligns the cursor.
 -- Pin the pointer to it and skip blur/transparency, same as Steam games.
