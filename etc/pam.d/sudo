@@ -10,9 +10,9 @@
 # DANGER, verified empirically: pam_duo's default failmode is "safe", which
 # means FAIL-OPEN. duo_unix ships /etc/duo/pam_duo.conf with EMPTY keys and
 # failmode=safe, and a MISSING conf file also fails open. With pam_duo marked
-# `sufficient`, that state authenticates ANY password from ANY user - a wrong
-# password was confirmed to return "successfully authenticated" under pamtester
-# before this was fixed.
+# `sufficient`, that state authenticates ANY password from ANY user. Verified
+# 2026-07-30 with pamtester run as root (matching setuid sudo): failmode=safe
+# ACCEPTED a deliberately wrong password; failmode=secure rejected it.
 #
 # failmode cannot be forced from here: pam_duo accepts only `conf=` as a module
 # argument (man 8 pam_duo). Safety therefore depends on the conf file, which
@@ -35,7 +35,7 @@
 # where an attacker who does not already have a shell actually arrives; by the
 # time someone can invoke sudo they are already running as this user.
 auth      sufficient   pam_unix.so     try_first_pass
-auth      sufficient   pam_duo.so
+auth      sufficient   pam_duo.so      conf=/etc/duo/pam_duo.conf
 auth      required     pam_deny.so
 
 account   include      system-auth

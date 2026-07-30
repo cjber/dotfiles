@@ -30,7 +30,8 @@ rewrite the check that gates root — the same reasoning as the `keyd` entries.
 
 ## First-time setup on a new machine
 
-1. `paru -S duo_unix`
+1. `paru -S duo_unix pamtester` — `pamtester` is not optional; the hardening
+   script uses it as a safety gate and refuses to run without it.
 2. Sign in at <https://duo.com> (Duo Free covers personal use), create a
    **UNIX Application**, enroll your phone, and copy its integration key,
    secret key, and API hostname.
@@ -71,10 +72,27 @@ unharden-sudo     # restores /etc/sudoers.pre-harden.bak
   the stack, so routine sudo never wakes your phone. This also keeps the
   push-fatigue surface at zero: a push only ever arrives because someone
   deliberately skipped the password prompt, so an unexpected push is real signal.
-- **`failmode = secure`, not Duo's default `safe`.** `safe` *allows* access when
-  Duo is unreachable. With a `sufficient` pam_duo that would silently restore
-  passwordless sudo whenever the network was down — reintroducing the exact hole
-  this closes. `secure` denies, and the password path is the intended fallback.
+- **`failmode = secure`, not Duo's default `safe`.** This is the sharpest edge
+  here, so it was tested rather than assumed. `safe` *allows* access on any Duo
+  service or config error, and `duo_unix` ships `/etc/duo/pam_duo.conf` with
+  empty keys and `failmode = safe`. With `pam_duo` marked `sufficient`, that is
+  fail-open.
+
+  Verified 2026-07-30 with `pamtester` run **as root** (matching setuid sudo):
+  with the packaged `failmode = safe`, a deliberately wrong password was
+  **accepted**; with `failmode = secure`, the same password was rejected. So
+  deploying this PAM stack against the packaged config and then removing
+  `NOPASSWD` would have produced a sudo that accepts anything.
+
+  `failmode` cannot be forced from the PAM line — `pam_duo` accepts only `conf=`
+  (`man 8 pam_duo`) — so `harden-auth.sh` always writes the conf with
+  `failmode = secure`, keys or no keys, and refuses to touch sudoers until
+  `pamtester` proves a wrong password is rejected.
+
+  Note when testing by hand: run `pamtester` under `sudo`. The conf is `0600`
+  root-owned, so an unprivileged `pamtester` cannot read it, cannot see
+  `failmode`, falls back to the built-in `safe`, and reports fail-open on a
+  system that is actually fine.
 - **No `pam_faillock` in this stack.** `sufficient` on `pam_unix` returns before
   faillock's `authsucc` could reset the counter, so failures would accumulate
   until the account locked itself out for no reason. Brute-force defence stays
