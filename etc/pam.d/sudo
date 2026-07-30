@@ -1,0 +1,43 @@
+#%PAM-1.0
+# Password OR phone approval for sudo. Rationale in docs/phone-auth.md.
+#
+# pam_unix is FIRST and `sufficient`: a correct password succeeds outright and
+# pam_duo never runs, so routine sudo does not wake the phone. Press Enter on
+# an empty password prompt to fall through to a Duo push instead. That ordering
+# also keeps the push-fatigue surface at zero for normal use - a push only ever
+# arrives because someone deliberately declined to type the password.
+#
+# DANGER, verified empirically: pam_duo's default failmode is "safe", which
+# means FAIL-OPEN. duo_unix ships /etc/duo/pam_duo.conf with EMPTY keys and
+# failmode=safe, and a MISSING conf file also fails open. With pam_duo marked
+# `sufficient`, that state authenticates ANY password from ANY user - a wrong
+# password was confirmed to return "successfully authenticated" under pamtester
+# before this was fixed.
+#
+# failmode cannot be forced from here: pam_duo accepts only `conf=` as a module
+# argument (man 8 pam_duo). Safety therefore depends on the conf file, which
+# cannot live in this public repo because it holds the secret key. So:
+#   - `conf=` is stated explicitly below rather than left implicit.
+#   - scripts/harden-auth.sh writes that file with failmode=secure ALWAYS, even
+#     when no Duo keys are supplied, so the unconfigured state fails CLOSED.
+#   - that script refuses to remove NOPASSWD until pamtester proves a wrong
+#     password is rejected.
+# If you ever hand-edit /etc/duo/pam_duo.conf, keep failmode=secure.
+#
+# pam_duo is `sufficient` rather than `required` on purpose: this is
+# password-OR-phone, not password-AND-phone. To make it true 2FA, change
+# pam_unix to `required` and pam_duo to `required`, and drop pam_deny.
+#
+# pam_faillock is deliberately absent here. `sufficient` on pam_unix returns
+# before pam_faillock's `authsucc` could reset the counter, so failed attempts
+# would accumulate across weeks until the account locked itself out for no
+# reason. Brute-force defence stays on the login path (system-auth), which is
+# where an attacker who does not already have a shell actually arrives; by the
+# time someone can invoke sudo they are already running as this user.
+auth      sufficient   pam_unix.so     try_first_pass
+auth      sufficient   pam_duo.so
+auth      required     pam_deny.so
+
+account   include      system-auth
+session   include      system-auth
+session   optional     pam_systemd.so  class=none

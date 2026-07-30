@@ -33,6 +33,7 @@ has_gui = true
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
 "scripts/controller_inhibit.sh" = "~/scripts/controller_inhibit.sh"
 "config/systemd/user/controller-inhibit.service" = "~/.config/systemd/user/controller-inhibit.service"
+"scripts/harden-auth.sh" = "~/scripts/harden-auth.sh"
 "scripts/aur-malware-scan.sh" = "~/scripts/aur-malware-scan.sh"
 "config/systemd/user/aur-malware-scan.service" = "~/.config/systemd/user/aur-malware-scan.service"
 "scripts/fix-nic" = "~/scripts/fix-nic"
@@ -100,6 +101,7 @@ has_gui = false
 "scripts/exclude.txt" = "~/scripts/exclude.txt"
 "scripts/wt_cleanup.sh" = "~/scripts/wt_cleanup.sh"
 "scripts/nuc_bootstrap.sh" = "~/scripts/nuc_bootstrap.sh"
+"scripts/harden-auth.sh" = "~/scripts/harden-auth.sh"
 "scripts/zellij_plugins.sh" = "~/scripts/zellij_plugins.sh"
 "config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
@@ -133,6 +135,14 @@ has_gui = false
 "etc/keyd/keychron-m7-mouse.conf" = { target = "/etc/keyd/keychron-m7-mouse.conf", type = "template" }
 "etc/keyd/logitech-g-mouse.conf" = { target = "/etc/keyd/logitech-g-mouse.conf", type = "template" }
 "etc/nftables.conf" = { target = "/etc/nftables.conf", type = "template" }
+# Password-OR-phone sudo. Copied, not symlinked, for the same reason as keyd:
+# PAM decides who becomes root, so a symlink into this user-writable repo would
+# let any process running as this user rewrite the gate it is standing behind.
+# 0644 is correct for /etc/pam.d, so this needs no post-deploy chmod - unlike
+# /etc/sudoers and /etc/duo/pam_duo.conf, which need 0440/0600 and a secret and
+# are therefore handled by ~/scripts/harden-auth.sh instead. See
+# docs/phone-auth.md.
+"etc/pam.d/sudo" = { target = "/etc/pam.d/sudo", type = "template" }
 "etc/ssh/sshd_config.d/10-hardening.conf" = { target = "/etc/ssh/sshd_config.d/10-hardening.conf", type = "template" }
 "etc/systemd/system/beszel-hub.service" = { target = "/etc/systemd/system/beszel-hub.service", type = "template" }
 # Disables the internal Intel BT adapter so the UGreen BT6.0 dongle is the
