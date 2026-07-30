@@ -133,7 +133,8 @@ path = "/home/cjber/.codex/skills/wrangler/SKILL.md"
 enabled = false
 
 [marketplaces.composio]
-last_updated = "2026-07-30T14:12:25Z"
+last_updated = "2026-07-30T19:01:49Z"
+last_revision = "3c0aab402a44624a75ed1967489493210b529050"
 source_type = "git"
 source = "https://github.com/ComposioHQ/composio-plugin-openai.git"
 
