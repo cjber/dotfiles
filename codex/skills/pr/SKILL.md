@@ -68,6 +68,7 @@ Exactly one task PR is allowed per repository in a session. Task PRs target
 ## 7. Stay current and drive the PR green
 
 - Before handoff, fetch `origin/main`. If the task branch is behind, merge main with a signed merge commit; never rebase shared history. Resolve conflicts semantically and verify key behavior survived even in unconflicted moved files.
+- As the final repository change before the last verification, safely consolidate all unpublished Alembic revisions introduced by this PR into the minimum coherent revision set. Preserve operation order, upgrade and downgrade behavior, data backfills, revision ancestry, and a single head. Never rewrite a revision that may already have shipped or is shared by another branch; if publication status is uncertain, leave it intact and document why consolidation was unsafe.
 - Re-run the full gate and final agent-visible validation after main merges or substantive review/CI fixes.
 - Verify the PR base is `main` and GitHub reports a clean, mergeable state rather than conflicting, dirty, or behind.
 - Use `$gh-fix-ci` for GitHub Actions failures and `$gh-address-comments` for actionable review threads. Fix root causes in new signed commits, push, and self-pace polling.
