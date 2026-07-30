@@ -99,6 +99,14 @@ If either check fails, say so rather than starting a server that will just crash
 
 ## 4. Run it
 
+- When the feature being tested includes an inbound OAuth callback or webhook,
+  do not leave `BASE_URL` pointed at staging while running local state and
+  storage. Reuse an already-approved stable development tunnel when available;
+  otherwise start an HTTPS tunnel to the selected backend, register that exact
+  origin with the development app, and launch the backend with `BASE_URL` set
+  to it. Verify the public readiness URL before presenting the client. The
+  authorization URL, token exchange, and provider manifest must use the same
+  callback URI.
 - **If `$ZELLIJ` is set**: open a split pane in the current tab so the server runs alongside the shell, rather than blocking it.
   ```bash
   zellij action new-pane --direction down --cwd "$repo" --name dev -- bash -lc '<detected-command>'
