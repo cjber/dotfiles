@@ -1,13 +1,14 @@
 ---
 name: dev
-description: "Runs the complete local Nebula development stack from each repository root on main, while PR branches live in separate worktrees. Auto-detects backend/frontend commands, supplies local env files, starts services in zellij or the background, and verifies health. Use for '/dev' or starting the shared development stack. Use /wt for a feature-specific server instead."
+description: "Runs the local Nebula web and backend stack from the worktrees relevant to the active conversation, falling back to current main checkouts when no feature worktree is in scope. Supplies local env files, starts services in zellij or the background, and verifies health. Use for '/dev' or starting the development stack the user wants to inspect."
 ---
 
-# `/dev` — Run the main development stack
+# `/dev` — Run the development stack in scope
 
-For every repository in scope, run the shared server from a clean, current
-`main` checkout. Keep task branches in separate worktrees and use `/wt` when the
-user explicitly wants to exercise a feature branch instead.
+By default, run Nebula web and backend from the worktrees relevant to the active
+conversation so the user sees the changes being discussed. Fall back to clean,
+current `main` checkouts only when no feature worktree is in scope. Never
+silently substitute `main` for an identified feature worktree.
 
 ## Status
 
@@ -25,28 +26,42 @@ gh pr list --base main --state open \
   --json number,url,headRefName,isDraft,mergeStateStatus,statusCheckRollup,updatedAt
 ```
 
-## 0. Resolve the main checkout
+## 0. Resolve the checkouts
 
-- With no repository scope supplied, run the complete local Nebula product stack: `nebula`, `nebula-web`, `nebula-mobile`, and `nebula-desktop`. Discover these as sibling checkouts under the current repository's parent directory; report any missing checkout instead of silently omitting it.
+- With no repository scope supplied, run `nebula` and `nebula-web` only. Add mobile, desktop, CLI, or other repositories only when the user explicitly asks for them.
 - If the user explicitly narrows the repository scope, run only that scope. Include any additional repositories they explicitly name.
-- Fetch `origin/main`.
-- Treat each repository's primary/root checkout as the stable `main` checkout. Keep PR and task branches in separate worktrees; never develop a PR directly in the root checkout.
-- If a root checkout is clean but on another branch, switch it to the local `main` branch, creating that branch to track `origin/main` when needed. If the root contains uncommitted work, diverges, or cannot switch cleanly, stop for that repository and report the exact state rather than stashing, resetting, or moving work automatically.
-- Fast-forward the root checkout to `origin/main`. If it cannot fast-forward cleanly, stop and report the exact state rather than rewriting or resolving history speculatively.
-- Run the remaining steps with that root checkout as `repo`. A `[repo-relative-subdir]` selects a package inside it, such as `apps/cli`.
+- Resolve each repository's intended worktree from the active conversation, current working directory, named PR branches, and associated sibling worktrees. Prefer an explicitly discussed or currently active feature worktree over the root checkout.
+- Fetch `origin/main` and update every selected feature branch to latest `main` before launch when the user asks for current-main testing. Preserve its history with the repository's normal merge/rebase policy; never rewrite a published branch without explicit authorization.
+- If no feature worktree is identifiable for a repository, use its clean root `main` checkout. Fast-forward it to `origin/main`; if it is dirty or diverged, stop for that repository rather than stashing or resetting.
+- Run the remaining steps with the selected checkout as `repo`. Report the exact branch and path chosen for each service before launch.
 
-## 1. Confirm `.env` is present
+## 1. Confirm local environment is available
 
-The root main checkout should retain its local ignored environment files. Before starting anything:
+The root checkout normally retains the ignored local environment files. Before
+starting anything, list them through Git:
 
 ```bash
 repo="$(git rev-parse --show-toplevel)"
-for f in .env .env.local .env.development .envrc; do
-  [ -f "$repo/$f" ] && printf 'found %s\n' "$f"
-done
+git -C "$repo" ls-files --others --ignored --exclude-standard -- ':(top).env*'
 ```
 
-If a repository requires an environment file and its root checkout has none, stop and ask—don't fabricate one. When `/wt` creates a feature worktree, copy the applicable ignored environment files from this root main checkout.
+Before every feature-worktree launch, copy every ignored root `.env*` file from
+that repository's primary checkout, preserving permissions. Discover files
+through Git so `.envrc`, `.env.test`, and future variants are included while
+tracked templates are excluded:
+
+```bash
+git -C "$root_checkout" ls-files -z --others --ignored --exclude-standard -- ':(top).env*' |
+  while IFS= read -r -d '' f; do
+    cp -p "$root_checkout/$f" "$repo/$f"
+  done
+```
+
+Never commit these files. If the root checkout has no required environment,
+stop and ask rather than fabricating one.
+Run the detected command through `direnv exec .` when the repository has an
+`.envrc`; starting without it can produce a superficially running but broken
+service.
 
 ## 2. Synchronize dependencies
 
@@ -91,12 +106,12 @@ If either check fails, say so rather than starting a server that will just crash
   ```
 - **Otherwise**: run it in a persistent background shell session so it doesn't block the turn, and note the session identifier for later log checks.
 
-Starting the server processes is not enough for the default full-stack invocation. Once their readiness checks pass, present every client surface:
+Starting the server processes is not enough. Once readiness checks pass, present
+each requested client surface:
 
 - Open the Next.js URL in the default browser (`xdg-open` on Linux, `open` on macOS).
-- Launch the Expo app on an available attached device or emulator. On Linux, start an Android AVD when no device is attached, wait for `adb` readiness, then trigger Expo's Android target. On macOS, prefer the iOS simulator unless the user requests Android. Do not report mobile as running when only Metro is ready.
-- Start the desktop app with its `dev:desktop` script and confirm the application process remains running.
-- Open the CLI in a detached Kitty window rooted at `nebula-desktop` and run its `cli` script. If Kitty is unavailable, report that surface as blocked instead of substituting another terminal silently.
+- When mobile, desktop, or CLI was explicitly requested, launch and verify that
+  surface using its native readiness signal. Do not launch unrequested clients.
 
 ## 5. Confirm it's up
 
@@ -110,8 +125,9 @@ Poll each service using its own readiness surface for a few seconds before decla
 
 Report every started service and how to inspect its logs. If any repository fails to start or become ready, report the partial stack explicitly rather than declaring `$dev` complete.
 
-## When paired with `/wt` on another repo
+## Coordinating paired worktrees
 
-A common pattern is `/dev` for the main backend plus `/wt` for one
-feature-specific frontend. Point the feature worktree at the local main service
-explicitly; do not silently leave it pointed at a remote environment.
+When backend and web changes belong to the same task or PR set, run both matching
+feature worktrees together. Point the web worktree at the selected local backend
+explicitly; do not leave it pointed at a remote environment or a different local
+branch.

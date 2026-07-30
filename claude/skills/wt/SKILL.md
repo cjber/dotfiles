@@ -1,7 +1,6 @@
 ---
 name: wt
-description: "Creates an isolated git worktree on a cb/-prefixed branch off fresh origin/main using plain `git worktree` (worktrees live under ~/.worktrees, .env is copied in, an optional zellij tab + dev server open), and prunes merged worktrees first. Use when the user wants a new worktree, to start isolated/parallel work on a feature or branch, or to spin up/clean up a scratch checkout, even if they don't say 'worktree' or 'wt'."
-argument-hint: "[feature-name]"
+description: "Creates an isolated git worktree on a cb/-prefixed branch off fresh origin/main using plain `git worktree` (worktrees live under ~/.worktrees, every ignored root .env* file is copied in, an optional zellij tab + dev server open), and prunes merged worktrees first. Use when the user wants a new worktree, to start isolated/parallel work on a feature or branch, or to spin up/clean up a scratch checkout, even if they don't say 'worktree' or 'wt'."
 ---
 
 # `/wt` — Create a worktree
@@ -34,12 +33,15 @@ When the user invokes `/wt`, do this without re-asking:
    - `-b cb/<feature> origin/main` bases the branch on `origin/main`, NOT the current HEAD — so a stale local `main` or a feature checkout can't leak in.
    - If the branch already exists: `git -C "$repo" branch -D cb/<feature>` first (when safe — it's merged/unwanted) or pick a new name.
    - `git worktree add` creates the branch, the worktree dir, and its admin ref atomically. It refuses to overwrite a non-empty dir.
-4. **Copy `.env*` / `.envrc` in** so `dev_check.py` / the dev server work immediately (git worktree does NOT copy untracked files):
+4. **Always copy every ignored root `.env*` file in** so `dev_check.py` / the dev server work immediately (git worktree does NOT copy untracked files). Discover them through Git rather than maintaining a filename allowlist:
    ```bash
-   for f in .env .env.local .env.development .envrc; do
-     [ -f "$repo/$f" ] && cp "$repo/$f" "$wt/$f"
-   done
+   git -C "$repo" ls-files -z --others --ignored --exclude-standard -- ':(top).env*' |
+     while IFS= read -r -d '' f; do
+       cp -p "$repo/$f" "$wt/$f"
+     done
    ```
+   This includes `.env`, `.env.local`, `.env.development`, `.env.test`,
+   `.envrc`, and future ignored variants while excluding tracked templates.
 5. **Open the worktree** depending on whether the user is inside zellij:
    - **If `$ZELLIJ` is set** (the common case from `mosh nuc`): spawn a new zellij tab named after the feature, cwd'd to the worktree, then split for the dev server when appropriate (see [Auto-start dev server](#auto-start-dev-server)).
      ```bash
@@ -145,7 +147,7 @@ bash /home/cjber/.claude/skills/wt/prune.sh /home/cjber/drive/agl/<repo>
 - **`git worktree add` bases the branch on whatever ref you pass.** Always pass `origin/main` explicitly (`-b cb/<feature> origin/main`) — omitting it bases on the current HEAD, which is usually not `main`.
 - **The Bash tool preserves CWD across calls**, so a plain `cd "$wt"` is enough to follow the worktree — no shell-function or path arithmetic needed.
 - **Always use the `cb/` prefix** on the branch (the prune tooling only touches `cb/*`).
-- **`.env*` / `.envrc` must be copied in** after `git worktree add` (step 4) — git worktree only materializes tracked files, so untracked env files don't come along.
+- **Every ignored root `.env*` file must be copied in** after `git worktree add` (step 4) — git worktree only materializes tracked files, so untracked env files don't come along. Use the Git-discovered loop; do not restore a fixed filename list.
 - **Never merge or delete branches from inside a worktree.** `gh pr merge --delete-branch` (or any branch delete) run from a worktree is the footgun that can drop the local `main` ref. Always `cd` to the main checkout first; `gh pr merge` works on the remote PR from anywhere, so the worktree buys you nothing.
 - **Pruning is gh-authoritative, not a guess.** Use `prune.sh` — a merged worktree is removed only when its branch name is in the one-call `gh pr list --state merged` head set (or the branch is a literal ancestor of `origin/main`). The old tree-equivalence/`git cherry` heuristic produced false positives on still-open, far-ahead branches, and per-branch `gh pr view` calls get rate-limited to empty — never resurrect either.
 - **If a repo's `.git` disappears** ("not a git repository") the working tree is usually intact — restore in place with the re-init recipe in [Never move `main` off the main dir](#never-move-main-off-the-main-dir) rather than re-cloning.
