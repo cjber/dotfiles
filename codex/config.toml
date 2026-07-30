@@ -131,3 +131,11 @@ enabled = false
 [[skills.config]]
 path = "/home/cjber/.codex/skills/wrangler/SKILL.md"
 enabled = false
+
+[marketplaces.composio]
+last_updated = "2026-07-30T14:12:25Z"
+source_type = "git"
+source = "https://github.com/ComposioHQ/composio-plugin-openai.git"
+
+[plugins."composio@composio"]
+enabled = true

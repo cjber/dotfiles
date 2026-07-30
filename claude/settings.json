@@ -1,7 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "cleanupPeriodDays": 30,
-  "model": "opus",
   "env": {
     "CLAUDE_CODE_DISABLE_1M_CONTEXT": "0",
     "BASH_MAX_OUTPUT_LENGTH": "30000",
@@ -14,6 +13,7 @@
     ],
     "defaultMode": "bypassPermissions"
   },
+  "model": "opus",
   "hooks": {
     "Notification": [
       {
@@ -108,7 +108,16 @@
     "command": "python3 ~/.claude/subagent-statusline.py"
   },
   "enabledPlugins": {
-    "pyright-lsp@claude-plugins-official": true
+    "pyright-lsp@claude-plugins-official": true,
+    "composio@composio": true
+  },
+  "extraKnownMarketplaces": {
+    "composio": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/ComposioHQ/composio-plugin-cc.git"
+      }
+    }
   },
   "effortLevel": "medium",
   "autoCompactWindow": 300000,
