@@ -37,9 +37,11 @@ phase bounded and avoid spawning any agents beyond those two arms.
 ## 2. Check what of yours is already in motion, then isolate
 
 Before creating any branch, list your own unmerged work in each target
-repository and decide what this change builds on. Branching from `origin/main`
-while your own dependency sits unmerged produces a diff that duplicates or
-conflicts with it, and a review nobody can evaluate in isolation.
+repository. **Default to stacking on top of it rather than opening yet another
+branch off `origin/main`.** Scattered same-day PRs each branched from main
+cannot be exercised together: testing the day's work means juggling branches or
+hand-merging them. A stack has one head that contains everything below it, so
+checking out the top branch runs all of it locally at once.
 
 ```sh
 gh pr list --author "@me" --state open --limit 30 \
@@ -50,18 +52,22 @@ Treat a PR as **in motion** when it is open and either opened/updated today or
 created earlier in this session. Older open PRs are stale parking, not a base —
 do not stack onto them.
 
-Then pick exactly one option, per repository:
+Then, per repository:
 
-- **Same coherent effort, PR still open** → add commits to that branch/PR. One
-  PR per repo still wins over stacking; do not open a second PR for a later
-  phase of the same work.
-- **New work depends on, or edits the same files/contracts as, an in-motion PR**
-  → stack on it: branch from that PR's head, not `origin/main`.
-- **Genuinely independent work** → branch from fresh `origin/main` as normal.
-  Never stack independent work — a layer cannot merge until every layer below it
-  merges, so an unrelated dependency silently blocks it.
+- **Any in-motion PR exists** → stack this change on top of the most recent one.
+  Overlap or dependency is not required; being in flight on the same day is
+  enough. The stack, not `origin/main`, is the base.
+- **Same coherent effort, PR still open** → add commits to that branch/PR
+  instead of adding a layer. One PR per repo still wins over stacking for
+  continuing work already under review.
+- **No in-motion PR** → branch from fresh `origin/main` and start a new stack.
 - **Security-sensitive or independently riskier slice blocking safe work** → the
-  pre-existing split exception; express it as a stack, not two hand-managed PRs.
+  pre-existing split exception; it is a stack, not two hand-managed PRs.
+
+Accept the cost knowingly: a layer cannot merge until every layer below it
+merges, so an unrelated lower layer holds the upper ones back. That is the
+deliberate trade for one testable head. Land bottom-up, or lift a layer out with
+`gh stack modify` when something below it stalls.
 
 Stacking mechanics (`gh stack`, github/gh-stack v0.1.0 — install with
 `gh extension install github/gh-stack`):
@@ -77,7 +83,12 @@ Stacking mechanics (`gh stack`, github/gh-stack v0.1.0 — install with
 - Publish: `gh stack submit --open`. Non-interactive runs need `--auto`, and
   `--auto` creates drafts unless `--open` is also passed.
 - Restack after the trunk moves or a layer merges: `gh stack sync --prune`.
-- Inspect before acting: `gh stack view --json`.
+- Exercise the whole day's work in one checkout: `gh stack top` (or
+  `gh stack checkout <stack-number>`) puts every layer's changes in the working
+  tree at once — this is the point of stacking, so run local verification there
+  rather than per-branch.
+- Inspect before acting: `gh stack view --json`; `gh stack modify` restructures
+  or drops a layer interactively; `gh stack up`/`down` move between layers.
 - Never hand-manage bases with `gh pr edit --base`, and never use
   `gh pr update-branch` — it strips commit signatures. `gh stack` rebases
   locally, so `commit.gpgsign` re-signs every layer.
