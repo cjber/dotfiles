@@ -34,10 +34,64 @@ phase bounded and avoid spawning any agents beyond those two arms.
 - For a bug, establish the cheapest durable reproduction before editing.
 - Ask only when a missing decision would materially change behavior.
 
-## 2. Isolate the work
+## 2. Check what of yours is already in motion, then isolate
 
-- Branch from fresh `origin/main`.
-- Use one `cb/<slug>` worktree per repository. Copy permitted ignored local
+Before creating any branch, list your own unmerged work in each target
+repository and decide what this change builds on. Branching from `origin/main`
+while your own dependency sits unmerged produces a diff that duplicates or
+conflicts with it, and a review nobody can evaluate in isolation.
+
+```sh
+gh pr list --author "@me" --state open --limit 30 \
+  --json number,title,headRefName,baseRefName,createdAt,updatedAt,mergeStateStatus
+```
+
+Treat a PR as **in motion** when it is open and either opened/updated today or
+created earlier in this session. Older open PRs are stale parking, not a base —
+do not stack onto them.
+
+Then pick exactly one option, per repository:
+
+- **Same coherent effort, PR still open** → add commits to that branch/PR. One
+  PR per repo still wins over stacking; do not open a second PR for a later
+  phase of the same work.
+- **New work depends on, or edits the same files/contracts as, an in-motion PR**
+  → stack on it: branch from that PR's head, not `origin/main`.
+- **Genuinely independent work** → branch from fresh `origin/main` as normal.
+  Never stack independent work — a layer cannot merge until every layer below it
+  merges, so an unrelated dependency silently blocks it.
+- **Security-sensitive or independently riskier slice blocking safe work** → the
+  pre-existing split exception; express it as a stack, not two hand-managed PRs.
+
+Stacking mechanics (`gh stack`, github/gh-stack v0.1.0 — install with
+`gh extension install github/gh-stack`):
+
+- Adopt an in-motion PR as the bottom layer, then add yours on top:
+  `gh stack checkout <pr-number>` (fetches the branch and sets up local
+  tracking), then `gh stack add cb/<slug>`.
+- Several existing open branches of yours belong in one chain:
+  `gh stack init <bottom> <mid> <top>` — bottom to top, adopting existing
+  branches; `--base <trunk>` if the trunk is not the default branch.
+- Managing branches outside gh-stack tracking: `gh stack link <pr> <pr>` links
+  existing PRs into a stack on GitHub without local state.
+- Publish: `gh stack submit --open`. Non-interactive runs need `--auto`, and
+  `--auto` creates drafts unless `--open` is also passed.
+- Restack after the trunk moves or a layer merges: `gh stack sync --prune`.
+- Inspect before acting: `gh stack view --json`.
+- Never hand-manage bases with `gh pr edit --base`, and never use
+  `gh pr update-branch` — it strips commit signatures. `gh stack` rebases
+  locally, so `commit.gpgsign` re-signs every layer.
+- Merging a stack is `gh stack merge --yes --squash` (atomic, all-or-nothing up
+  to the chosen PR), but `/pr` still never merges.
+- New-repository preflight: a workflow with a `pull_request: branches: [...]`
+  filter that owns a required check never reports on a non-bottom layer, leaving
+  it permanently unmergeable. Verify that before the first stack in a repo.
+- Each PR body states its base layer and the intended merge order.
+
+Isolation itself:
+
+- Use one `cb/<slug>` worktree per repository, branched from fresh `origin/main`
+  or from the chosen parent layer's head. Copy permitted ignored local
   configuration such as `.env`; never commit it.
 - Use an isolated database for migration work. Never test branch migrations
   against the shared primary database.
@@ -79,7 +133,8 @@ phase bounded and avoid spawning any agents beyond those two arms.
 
 - Stage explicit paths and create signed Conventional Commits.
 - Push one branch and open or update one ready-for-review PR per repository.
-  Task PRs target `main`; never merge.
+  Task PRs target `main`, except a stacked layer, which targets the layer below
+  it and is published with `gh stack submit --open`. Never merge.
 - Include why, scope, tests, risks, rollout order, and deliberate deferrals.
 - Address CI failures and actionable review comments with focused fixes. Avoid
   polling through model turns; use the available wait/monitor mechanism.
