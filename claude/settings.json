@@ -9,7 +9,15 @@
   "permissions": {
     "allow": [
       "Bash(codex exec *)",
-      "Bash(codex review *)"
+      "Bash(codex review *)",
+      "Bash(gcloud --configuration=logs-ro logging read:*)"
+    ],
+    "deny": [
+      "Bash(gcloud auth print-access-token:*)",
+      "Bash(gcloud auth print-identity-token:*)",
+      "Bash(gcloud auth application-default print-access-token:*)",
+      "Bash(gcloud iam service-accounts keys create:*)",
+      "Bash(gcloud secrets versions access:*)"
     ],
     "defaultMode": "bypassPermissions"
   },
