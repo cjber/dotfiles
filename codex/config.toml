@@ -58,6 +58,9 @@ trust_level = "trusted"
 [projects."/tmp/tmp.5OPnp0dWX7"]
 trust_level = "trusted"
 
+[projects."/home/cjber/.worktrees"]
+trust_level = "trusted"
+
 [tui.model_availability_nux]
 "gpt-5.6-sol" = 4
 
