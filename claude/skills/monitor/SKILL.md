@@ -55,11 +55,15 @@ queried** — see "Retired sources" below.
 Stage the needed vars into shell variables (do this once at the top of each
 Bash block — shell state does not persist between tool calls):
 
+Credentials come from the `pass` store, NOT the repo `.env` — the backend reads
+its config from GCP Secret Manager (`NEBULA_SECRET_SOURCE=gcp` in `.envrc`), so
+the repo `.env` holds only a handful of local vars and none of the keys below.
+
 ```bash
 cd /home/cjber/drive/agl/nebula
 set -a
 # shellcheck disable=SC2046
-eval "$(grep -E '^(LANGFUSE_HOST|LANGFUSE_PUBLIC_KEY_PROD|LANGFUSE_SECRET_KEY_PROD|SENTRY_AUTH_TOKEN|SENTRY_ORG_SLUG|SENTRY_PROJECT|METABASE_API_KEY|EVAL_CRED_METABASE_URL)=' .env | sed -E 's/^([A-Z_]+)=\"?(.*[^\"])\"?$/\1=\2/')"
+eval "$(pass show nebula/local-development | grep -E '^(LANGFUSE_HOST|LANGFUSE_PUBLIC_KEY_PROD|LANGFUSE_SECRET_KEY_PROD|SENTRY_AUTH_TOKEN|SENTRY_ORG_SLUG|SENTRY_PROJECT|METABASE_API_KEY|EVAL_CRED_METABASE_URL)=' | sed -E 's/^([A-Z_]+)=\"?(.*[^\"])\"?$/\1=\2/')"
 set +a
 FROM=$(date -u -d '12 hours ago' +%Y-%m-%dT%H:%M:%SZ)
 NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
