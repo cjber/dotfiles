@@ -498,7 +498,9 @@ end)
 -- Binds: apps
 --------------------------------------------------------------------
 hl.bind(mod .. " + Return",         hl.dsp.exec_cmd("kitty"))
-hl.bind(mod .. " + semicolon",      hl.dsp.exec_cmd("google-chrome-stable"))
+-- Chrome: semicolon = personal (cjberragan@gmail.com), +SHIFT = work (cillian@nebula.gg)
+hl.bind(mod .. " + semicolon",         hl.dsp.exec_cmd('google-chrome-stable --profile-directory=Default'))
+hl.bind(mod .. " + SHIFT + semicolon", hl.dsp.exec_cmd('google-chrome-stable --profile-directory="Profile 4"'))
 hl.bind(mod .. " + M",              hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind(mod .. " + V",              hl.dsp.exec_cmd("hyprpwcenter"))
 hl.bind(mod .. " + SHIFT + t", hl.dsp.exec_cmd("/home/cjber/scripts/tv-toggle"))
