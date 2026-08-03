@@ -77,7 +77,8 @@ Isolation itself:
 - Fix the authoritative producer, remove superseded paths, and avoid unrelated
   cleanup.
 - Each arm runs only focused checks for its slice. After both finish, Claude
-  inspects the combined diff and runs Nebula's required full gate.
+  inspects the combined diff and runs the repo's fast lint/type gate
+  (`dev_check.py`, no `--tests`).
 - Before integration, exchange short implementation summaries and diffs. Each arm
   checks the other's slice only for seam mismatches, broken assumptions, and
   missing tests; it does not re-review the entire repository or edit the other's
@@ -98,7 +99,17 @@ Isolation itself:
 - Re-review only the changed risky area after substantive fixes to security,
   data, billing, concurrency, migrations, or public contracts.
 - For agent-visible behavior, run the repository's end-to-end validation.
-- Run the required final full check once after the diff is stable.
+- Run the fast lint/type gate once after the diff is stable.
+
+**Never run the full test suite locally.** CI runs the tests, and it runs the
+integration and migration jobs against separate databases. Locally, run ONLY a
+test you just wrote or one individually-targeted test — enough to show it fails
+without the fix and passes with it. Do not run `uv run pytest` bare, the whole
+`tests/integration` tree, or `dev_check.py --tests`: that gate starts its check
+groups concurrently against one shared Postgres, so the migration group's
+up/down test wipes the schema out from under the integration group and produces
+hundreds of `UndefinedColumn` errors that say nothing about the diff. Push and
+let CI be the test gate.
 
 ## 5. Commit and publish
 
@@ -130,8 +141,8 @@ every review comment has been answered.
   ones; for any you reject, reply on the PR with the evidence rather than
   ignoring it.
 - Commits pushed for CI or review fixes go through the same gates as the
-  original diff: `/simplify` on substantive changes, the repo's full check, and
-  a signed commit.
+  original diff: `/simplify` on substantive changes, the fast lint/type gate,
+  and a signed commit.
 - Poll efficiently — use the available wait/monitor mechanism instead of
   burning model turns on repeated status checks.
 
