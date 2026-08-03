@@ -143,3 +143,9 @@ source = "https://github.com/ComposioHQ/composio-plugin-openai.git"
 
 [plugins."composio@composio"]
 enabled = true
+
+[hooks.state]
+
+[hooks.state."composio@composio:hooks/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:5b6254d9e80ebd17b9e0ff01ae2622c8d77972f538893ecd8987e38779458cee"
+enabled = true
