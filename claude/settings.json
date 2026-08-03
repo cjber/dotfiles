@@ -116,7 +116,6 @@
     "command": "python3 ~/.claude/subagent-statusline.py"
   },
   "enabledPlugins": {
-    "pyright-lsp@claude-plugins-official": true,
     "composio@composio": true,
     "lua-lsp@claude-plugins-official": true
   },
