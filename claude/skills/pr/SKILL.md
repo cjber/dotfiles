@@ -107,10 +107,37 @@ Isolation itself:
   Task PRs target `main`, except a stacked layer, which targets the layer below
   it and is published with `gh stack submit --open`. Never merge.
 - Include why, scope, tests, risks, rollout order, and deliberate deferrals.
-- Address CI failures and actionable review comments with focused fixes. Avoid
-  polling through model turns; use the available wait/monitor mechanism.
+- If the change contradicts a documented rule or contract (a skill file, an
+  architecture doc, an invariant list), update that document in the same PR.
+  A canonical contract left describing the old behaviour is a defect.
+
+## 6. Drive the PR green before finishing
+
+Publishing is not the end of the task. A PR is done when CI is fully green and
+every review comment has been answered.
+
+- **CI must pass completely.** Wait for the checks to finish and read the
+  result — never assume green because the push succeeded or because local
+  checks passed. Fix every failure and re-push until all required checks pass.
+  If a failure is genuinely environmental or a known-flaky job, say so
+  explicitly with the evidence that distinguishes it from a real failure;
+  never silently treat red as green.
+- **Read and address review comments, including bot reviewers.** Fetch them
+  explicitly: a PR-level review body hides the inline comments, so pull the
+  inline set too (`gh api repos/{owner}/{repo}/pulls/{n}/comments`) rather than
+  relying on `gh pr view`. Automated reviewers (Codex, Copilot, CodeQL) count.
+- Evaluate each comment on its merits against the actual code. Fix the valid
+  ones; for any you reject, reply on the PR with the evidence rather than
+  ignoring it.
+- Commits pushed for CI or review fixes go through the same gates as the
+  original diff: `/simplify` on substantive changes, the repo's full check, and
+  a signed commit.
+- Poll efficiently — use the available wait/monitor mechanism instead of
+  burning model turns on repeated status checks.
 
 ## Finish
 
-Report PR URLs and bases, branches/worktrees, commits, checks, review outcome,
-rollout constraints, and real blockers. Do not narrate routine exploration.
+Report PR URLs and bases, branches/worktrees, commits, the **final CI state**,
+how each review comment was resolved, rollout constraints, and real blockers.
+Do not narrate routine exploration. Do not report success while CI is red,
+still running, or unchecked, or while review comments are unaddressed.
