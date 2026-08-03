@@ -12,7 +12,10 @@ phase bounded and avoid spawning any agents beyond those two arms.
 
 - Claude uses Sonnet at medium effort by default.
 - Codex uses Terra at low effort for planning/review and medium effort for its
-  implementation slice. Never select the fast service tier.
+  implementation slice. Never select the fast service tier. Pass the model as the
+  fully-qualified `gpt-5.6-terra` (`codex exec -m gpt-5.6-terra`); the bare name
+  `terra` is rejected with "not supported when using Codex with a ChatGPT
+  account". Sol is likewise `gpt-5.6-sol`.
 - Each phase has one Claude arm and one Codex arm. They may exchange one concise
   critique/reply round to challenge assumptions and surface misses. Do not add
   scouts, agent teams, nested subagents, or recursive workflow calls.
