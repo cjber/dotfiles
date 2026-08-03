@@ -149,3 +149,6 @@ enabled = true
 [hooks.state."composio@composio:hooks/hooks.json:session_start:0:0"]
 trusted_hash = "sha256:5b6254d9e80ebd17b9e0ff01ae2622c8d77972f538893ecd8987e38779458cee"
 enabled = true
+
+[hooks.state."composio@composio:hooks/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:1eda8f93fe71a38af3cba04c7070710ba713c1b304e8c6f4b2615a49c17edd93"
