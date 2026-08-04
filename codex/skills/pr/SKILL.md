@@ -1,13 +1,15 @@
 ---
 name: pr
-description: Take an approved change end-to-end through one concise plan, serial implementation, repository verification, one review, signed commits, and one ready-for-review PR per repository targeting main. Never merge.
+description: Take an approved change end-to-end through one concise plan, serial implementation, repository verification, one review, signed commits, and one ready-for-review PR per repository. Add open PRs to the repository's GitHub stack by default, including unrelated PRs, unless the user says not to stack. Never merge.
 ---
 
 # Ship one reviewed, green PR per repository
 
 Match Claude's `/pr` outcome contract while using Codex-native agents and tools.
-Exactly one task PR is allowed per repository in a session. Task PRs target
-`main` and are never merged by the skill.
+Exactly one task PR is allowed per repository in a session. Task PRs are never
+merged by the skill. Publish them through GitHub's native stack workflow by
+default, even when adjacent layers are unrelated; only leave a PR unstacked
+when the user explicitly says not to stack it.
 
 ## 1. Plan and establish scope
 
@@ -59,7 +61,8 @@ Exactly one task PR is allowed per repository in a session. Task PRs target
 
 - Stage explicit paths; never use `git add -A` or `git add .`.
 - Create signed Conventional Commits with `git commit -S`. Do not amend or bypass hooks.
-- Push the task branch and open one ready-for-review PR per repository with base `main`. If that branch already has a PR, update it instead of opening another. Never turn a ready PR back into a draft.
+- Push the task branch and open one ready-for-review PR per repository. If that branch already has a PR, update it instead of opening another. Never turn a ready PR back into a draft.
+- Add every new or updated PR to the repository's native GitHub stack with `gh stack`, including unrelated work because one ordered review/merge queue is easier to operate. Preserve declared dependency order; otherwise append the PR to the top. The only opt-out is an explicit user instruction such as "don't stack". A PR deliberately excluded from the stack targets `main`.
 - Never incorporate a draft PR/commit into a main-targeted diff. Draft means not release-authorized, not merely “hidden behind a flag.” Require an explicit ready-for-review transition or author approval first.
 - Include Why/Summary, Scope, Test plan, cross-repository or generated-client impact, risks, rollout order, and deliberate deferrals.
 - For contract retirements, list the supported stale-client behavior and the explicit legacy-removal gate in every affected PR body.
@@ -69,7 +72,7 @@ Exactly one task PR is allowed per repository in a session. Task PRs target
 
 - Before handoff, fetch `origin/main`. If the task branch is behind, merge main with a signed merge commit; never rebase shared history. Resolve conflicts semantically and verify key behavior survived even in unconflicted moved files.
 - Re-run the full gate and final agent-visible validation after main merges or substantive review/CI fixes.
-- Verify the PR base is `main` and GitHub reports a clean, mergeable state rather than conflicting, dirty, or behind.
+- Verify the bottom PR targets `main`, each higher PR targets its immediate stack parent, and GitHub reports every layer clean and mergeable rather than conflicting, dirty, or behind.
 - Use `$gh-fix-ci` for GitHub Actions failures and `$gh-address-comments` for actionable review threads. Fix root causes in new signed commits, push, and self-pace polling.
 - Finish only when required checks are green and no actionable thread remains. Report exact external blockers rather than claiming success.
 
