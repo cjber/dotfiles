@@ -63,6 +63,7 @@ when the user explicitly says not to stack it.
 - Create signed Conventional Commits with `git commit -S`. Do not amend or bypass hooks.
 - Push the task branch and open one ready-for-review PR per repository. If that branch already has a PR, update it instead of opening another. Never turn a ready PR back into a draft.
 - Add every new or updated PR to the repository's native GitHub stack with `gh stack`, including unrelated work because one ordered review/merge queue is easier to operate. Preserve declared dependency order; otherwise append the PR to the top. The only opt-out is an explicit user instruction such as "don't stack". A PR deliberately excluded from the stack targets `main`.
+- Maintain exactly one `stack-top` label per active stack. After every link, submit, or reorder, resolve the actual top from the resulting stack topology, remove `stack-top` from any former top, and apply it to the current top. Never guess the PR number; the label supports a saved top-only GitHub PR view.
 - Never incorporate a draft PR/commit into a main-targeted diff. Draft means not release-authorized, not merely “hidden behind a flag.” Require an explicit ready-for-review transition or author approval first.
 - Include Why/Summary, Scope, Test plan, cross-repository or generated-client impact, risks, rollout order, and deliberate deferrals.
 - For contract retirements, list the supported stale-client behavior and the explicit legacy-removal gate in every affected PR body.
