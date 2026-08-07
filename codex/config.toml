@@ -152,3 +152,6 @@ enabled = true
 
 [hooks.state."composio@composio:hooks/hooks.json:user_prompt_submit:0:0"]
 trusted_hash = "sha256:1eda8f93fe71a38af3cba04c7070710ba713c1b304e8c6f4b2615a49c17edd93"
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
