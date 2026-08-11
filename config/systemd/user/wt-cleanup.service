@@ -1,7 +1,25 @@
 [Unit]
-Description=Worktree orphan cleanup
+Description=Worktree maintenance (freshen main, prune merged worktrees, reap stale venvs)
 
 [Service]
 Type=oneshot
 ExecStart=/home/cjber/scripts/wt_cleanup.sh
 Nice=10
+
+# Log to a file, NOT just journald. This unit removes worktrees, deletes merged
+# branches and reaps .venv dirs unattended, so its output is the only record of
+# what it did — and journald capture here is unreliable: a manual run on
+# 2026-08-11 produced no user-journal entries at all while an earlier timer run
+# was captured in full. An unattended destructive job must not depend on a
+# transport that silently drops its only audit trail.
+# append: (not truncate:) so history survives across runs.
+StandardOutput=append:%h/.local/state/wt-cleanup.log
+StandardError=append:%h/.local/state/wt-cleanup.log
+
+# NoNewPrivileges is the ONLY hardening directive that is safe here. Any
+# namespacing directive (ProtectSystem, PrivateTmp, ReadWritePaths, ...) puts
+# the unit in a mount namespace where ssh rejects
+# /etc/ssh/ssh_config.d/20-systemd-ssh-proxy.conf as "Bad owner or permissions".
+# Every git fetch/ls-remote then fails and the run silently does nothing.
+# Verified per-directive — do not add more.
+NoNewPrivileges=yes
