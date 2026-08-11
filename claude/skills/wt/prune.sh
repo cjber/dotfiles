@@ -37,10 +37,37 @@ is_merged() {
     [ "$mb" = "$tip" ]
 }
 
+# Branches a worktree is holding, INCLUDING one held only by an interrupted
+# rebase. Such a worktree is detached, so `git worktree list` prints no `branch`
+# line for it and both passes below would otherwise miss the branch entirely -
+# the second pass then tries `git branch -D`, git refuses ("used by worktree"),
+# and every run leaks a raw error while the real signal (unfinished work parked
+# mid-rebase) is never surfaced. Treat these as in-use and say so.
+in_use_branches() {
+    git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r p; do
+        [ -d "$p" ] || continue
+        gd=$(git -C "$p" rev-parse --absolute-git-dir 2>/dev/null) || continue
+        git -C "$p" symbolic-ref --quiet --short HEAD 2>/dev/null
+        for f in "$gd/rebase-merge/head-name" "$gd/rebase-apply/head-name"; do
+            [ -f "$f" ] && sed 's|^refs/heads/||' "$f"
+        done
+    done
+}
+IN_USE="$(in_use_branches)"
+
 removed=0 kept=0
 LIST="$(mktemp)"
 # Collect first, act after - no side effects inside a pipeline subshell.
 git worktree list --porcelain | awk '/^worktree /{p=$2} /^branch /{print p, $2}' > "$LIST"
+
+# Surface detached worktrees rather than silently skipping them: a detached tree
+# is usually an interrupted rebase/bisect, i.e. work someone still needs.
+git worktree list --porcelain | awk '
+    /^worktree /{p=$2; d=0} /^detached/{d=1} /^$/{if(d && p!="") print p; p=""}
+    END{if(d && p!="") print p}' | while read -r p; do
+    [ "$p" = "$MAIN_TOPLEVEL" ] && continue
+    echo "keep (detached — likely an interrupted rebase): $p"
+done
 
 while read -r path ref; do
     branch=${ref#refs/heads/}
@@ -72,6 +99,11 @@ rm -f "$LIST"
 # Second pass: merged cb/ local branches with no worktree at all.
 for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/cb/); do
     git worktree list --porcelain | grep -qxF "branch refs/heads/$branch" && continue
+    if printf '%s\n' "$IN_USE" | grep -qxF "$branch"; then
+        echo "keep (held by a worktree mid-rebase): $branch"
+        kept=$((kept + 1))
+        continue
+    fi
     printf '%s\n' "$OPEN_HEADS" | grep -qxF "$branch" && continue
     if is_merged "$branch"; then
         git branch -D "$branch" >/dev/null && echo "removed branch (no worktree): $branch" && removed=$((removed + 1))

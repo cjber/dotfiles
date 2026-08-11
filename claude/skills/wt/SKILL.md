@@ -142,6 +142,22 @@ What the script enforces:
 
 The scheduled `wt-cleanup.timer` (systemd user timer) runs the same `prune.sh` across every repo listed in `~/.config/wt-cleanup/repos.conf`, so the manual and automatic paths share one implementation.
 
+**`wt-cleanup.timer` is the ONLY worktree timer — do not add a second.** It absorbed
+the former `worktree-prune.{sh,service,timer}` (retired 2026-08-11), which fired 13
+minutes later over the same tree using weaker `git ls-remote` "branch gone" detection
+with no open-PR guard. Two timers racing one tree meant whichever ran first decided
+the outcome, so no behaviour could be attributed to either. Per repo the survivor now
+does: **freshen → prune → orphan-dir sweep**, then one **stale-`.venv` reap** across
+`~/.worktrees` (30+ days untouched; only the venv goes, `uv sync` rebuilds it — this
+is what prevents the btrfs-METADATA ENOSPC that motivated the original script).
+
+It also **auto-discovers** any repo owning a worktree but missing from `repos.conf`,
+by asking each worktree for its own primary checkout. A hand-maintained list silently
+omits repos, and an omitted repo gets neither a refresh nor a prune.
+
+Its output *is* captured by `journalctl --user -u wt-cleanup.service` — verified, so
+there is no need for a side log file.
+
 ## Quick reference
 
 ```bash
