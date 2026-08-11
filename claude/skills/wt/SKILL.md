@@ -20,7 +20,7 @@ Backed by **plain `git worktree`** — no external tool. The unmaintained `workt
 
 When the user invokes `/wt`, do this without re-asking:
 
-1. **Prune merged worktrees first** — see [Prune merged worktrees](#prune-merged-worktrees). Run it silently before creating; it's a no-op when there's nothing to remove.
+1. **Freshen, then prune** — run [`freshen.sh`](#keep-the-main-checkout-fresh-and-on-main) then [`prune.sh`](#prune-merged-worktrees) against the repo, silently. Both are no-ops when there is nothing to do. Freshening first means the new branch is cut from a genuinely current `origin/main` and the prune judges "merged" against it.
 2. **Pick a feature name** — kebab-case, no slashes. Derive from the approved plan, the current task, or recent conversation.
 3. **Create the branch off fresh `origin/main`, then add the worktree** — always **from the repo's main checkout** (never from inside another worktree):
    ```bash
@@ -89,6 +89,37 @@ The single hard invariant restated (invariant 2 above): **`main` must always sta
   git reset --hard origin/main           # only once you've confirmed nothing local is worth keeping
   ```
 
+## Keep the main checkout fresh and on `main`
+
+`freshen.sh` is the enforcement arm of invariant 2, and the answer to "is my local
+`main` stale?" — never assume it is current, because a checkout drifts silently and
+then every grep, diff, and `origin/main` branch base is wrong. (A stale checkout
+has already produced a confident-but-false "this code still references X".)
+
+```bash
+bash /home/cjber/.claude/skills/wt/freshen.sh /home/cjber/drive/agl/<repo>   # arg defaults to $PWD
+```
+
+Per repo it fetches with `--prune`, restores the local `main` ref if it went
+missing, returns the primary checkout to `main`, and fast-forwards it.
+
+**It never destroys work** — that is the whole design, since it runs unattended:
+
+- **Fast-forward only.** `merge --ff-only`, never `reset --hard`, never a rebase,
+  never a force. Local commits on `main` make it fail loudly instead of clobber.
+- **It leaves a feature branch alone** unless the branch is clean *and* fully
+  pushed. Modified tracked files or unpushed commits => it warns and stops.
+- **No stash, ever**, so there is never hidden state to go hunting for.
+- **Untracked files are not "dirty"** (`status --porcelain -uno`). They survive a
+  checkout untouched and git itself refuses anything that would clobber one, so
+  treating them as a blocker only produces false stalls.
+- **It refuses to run inside a worktree** (compares `--git-dir` against
+  `--git-common-dir`) — it is exclusively about the primary checkout.
+
+It runs as step 0 of the daily `wt-cleanup` timer, before the prune, so the prune's
+merged-detection reads a current `origin/main`. Run it by hand any time you doubt a
+checkout is current — the repeated cost of a stale main is far worse than the fetch.
+
 ## Prune merged worktrees
 
 Pruning is **a full local removal of each merged worktree (worktree dir + local branch) plus a remote-tracking prune** — the remote branch itself is already gone (auto-deleted on merge), so we never push a delete.
@@ -137,6 +168,9 @@ git -C "$repo" worktree prune
 
 # Prune merged worktrees (idempotent, run from the main checkout)
 bash /home/cjber/.claude/skills/wt/prune.sh /home/cjber/drive/agl/<repo>
+
+# Put the main checkout back on main and fast-forward it (safe, never destructive)
+bash /home/cjber/.claude/skills/wt/freshen.sh /home/cjber/drive/agl/<repo>
 ```
 
 `wt` is aliased to `git worktree` in `~/.zshalias`, so `wt list` / `wt add` / `wt remove` / `wt prune` all work interactively as plain git-worktree subcommands.

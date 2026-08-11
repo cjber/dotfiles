@@ -4,6 +4,9 @@
 # `/wt` prune and this daily systemd run, so they can never drift.
 #
 # For every repo in ~/.config/wt-cleanup/repos.conf it:
+#   0. runs freshen.sh <repo> — puts the PRIMARY checkout back on main (only
+#      when nothing would be lost) and fast-forwards it to origin/main, so the
+#      main dir never drifts stale or sits on a feature branch (invariant 2).
 #   1. runs prune.sh <repo>  — gh-authoritative removal of MERGED cb/ worktrees
 #      (dir + local branch), open-PR/dirty/main guards, + `git worktree prune`
 #      to drop orphaned admin refs.
@@ -16,6 +19,7 @@ set -euo pipefail
 export PATH=/usr/bin:/usr/local/bin:/bin:${PATH:-}
 
 PRUNE=/home/cjber/.claude/skills/wt/prune.sh
+FRESHEN=/home/cjber/.claude/skills/wt/freshen.sh
 WORKTREES_ROOT="$HOME/.worktrees"
 
 # Repo map from a local, gitignored config that populates REPOS, e.g.:
@@ -36,6 +40,14 @@ for repo in "${!REPOS[@]}"; do
     name="${REPOS[$repo]}"
     # Guard: only operate on a real repo whose main dir is present.
     [[ -d "$repo/.git" || -f "$repo/.git" ]] || { log "skip $repo (not a repo)"; continue; }
+
+    # 0. Keep the primary checkout on main and fast-forwarded. Runs FIRST so the
+    #    prune below sees an up-to-date origin/main when deciding what merged.
+    if [[ -f "$FRESHEN" ]]; then
+        bash "$FRESHEN" "$repo" || log "  freshen.sh failed for $name"
+    else
+        log "  freshen.sh not found at $FRESHEN — skipping main refresh for $name"
+    fi
 
     # 1. Canonical prune: merged cb/ worktrees + branches + orphaned admin refs.
     if [[ -x "$PRUNE" || -f "$PRUNE" ]]; then
