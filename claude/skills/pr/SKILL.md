@@ -127,6 +127,24 @@ let CI be the test gate.
 Publishing is not the end of the task. A PR is done when CI is fully green and
 every review comment has been answered.
 
+**Waiting on CI is working time, not idle time.** The moment the PR is open,
+start a second `/simplify` and `/review` pass over the published diff and run it
+*concurrently* with the checks — never sit polling a status endpoint. This pass
+is mandatory, not conditional on the pre-publish pass having found something:
+
+- The pre-publish pass in §4 reviewed a diff you had just finished writing. The
+  post-publish pass reads it as published, with that round's fixes folded in —
+  a different artifact, and those fixes are themselves unreviewed code until
+  this pass looks at them.
+- Findings cost nothing here. The branch is already pushed, so a fix is one more
+  signed commit onto the open PR; the same finding raised after a human review
+  has cost a review cycle.
+- Anything it finds goes through the same gates as any other fix commit (see the
+  last bullet of this section), and the PR body is updated if scope moved.
+
+Run it as one `/simplify` followed by `/review` over `git diff origin/main`, and
+report what it changed alongside the CI result.
+
 - **CI must pass completely.** Wait for the checks to finish and read the
   result — never assume green because the push succeeded or because local
   checks passed. Fix every failure and re-push until all required checks pass.
