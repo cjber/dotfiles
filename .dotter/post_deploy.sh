@@ -33,18 +33,6 @@ link_skill_directory "$DOTFILES_DIR/claude/skills/pr" "$HOME/.agents/skills/pr"
 link_skill_directory "$DOTFILES_DIR/claude/skills/dev" "$HOME/.codex/skills/dev"
 link_skill_directory "$DOTFILES_DIR/codex/skills/pr" "$HOME/.codex/skills/pr"
 
-# Keep the Hyprland Lua helper module available without letting Dotter expand
-# and manage the external ~/src/hyprview git checkout.
-HYPRVIEW_SRC="$HOME/src/hyprview"
-HYPRVIEW_TARGET="$HOME/.config/hypr/hyprview"
-if [ -d "$HYPRVIEW_SRC" ]; then
-    if [ -L "$HYPRVIEW_TARGET" ] || [ ! -e "$HYPRVIEW_TARGET" ]; then
-        ln -sfn "$HYPRVIEW_SRC" "$HYPRVIEW_TARGET"
-    else
-        echo "[dotter] warning: $HYPRVIEW_TARGET exists and is not a symlink; leaving it alone" >&2
-    fi
-fi
-
 # --- RTL8125 dual-boot NIC reset (system service + rescue helper) ---------
 # Installs the shutdown-time NIC reset so a warm reboot hands Windows a clean
 # chip (the RTL8125 strands its link across OS handoffs otherwise). The
