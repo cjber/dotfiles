@@ -1,6 +1,6 @@
 ---
 name: wt
-description: "Creates an isolated git worktree on a cb/-prefixed branch off fresh origin/main using plain `git worktree` (worktrees live under ~/.worktrees, every ignored root .env* file is copied in, an optional zellij tab + dev server open), and prunes merged worktrees first. Use when the user wants a new worktree, to start isolated/parallel work on a feature or branch, or to spin up/clean up a scratch checkout, even if they don't say 'worktree' or 'wt'."
+description: "Creates an isolated git worktree on a cb/-prefixed branch off fresh origin/main using plain `git worktree` (worktrees live under ~/.worktrees, every ignored root .env* file is copied in, the local Postgres database is cloned per worktree, an optional zellij tab + dev server open), and prunes merged worktrees first (dropping their cloned databases). Use when the user wants a new worktree, to start isolated/parallel work on a feature or branch, or to spin up/clean up a scratch checkout, even if they don't say 'worktree' or 'wt'."
 ---
 
 # `/wt` — Create a worktree
@@ -42,13 +42,18 @@ When the user invokes `/wt`, do this without re-asking:
    ```
    This includes `.env`, `.env.local`, `.env.development`, `.env.test`,
    `.envrc`, and future ignored variants while excluding tracked templates.
-5. **Open the worktree** depending on whether the user is inside zellij:
+5. **Give the worktree its own database** — run [`clone-db.sh`](#per-worktree-database) after the copy, so it has an `.env` to read and rewrite:
+   ```bash
+   ~/.claude/skills/wt/clone-db.sh "$wt" <feature>
+   ```
+   It is a no-op for a repo with no `.env`, no `DATABASE_URL`, or a non-local one, so it is safe to run unconditionally.
+6. **Open the worktree** depending on whether the user is inside zellij:
    - **If `$ZELLIJ` is set** (the common case from `mosh nuc`): spawn a new zellij tab named after the feature, cwd'd to the worktree, then split for the dev server when appropriate (see [Auto-start dev server](#auto-start-dev-server)).
      ```bash
      zellij action new-tab --name <feature> --cwd "$wt"
      ```
    - **Otherwise** (plain shell): `cd "$wt"` so the current shell follows (the Bash tool preserves CWD across calls).
-6. **Confirm**: one-line "Worktree `cb/<feature>` ready at `<wt>`" plus, if you opened a server pane, what's running there.
+7. **Confirm**: one-line "Worktree `cb/<feature>` ready at `<wt>`" plus, if you opened a server pane, what's running there.
 
 ## Auto-start dev server
 
@@ -119,6 +124,41 @@ missing, returns the primary checkout to `main`, and fast-forwards it.
 It runs as step 0 of the daily `wt-cleanup` timer, before the prune, so the prune's
 merged-detection reads a current `origin/main`. Run it by hand any time you doubt a
 checkout is current — the repeated cost of a stale main is far worse than the fetch.
+
+## Per-worktree database
+
+A worktree that inherits the main checkout's `DATABASE_URL` shares its database, and a
+shared database is not isolation: an `alembic upgrade` in one worktree re-shapes the
+schema every other worktree reads, and a truncating test run wipes data another branch
+is mid-way through debugging.
+
+[`clone-db.sh`](clone-db.sh) fixes that at creation time. It reads `DATABASE_URL` out of
+the worktree's freshly-copied `.env`, clones that database with `CREATE DATABASE …
+TEMPLATE …` (a filesystem copy — near-instant, and it carries the seeded rows that make
+a local checkout useful), and rewrites the worktree's `.env` to point at the clone.
+
+```bash
+~/.claude/skills/wt/clone-db.sh "$wt" <feature>
+```
+
+- **Every clone is named `wt_<feature>`.** That prefix is the contract `prune.sh` drops
+  against; nothing without it is ever touched. Pre-existing per-worktree databases
+  created by hand carry no prefix and must be dropped manually.
+- **DBOS and the migrations harness need no separate edit** — both derive their database
+  (`<db>_dbos`, `<db>_migrations`) from `DATABASE_URL`, so they follow the clone. The
+  prune drops all three.
+- **It never touches a remote database.** A `DATABASE_URL` whose host is not
+  `localhost`/`127.0.0.1` is left alone — cloning there would create a real database on
+  infrastructure this has no business writing to.
+- **A clone can legitimately fail.** `TEMPLATE` requires the source to have no other
+  sessions, so a running dev server or an open `psql` blocks it. The script says so and
+  leaves `.env` untouched rather than terminating someone's connection: the worktree
+  still works, it just shares a database until you retry.
+
+Beware the interaction with `pass`: environment variables rank **above** `.env` in
+Nebula's settings loader, so a `DATABASE_URL` exported into the shell would silently
+override the clone. That is why `nebula/local-development` no longer carries
+`DATABASE_URL` or `DBOS_DATABASE_URL`.
 
 ## Prune merged worktrees
 

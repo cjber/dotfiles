@@ -27,6 +27,32 @@ MAIN_TOPLEVEL="$(git rev-parse --show-toplevel)"
 MERGED_HEADS="$(gh pr list --state merged --limit 1000 --json headRefName -q '.[].headRefName')" || exit 1
 OPEN_HEADS="$(gh pr list --state open --limit 200 --json headRefName -q '.[].headRefName')" || exit 1
 
+# Drop the per-worktree database clone-db.sh created for this tree, if any.
+#
+# The name is read out of the worktree's own .env rather than re-derived from the
+# branch, so a hand-edited DATABASE_URL is honoured and a mismatch can never make
+# this drop somebody else's database. The `wt_` prefix is the hard gate: a
+# worktree still pointing at a shared database has no prefix and is left alone.
+drop_worktree_db() {
+    wt_env="$1/.env"
+    [ -f "$wt_env" ] || return 0
+    url=$(sed -n 's/^DATABASE_URL=//p' "$wt_env" | head -1)
+    [ -n "$url" ] || return 0
+    case "$url" in
+        *@localhost:*|*@127.0.0.1:*) ;;
+        *) return 0 ;;
+    esac
+    db=${url##*/}
+    db=${db%%\?*}
+    case "$db" in wt_*) ;; *) return 0 ;; esac
+    # DBOS and the migrations harness derive their own databases from this name;
+    # drop them in the same sweep or they outlive the worktree that owned them.
+    for name in "$db" "${db}_dbos" "${db}_migrations"; do
+        psql "${url%/*}/postgres" -q -c "DROP DATABASE IF EXISTS \"$name\" WITH (FORCE)" 2>/dev/null
+    done
+    echo "dropped database: $db (+_dbos, +_migrations)"
+}
+
 is_merged() {
     if printf '%s\n' "$MERGED_HEADS" | grep -qxF "$1"; then
         return 0
@@ -86,6 +112,7 @@ while read -r path ref; do
         continue
     fi
     if is_merged "$branch"; then
+        drop_worktree_db "$path"   # while .env still exists - removal takes it with the tree
         if git worktree remove "$path" && git branch -D "$branch"; then
             echo "removed: $branch ($path)"
             removed=$((removed + 1))
