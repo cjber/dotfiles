@@ -24,6 +24,50 @@ phase bounded and avoid spawning any agents beyond those two arms.
 - Escalate one judgment turn to Opus or Sol only for security, billing, data-loss,
   migration, or architecture risk that the default model cannot resolve.
 
+### Invoking Codex — always redirect stdin
+
+**`codex exec` waits for stdin to reach EOF before it starts, whenever stdin is
+not a TTY.** A backgrounded Bash call hands it a pipe that never closes, so it
+blocks forever having printed only `Reading additional input from stdin...`.
+This is the single most repeated failure in this skill's history: it has burned
+a launch round-trip on 2026-07-24 and again on 2026-08-17, the latter costing
+25 minutes of wall-clock for zero work while looking like a healthy running arm.
+
+So every invocation redirects stdin. Two correct shapes, both verified:
+
+```sh
+# Prompt in a file (preferred for anything longer than a line):
+cd "$WORKTREE" && codex exec -m gpt-5.6-terra --skip-git-repo-check - < prompt.md
+
+# Prompt as an argument — still requires closing stdin explicitly:
+cd "$WORKTREE" && codex exec -m gpt-5.6-terra --skip-git-repo-check "$PROMPT" < /dev/null
+```
+
+Prefer the file form, and **write the prompt with the Write tool rather than
+inlining it**. A long prompt inlined into a shell command needs nested quote
+escaping (`'"'"'` chains) that is easy to get wrong and impossible to read back.
+
+Three rules for reading the result, because this failure imitates success:
+
+- **`Reading additional input from stdin...` means the prompt never arrived.**
+  Treat that string as a hard failure, whatever the exit code — the 2026-08-17
+  occurrence exited **0**.
+- **A fast exit is not a fast success.** Before trusting a quick return, confirm
+  the arm actually changed something (`git status`, or the artifact it owed).
+- **Silence is not progress.** An arm with no output after ~5 minutes has almost
+  certainly hit this; check rather than wait. Do not let a long-running process
+  reassure you — the hang and the instant no-op share one cause.
+
+Two further flag landmines on this account:
+
+- **`codex exec resume <id>` rejects `--cd` and `--sandbox`** (exit 2,
+  `unexpected argument`). Resume is cwd-aware, so `cd` into the worktree first —
+  which is why every example above `cd`s rather than passing `--cd`. Sandbox mode
+  is inherited from the original `exec`.
+- **`codex review` takes `-m`/`-c` as TOP-LEVEL flags**, before the subcommand:
+  `codex -m gpt-5.6-sol -c ... review --base origin/main`. And `--base main`
+  reviews against the *local* main — always pass `origin/main`.
+
 ## 1. Plan once on both models
 
 - Read applicable `AGENTS.md` and only the domain skills needed for the touched
