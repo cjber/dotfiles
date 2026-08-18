@@ -116,15 +116,38 @@ migration` means it's dev-machine noise, not prod (see nebula#5807).
 
 ### Langfuse (REST — Basic auth, PROD key pair)
 
-Errors are `level=ERROR` observations. `.meta.totalItems` is the count; group
-`.data[]` by `.name` and by `.statusMessage` (normalise uuids/numbers) for the
-top exception breakdown.
+Errors are `level=ERROR` observations. Langfuse v4 removed the v1 read APIs
+(Cloud serves them only until **2026-11-16**), and the replacements split this
+job in two: v1's `.meta.totalItems` does not exist in v2, whose `meta` carries
+only an opaque `cursor`. Reading `.meta.totalItems` off v2 yields `null`, so
+take counts from the Metrics API instead of the row listing.
+
+**Counts + breakdown by name — exact, one request** (`/v2/metrics`):
+```bash
+curl -s -u "$LANGFUSE_PUBLIC_KEY_PROD:$LANGFUSE_SECRET_KEY_PROD" -G \
+  "$LANGFUSE_HOST/api/public/v2/metrics" \
+  --data-urlencode "query={\"view\":\"observations\",\"metrics\":[{\"measure\":\"count\",\"aggregation\":\"count\"}],\"dimensions\":[{\"field\":\"name\"}],\"filters\":[{\"column\":\"level\",\"operator\":\"=\",\"value\":\"ERROR\",\"type\":\"string\"}],\"fromTimestamp\":\"$FROM\",\"toTimestamp\":\"$NOW\",\"config\":{\"row_limit\":15}}" \
+  | jq -r '.data[] | "\(.count_count)\t\(.name)"'
+```
+
+**Exception breakdown — sampled rows** (`/v2/observations`, for `statusMessage`;
+normalise uuids/numbers before grouping):
 ```bash
 curl -s -u "$LANGFUSE_PUBLIC_KEY_PROD:$LANGFUSE_SECRET_KEY_PROD" -G \
   --data-urlencode "level=ERROR" --data-urlencode "fromStartTime=$FROM" \
-  --data-urlencode "limit=100" "$LANGFUSE_HOST/api/public/observations" \
-  | jq -r '"total=\(.meta.totalItems)", (.data[] | .name)' 
+  --data-urlencode "toStartTime=$NOW" --data-urlencode "limit=100" \
+  --data-urlencode "fields=core,basic" \
+  "$LANGFUSE_HOST/api/public/v2/observations" \
+  | jq -r '"sampled=\(.data|length) truncated=\(if .meta.cursor then "yes" else "no" end)",
+           (.data[] | "\(.name)\t\(.statusMessage // "-")")'
 ```
+
+Two v2 traps worth remembering: always bound BOTH `fromStartTime` and
+`toStartTime`, and request `fields` explicitly — groups you do not ask for are
+**absent** from the response rather than null, so a missing `fields=...,io`
+silently reads as "no output" rather than erroring. Note also that prod runs
+with `LANGFUSE_INCLUDE_CONTENT` off, so observation `input`/`output` come back
+empty there; anything that greps payload text only works against dev.
 
 ### Metabase (REST — `POST /api/dataset`, header `x-api-key: $METABASE_API_KEY`, database `2`)
 
