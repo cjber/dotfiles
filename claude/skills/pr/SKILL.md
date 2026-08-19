@@ -199,9 +199,32 @@ report what it changed alongside the CI result.
   explicitly: a PR-level review body hides the inline comments, so pull the
   inline set too (`gh api repos/{owner}/{repo}/pulls/{n}/comments`) rather than
   relying on `gh pr view`. Automated reviewers (Codex, Copilot, CodeQL) count.
-- Evaluate each comment on its merits against the actual code. Fix the valid
-  ones; for any you reject, reply on the PR with the evidence rather than
-  ignoring it.
+- **Every comment gets a reply on the PR — accepted, rejected, or already
+  fixed. No exceptions.** Evaluate each on its merits against the actual code,
+  then reply in its own thread so the resolution is visible where the comment
+  was made:
+
+  ```sh
+  gh api repos/{owner}/{repo}/pulls/{n}/comments/{comment_id}/replies \
+    -f body="$REPLY"
+  ```
+
+  A fix pushed without a reply reads as an ignored comment — the reviewer has
+  to diff the branch to discover you agreed. Silence is the one response that
+  costs a review cycle no matter which way you decided.
+
+  Each reply states the verdict and the evidence, in one or two sentences:
+  - **Accepted** — name the commit that fixes it and what it changed.
+  - **Rejected** — the specific evidence that disproves it (the guard that
+    already exists, the call site that cannot produce the shape, the test that
+    covers it). Never reject on assertion alone.
+  - **Partially accepted** — say which part you took, which you did not, and
+    why. This is common on suggestions whose diagnosis is right but whose
+    proposed fix conflicts with something the reviewer could not see.
+
+  Verify a comment's claim against the code before answering it, including a
+  bot's. Confirming a wrong finding to look agreeable puts a defect in the
+  branch; measure first, then reply with what you measured.
 - Commits pushed for CI or review fixes go through the same gates as the
   original diff: `/simplify` on substantive changes, the fast lint/type gate,
   and a signed commit.
@@ -213,4 +236,6 @@ report what it changed alongside the CI result.
 Report PR URLs and bases, branches/worktrees, commits, the **final CI state**,
 how each review comment was resolved, rollout constraints, and real blockers.
 Do not narrate routine exploration. Do not report success while CI is red,
-still running, or unchecked, or while review comments are unaddressed.
+still running, or unchecked, or while any review comment lacks a posted reply —
+a comment is addressed when the reply is on the PR, not when the fix is in the
+diff.
