@@ -133,6 +133,15 @@ Isolation itself:
 ## 4. Simplify once, review once on both models
 
 - Run `/simplify` on the coherent final diff and apply worthwhile reductions.
+- Run `uv run dead-code` and clear what the diff itself made dead. Removing a
+  branch, a call site, or a config entry orphans the code behind it, and that
+  residue is invisible to `/simplify` (which reads the diff, not the whole
+  program) and to reviewers (who see what changed, not what stopped being
+  reached). Treat every hit as a candidate, not a verdict — a hit inside the
+  diff's blast radius is usually real; one elsewhere is usually a framework
+  entrypoint or a dynamic-dispatch false positive, and belongs in its own sweep,
+  not this PR. Prove non-use before deleting; `/deadcode` carries the full
+  reachability discipline when a hit is not obvious.
 - Launch one Claude review and one Codex review concurrently over the same final
   diff. Neither sees the other's output.
 - Exchange only exclusive findings. Each reviewer gets one reply to confirm,
@@ -160,7 +169,8 @@ let CI be the test gate.
 - Stage explicit paths and create signed Conventional Commits.
 - Push one branch and open or update one ready-for-review PR per repository.
   Task PRs target `main`, except a stacked layer, which targets the layer below
-  it and is published with `gh stack submit --open`. Never merge.
+  it and is published with `gh stack submit --open`. Publishing never merges —
+  merging is a separate, explicitly authorized step (§7).
 - Include why, scope, tests, risks, rollout order, and deliberate deferrals.
 - If the change contradicts a documented rule or contract (a skill file, an
   architecture doc, an invariant list), update that document in the same PR.
@@ -228,8 +238,55 @@ report what it changed alongside the CI result.
 - Commits pushed for CI or review fixes go through the same gates as the
   original diff: `/simplify` on substantive changes, the fast lint/type gate,
   and a signed commit.
+- **Every push reopens the comment window.** A push invalidates the sweep you
+  did before it: bot reviewers re-run against the new head, and a human reading
+  the PR comments on what they now see. So after each push, poll for *both*
+  checks and new comments, and keep polling until the checks settle — a review
+  posted while CI was still running is the one most easily missed, because the
+  natural stopping point is the green tick.
+
+  ```sh
+  gh api "repos/{owner}/{repo}/pulls/{n}/comments?per_page=100" \
+    --jq '.[] | select(.in_reply_to_id == null) | {id, path, user: .user.login}'
+  ```
+
+  A top-level comment with no reply of yours beneath it is unaddressed. Treat
+  the reply itself as a push: after posting one, check once more before you
+  call the PR done.
 - Poll efficiently — use the available wait/monitor mechanism instead of
   burning model turns on repeated status checks.
+
+## 7. Merge only on explicit authorization
+
+**Never merge on your own initiative.** Opening a green PR completes this
+skill; merging is the user's decision and requires them to say so for these
+specific PRs. A standing preference, an old approval, or "ship it" from earlier
+in the session is not authorization for a merge now. If merging seems like the
+obvious next step, say so and ask — do not infer it.
+
+When the user does authorize it, **sweep for comments first, and treat the
+sweep as a gate rather than a formality**:
+
+1. Re-fetch the inline comments and the PR-level reviews on the current head
+   (the query in §6). Authorization was given against the PR as the user last
+   saw it; anything posted since is unseen by both of you.
+2. If any comment is unanswered, or any answered comment has drawn a follow-up,
+   **stop and address it before merging.** Merging over a live comment
+   discards the review, and unlike a bad commit it cannot be undone by pushing
+   again.
+3. Confirm the checks are green on the head you are about to merge, not on an
+   earlier commit.
+4. Only then merge, using the repository's allowed method
+   (`gh api repos/{owner}/{repo}` → `allow_squash_merge` / `allow_merge_commit`
+   / `allow_rebase_merge`; assume nothing).
+
+If a comment arrives between the authorization and the merge, the
+authorization does not carry over it — report the new comment and ask again.
+
+**Merge order across repositories is part of the ask.** When PRs in two repos
+form one contract change, state the required order and follow it; merging a
+consumer before the producer publishes a client for an API that does not exist
+yet.
 
 ## Finish
 
@@ -239,3 +296,8 @@ Do not narrate routine exploration. Do not report success while CI is red,
 still running, or unchecked, or while any review comment lacks a posted reply —
 a comment is addressed when the reply is on the PR, not when the fix is in the
 diff.
+
+State the merge status plainly: green and awaiting authorization, or merged and
+by whose instruction. A green PR left unmerged is the expected end of this
+skill, not an unfinished task — say so rather than implying something is
+outstanding.
