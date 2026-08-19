@@ -69,7 +69,7 @@ Style rules for the plan body:
 - No em-dashes anywhere. Use hyphens, commas, or rephrase.
 - No user names, emails, or first-person identifiers in the plan content. Use synthetic placeholders if examples are needed.
 - No web3 / token / wallet / crypto examples in fixtures or scenarios.
-- Match existing project conventions (Conventional Commits, signed commits, `dev_check.py` gate, factory methods on models, no `dict[str, Any]` where Pydantic fits).
+- Match existing project conventions (Conventional Commits, signed commits, `uv run sift check` gate, factory methods on models, no `dict[str, Any]` where Pydantic fits).
 
 ### 4. Report
 
@@ -127,7 +127,7 @@ Report the triage counts before/with the question so the user sees the whole bac
 Spin up **one** `Workflow` over the chosen batch. This skill telling you to call `Workflow` is the explicit opt-in. Pipeline per issue (so issue B starts while issue A is still building - no barrier):
 
 1. **investigate + plan** - the Mode-A investigation (fetch, map code surface, write the plan file). Structured output: `{shippable: bool, slug, summary, plan_path, skip_reason}`.
-2. **implement in an isolated worktree** - `isolation: 'worktree'` so parallel builds don't collide. Follow the `ship-while-you-sleep` hard rules verbatim: stage an explicit file list (never `git add -A`), signed commit (`git commit -S`), run the repo's check gate (`dev_check.py` here) and only commit if green.
+2. **implement in an isolated worktree** - `isolation: 'worktree'` so parallel builds don't collide. Follow the `ship-while-you-sleep` hard rules verbatim: stage an explicit file list (never `git add -A`), signed commit (`git commit -S`), run the repo's check gate (`uv run sift check` here) and only commit if green.
 3. **draft PR** - open a DRAFT PR whose body includes `Closes #<n>`, the plan link, and the test plan. Never mark ready-for-review, never merge, never push to a default branch.
 
 Hard rules (inherited, never cross autonomously):
@@ -135,7 +135,7 @@ Hard rules (inherited, never cross autonomously):
 - **Stop at a DRAFT PR.** Merging is always a separate, user-confirmed step (`feedback_confirm_before_merge`). Never trigger Push to Production (`feedback_never_push_to_production`).
 - **One PR per issue**, except dependency-clustered issues which share one PR (bundle small fixes, `feedback_prefer_bundled_prs_quick_wins`).
 - An issue whose build fails its checks or hits a blocker mid-run **drops to plan-only** - write the plan, do not commit, record the blocker. Never force a low-confidence commit.
-- Workflow agents on this machine share one local Postgres; each issue gets its **own** worktree but they must not run `migrate`/`dev_check` concurrently against the same DB in a way that clobbers schema (see `reference_local_postgres_shared_across_worktrees`). Pin the check step so it's serialized if the repo's checks touch the shared DB, or note the limitation in the report.
+- Workflow agents on this machine share one local Postgres; each issue gets its **own** worktree but they must not run `migrate`/`sift check` concurrently against the same DB in a way that clobbers schema (see `reference_local_postgres_shared_across_worktrees`). Pin the check step so it's serialized if the repo's checks touch the shared DB, or note the limitation in the report.
 
 ### B4. Report
 

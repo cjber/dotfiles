@@ -24,7 +24,7 @@ End-to-end ship loop: from a clean working tree of staged-or-unstaged changes to
    EOF
    )"
    ```
-5. Pre-commit hooks may run — `python scripts/dev_check.py` is the gate. If a hook fails, **fix the underlying issue and create a NEW commit** (never `--amend`, never `--no-verify`).
+5. Pre-commit hooks may run — `uv run sift check` is the gate. If a hook fails, **fix the underlying issue and create a NEW commit** (never `--amend`, never `--no-verify`).
 
 ## Phase 2 — PR
 
@@ -34,7 +34,7 @@ End-to-end ship loop: from a clean working tree of staged-or-unstaged changes to
 2. **Only if no PR exists yet for this branch/repo:** `gh pr create --title "<conv-commit title>" --body "$(cat <<'EOF' ... EOF)"`. Body sections:
    - **Summary** — 1–3 bullets, what changed and why
    - **Scope notes** — anything that diverged from plan, anything explicitly out of scope
-   - **Test plan** — `[x]` for what's already verified (e.g. `dev_check.py`), `[ ]` checklist for what still needs human sign-off
+   - **Test plan** — `[x]` for what's already verified (e.g. `uv run sift check`), `[ ]` checklist for what still needs human sign-off
 3. PR title must match Conventional Commits (the `pr-title-lint` workflow blocks merge if it doesn't). When new commits grew the scope past the original title/body, update them with `gh pr edit` so the PR still describes everything it now contains.
 4. Capture the PR number (from the create output, or `gh pr view --json number`) for Phase 3.
 

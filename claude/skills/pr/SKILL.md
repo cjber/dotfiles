@@ -122,7 +122,7 @@ Isolation itself:
   cleanup.
 - Each arm runs only focused checks for its slice. After both finish, Claude
   inspects the combined diff and runs the repo's fast lint/type gate
-  (`dev_check.py`, no `--tests`).
+  (`uv run sift check`, no `--tests`).
 - Before integration, exchange short implementation summaries and diffs. Each arm
   checks the other's slice only for seam mismatches, broken assumptions, and
   missing tests; it does not re-review the entire repository or edit the other's
@@ -158,7 +158,7 @@ Isolation itself:
 integration and migration jobs against separate databases. Locally, run ONLY a
 test you just wrote or one individually-targeted test — enough to show it fails
 without the fix and passes with it. Do not run `uv run pytest` bare, the whole
-`tests/integration` tree, or `dev_check.py --tests`: that gate starts its check
+`tests/integration` tree, or `uv run sift check --tests`: that gate starts its check
 groups concurrently against one shared Postgres, so the migration group's
 up/down test wipes the schema out from under the integration group and produces
 hundreds of `UndefinedColumn` errors that say nothing about the diff. Push and

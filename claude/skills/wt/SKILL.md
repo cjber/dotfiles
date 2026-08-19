@@ -33,7 +33,7 @@ When the user invokes `/wt`, do this without re-asking:
    - `-b cb/<feature> origin/main` bases the branch on `origin/main`, NOT the current HEAD — so a stale local `main` or a feature checkout can't leak in.
    - If the branch already exists: `git -C "$repo" branch -D cb/<feature>` first (when safe — it's merged/unwanted) or pick a new name.
    - `git worktree add` creates the branch, the worktree dir, and its admin ref atomically. It refuses to overwrite a non-empty dir.
-4. **Always copy every ignored root `.env*` file in** so `dev_check.py` / the dev server work immediately (git worktree does NOT copy untracked files). Discover them through Git rather than maintaining a filename allowlist:
+4. **Always copy every ignored root `.env*` file in** so `uv run sift check` / the dev server work immediately (git worktree does NOT copy untracked files). Discover them through Git rather than maintaining a filename allowlist:
    ```bash
    git -C "$repo" ls-files -z --others --ignored --exclude-standard -- ':(top).env*' |
      while IFS= read -r -d '' f; do
