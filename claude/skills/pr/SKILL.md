@@ -11,18 +11,28 @@ phase bounded and avoid spawning any agents beyond those two arms.
 ## Resource budget
 
 - Claude uses Sonnet at medium effort by default.
-- Codex uses Terra at low effort for planning/review and medium effort for its
-  implementation slice. Never select the fast service tier. Pass the model as the
-  fully-qualified `gpt-5.6-terra` (`codex exec -m gpt-5.6-terra`); the bare name
-  `terra` is rejected with "not supported when using Codex with a ChatGPT
-  account". Sol is likewise `gpt-5.6-sol`.
+- **Codex uses Sol at `xhigh` reasoning effort for every phase** — planning,
+  implementation, and review alike. Sol at xhigh is the point of running a second
+  model at all: the value of the Codex arm is that it thinks hard enough to catch
+  what the Claude arm assumed, and a cheaper tier spends the coordination
+  overhead without buying the scrutiny. Do not drop to a lower effort to save
+  time; a shallow second opinion is worse than none, because it reads as
+  corroboration.
+
+  ```sh
+  codex exec -m gpt-5.6-sol -c model_reasoning_effort=xhigh --skip-git-repo-check - < prompt.md
+  ```
+
+  Never select the fast service tier. Pass the model fully-qualified as
+  `gpt-5.6-sol`; a bare name like `sol` or `terra` is rejected with "not
+  supported when using Codex with a ChatGPT account".
 - Each phase has one Claude arm and one Codex arm. They may exchange one concise
   critique/reply round to challenge assumptions and surface misses. Do not add
   scouts, agent teams, nested subagents, or recursive workflow calls.
 - Keep prompts narrow and outputs concise. Pass the synthesized plan into
   implementation; do not make either arm rediscover settled facts.
-- Escalate one judgment turn to Opus or Sol only for security, billing, data-loss,
-  migration, or architecture risk that the default model cannot resolve.
+- Escalate one judgment turn to Opus only for security, billing, data-loss,
+  migration, or architecture risk that neither arm can resolve on its own.
 
 ### Invoking Codex — always redirect stdin
 
@@ -37,10 +47,12 @@ So every invocation redirects stdin. Two correct shapes, both verified:
 
 ```sh
 # Prompt in a file (preferred for anything longer than a line):
-cd "$WORKTREE" && codex exec -m gpt-5.6-terra --skip-git-repo-check - < prompt.md
+cd "$WORKTREE" && codex exec -m gpt-5.6-sol -c model_reasoning_effort=xhigh \
+  --skip-git-repo-check - < prompt.md
 
 # Prompt as an argument — still requires closing stdin explicitly:
-cd "$WORKTREE" && codex exec -m gpt-5.6-terra --skip-git-repo-check "$PROMPT" < /dev/null
+cd "$WORKTREE" && codex exec -m gpt-5.6-sol -c model_reasoning_effort=xhigh \
+  --skip-git-repo-check "$PROMPT" < /dev/null
 ```
 
 Prefer the file form, and **write the prompt with the Write tool rather than
@@ -65,7 +77,7 @@ Two further flag landmines on this account:
   which is why every example above `cd`s rather than passing `--cd`. Sandbox mode
   is inherited from the original `exec`.
 - **`codex review` takes `-m`/`-c` as TOP-LEVEL flags**, before the subcommand:
-  `codex -m gpt-5.6-sol -c ... review --base origin/main`. And `--base main`
+  `codex -m gpt-5.6-sol -c model_reasoning_effort=xhigh review --base origin/main`. And `--base main`
   reviews against the *local* main — always pass `origin/main`.
 
 ## 1. Plan once on both models
