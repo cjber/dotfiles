@@ -161,6 +161,23 @@ Isolation itself:
   found. Do not repeat shared findings or generate a second full review.
 - Claude deduplicates and validates that critique round once, then fixes verified
   blockers.
+- **Fix a verified finding in this PR. Filing an issue is not a resolution.**
+  Once a finding is confirmed real, the default is a commit on this branch, even
+  when the true fix is one layer below the diff — a defect the diff made visible
+  is the diff's to fix, and the producer fix is usually smaller than the
+  write-up explaining why it was deferred. Do not reach for `gh issue create`
+  because the fix touches a shared seam, a contract other surfaces also use, or
+  code the PR did not otherwise open. Those are reasons the fix matters, not
+  reasons to defer it.
+
+  Defer only when the fix genuinely cannot land here: it needs a migration or
+  rollout the PR is not carrying, it depends on an unmerged change elsewhere, or
+  it is a redesign whose scope the user should choose. Then say so in your report
+  and let the user decide — do not file and move on. If you do file, the issue is
+  a record of a decision the user made, never a substitute for one you avoided.
+
+  When you catch yourself writing "tracked separately", "out of scope", or "filed
+  as #N" about something you have already verified and could fix: stop and fix it.
 - Re-review only the changed risky area after substantive fixes to security,
   data, billing, concurrency, migrations, or public contracts.
 - For agent-visible behavior, run the repository's end-to-end validation.
