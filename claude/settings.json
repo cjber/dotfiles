@@ -19,7 +19,7 @@
       "Bash(gcloud iam service-accounts keys create:*)",
       "Bash(gcloud secrets versions access:*)"
     ],
-    "defaultMode": "bypassPermissions"
+    "defaultMode": "auto"
   },
   "model": "opus",
   "hooks": {

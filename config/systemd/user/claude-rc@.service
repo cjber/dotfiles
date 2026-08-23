@@ -1,0 +1,25 @@
+[Unit]
+Description=Claude Code Remote Control server for %i
+Documentation=https://code.claude.com/docs/en/remote-control
+# Anthropic documents no daemon mode; the only supported way to keep a server
+# alive unattended is to keep the process running (they suggest tmux/screen).
+# systemd does the same job and adds the restart this needs: in server mode the
+# process *exits* after ~10 minutes without network, so without Restart=always
+# a suspend/resume or a dropped link leaves the repo permanently offline.
+After=graphical-session.target
+# Never stop retrying - a laptop that is offline for an hour must still come
+# back on its own once the network returns.
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=%h/scripts/claude-rc.sh %i
+Restart=always
+RestartSec=15
+# The server renders a TUI that repaints on a loop; sending it to the journal
+# would write megabytes an hour. Real errors go to stderr.
+StandardOutput=null
+StandardError=journal
+
+[Install]
+WantedBy=default.target
