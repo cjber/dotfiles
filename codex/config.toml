@@ -147,17 +147,113 @@ last_revision = "3c0aab402a44624a75ed1967489493210b529050"
 source_type = "git"
 source = "https://github.com/ComposioHQ/composio-plugin-openai.git"
 
+[marketplaces.openai-bundled]
+source_type = "local"
+source = "/home/cjber/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/home/cjber/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[marketplaces.claude-plugins-official]
+source_type = "git"
+source = "https://github.com/anthropics/claude-plugins-official.git"
+
 [plugins."composio@composio"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."lua-lsp@claude-plugins-official"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
 enabled = true
 
 [hooks.state]
 
 [hooks.state."composio@composio:hooks/hooks.json:session_start:0:0"]
 trusted_hash = "sha256:5b6254d9e80ebd17b9e0ff01ae2622c8d77972f538893ecd8987e38779458cee"
-enabled = true
+enabled = false
 
 [hooks.state."composio@composio:hooks/hooks.json:user_prompt_submit:0:0"]
 trusted_hash = "sha256:1eda8f93fe71a38af3cba04c7070710ba713c1b304e8c6f4b2615a49c17edd93"
+enabled = false
+
+[hooks.state."/home/cjber/.codex/hooks.json:permission_request:0:0"]
+trusted_hash = "sha256:78f21e3f39090ae41dd7f61a08a4f04f8d0fac3e7c93c1475e3e0598e6c23700"
+
+[hooks.state."/home/cjber/.codex/hooks.json:pre_compact:0:0"]
+trusted_hash = "sha256:bbc1543e65fdd49d7b0dcc3080fb0176cd948976c142a575490ce7d52a9646a2"
+
+[hooks.state."/home/cjber/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:1ce3298f6966860947c75be90f340e4cca770092dde6edef823fc1c90644775f"
+
+[hooks.state."/home/cjber/drive/agl/nebula-desktop/.codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:0ca29b636ca532ce9c6c4c943f95ff6c486239d19f6d7c7e306f72ce613268c9"
+enabled = false
 
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
+
+[mcp_servers.node_repl]
+args = []
+command = "/usr/lib/chatgpt/resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/usr/lib/chatgpt/resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/home/cjber/.codex:/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
+CODEX_HOME = "/home/cjber/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "0"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.818.41705"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/cjber/.codex/plugins/cache/openai-bundled/browser/26.818.41705/scripts/browser-service.mjs"}'
+CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
+
+[features]
+js_repl = false
+
+[shell_environment_policy]
+inherit = "core"
+
+[shell_environment_policy.set]
+CLAUDE_CODE_DISABLE_1M_CONTEXT = "0"
+BASH_MAX_OUTPUT_LENGTH = "30000"
+TASK_MAX_OUTPUT_LENGTH = "16000"
+
+[desktop]
+external-agent-import-sync-enabled = true
+conversationDetailMode = "STEPS_COMMANDS"
+ambient-suggestions-enabled = true
+keepRemoteControlAwakeWhilePluggedIn = true
