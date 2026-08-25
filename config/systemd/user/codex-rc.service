@@ -1,0 +1,22 @@
+[Unit]
+Description=Codex Remote Control daemon (machine-wide)
+Documentation=https://developers.openai.com/codex/
+
+[Service]
+# `codex remote-control start` is idempotent: it starts the managed app-server
+# daemon if absent and returns immediately if one is already up. So this is a
+# oneshot kicked by codex-rc.timer rather than a long-lived Type=simple unit —
+# the daemon supervises and auto-updates itself (backend "pid"), it just has no
+# mechanism of its own to come back after a reboot or after it dies.
+#
+# The daemon REQUIRES the standalone managed install and refuses to run from the
+# distro package at /usr/bin/codex, so the path here is absolute and deliberate.
+Type=oneshot
+ExecStart=%h/.codex/packages/standalone/current/codex remote-control start
+# Errors only. A 5-minutely no-op start would otherwise write a journal entry
+# every run for the 99% of runs where the daemon is already healthy.
+StandardOutput=null
+StandardError=journal
+
+[Install]
+WantedBy=default.target

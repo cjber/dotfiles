@@ -35,6 +35,11 @@ has_gui = true
 "config/systemd/user/controller-inhibit.service" = "~/.config/systemd/user/controller-inhibit.service"
 "scripts/claude-rc.sh" = "~/scripts/claude-rc.sh"
 "config/systemd/user/claude-rc@.service" = "~/.config/systemd/user/claude-rc@.service"
+# Codex Remote Control: ONE machine-wide app-server daemon (unlike claude-rc,
+# which needs an instance per repo). Oneshot + timer because the daemon
+# self-supervises but has no reboot persistence of its own.
+"config/systemd/user/codex-rc.service" = "~/.config/systemd/user/codex-rc.service"
+"config/systemd/user/codex-rc.timer" = "~/.config/systemd/user/codex-rc.timer"
 "scripts/harden-auth.sh" = "~/scripts/harden-auth.sh"
 "scripts/aur-malware-scan.sh" = "~/scripts/aur-malware-scan.sh"
 "config/systemd/user/aur-malware-scan.service" = "~/.config/systemd/user/aur-malware-scan.service"

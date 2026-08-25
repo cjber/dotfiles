@@ -1,0 +1,11 @@
+[Unit]
+Description=Keep the Codex Remote Control daemon alive
+
+[Timer]
+OnBootSec=1min
+# Anchored to completion, not activation, so a slow start cannot stack runs.
+OnUnitInactiveSec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

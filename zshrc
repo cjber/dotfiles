@@ -129,3 +129,7 @@ export PATH=$PATH:$HOME/.maestro/bin
 
 # Kiln persistent frecency repository picker (`kz`, and `z` if unclaimed).
 eval "$(kiln shell-init)"
+
+# >>> Codex installer >>>
+export PATH="/home/cjber/.local/bin:$PATH"
+# <<< Codex installer <<<

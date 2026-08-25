@@ -257,3 +257,6 @@ external-agent-import-sync-enabled = true
 conversationDetailMode = "STEPS_COMMANDS"
 ambient-suggestions-enabled = true
 keepRemoteControlAwakeWhilePluggedIn = true
+
+[projects."/home/cjber/drive/agl/agent-deck"]
+trust_level = "trusted"
