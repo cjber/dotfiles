@@ -129,6 +129,7 @@
   },
   "effortLevel": "medium",
   "autoCompactWindow": 300000,
+  "autoUpdatesChannel": "latest",
   "voice": {
     "enabled": true,
     "mode": "hold"
