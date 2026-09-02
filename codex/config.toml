@@ -260,3 +260,6 @@ keepRemoteControlAwakeWhilePluggedIn = true
 
 [projects."/home/cjber/drive/agl/agent-deck"]
 trust_level = "trusted"
+
+[projects."/home/cjber/.claude/jobs/7d36ab1e/tmp/e2e_cwd"]
+trust_level = "trusted"
