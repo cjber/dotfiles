@@ -45,6 +45,9 @@ has_gui = true
 "config/systemd/user/aur-malware-scan.service" = "~/.config/systemd/user/aur-malware-scan.service"
 "scripts/fix-nic" = "~/scripts/fix-nic"
 "scripts/tv-toggle" = "~/scripts/tv-toggle"
+# Symbolic: the script contains `{{.State.Running}}` docker format strings, which
+# collide with dotter's handlebars templating. Same treatment as config/yazi.
+"scripts/wow-menu" = { target = "~/scripts/wow-menu", type = "symbolic" }
 "config/systemd/user/aur-malware-scan.timer" = "~/.config/systemd/user/aur-malware-scan.timer"
 # The timer that runs dotter deploy + git sync. Tracked so a fresh clone can
 # start the mechanism that keeps itself up to date.

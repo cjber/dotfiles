@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+# wow-menu — rofi front-end for the local AzerothCore + playerbots WoW server.
+# Bound to SUPER + SHIFT + W (see hyprland.lua).
+#
+# The server lives in $ROOT and is driven by three scripts that live there:
+#   wow.sh     docker compose lifecycle (worldserver/authserver/database)
+#   bridge.sh  the LLM chatter bridge (python, runs on the host, talks to ollama)
+#   play.sh    launches the wine client and rewrites realmlist.wtf
+# This menu is only a front-end to those — it holds no logic of its own, so
+# anything here can also be done by hand in a terminal.
+
+set -uo pipefail
+
+# ─── CONFIGURE ME ────────────────────────────────────────────────────────────
+# Override any of these in ~/.config/wow-menu.conf rather than editing here,
+# so a dotfiles update never clobbers your values.
+ROOT="$HOME/Games/wow-server"
+TERM_CMD="kitty"                  # terminal used for console/log views
+ROFI_ARGS=(-dmenu -i -no-custom)  # -i = case-insensitive, -no-custom = pick only
+# ─────────────────────────────────────────────────────────────────────────────
+[ -r "$HOME/.config/wow-menu.conf" ] && . "$HOME/.config/wow-menu.conf"
+
+PB_CONF="$ROOT/azerothcore-wotlk/env/dist/etc/modules/playerbots.conf"
+LLM_CONF="$ROOT/azerothcore-wotlk/env/dist/etc/modules/mod_llm_chatter.conf"
+
+note() { notify-send -a "wow" "$1" "${2:-}"; }
+term() { setsid "$TERM_CMD" -e bash -c "$1; echo; read -rp 'enter to close '" >/dev/null 2>&1 & }
+
+# ─── MENU ────────────────────────────────────────────────────────────────────
+# To add an entry: add a key to MENU_ORDER, a label in MENU, and a branch in
+# run_action. Nothing else needs touching.
+declare -A MENU=(
+  [play]="   Play"
+  [start]="   Start server"
+  [stop]="   Stop server"
+  [status]="   Status"
+  [console]="   Worldserver console"
+  [logs]="   Server logs"
+  [bridgelog]="   LLM bridge logs"
+  [bots]="   Set bot count"
+  [model]="   Switch LLM model"
+  [restart]="   Restart worldserver"
+  [config]="   Edit config"
+)
+MENU_ORDER=(play start stop status console logs bridgelog bots model restart config)
+
+server_up() { [ "$(docker inspect -f '{{.State.Running}}' ac-worldserver 2>/dev/null)" = "true" ]; }
+bridge_up() { "$ROOT/bridge.sh" status 2>/dev/null | grep -q running; }
+
+run_action() {
+  case "$1" in
+    play)
+      server_up || { note "Starting server…" "the client will open when it is up"; "$ROOT/wow.sh" start; }
+      # The world takes ~30s to initialise and bots log in after that; launching
+      # the client early just parks you at a failed login screen.
+      until server_up && docker logs ac-worldserver 2>&1 | grep -q "World initialized"; do sleep 3; done
+      bridge_up || "$ROOT/bridge.sh" start
+      note "Launching WoW"
+      exec "$ROOT/play.sh"
+      ;;
+    start)   "$ROOT/wow.sh" start && "$ROOT/bridge.sh" start && note "Server starting" ;;
+    stop)    "$ROOT/bridge.sh" stop; "$ROOT/wow.sh" stop && note "Server stopped" ;;
+    restart) "$ROOT/wow.sh" restart && note "Worldserver restarting" "bots re-login over the next few minutes" ;;
+    status)
+      term "cd '$ROOT' && ./wow.sh status && echo && ./bridge.sh status && echo &&
+            echo -n 'bots online: ' &&
+            docker exec ac-database mysql -uroot -ppassword -N \
+              -e 'SELECT COUNT(*) FROM acore_characters.characters WHERE online=1;' 2>/dev/null" ;;
+    console)   term "cd '$ROOT' && ./wow.sh console" ;;
+    logs)      term "cd '$ROOT' && ./wow.sh logs" ;;
+    bridgelog) term "cd '$ROOT' && ./bridge.sh logs" ;;
+    bots)
+      cur=$(grep -oP '^AiPlayerbot\.MaxRandomBots\s*=\s*\K[0-9]+' "$PB_CONF" 2>/dev/null)
+      n=$(printf '100\n200\n500\n800\n1000\n1500\n' | rofi -dmenu -i -p "bots (now $cur)") || return 0
+      [ -z "$n" ] && return 0
+      # Min and Max must move together — the module treats a gap as a range to
+      # drift within, which makes the population wander instead of settling.
+      sed -i -E "s|^AiPlayerbot\.(Min|Max)RandomBots\s*=.*|AiPlayerbot.\1RandomBots = $n|" "$PB_CONF"
+      note "Bot count set to $n" "restart the worldserver to apply"
+      ;;
+    model)
+      m=$(ollama list 2>/dev/null | awk 'NR>1{print $1}' | rofi -dmenu -i -p "ollama model") || return 0
+      [ -z "$m" ] && return 0
+      sed -i -E "s|^LLMChatter\.Model\s*=.*|LLMChatter.Model = $m|" "$LLM_CONF"
+      "$ROOT/bridge.sh" stop >/dev/null 2>&1; "$ROOT/bridge.sh" start
+      # The bridge health-checks the model on boot; a reasoning model (qwen3,
+      # deepseek-r1) fails it, because the module calls ollama's OpenAI-compatible
+      # /v1 endpoint where reasoning tokens eat the reply and content comes back
+      # empty. Non-reasoning models only.
+      note "LLM model set to $m" "check bridge logs — reasoning models fail the health check"
+      ;;
+    config)
+      f=$(printf 'playerbots.conf\nmod_llm_chatter.conf\nwow-menu.conf\n' | rofi -dmenu -i -p "edit") || return 0
+      case "$f" in
+        playerbots.conf)     term "\${EDITOR:-nvim} '$PB_CONF'" ;;
+        mod_llm_chatter.conf) term "\${EDITOR:-nvim} '$LLM_CONF'" ;;
+        wow-menu.conf)       term "\${EDITOR:-nvim} '$HOME/.config/wow-menu.conf'" ;;
+      esac ;;
+  esac
+}
+
+server_up && s="up" || s="down"
+bridge_up && l="llm on" || l="llm off"
+
+labels=""
+for k in "${MENU_ORDER[@]}"; do labels+="${MENU[$k]}"$'\n'; done
+choice=$(printf '%s' "$labels" | rofi "${ROFI_ARGS[@]}" -p "wow ($s, $l)") || exit 0
+[ -z "$choice" ] && exit 0
+
+for k in "${MENU_ORDER[@]}"; do
+  [ "${MENU[$k]}" = "$choice" ] && { run_action "$k"; exit 0; }
+done
