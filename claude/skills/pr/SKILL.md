@@ -20,12 +20,18 @@ phase bounded and avoid spawning any agents beyond those two arms.
   corroboration.
 
   ```sh
-  codex exec -m gpt-5.6-sol -c model_reasoning_effort=xhigh --skip-git-repo-check - < prompt.md
+  codex exec -m gpt-6-astra -c model_reasoning_effort=xhigh -c service_tier=default --skip-git-repo-check - < prompt.md
   ```
 
-  Never select the fast service tier. Pass the model fully-qualified as
-  `gpt-5.6-sol`; a bare name like `sol` or `terra` is rejected with "not
-  supported when using Codex with a ChatGPT account".
+  **Always pass `-c service_tier=default` on every codex invocation.** The
+  "fast" tier is `priority` ("2x speed, increased usage") and is billed in
+  credits, not against the plan allowance — it spends real money while the
+  usage meter barely moves. Passing it explicitly makes the skill immune to
+  whatever `service_tier` `~/.codex/config.toml` happens to carry.
+
+  Pass the model fully-qualified as `gpt-6-astra`; a bare name like `astra` or
+  `sol` is rejected with "not supported when using Codex with a ChatGPT
+  account".
 - Each phase has one Claude arm and one Codex arm. They may exchange one concise
   critique/reply round to challenge assumptions and surface misses. Do not add
   scouts, agent teams, nested subagents, or recursive workflow calls.
@@ -47,11 +53,11 @@ So every invocation redirects stdin. Two correct shapes, both verified:
 
 ```sh
 # Prompt in a file (preferred for anything longer than a line):
-cd "$WORKTREE" && codex exec -m gpt-5.6-sol -c model_reasoning_effort=xhigh \
+cd "$WORKTREE" && codex exec -m gpt-6-astra -c model_reasoning_effort=xhigh -c service_tier=default \
   --skip-git-repo-check - < prompt.md
 
 # Prompt as an argument — still requires closing stdin explicitly:
-cd "$WORKTREE" && codex exec -m gpt-5.6-sol -c model_reasoning_effort=xhigh \
+cd "$WORKTREE" && codex exec -m gpt-6-astra -c model_reasoning_effort=xhigh -c service_tier=default \
   --skip-git-repo-check "$PROMPT" < /dev/null
 ```
 
@@ -77,7 +83,7 @@ Two further flag landmines on this account:
   which is why every example above `cd`s rather than passing `--cd`. Sandbox mode
   is inherited from the original `exec`.
 - **`codex review` takes `-m`/`-c` as TOP-LEVEL flags**, before the subcommand:
-  `codex -m gpt-5.6-sol -c model_reasoning_effort=xhigh review --base origin/main`. And `--base main`
+  `codex -m gpt-6-astra -c model_reasoning_effort=xhigh -c service_tier=default review --base origin/main`. And `--base main`
   reviews against the *local* main — always pass `origin/main`.
 
 ## 1. Plan once on both models

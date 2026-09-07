@@ -408,6 +408,25 @@ hl.window_rule({
     opacity         = 1.0,
 })
 
+-- Local AzerothCore client (play.sh -> `wine Wow.exe`, class "wow.exe"). Unlike
+-- the Steam/Lutris builds above, it matches none of their rules, so Hyprland was
+-- tiling it at ~2277x1360 and it dropped fullscreen on every workspace swap. Pin
+-- it fullscreen on the ultrawide. NO confine_pointer: it is watched as a
+-- spectator while working on DP-2, so the cursor must stay free to leave DP-1.
+-- Pair with Config.wtf gxWindow=1, gxMaximize=0 (maximize straddles both mons).
+hl.window_rule({
+    match        = { class = "^wow.exe$" },
+    monitor      = "DP-1",
+    workspace    = 1,
+    float        = true,
+    size         = { 2560, 1440 },   -- 16:9 1440p, YouTube-native, unstretched
+    move         = { 440, 0 },       -- monitor-relative: centers on the 3440-wide ultrawide
+    idle_inhibit = "always",         -- never idle-lock mid-recording while WoW is open
+    opaque       = true,
+    no_blur      = true,
+    opacity      = 1.0,
+})
+
 --------------------------------------------------------------------
 -- ws4 auto-arrange (vertical monitor):
 --   1 win  → fullscreen (via scrolling.fullscreen_on_one_column)
@@ -548,7 +567,7 @@ hl.bind(mod .. " + SHIFT + P",    hl.dsp.exec_cmd("hyprshot -m region --clipboar
 hl.bind(mod .. " + P",            hl.dsp.exec_cmd("hyprshot -m window -m active --clipboard-only"))
 hl.bind(mod .. " + CTRL + P",     hl.dsp.exec_cmd("hyprshot -m output -m active --clipboard-only"))
 hl.bind(mod .. " + C",            hl.dsp.exec_cmd("hyprpicker -a"))
-hl.bind(mod .. " + SHIFT + R",    hl.dsp.exec_cmd("pkill wl-screenrec || wl-screenrec -f ~/Videos/recording-$(date +%Y%m%d-%H%M%S).mp4"))
+hl.bind(mod .. " + SHIFT + R",    hl.dsp.exec_cmd("pkill -INT -x wf-recorder || wf-recorder -g '1880,560 2560x1440' -f ~/Videos/mc-$(date +%Y%m%d-%H%M%S).mp4"))
 
 --------------------------------------------------------------------
 -- Binds: focus (vim-style)

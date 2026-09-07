@@ -1,7 +1,7 @@
 approvals_reviewer = "user"
-service_tier = "fast"
-model = "gpt-5.6-sol"
-model_reasoning_effort = "xhigh"
+service_tier = "default"
+model = "gpt-6-astra"
+model_reasoning_effort = "medium"
 model_verbosity = "low"
 model_auto_compact_token_limit = 200000
 model_auto_compact_token_limit_scope = "total"
@@ -66,9 +66,6 @@ trust_level = "trusted"
 
 [projects."/home/cjber/Downloads"]
 trust_level = "trusted"
-
-[tui.model_availability_nux]
-"gpt-5.6-sol" = 4
 
 [apps.connector_76869538009648d5b282a4bb21c3d157.tools."github.update_pull_request"]
 approval_mode = "approve"
@@ -266,3 +263,7 @@ trust_level = "trusted"
 
 [projects."/home/cjber/.claude/jobs/7d36ab1e/tmp"]
 trust_level = "trusted"
+
+[tui.model_availability_nux]
+"gpt-5.6-sol" = 4
+gpt-6-astra = 1
