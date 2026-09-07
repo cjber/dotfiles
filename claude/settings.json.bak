@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 30,
+  "env": {
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "0",
+    "BASH_MAX_OUTPUT_LENGTH": "30000",
+    "TASK_MAX_OUTPUT_LENGTH": "16000"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(codex exec *)",
+      "Bash(codex review *)",
+      "Bash(gcloud --configuration=logs-ro logging read:*)"
+    ],
+    "deny": [
+      "Bash(gcloud auth print-access-token:*)",
+      "Bash(gcloud auth print-identity-token:*)",
+      "Bash(gcloud auth application-default print-access-token:*)",
+      "Bash(gcloud iam service-accounts keys create:*)",
+      "Bash(gcloud secrets versions access:*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt|elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "agent-deck hook-handler",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "agent-deck hook-handler"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "agent-deck hook-handler"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "agent-deck hook-handler",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "agent-deck hook-handler",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "agent-deck hook-handler"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "agent-deck hook-handler",
+            "async": true
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python3 ~/.claude/statusline.py"
+  },
+  "footerLinksRegexes": [
+    {
+      "type": "regex",
+      "pattern": "\\b(?<id>NEBULA-[A-Z0-9]+)\\b",
+      "url": "https://agent-labs-f4.sentry.io/issues/?query={id}",
+      "label": "Sentry {id}"
+    }
+  ],
+  "subagentStatusLine": {
+    "type": "command",
+    "command": "python3 ~/.claude/subagent-statusline.py"
+  },
+  "enabledPlugins": {
+    "composio@composio": true,
+    "lua-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "composio": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/ComposioHQ/composio-plugin-cc.git"
+      }
+    }
+  },
+  "effortLevel": "medium",
+  "autoCompactWindow": 300000,
+  "autoUpdatesChannel": "latest",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "autoCompactEnabled": true,
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "voiceEnabled": true
+}
