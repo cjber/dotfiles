@@ -98,23 +98,18 @@ if [ -d "$FNM_PATH" ]; then
   eval "$(fnm env --shell zsh)"
 fi
 
-if [[ -n "$SSH_CONNECTION" && -z "$ZELLIJ" && $- == *i* ]] && command -v zellij &>/dev/null; then
-  # Force zellij to use /tmp/zellij-$UID for its socket regardless of whether
-  # the mosh/ssh server inherited XDG_RUNTIME_DIR. Otherwise PC mosh
-  # (with systemd-logind setting XDG) and phone mosh (without) land on
-  # DIFFERENT sessions with the same name. Unset → both fall through to /tmp.
-
-  # Kick any other zellij clients + their stale mosh-servers so the new
-  # connection's terminal size becomes the session size (zellij sizes
-  # panes to the smallest attached client; we'd rather "newest wins").
-  for _pid in $(pgrep -u "$USER" -f 'zellij attach.*main' 2>/dev/null); do
-    (( _pid != $$ )) && kill -TERM "$_pid" 2>/dev/null
-  done
-  for _pid in $(pgrep -u "$USER" -f '^mosh-server new' 2>/dev/null); do
-    (( _pid != PPID )) && kill -TERM "$_pid" 2>/dev/null
-  done
-
-  exec env -u XDG_RUNTIME_DIR zellij attach --create main
+if [[ -n "$SSH_CONNECTION" && -z "$TMUX" && $- == *i* ]] && command -v tmux &>/dev/null; then
+  # tmux's socket already lives in /tmp/tmux-$UID, so unlike zellij there is no
+  # XDG_RUNTIME_DIR split between PC mosh (systemd-logind sets XDG) and phone
+  # mosh (does not) - both reach the same `main` session by name, and the
+  # env -u workaround this block used to need is gone.
+  #
+  # -A: attach to `main` if it exists, create it otherwise.
+  # -D: detach whichever client is already attached, so the NEWEST connection
+  #     owns the size (tmux sizes a session to its smallest attached client).
+  #     Detaching that client also ends its mosh-server, which is why the old
+  #     pgrep/kill sweep for stale zellij clients is no longer needed.
+  exec tmux new-session -A -D -s main
 fi
 
 # Claude Code: settings.json's `env` block only reaches spawned subprocesses

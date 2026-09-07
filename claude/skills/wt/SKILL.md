@@ -1,6 +1,6 @@
 ---
 name: wt
-description: "Creates an isolated git worktree on a cb/-prefixed branch off fresh origin/main using plain `git worktree` (worktrees live under ~/.worktrees, every ignored root .env* file is copied in, the local Postgres database is cloned per worktree, an optional zellij tab + dev server open), and prunes merged worktrees first (dropping their cloned databases). Use when the user wants a new worktree, to start isolated/parallel work on a feature or branch, or to spin up/clean up a scratch checkout, even if they don't say 'worktree' or 'wt'."
+description: "Creates an isolated git worktree on a cb/-prefixed branch off fresh origin/main using plain `git worktree` (worktrees live under ~/.worktrees, every ignored root .env* file is copied in, the local Postgres database is cloned per worktree, an optional tmux window + dev server open), and prunes merged worktrees first (dropping their cloned databases). Use when the user wants a new worktree, to start isolated/parallel work on a feature or branch, or to spin up/clean up a scratch checkout, even if they don't say 'worktree' or 'wt'."
 ---
 
 # `/wt` — Create a worktree
@@ -47,17 +47,17 @@ When the user invokes `/wt`, do this without re-asking:
    ~/.claude/skills/wt/clone-db.sh "$wt" <feature>
    ```
    It is a no-op for a repo with no `.env`, no `DATABASE_URL`, or a non-local one, so it is safe to run unconditionally.
-6. **Open the worktree** depending on whether the user is inside zellij:
-   - **If `$ZELLIJ` is set** (the common case from `mosh nuc`): spawn a new zellij tab named after the feature, cwd'd to the worktree, then split for the dev server when appropriate (see [Auto-start dev server](#auto-start-dev-server)).
+6. **Open the worktree** depending on whether the user is inside tmux:
+   - **If `$TMUX` is set** (the common case from `mosh nuc`): spawn a new tmux window named after the feature, cwd'd to the worktree, then split for the dev server when appropriate (see [Auto-start dev server](#auto-start-dev-server)).
      ```bash
-     zellij action new-tab --name <feature> --cwd "$wt"
+     tmux new-window -n <feature> -c "$wt"
      ```
    - **Otherwise** (plain shell): `cd "$wt"` so the current shell follows (the Bash tool preserves CWD across calls).
 7. **Confirm**: one-line "Worktree `cb/<feature>` ready at `<wt>`" plus, if you opened a server pane, what's running there.
 
 ## Auto-start dev server
 
-When opening a new zellij tab, detect the repo's dev command and start it in a split pane so the user sees the server come up alongside their shell. Layout: shell on top (focused), server below.
+When opening a new tmux window, detect the repo's dev command and start it in a split pane so the user sees the server come up alongside their shell. Layout: shell on top (focused), server below.
 
 **Detection priority** (first match at the worktree root):
 
@@ -74,8 +74,8 @@ Check bun *before* pnpm — some repos have both lockfiles in transition and bun
 
 Run the detected command in a split pane *below*:
 ```bash
-zellij action new-pane --direction down --cwd "$wt" --name server -- bash -lc '<detected-command>'
-zellij action move-focus up
+tmux split-window -v -c "$wt" bash -lc '<detected-command>'
+tmux select-pane -U
 ```
 
 If the user invoked `/wt <feature> --no-dev` (or context says no server is wanted), skip the split.

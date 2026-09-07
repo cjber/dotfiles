@@ -1,6 +1,6 @@
 ---
 name: dev
-description: "Runs the local Nebula web and backend stack from the worktrees relevant to the active conversation, falling back to current main checkouts when no feature worktree is in scope. Supplies local env files, starts services in zellij or the background, and verifies health. Use for '/dev' or starting the development stack the user wants to inspect."
+description: "Runs the local Nebula web and backend stack from the worktrees relevant to the active conversation, falling back to current main checkouts when no feature worktree is in scope. Supplies local env files, starts services in tmux or the background, and verifies health. Use for '/dev' or starting the development stack the user wants to inspect."
 ---
 
 # `/dev` — Run the development stack in scope
@@ -107,10 +107,10 @@ If either check fails, say so rather than starting a server that will just crash
   to it. Verify the public readiness URL before presenting the client. The
   authorization URL, token exchange, and provider manifest must use the same
   callback URI.
-- **If `$ZELLIJ` is set**: open a split pane in the current tab so the server runs alongside the shell, rather than blocking it.
+- **If `$TMUX` is set**: open a split pane in the current window so the server runs alongside the shell, rather than blocking it.
   ```bash
-  zellij action new-pane --direction down --cwd "$repo" --name dev -- bash -lc '<detected-command>'
-  zellij action move-focus up
+  tmux split-window -v -c "$repo" bash -lc '<detected-command>'
+  tmux select-pane -U
   ```
 - **Otherwise**: run it in a persistent background shell session so it doesn't block the turn, and note the session identifier for later log checks.
 

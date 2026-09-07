@@ -32,25 +32,17 @@ alias s='aichat -m ollama:gemma4:26b-a4b-it-q8_0 -e shell'
 # autosuggestions rewrite the line under it.
 alias mn='mosh --predict=never nuc'
 
-# mosh into the NUC and land in a fresh zellij tab cwd'd to your local
-# $PWD (mirrored). No auto-launched claude — `exit` closes the pane.
+# mosh into the NUC and land in a fresh tmux window cwd'd to your local
+# $PWD (mirrored). No auto-launched claude — `exit` closes the window.
 mcc() {
   local cwd="${1:-$PWD}"
   local name="${cwd##*/}"
   ssh nuc bash <<BASH
-    export XDG_RUNTIME_DIR=
-    if zellij list-sessions 2>/dev/null | grep -aq 'main.*EXITED'; then
-      zellij delete-session main --force >/dev/null 2>&1
-    fi
-    if zellij --session main action new-tab --name '$name' --cwd '$cwd' 2>/dev/null; then
-      zellij --session main action go-to-tab-name '$name' >/dev/null 2>&1
+    export PATH="\$HOME/.local/bin:\$PATH"
+    if tmux has-session -t main 2>/dev/null; then
+      tmux new-window -t main -n '$name' -c '$cwd'
     else
-      cat >/tmp/mcc-mirror.kdl <<'KDL'
-layout {
-    pane cwd="$cwd"
-}
-KDL
-      zellij -n /tmp/mcc-mirror.kdl -s main >/dev/null 2>&1 || true
+      tmux new-session -d -s main -n '$name' -c '$cwd'
     fi
 BASH
   mosh --predict=never nuc
