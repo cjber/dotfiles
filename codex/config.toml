@@ -264,6 +264,9 @@ trust_level = "trusted"
 [projects."/home/cjber/.claude/jobs/7d36ab1e/tmp"]
 trust_level = "trusted"
 
+[projects."/home/cjber/Games/wow-server"]
+trust_level = "trusted"
+
 [tui.model_availability_nux]
 "gpt-5.6-sol" = 4
 gpt-6-astra = 1
