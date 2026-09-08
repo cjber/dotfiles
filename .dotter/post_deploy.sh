@@ -16,6 +16,27 @@ set -u
 # omit a real directory containing a symlinked SKILL.md, so install portable
 # skills as whole-directory links after Dotter has reconciled its file cache.
 DOTFILES_DIR=$(pwd -P)
+
+# Skills shared publicly at github.com/cjber/skills are NOT vendored into this
+# repo - it holds no copy of them, so there is nothing here to drift. They are
+# linked in from one working clone. Bootstrapped here rather than committed as a
+# symlink because an absolute link to $HOME/skills is dangling on any machine
+# that has not cloned it, and a dangling skill directory fails SILENTLY: the
+# skill simply stops being discovered, with nothing logged.
+SKILLS_REPO="$HOME/skills"
+SKILLS_REMOTE="git@github.com:cjber/skills.git"
+if [ ! -d "$SKILLS_REPO/.git" ]; then
+    if [ -e "$SKILLS_REPO" ]; then
+        echo "[dotter] warning: $SKILLS_REPO exists but is not a git clone; skipping shared skills" >&2
+        SKILLS_REPO=""
+    elif git clone --quiet "$SKILLS_REMOTE" "$SKILLS_REPO"; then
+        echo "[dotter] cloned shared skills into $SKILLS_REPO"
+    else
+        echo "[dotter] warning: could not clone $SKILLS_REMOTE; shared skills unavailable" >&2
+        SKILLS_REPO=""
+    fi
+fi
+
 link_skill_directory() {
     skill_source=$1
     skill_target=$2
@@ -29,9 +50,18 @@ link_skill_directory() {
 }
 
 link_skill_directory "$DOTFILES_DIR/claude/skills/dev" "$HOME/.agents/skills/dev"
-link_skill_directory "$DOTFILES_DIR/claude/skills/pr" "$HOME/.agents/skills/pr"
 link_skill_directory "$DOTFILES_DIR/claude/skills/dev" "$HOME/.codex/skills/dev"
+# codex/skills/pr is a SEPARATE, codex-flavoured skill, not a stale copy of the
+# Claude one - it stays vendored here and is deliberately not unified.
 link_skill_directory "$DOTFILES_DIR/codex/skills/pr" "$HOME/.codex/skills/pr"
+
+# Shared skills: one clone, linked into every agent that reads a skills dir.
+if [ -n "$SKILLS_REPO" ]; then
+    for shared_skill in pr deadcode; do
+        link_skill_directory "$SKILLS_REPO/$shared_skill" "$HOME/.claude/skills/$shared_skill"
+        link_skill_directory "$SKILLS_REPO/$shared_skill" "$HOME/.agents/skills/$shared_skill"
+    done
+fi
 
 # --- RTL8125 dual-boot NIC reset (system service + rescue helper) ---------
 # Installs the shutdown-time NIC reset so a warm reboot hands Windows a clean
