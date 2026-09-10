@@ -6,8 +6,9 @@ x-scheme-handler/discord-409416265891971072=discord-409416265891971072.desktop;
 x-scheme-handler/http=google-chrome.desktop;
 x-scheme-handler/https=google-chrome.desktop;
 x-scheme-handler/nebula=nebula-desktop.desktop
-x-scheme-handler/rshub=jagex-launcher.desktop;
+x-scheme-handler/rshub=jagex-launcher.desktop
 x-scheme-handler/slack=slack.desktop;
 x-scheme-handler/webcal=google-chrome.desktop;
 
 [Added Associations]
+x-scheme-handler/rshub=jagex-launcher.desktop;
