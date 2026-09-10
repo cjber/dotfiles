@@ -279,6 +279,10 @@ conversationDetailMode = "STEPS_COMMANDS"
 ambient-suggestions-enabled = true
 keepRemoteControlAwakeWhilePluggedIn = true
 
+[tui.model_availability_nux]
+"gpt-5.6-sol" = 4
+gpt-6-astra = 2
+
 [projects."/home/cjber/drive/agl/agent-deck"]
 trust_level = "trusted"
 
@@ -290,7 +294,3 @@ trust_level = "trusted"
 
 [projects."/home/cjber/Games/wow-server"]
 trust_level = "trusted"
-
-[tui.model_availability_nux]
-"gpt-5.6-sol" = 4
-gpt-6-astra = 1
