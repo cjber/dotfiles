@@ -69,7 +69,7 @@ Style rules for the plan body:
 - No em-dashes anywhere. Use hyphens, commas, or rephrase.
 - No user names, emails, or first-person identifiers in the plan content. Use synthetic placeholders if examples are needed.
 - No web3 / token / wallet / crypto examples in fixtures or scenarios.
-- Match existing project conventions (Conventional Commits, signed commits, `uv run sift check` gate, factory methods on models, no `dict[str, Any]` where Pydantic fits).
+- Match existing project conventions (Conventional Commits, signed commits, the repo's check gate, its model/factory conventions, its typing discipline).
 
 ### 4. Report
 
@@ -128,7 +128,7 @@ Everything in the batch lands on **one branch in one worktree**. Only the read-o
 
 1. **Plan (parallel).** Fan out one investigator per issue - subagents, or a single `Workflow` if the batch is large enough to want deterministic control flow (this skill telling you to call `Workflow` is the explicit opt-in). Each does the Mode-A investigation (fetch, map code surface, write the plan file) and returns `{shippable: bool, slug, summary, plan_path, skip_reason}`. **No agent in this phase edits, commits, or branches** - concurrent writers on one branch corrupt each other.
 2. **Order the batch.** Sort by dependency: a fix that subsumes another comes first; issues sharing a file surface sit adjacent so their commits do not conflict.
-3. **Build (serialized).** One worktree, one branch off the default branch, named for the batch (not for any single issue). Work the ordered list yourself, one issue at a time: implement, stage an explicit file list (never `git add -A`), run the repo's check gate (`uv run sift check` here), and only on green make **one signed commit per issue** (`git commit -S`) whose message names the issue. A red gate or a mid-build blocker **drops that issue to plan-only** - revert its edits, leave the branch clean, record the blocker, move to the next. Never force a low-confidence commit onto a shared branch.
+3. **Build (serialized).** One worktree, one branch off the default branch, named for the batch (not for any single issue). Work the ordered list yourself, one issue at a time: implement, stage an explicit file list (never `git add -A`), run the repo's check gate, and only on green make **one signed commit per issue** (`git commit -S`) whose message names the issue. A red gate or a mid-build blocker **drops that issue to plan-only** - revert its edits, leave the branch clean, record the blocker, move to the next. Never force a low-confidence commit onto a shared branch.
 4. **One PR, ready for review.** After the last issue, run `/simplify` over the whole diff, then `/code-review`, then push and open a **single non-draft PR** for the whole batch. Never `--draft`. The body carries, per issue, its own `Closes #<n>` line (`Closes #A, #B` closes only A - one keyword per issue), plus the plan link and test plan for each. Title is Conventional Commits describing the batch.
 
 Hard rules (never cross autonomously):
@@ -137,7 +137,7 @@ Hard rules (never cross autonomously):
 - **One PR per repo, not per issue.** Keep adding commits to the same branch; a batch spanning two repos gets one PR each. Split out a separate PR only for a change that is security-sensitive or independently riskier and would otherwise block the safe work behind it.
 - **Never `--draft`.** Copilot/bot review skips drafts, so a draft PR is a PR nobody reviews.
 - If the branch already exists from an earlier run of this batch, keep appending commits to it and update the existing PR's title/body as scope grows - do not open a second PR.
-- Local checks share one Postgres on this machine, which is another reason the build phase is serialized: `migrate` / `sift check` must never run concurrently against the same DB (see `reference_local_postgres_shared_across_worktrees`).
+- If the repo's checks touch a shared local datastore (one Postgres across every worktree, say), that is another reason the build phase is serialized: migrations and the check gate must never run concurrently against the same database.
 
 ### B4. Report
 

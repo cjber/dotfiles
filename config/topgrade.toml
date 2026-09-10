@@ -29,7 +29,7 @@
 
 # Disable specific steps - same options as the command line flag
 # disable = ["system", "emacs"]
-disable = ["gcloud", "helm"]
+disable = ["gcloud", "helm", "claude_code_plugins"]
 
 # Run these steps before all others
 # first = ["chezmoi"]
@@ -142,6 +142,8 @@ disable = ["gcloud", "helm"]
 [commands]
 # "Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 # "Custom command using interactive shell (unix)" = "-i vim_upgrade"
+# Built-in step fails on local ~/.claude/skills plugins (no marketplace); skip those
+"Claude Code Plugins" = "claude plugin marketplace update && claude plugin list --json | jq -r '.[] | select(.enabled and (.id | endswith(\"@skills-dir\") | not)) | .id' | xargs -rn1 claude plugin update --scope user"
 
 
 [python]
