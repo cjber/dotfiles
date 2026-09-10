@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Prune merged cb/ worktrees (worktree dir + local branch) using plain git.
-# gwq is NOT used for removal: it re-invokes `git` from PATH and dies silently
-# in non-TTY / PATH-stripped shells (Claude Code Bash pipelines) - the reason
-# the old inline prune loop "always broke".
+# Prune worktrees (worktree dir + local branch) whose PR is merged or closed,
+# using plain git. gwq is NOT used for removal: it re-invokes `git` from PATH
+# and dies silently in non-TTY / PATH-stripped shells (Claude Code Bash
+# pipelines) - the reason the old inline prune loop "always broke".
 #
-# Merged-detection is GitHub-authoritative: ONE `gh pr list --state merged`
-# call builds the merged-head set; a branch is removable iff its name is in
-# that set, or it is a literal fast-forward ancestor of origin/main (no-PR
-# local branch). Branches with an OPEN PR are always kept, even if a
-# same-named merged PR exists. No tree-equivalence heuristics.
+# Done-detection is GitHub-authoritative: ONE `gh pr list --state closed` call
+# (closed includes merged) builds the done-head set; a branch of any prefix is
+# removable iff its name is in that set, or it is a literal fast-forward
+# ancestor of origin/main (no-PR local branch). Branches with an OPEN PR are
+# always kept, even if a same-named closed PR exists; dirty trees are kept.
 set -u
 export PATH=/usr/bin:/usr/local/bin:/bin:${PATH:-}
 
@@ -24,7 +24,9 @@ git fetch --quiet --prune origin
 MAIN_TOPLEVEL="$(git rev-parse --show-toplevel)"
 
 # ONE API call each (per-branch gh calls get secondary-rate-limited to empty).
-MERGED_HEADS="$(gh pr list --state merged --limit 1000 --json headRefName -q '.[].headRefName')" || exit 1
+# "<branch> <head sha>" per closed PR: matching the sha, not just the name, keeps
+# a branch that gained commits after its PR closed (names get reused).
+DONE_HEADS="$(gh pr list --state closed --limit 3000 --json headRefName,headRefOid -q '.[] | "\(.headRefName) \(.headRefOid)"')" || exit 1
 OPEN_HEADS="$(gh pr list --state open --limit 200 --json headRefName -q '.[].headRefName')" || exit 1
 
 # Drop the per-worktree database clone-db.sh created for this tree, if any.
@@ -53,12 +55,10 @@ drop_worktree_db() {
     echo "dropped database: $db (+_dbos, +_migrations)"
 }
 
-is_merged() {
-    if printf '%s\n' "$MERGED_HEADS" | grep -qxF "$1"; then
-        return 0
-    fi
+is_done() {
     local tip mb
     tip=$(git rev-parse "$1" 2>/dev/null) || return 1
+    printf '%s\n' "$DONE_HEADS" | grep -qxF "$1 $tip" && return 0
     mb=$(git merge-base origin/main "$1" 2>/dev/null) || return 1
     [ "$mb" = "$tip" ]
 }
@@ -98,7 +98,6 @@ done
 while read -r path ref; do
     branch=${ref#refs/heads/}
     [ "$path" = "$MAIN_TOPLEVEL" ] && continue                  # Guard 2: skip main checkout
-    case "$branch" in cb/*) ;; *) continue ;; esac              # only cb/ feature branches
     { [ "$branch" = main ] || [ "$branch" = master ]; } && continue  # Guard 3: never the default branch
     [ -d "$path" ] || continue                                  # missing dir -> git worktree prune below
     if [ -n "$(git -C "$path" status --porcelain 2>/dev/null)" ]; then
@@ -111,7 +110,7 @@ while read -r path ref; do
         kept=$((kept + 1))
         continue
     fi
-    if is_merged "$branch"; then
+    if is_done "$branch"; then
         drop_worktree_db "$path"   # while .env still exists - removal takes it with the tree
         if git worktree remove "$path" && git branch -D "$branch"; then
             echo "removed: $branch ($path)"
@@ -123,8 +122,9 @@ while read -r path ref; do
 done < "$LIST"
 rm -f "$LIST"
 
-# Second pass: merged cb/ local branches with no worktree at all.
-for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/cb/); do
+# Second pass: merged/closed local branches with no worktree at all.
+for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/); do
+    { [ "$branch" = main ] || [ "$branch" = master ]; } && continue
     git worktree list --porcelain | grep -qxF "branch refs/heads/$branch" && continue
     if printf '%s\n' "$IN_USE" | grep -qxF "$branch"; then
         echo "keep (held by a worktree mid-rebase): $branch"
@@ -132,7 +132,7 @@ for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/cb/); do
         continue
     fi
     printf '%s\n' "$OPEN_HEADS" | grep -qxF "$branch" && continue
-    if is_merged "$branch"; then
+    if is_done "$branch"; then
         git branch -D "$branch" >/dev/null && echo "removed branch (no worktree): $branch" && removed=$((removed + 1))
     fi
 done
