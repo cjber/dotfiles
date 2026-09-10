@@ -1,11 +1,12 @@
 ---
 name: dev
-description: "Runs the local Nebula web and backend stack from the worktrees relevant to the active conversation, falling back to current main checkouts when no feature worktree is in scope. Supplies local env files, starts services in tmux or the background, and verifies health. Use for '/dev' or starting the development stack the user wants to inspect."
+description: "Runs the local Nebula backend plus the desktop app (pointed at that backend) from the worktrees relevant to the active conversation, falling back to current main checkouts when no feature worktree is in scope. Supplies local env files, starts services in tmux or the background, and verifies health. Use for '/dev' or starting the development stack the user wants to inspect."
 ---
 
 # `/dev` — Run the development stack in scope
 
-By default, run Nebula web and backend from the worktrees relevant to the active
+By default, run the Nebula backend and the Nebula desktop app (pointed at that
+local backend, never web in a browser) from the worktrees relevant to the active
 conversation so the user sees the changes being discussed. Fall back to clean,
 current `main` checkouts only when no feature worktree is in scope. Never
 silently substitute `main` for an identified feature worktree.
@@ -28,7 +29,7 @@ gh pr list --base main --state open \
 
 ## 0. Resolve the checkouts
 
-- With no repository scope supplied, run `nebula` and `nebula-web` only. Add mobile, desktop, CLI, or other repositories only when the user explicitly asks for them.
+- With no repository scope supplied, run `nebula` and `nebula-desktop` only. Do not start nebula-web. Add web (browser), mobile, CLI, or other repositories only when the user explicitly asks for them.
 - If the user explicitly narrows the repository scope, run only that scope. Include any additional repositories they explicitly name.
 - Resolve each repository's intended worktree from the active conversation, current working directory, named PR branches, and associated sibling worktrees. Prefer an explicitly discussed or currently active feature worktree over the root checkout.
 - Fetch `origin/main` and update every selected feature branch to latest `main` before launch when the user asks for current-main testing. Preserve its history with the repository's normal merge/rebase policy; never rewrite a published branch without explicit authorization.
@@ -117,8 +118,9 @@ If either check fails, say so rather than starting a server that will just crash
 Starting the server processes is not enough. Once readiness checks pass, present
 each requested client surface:
 
-- Open the Next.js URL in the default browser (`xdg-open` on Linux, `open` on macOS).
-- When mobile, desktop, or CLI was explicitly requested, launch and verify that
+- Desktop (default): launch it per "Desktop against the local backend" below.
+- Only when web was explicitly requested: open the Next.js URL in the default browser (`xdg-open` on Linux, `open` on macOS).
+- When mobile or CLI was explicitly requested, launch and verify that
   surface using its native readiness signal. Do not launch unrequested clients.
 
 ## 5. Confirm it's up
@@ -132,6 +134,57 @@ Poll each service using its own readiness surface for a few seconds before decla
 - CLI: confirm the Kitty process/window was launched with the interactive CLI command.
 
 Report every started service and how to inspect its logs. If any repository fails to start or become ready, report the partial stack explicitly rather than declaring `$dev` complete.
+
+## Desktop against the local backend
+
+Current desktop `main` renders its own UI (no embedded nebula-web bundle), so
+only the API base needs pointing. From `nebula-desktop/apps/desktop`, after the
+backend readiness check passes:
+
+```bash
+NEBULA_API_BASE="http://127.0.0.1:<backend SERVER_PORT>" bun run dev
+```
+
+`scripts/dev.ts` gives each worktree its own renderer/CDP ports and an isolated
+`NEBULA_HOME` (`<worktree>/.nebula`, seeded from `~/.nebula`), and adds
+`--ozone-platform=x11` on Linux. It signs in against the local backend via
+device flow automatically. Ready = log line `[main] config: apiBase=http://127.0.0.1:...`
+plus `POST /auth/device/token` and `GET /workspaces` returning 200 in the backend log.
+
+If the desktop root checkout is not on a clean `main`, use a detached worktree
+(`git worktree add --detach ~/.worktrees/nebula-desktop/<name> origin/main`)
+rather than resetting it.
+
+## Backend + Zero on the existing local infra
+
+Infra is the system unit `nebula-compose.service` (docker compose postgres :5432
+with `wal_level=logical`, redis :6379). Secrets come from `pass` via `.envrc`, so
+run every backend command through `direnv exec .`. Do not use a `dev-cluster`
+for this: its Postgres lacks logical WAL and it has no Zero.
+
+Desktop needs Zero, or it sits on "connecting" (`GET /zero/session` 503). `.env`
+must carry (stub them if missing; never print the secret):
+
+```
+DBOS_DATABASE_URL=postgresql://postgres:postgres@localhost:5432/<db>_dbos   # never the same DB as DATABASE_URL
+ZERO_AUTH_SECRET=<openssl rand -hex 32>
+ZERO_CACHE_URL=http://localhost:4848
+```
+
+If `uv run migrate` fails with "Can't locate revision" the `.env` database is on
+another branch's lineage - give the worktree its own `wt_<feature>` +
+`wt_<feature>_dbos` databases in its `.env` and migrate those; never reset a
+shared one. Then, each in the background:
+
+```bash
+direnv exec . uv run migrate
+direnv exec . uv run dev        # api+worker :4242, ready = /health/ready
+direnv exec . uv run zero       # zero-cache :4848, start after the backend
+```
+
+A fresh database has no users: desktop shows OTP login and the code arrives by
+email. `/calls` 500 and `/workspace/presence/room` 503 mean `LIVEKIT_URL` is
+unset - voice only, harmless for Task testing.
 
 ## Coordinating paired worktrees
 
