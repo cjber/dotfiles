@@ -147,8 +147,9 @@ NEBULA_API_BASE="http://127.0.0.1:<backend SERVER_PORT>" bun run dev
 
 `scripts/dev.ts` gives each worktree its own renderer/CDP ports and an isolated
 `NEBULA_HOME` (`<worktree>/.nebula`, seeded from `~/.nebula`), and adds
-`--ozone-platform=x11` on Linux. It signs in against the local backend via
-device flow automatically. Ready = log line `[main] config: apiBase=http://127.0.0.1:...`
+`--ozone-platform=x11` on Linux. It signs in with the installed app's session
+(shared `~/.nebula` auth), which only exists on a database that already has
+that user; on a fresh database use the demo account auto-login below. Ready = log line `[main] config: apiBase=http://127.0.0.1:...`
 plus `POST /auth/device/token` and `GET /workspaces` returning 200 in the backend log.
 
 If the desktop root checkout is not on a clean `main`, use a detached worktree
@@ -182,9 +183,66 @@ direnv exec . uv run dev        # api+worker :4242, ready = /health/ready
 direnv exec . uv run zero       # zero-cache :4848, start after the backend
 ```
 
-A fresh database has no users: desktop shows OTP login and the code arrives by
-email. `/calls` 500 and `/workspace/presence/room` 503 mean `LIVEKIT_URL` is
-unset - voice only, harmless for Task testing.
+Worktree gotchas:
+
+- A feature worktree has no `.envrc` (ignored, so not checked out): without it
+  there are no secrets. Copy every ignored root `.env*` (step 1), then
+  `direnv allow .` in the worktree.
+- Cloning a shared DB (`createdb -T <db>`) only helps if its `alembic_version`
+  is in this branch's graph; otherwise migrate fails with "Can't locate
+  revision". Default to fresh empty `wt_<feature>` + `wt_<feature>_dbos`.
+- Stop a service by PID or process group (`kill -TERM -- -<pgid>`, found with
+  `ps -eo pid,pgid,args | awk '/<worktree>/ && /electron/ && !/awk/'`). Never
+  `pkill -f <pattern>` from the tool shell - it matches its own command line
+  and kills the shell (exit 144).
+
+`/calls` 500 and `/workspace/presence/room` 503 mean `LIVEKIT_URL` is unset -
+voice only, harmless for Task testing.
+
+## Demo account auto-login (default for a fresh database)
+
+A fresh database has no users, and OTP codes go by email. Skip all of it with
+the CI test-login route (`src/routers/auth_test_login.py`), which the dev
+deploy enables against the same Cognito dev pool the local `.envrc` uses:
+
+1. Append to the worktree's `.env` (never commit), then (re)start the backend:
+   ```
+   E2E_LOGIN_ENABLED=true
+   E2E_LOGIN_EMAIL_DOMAIN=nebula-ci.internal
+   ```
+   `E2E_LOGIN_SECRET` already comes from `.envrc`. The domain is deliberately
+   undeliverable and must match `deploy/overlays/dev/backend-config.env`.
+2. Mint a session (response `token` is an `nbs_…` session token; never print it):
+   ```bash
+   direnv exec . bash -c 'curl -s -X POST localhost:4242/auth/test-login \
+     -H "Content-Type: application/json" -H "X-E2E-Login-Secret: $E2E_LOGIN_SECRET" \
+     -d "{\"email\":\"demo@nebula-ci.internal\"}"' > "$tmp/login.json"
+   ```
+3. Clear the only two onboarding gates (`apps/desktop/src/renderer/src/gates/decide-gate.ts`):
+   profile needs first/last name + username, workspace needs any workspace.
+   Test-login creates neither.
+   ```bash
+   H="Authorization: Bearer $TOKEN"
+   curl -s -X PUT  localhost:4242/user       -H "$H" -H "Content-Type: application/json" \
+     -d '{"first_name":"Demo","last_name":"User","username":"demo-<feature>"}'
+   curl -s -X POST localhost:4242/workspaces -H "$H" -H "Content-Type: application/json" \
+     -d '{"name":"Demo","slug":"demo-<feature>"}'
+   ```
+   Username and slug must be unique; leave `team_description`/`work_description`
+   out or a personalised onboarding run starts.
+4. Launch desktop with the token as an env override:
+   ```bash
+   NEBULA_AUTH_TOKEN="$TOKEN" NEBULA_API_BASE=http://127.0.0.1:4242 bun run dev
+   ```
+   `NEBULA_AUTH_TOKEN` wins over the on-disk envelope and never writes it
+   (`packages/auth/src/internal/token-store.ts`), so the installed app's shared
+   sign-in in `~/.nebula` is untouched. Spawned daemons inherit it. It has no
+   refresh token - mint a new one when it expires.
+
+Do not write the demo session into the envelope: worktree dev runs share the
+installed app's `~/.nebula` auth file (`NEBULA_AUTH_HOME`, #2444) unless
+`NEBULA_DEV_NO_SEED=1`. Launch the desktop only after steps 1-3; a launch
+before onboarding was satisfied exited silently with code 0 in testing.
 
 ## Coordinating paired worktrees
 
