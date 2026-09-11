@@ -1,24 +1,28 @@
 #!/usr/bin/env bash
 # Runs `claude remote-control` as a persistent server for one repo.
-# Invoked by claude-rc@<instance>.service; $1 is a repo dir under ~/drive/agl,
-# or the literal "agl" for the machine-wide catch-all rooted at that parent dir.
+# Invoked by claude-rc@<instance>.service; $1 is a repo dir under $CLAUDE_RC_ROOT
+# (default ~/drive/agl), or the literal "agl" for the machine-wide catch-all
+# rooted at that parent dir. CLAUDE_RC_PREFIX prefixes the session name, so the
+# NAS's servers (root ~/code, prefix "nas-") are told apart in the app.
 #
 # Remote Control needs claude.ai subscription auth, so ANTHROPIC_API_KEY must
 # not be set (it would force API-key auth and the command refuses to start).
 set -euo pipefail
 
 instance="${1:?usage: claude-rc.sh <repo-name|agl>}"
+root="${CLAUDE_RC_ROOT:-$HOME/drive/agl}"
+prefix="${CLAUDE_RC_PREFIX-}"
 
 # Claude's Remote Control server is bound to ONE directory - unlike Codex's
 # app-server daemon, which is machine-wide and picks a cwd per session. Cross-
 # repo coverage therefore means one unit per repo, plus this catch-all rooted at
 # the parent so a directory with no unit of its own is still reachable by phone.
 if [ "$instance" = "agl" ]; then
-    dir="$HOME/drive/agl"
-    name="barry"
+    dir="$root"
+    name="${prefix}barry"
 else
-    dir="$HOME/drive/agl/$instance"
-    name="$instance"
+    dir="$root/$instance"
+    name="$prefix$instance"
 fi
 
 [ -d "$dir" ] || { echo "claude-rc: $dir does not exist" >&2; exit 1; }

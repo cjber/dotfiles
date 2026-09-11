@@ -121,7 +121,36 @@ export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=95
 # passed through (`cn attach <id>`, `cn logs <id>`). -t for the TUI, bash -lc
 # so ~/.local/bin (where claude lives) is on PATH; ${(q)@} survives the ssh hop.
 function cn() {
+	if [[ $1 == a ]]; then
+		# cn a: fuzzy-pick a NAS background session and attach to it.
+		local id=$(ssh nas 'bash -lc "claude agents --json"' 2>/dev/null |
+			jq -r '.[] | select(.id) | "\(.id)\t\(.name)\t\(.state // .status)\t\(.cwd)"' |
+			fzf --with-nth=2.. --delimiter='\t' | cut -f1)
+		[[ -n $id ]] && cn attach "$id"
+		return
+	fi
 	ssh -t nas "bash -lc ${(q)${:-claude ${(q)@:-agents}}}"
+}
+# ch <brief.md> [slug]: hand this branch to a background session on the NAS.
+alias ch=~/dotfiles/scripts/nas-handoff.sh
+alias nas-sync=~/dotfiles/scripts/nas-sync.sh
+# cnp [file...]: ssh can't carry the clipboard, so Claude on the NAS can't see a
+# pasted image. Upload the clipboard image (or the given files) to the NAS and
+# put the NAS path(s) on the clipboard; paste that into the session instead.
+function cnp() {
+	local dir=/home/cillian/code/handoff/img paths=() f name
+	if (( $# == 0 )); then
+		name="clip-$(date +%Y%m%d-%H%M%S).png"
+		wl-paste --type image/png 2>/dev/null | ssh nas "mkdir -p $dir && cat > $dir/$name" 2>/dev/null || { echo "cnp: no image on the clipboard" >&2; return 1; }
+		paths=("$dir/$name")
+	else
+		for f in "$@"; do
+			name="$(date +%s)-${f:t}"
+			ssh nas "mkdir -p $dir && cat > $dir/${(q)name}" < "$f" 2>/dev/null && paths+=("$dir/$name")
+		done
+	fi
+	print -r -- "${(j: :)paths}" | wl-copy
+	print -r -- "${(j: :)paths}"
 }
 
 # Composio CLI
