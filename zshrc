@@ -117,6 +117,13 @@ fi
 # percentage override has to be a real shell env var to take effect.
 export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=95
 
+# cn: Claude on the NAS. Bare `cn` opens `claude agents`; anything else is
+# passed through (`cn attach <id>`, `cn logs <id>`). -t for the TUI, bash -lc
+# so ~/.local/bin (where claude lives) is on PATH; ${(q)@} survives the ssh hop.
+function cn() {
+	ssh -t nas "bash -lc ${(q)${:-claude ${(q)@:-agents}}}"
+}
+
 # Composio CLI
 export COMPOSIO_INSTALL_DIR="/home/cjber/.composio"
 export PATH="$COMPOSIO_INSTALL_DIR:$PATH"
