@@ -63,7 +63,7 @@
     },
 
     "network#ethernet": {
-        "interface": "eno1",
+        "interface": "eth0",
         "interval": 5,
         "format-ethernet": "↑{bandwidthUpBits:>} ↓{bandwidthDownBits:>}",
         "format-disconnected": "",
@@ -72,13 +72,13 @@
         "max-length": 50
     },
     "network#wifi": {
-        "interface": "wlan0",
+        "interface": "wlan5",
         "interval": 5,
         "format-wifi": "{essid} ({signalStrength}%)",
         "format-disconnected": "",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
         "tooltip-format-disconnected": "WiFi disconnected",
-        "on-click": "kitty -e iwctl station wlan0 get-networks",
+        "on-click": "kitty -e iwctl station wlan5 get-networks",
         "max-length": 50
     },
     // waybar hides a module whose formatted output is empty, so the
