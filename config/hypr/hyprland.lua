@@ -563,11 +563,6 @@ hl.bind(mod .. " + V",              hl.dsp.exec_cmd("hyprpwcenter"))
 hl.bind(mod .. " + SHIFT + t", hl.dsp.exec_cmd("/home/cjber/scripts/tv-toggle"))
 -- Local WoW server (AzerothCore + playerbots): rofi menu, see ~/scripts/wow-menu
 hl.bind(mod .. " + SHIFT + W", hl.dsp.exec_cmd("/home/cjber/scripts/wow-menu"))
--- Herdr HUD overlay (~/scripts/herdr-hud). Upstream suggests SUPER+H and
--- SUPER+SHIFT+H, but both are taken above by scrolling focus/move, so the H
--- mnemonic moves onto CTRL. Panel toggle, then whole-overlay show/hide.
-hl.bind(mod .. " + CTRL + H",         hl.dsp.exec_cmd("/home/cjber/scripts/herdr-hud toggle"))
-hl.bind(mod .. " + CTRL + SHIFT + H", hl.dsp.exec_cmd("/home/cjber/scripts/herdr-hud visibility"))
 -- rofi kept for power menu; hyprlauncher has no equivalent dmenu plugin yet
 hl.bind(mod .. " + SHIFT + O",      hl.dsp.exec_cmd('rofi -show p -modi p:"rofi-power-menu"'))
 -- hyprsunset: toggle 4000K ↔ 6000K (sunset.service runs at 6000K = neutral)
@@ -789,11 +784,13 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("udiskie &")
     -- hypridle, hyprpolkitagent, hyprsunset now started via systemd --user services
-    -- Herdr: a persistent agent terminal on DP-2 (ws4), plus the HUD overlay
-    -- that puts the same agents over a fullscreen game on DP-1. The terminal is
-    -- the everyday view; the overlay is for when the game covers the screen.
+    -- Herdr: a persistent agent terminal on DP-2 (ws4). DP-2 is always visible
+    -- even with a fullscreen game on DP-1, which is why the quickshell HUD
+    -- overlay (still ported in config/quickshell/herdr-hud) is not started or
+    -- bound to anything -- it was a viewport onto this same session and the
+    -- second monitor makes it redundant. Re-enable by binding
+    -- `~/scripts/herdr-hud toggle` if that ever stops being true.
     hl.exec_cmd("kitty --class herdr-main herdr")
-    hl.exec_cmd("/home/cjber/scripts/herdr-hud start")
     -- Scratchpad command-center: 3 kittys routed to special:scratch by class.
     hl.exec_cmd("kitty --class scratch-cmd")
     hl.exec_cmd("kitty --class scratch-btm btm")
