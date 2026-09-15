@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# herdr-hud — control the Herdr HUD overlay.
+#
+# The HUD is upstream's omarchy-shell plugin (finna/omarchy-herdr-hud) running on
+# plain Quickshell instead of Omarchy Quattro; the config lives in
+# ~/.config/quickshell/herdr-hud (see the README there for what was shimmed).
+# Upstream suggests SUPER+H / SUPER+SHIFT+H, but both are taken here by vim-style
+# focus movement, so hyprland.lua binds SUPER+CTRL+H instead.
+#
+#   herdr-hud start       start the overlay daemon if it isn't already running
+#   herdr-hud toggle      open/close the agent panel (starts the daemon if needed)
+#   herdr-hud visibility  show/hide the whole HUD, H bubble included
+#   herdr-hud stop        quit the overlay entirely
+#   herdr-hud status      report whether the overlay and herdr server are up
+
+set -uo pipefail
+
+CONFIG=herdr-hud
+
+# `ipc show` only succeeds against a live instance of THIS config, so it doubles
+# as the liveness probe. A bare `pgrep quickshell` would match unrelated configs.
+running() { quickshell -c "$CONFIG" ipc show >/dev/null 2>&1; }
+
+start() {
+    running && return 0
+    setsid quickshell -c "$CONFIG" --daemonize >/dev/null 2>&1
+    # Give the QML time to load and claim its layer surfaces before an ipc call.
+    for _ in $(seq 1 40); do
+        running && return 0
+        sleep 0.25
+    done
+    echo "herdr-hud: overlay failed to start; try 'quickshell -c $CONFIG' to see why" >&2
+    return 1
+}
+
+call() { start && quickshell -c "$CONFIG" ipc call hud "$1"; }
+
+case "${1:-toggle}" in
+    start)      start ;;
+    toggle)     call toggle ;;
+    visibility) call toggleVisibility ;;
+    show)       call show ;;
+    hide)       call hide ;;
+    stop)       running && quickshell -c "$CONFIG" kill ;;
+    status)
+        running && echo "overlay: running" || echo "overlay: not running"
+        herdr status 2>/dev/null | sed -n '/^server:/,/^$/p' | sed 's/^/herdr /'
+        ;;
+    *)
+        echo "usage: herdr-hud {start|toggle|visibility|show|hide|stop|status}" >&2
+        exit 2
+        ;;
+esac

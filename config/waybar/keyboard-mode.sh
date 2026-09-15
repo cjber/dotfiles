@@ -56,6 +56,12 @@ apply_desktop_mode() {
 
     if [ "$mode" = "game" ]; then
         makoctl mode -a do-not-disturb >/dev/null 2>&1 || true
+        # Game mode is exactly when a fullscreen client hides every other way of
+        # watching agents, so make sure the Herdr overlay is up. It is a no-op if
+        # already running, and it is deliberately NOT stopped on the way out --
+        # the HUD is useful on the desktop too, and killing it would drop the
+        # per-monitor H positions the user has dragged into place.
+        /home/cjber/scripts/herdr-hud start >/dev/null 2>&1 || true
     else
         makoctl mode -r do-not-disturb >/dev/null 2>&1 || true
     fi

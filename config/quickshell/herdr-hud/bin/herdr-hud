@@ -1,0 +1,439 @@
+#!/usr/bin/env python3
+"""Small, dependency-free bridge between Herdr HUD and the Herdr CLI."""
+
+from __future__ import annotations
+
+import json
+import ctypes
+import os
+import selectors
+import signal
+import socket
+import time
+import uuid
+import hashlib
+import html
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from typing import Any
+
+
+TIMEOUT = 12
+
+
+class BridgeError(RuntimeError):
+    pass
+
+
+# Limits apply while reading, before decoding/formatting or handing data to QML.
+STDOUT_LIMIT = 1024 * 1024
+STDERR_LIMIT = 64 * 1024
+PROMPT_LIMIT = 64 * 1024
+RESPONSE_LIMIT = 8 * 1024 * 1024
+ERROR_LIMIT = 4096
+
+
+def run(argv: list[str], timeout: float = TIMEOUT, *, input_data: bytes | None = None) -> str:
+    if input_data is not None and len(input_data) > PROMPT_LIMIT:
+        raise BridgeError("Prompt exceeds the 64 KiB limit")
+    # Linux subreaper: orphaned grandchildren in this command's process group
+    # become our children, so timeout cleanup can reap them as well as the leader.
+    if ctypes.CDLL(None, use_errno=True).prctl(36, 1, 0, 0, 0) != 0:
+        raise BridgeError("Could not enable command process cleanup")
+    try:
+        process = subprocess.Popen(argv, stdin=subprocess.PIPE if input_data is not None else subprocess.DEVNULL,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+    except FileNotFoundError as error:
+        raise BridgeError(f"{argv[0]} is not installed") from error
+    buffers = {"stdout": bytearray(), "stderr": bytearray()}
+    deadline = time.monotonic() + timeout
+    try:
+        with selectors.DefaultSelector() as selector:
+            for stream, name in [(process.stdout, "stdout"), (process.stderr, "stderr")]:
+                os.set_blocking(stream.fileno(), False)
+                selector.register(stream, selectors.EVENT_READ, name)
+            pending = memoryview(input_data or b"")
+            if process.stdin is not None:
+                os.set_blocking(process.stdin.fileno(), False)
+                if pending:
+                    selector.register(process.stdin, selectors.EVENT_WRITE, "stdin")
+                else:
+                    process.stdin.close()
+            while selector.get_map() or process.poll() is None:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise BridgeError(f"{argv[0]} did not respond in time")
+                for key, _ in selector.select(min(remaining, 0.05)):
+                    stream, name = key.fileobj, key.data
+                    if name == "stdin":
+                        try:
+                            pending = pending[os.write(stream.fileno(), pending[:4096]):]
+                        except BrokenPipeError:
+                            pending = memoryview(b"")
+                        if not pending:
+                            selector.unregister(stream)
+                            stream.close()
+                        continue
+                    limit = STDOUT_LIMIT if name == "stdout" else STDERR_LIMIT
+                    chunk = os.read(stream.fileno(), min(16384, limit - len(buffers[name]) + 1))
+                    if not chunk:
+                        selector.unregister(stream)
+                        stream.close()
+                    elif len(buffers[name]) + len(chunk) > limit:
+                        raise BridgeError(f"Command {name} exceeded the {limit}-byte limit")
+                    else:
+                        buffers[name].extend(chunk)
+        if process.returncode:
+            detail = (buffers["stderr"] or buffers["stdout"])[:ERROR_LIMIT].decode("utf-8", errors="replace").strip()
+            raise BridgeError(detail or f"{argv[0]} exited with status {process.returncode}")
+        return buffers["stdout"].decode("utf-8", errors="replace")
+    finally:
+        # Kill the whole owned group, even if the leader exited but a child kept
+        # its pipes open. Never use unbounded communicate() to drain on failure.
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        process.wait()
+        while True:
+            try:
+                os.waitpid(-process.pid, 0)
+            except ChildProcessError:
+                break
+        for stream in (process.stdin, process.stdout, process.stderr):
+            if stream is not None:
+                stream.close()
+
+
+def backend_config() -> dict:
+    config = Path.home() / ".config/herdr-hud/backend.json"
+    if not config.exists():
+        return {}
+    try:
+        value = json.loads(config.read_text())
+        if not isinstance(value, dict):
+            raise ValueError("expected an object")
+        for key in ("command", "prompt_command"):
+            if key not in value:
+                continue
+            command = value[key]
+            if not isinstance(command, list) or not command or not all(isinstance(x, str) and x and "\0" not in x for x in command):
+                raise ValueError(f"{key} must be a nonempty list of strings")
+        return value
+    except (OSError, ValueError, TypeError) as error:
+        raise BridgeError(f"Invalid HUD backend configuration: {error}") from error
+
+
+def herdr(*args: str) -> str:
+    command = backend_config().get("command", ["herdr"])
+    if shutil.which(command[0]) is None:
+        raise BridgeError("Herdr is not installed or is not on PATH")
+    return run([*command, *args])
+
+
+def socket_request(path: str, method: str, params: dict, timeout: float = TIMEOUT) -> dict:
+    request_id = str(uuid.uuid4())
+    wire = (json.dumps({"id": request_id, "method": method, "params": params}) + "\n").encode()
+    deadline = time.monotonic() + timeout
+    data = bytearray()
+    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as connection:
+        connection.settimeout(timeout)
+        connection.connect(path)
+        connection.sendall(wire)
+        while b"\n" not in data:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise BridgeError("Herdr socket did not respond in time")
+            connection.settimeout(remaining)
+            chunk = connection.recv(min(16384, STDOUT_LIMIT - len(data) + 1))
+            if not chunk:
+                raise BridgeError("Herdr closed the connection before acknowledging")
+            if len(data) + len(chunk) > STDOUT_LIMIT:
+                raise BridgeError("Herdr socket response exceeded the byte limit")
+            data.extend(chunk)
+    result = json.loads(data.split(b"\n", 1)[0])
+    if not isinstance(result, dict) or result.get("id") != request_id:
+        raise BridgeError("Herdr returned an invalid acknowledgement")
+    if "error" in result:
+        raise BridgeError("Herdr rejected the request: " + str(result["error"])[:ERROR_LIMIT])
+    if not isinstance(result.get("result"), dict):
+        raise BridgeError("Herdr returned an invalid acknowledgement")
+    return result["result"]
+
+
+def send_prompt(pane_id: str, terminal_id: str, message: str) -> None:
+    config = backend_config()
+    if "command" in config or "prompt_command" in config:
+        command = config.get("prompt_command")
+        if not command:
+            raise BridgeError("Custom backend needs a stdin-capable prompt_command; no prompt was sent")
+        # Explicit adapter contract: target and expected terminal as arguments,
+        # raw UTF-8 prompt on stdin; success must acknowledge the accepted write.
+        result = json.loads(run([*command, pane_id, terminal_id], input_data=message.encode()))
+        if not isinstance(result, dict) or result.get("ok") is not True:
+            raise BridgeError("Custom backend did not acknowledge the prompt")
+        return
+    status = herdr("status", "server")
+    path = next((line[len("socket: "):].strip() for line in status.splitlines() if line.startswith("socket: ")), "")
+    if not path:
+        raise BridgeError("Could not locate the running Herdr socket; no prompt was sent")
+    # The CLI does not accept prompt stdin. Use the same public socket method,
+    # rechecking the occupant at this socket before writing.
+    agent = socket_request(path, "agent.get", {"target": pane_id}).get("agent", {})
+    if agent.get("terminal_id") != terminal_id or agent.get("agent_status") not in {"idle", "done"}:
+        raise BridgeError("This agent changed or is no longer ready; no prompt was sent")
+    result = socket_request(path, "agent.prompt", {"target": pane_id, "text": message})
+    accepted = result.get("agent", {})
+    if result.get("type") != "agent_prompted" or accepted.get("terminal_id") != terminal_id:
+        raise BridgeError("Herdr returned an unexpected prompt acknowledgement")
+
+
+def read_prompt() -> str:
+    # QML sends one JSON string line. Bound both time and encoded input size.
+    data = bytearray()
+    deadline = time.monotonic() + TIMEOUT
+    with selectors.DefaultSelector() as selector:
+        selector.register(sys.stdin.buffer, selectors.EVENT_READ)
+        while b"\n" not in data:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0 or not selector.select(remaining):
+                raise BridgeError("Prompt input timed out")
+            chunk = os.read(sys.stdin.fileno(), min(4096, PROMPT_LIMIT * 6 + 3 - len(data)))
+            if not chunk:
+                raise BridgeError("Missing prompt input")
+            data.extend(chunk)
+            if len(data) >= PROMPT_LIMIT * 6 + 3:
+                raise BridgeError("Prompt exceeds the 64 KiB limit")
+    message = json.loads(data.split(b"\n", 1)[0])
+    if not isinstance(message, str) or len(message.encode()) > PROMPT_LIMIT:
+        raise BridgeError("Prompt must be text of at most 64 KiB")
+    return message
+
+
+def response(payload: Any) -> None:
+    encoded = json.dumps(payload, ensure_ascii=False)
+    if len(encoded.encode()) > RESPONSE_LIMIT:
+        raise BridgeError("HUD response exceeded the byte limit")
+    print(encoded)
+
+
+def agents() -> list[dict[str, Any]]:
+    payload = json.loads(herdr("agent", "list"))
+    return payload.get("result", {}).get("agents", [])
+
+
+def roster() -> None:
+    rows = agents()
+    workspace_payload = json.loads(herdr("workspace", "list"))
+    spaces = workspace_payload.get("result", {}).get("workspaces", [])
+    tabs = json.loads(herdr("tab", "list")).get("result", {}).get("tabs", [])
+    tab_labels = {str(tab.get("tab_id", "")): str(tab.get("label") or tab.get("number") or tab.get("tab_id", "")) for tab in tabs}
+    labels = {
+        str(space.get("workspace_id", "")): (
+            space.get("label") or space.get("workspace_id") or "Untitled space"
+        )
+        for space in spaces
+    }
+    merged = []
+    for row in rows:
+        item = dict(row)
+        workspace_id = str(item.get("workspace_id", ""))
+        item["workspace_label"] = labels.get(workspace_id, workspace_id or "Untitled space")
+        item["tab_label"] = tab_labels.get(str(row.get("tab_id", "")), str(row.get("tab_id") or ""))
+        merged.append(item)
+    response({"ok": True, "agents": merged})
+
+
+CODEX_MODEL_FOOTER = re.compile(
+    r"^\s*(?P<model>gpt-[\w.-]+|o[134](?:-[\w.-]+)?|codex-[\w.-]+)"
+    r"(?:\s+(?P<reasoning>minimal|low|medium|high|xhigh|max|ultra))?\s+[·|]\s*.+$"
+)
+
+
+def terminal_view(text: str, provider: str) -> dict[str, str]:
+    """Separate a recognized trailing Codex composer/footer from its transcript."""
+    result = {"text": text, "model": "", "reasoning": ""}
+    if provider.lower() != "codex":
+        return result
+    lines = text.rstrip().splitlines()
+    if not lines:
+        return result
+    footer = CODEX_MODEL_FOOTER.fullmatch(lines[-1])
+    if not footer:
+        return result
+    # Require the actual terminal composer immediately before the status footer.
+    # Never remove model names or quoted input hints elsewhere in an answer.
+    composer = None
+    for index in range(len(lines) - 2, max(-1, len(lines) - 14), -1):
+        line = lines[index]
+        if re.match(r"^\s*[›❯](?:\s|$)", line):
+            composer = index
+            break
+        if line.strip() and (not line.startswith("  ") or line.lstrip().startswith(("•", "```"))):
+            return result
+    if composer is None:
+        return result
+    transcript = lines[:composer]
+    while transcript and not transcript[-1].strip():
+        transcript.pop()
+    # Codex redraws this timer every second. The HUD has its own activity
+    # banner, so don't repaint the transcript just to display timer ticks.
+    for index in range(len(transcript) - 1, max(-1, len(transcript) - 5), -1):
+        if re.match(r"^\s*[•●] Working \([^\n]*\besc to interrupt\)", transcript[index]):
+            transcript = transcript[:index]
+            break
+        if transcript[index].strip() and not transcript[index].startswith("  "):
+            break
+    return {
+        "text": "\n".join(transcript).rstrip(),
+        "model": footer["model"],
+        "reasoning": footer["reasoning"] or "",
+    }
+
+
+def reply_html(text: str) -> str:
+    """Small safe formatter: terminal text is never interpreted as raw HTML."""
+    result = []
+    fenced = False
+    blank = False
+    for line in text.splitlines():
+        clean = line[2:] if line.startswith("  ") else line
+        if not fenced and not clean.strip():
+            if not blank:
+                result.append('<p style="margin:0;font-size:7px"><br></p>')
+            blank = True
+            continue
+        blank = False
+        if clean.lstrip().startswith("```"):
+            fenced = not fenced
+            result.append('<p style="margin:6px 0"><code>' + html.escape(clean) + '</code></p>')
+            continue
+        escaped = html.escape(clean)
+        if fenced or clean.startswith("    "):
+            result.append('<p style="margin:0;white-space:pre-wrap"><code>' + escaped + '</code></p>')
+            continue
+        if re.fullmatch(r'[─━\s]{3,}', clean):
+            result.append('<hr>')
+            continue
+        escaped = re.sub(r'`([^`]+)`', r'<code>\1</code>', escaped)
+        escaped = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', escaped)
+        escaped = re.sub(r'^(\s*[-•] )([^:<]{1,70}:)', r'\1<b>\2</b>', escaped)
+        escaped = re.sub(r'^#{1,6} (.+)$', r'<b>\1</b>', escaped)
+        result.append('<p style="margin:3px 0">' + (escaped or '<br>') + '</p>')
+    return ''.join(result)
+
+
+def conversation_blocks(text: str, provider: str) -> list[dict[str, str]]:
+    """Conservative Codex screen parsing; retain unrecognized/truncated context."""
+    if provider.lower() != "codex":
+        return []
+    blocks = []
+    occurrences = {}
+    kind, lines, fenced = "context", [], False
+
+    def flush():
+        body = '\n'.join(lines).rstrip().lstrip('\n')
+        if body.strip():
+            heading = body.splitlines()[0]
+            identity = kind + heading
+            occurrence = occurrences.get(identity, 0)
+            occurrences[identity] = occurrence + 1
+            blocks.append({"kind": kind, "html": reply_html(body),
+                           "summary": html.escape(heading),
+                           "id": hashlib.sha256(identity.encode()).hexdigest()[:16] + f'-{occurrence}'})
+
+    for line in text.splitlines():
+        marker = None if fenced else re.match(r'^([›❯•●])(?: |$)(.*)', line)
+        status = not fenced and re.match(r'^[─━]+ (?:Worked for .+|Conversation recap.*)', line)
+        if marker or status:
+            flush()
+            if status:
+                kind, lines = "status", [line.strip('─━ ')]
+            else:
+                body = marker[2]
+                kind = "prompt" if marker[1] in "›❯" else "reply"
+                if kind == "reply" and re.match(
+                    r'^(?:Ran |Explored\b|Viewed Image\b|Searched (?:for|the web)|'
+                    r'Edited .+\(\+|Added .+\(\+|Deleted .+\(-|'
+                    r'Interacted with background terminal\b)', body
+                ):
+                    kind = "tool"
+                lines = [body]
+        else:
+            lines.append(line)
+        if line.lstrip().startswith('```'):
+            fenced = not fenced
+    flush()
+    return blocks
+
+
+def output(pane_id: str, provider: str = "") -> None:
+    text = herdr(
+        "agent",
+        "read",
+        pane_id,
+        "--source",
+        "recent-unwrapped",
+        "--lines",
+        "180",
+    )
+    result = terminal_view(text, provider)
+    result["blocks"] = conversation_blocks(result["text"], provider)
+    replies = [block for block in result["blocks"] if block["kind"] == "reply"]
+    result["preview"] = " ".join(html.unescape(re.sub(r'<[^>]+>', ' ', replies[-1]["html"])).split())[:240] if replies else ""
+    response(result)
+
+
+def prompt(pane_id: str, terminal_id: str, message: str) -> None:
+    current = next((row for row in agents() if row.get("pane_id") == pane_id), None)
+    if not current or current.get("terminal_id") != terminal_id:
+        raise BridgeError("This agent changed. Select it again before sending.")
+    if current.get("agent_status") == "blocked":
+        raise BridgeError("This agent needs approval. Respond in Herdr to unblock it.")
+    if current.get("agent_status") not in {"idle", "done"}:
+        raise BridgeError("Wait until this agent is ready before sending a prompt.")
+    if not message.strip():
+        raise BridgeError("Enter a prompt first.")
+    if len(message.encode()) > PROMPT_LIMIT:
+        raise BridgeError("Prompt exceeds the 64 KiB limit")
+    try:
+        send_prompt(pane_id, terminal_id, message)
+    except (BridgeError, OSError, ValueError) as error:
+        raise BridgeError(f"{str(error)[:ERROR_LIMIT]} — delivery may be uncertain; check Herdr before sending again.") from error
+    response({"ok": True})
+
+
+def focused_screen() -> None:
+    monitors = json.loads(run(["hyprctl", "monitors", "-j"], timeout=3))
+    focused = next((monitor for monitor in monitors if monitor.get("focused")), None)
+    if focused is None and monitors:
+        focused = monitors[0]
+    response({"ok": True, "screen": (focused or {}).get("name", "")})
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) < 2:
+        raise BridgeError("usage: herdr-hud roster|output|prompt|focused-screen")
+    command = argv[1]
+    if command == "roster" and len(argv) == 2:
+        roster()
+    elif command == "output" and len(argv) in {3, 4}:
+        output(argv[2], argv[3] if len(argv) == 4 else "")
+    elif command == "prompt" and len(argv) == 4:
+        prompt(argv[2], argv[3], read_prompt())
+    elif command == "focused-screen" and len(argv) == 2:
+        focused_screen()
+    else:
+        raise BridgeError(f"invalid arguments for {command}")
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main(sys.argv))
+    except (BridgeError, OSError, ValueError) as error:
+        print(str(error)[:ERROR_LIMIT], file=sys.stderr)
+        raise SystemExit(1)

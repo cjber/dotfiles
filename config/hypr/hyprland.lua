@@ -427,6 +427,44 @@ hl.window_rule({
     opacity      = 1.0,
 })
 
+-- Retail Battle.net (Lutris, wine-staging, prefix ~/Games/battlenet).
+-- Class confirmed empirically as "battle.net.exe" (XWayland); without a rule the
+-- launcher is tiled into the scrolling layout at whatever width is free, which
+-- is wrong for a fixed-aspect launcher window. float/size/center are verified to
+-- apply on Hyprland 0.56.2. `workspace = 2` / `monitor = "DP-1"` are deliberately
+-- ABSENT: both were tried and neither moved the window (it still mapped on the
+-- focused workspace), so the launcher simply opens floating wherever you are.
+-- Do not re-add them without re-testing -- they are silent no-ops here.
+hl.window_rule({
+    match  = { class = "^battle\\.net\\.exe$" },
+    float  = true,
+    size   = { 1266, 684 },
+    center = true,
+})
+
+-- Retail WoW Classic (launched by the Battle.net above). Classic's binary is
+-- WowClassic.exe, so the class is "wowclassic.exe" and it does NOT collide with
+-- the "^wow.exe$" AzerothCore rule further up -- retail WoW would, since that is
+-- also Wow.exe, so anchor any future retail rule on title as well.
+-- confine_pointer is deliberately omitted, matching the AzerothCore rule: the
+-- cursor must stay free to reach the Herdr HUD and DP-2 while playing.
+hl.window_rule({
+    match        = { class = "^wowclassic\\.exe$" },
+    monitor      = "DP-1",
+    workspace    = 1,
+    float        = false,
+    fullscreen   = true,
+    idle_inhibit = "always",
+    immediate    = true,
+    opaque       = true,
+    no_blur      = true,
+    opacity      = 1.0,
+})
+
+-- Persistent Herdr terminal on the vertical monitor (see Autostart). ws4 is
+-- DP-2, and arrange_ws4 below sizes it once anything else joins it there.
+hl.window_rule({ match = { class = "^herdr-main$" }, workspace = 4 })
+
 --------------------------------------------------------------------
 -- ws4 auto-arrange (vertical monitor):
 --   1 win  → fullscreen (via scrolling.fullscreen_on_one_column)
@@ -525,6 +563,11 @@ hl.bind(mod .. " + V",              hl.dsp.exec_cmd("hyprpwcenter"))
 hl.bind(mod .. " + SHIFT + t", hl.dsp.exec_cmd("/home/cjber/scripts/tv-toggle"))
 -- Local WoW server (AzerothCore + playerbots): rofi menu, see ~/scripts/wow-menu
 hl.bind(mod .. " + SHIFT + W", hl.dsp.exec_cmd("/home/cjber/scripts/wow-menu"))
+-- Herdr HUD overlay (~/scripts/herdr-hud). Upstream suggests SUPER+H and
+-- SUPER+SHIFT+H, but both are taken above by scrolling focus/move, so the H
+-- mnemonic moves onto CTRL. Panel toggle, then whole-overlay show/hide.
+hl.bind(mod .. " + CTRL + H",         hl.dsp.exec_cmd("/home/cjber/scripts/herdr-hud toggle"))
+hl.bind(mod .. " + CTRL + SHIFT + H", hl.dsp.exec_cmd("/home/cjber/scripts/herdr-hud visibility"))
 -- rofi kept for power menu; hyprlauncher has no equivalent dmenu plugin yet
 hl.bind(mod .. " + SHIFT + O",      hl.dsp.exec_cmd('rofi -show p -modi p:"rofi-power-menu"'))
 -- hyprsunset: toggle 4000K ↔ 6000K (sunset.service runs at 6000K = neutral)
@@ -697,12 +740,27 @@ hl.define_submap("resize", function()
     hl.bind("escape", hl.dsp.submap("reset"))
 end)
 
--- Visual indicator: thick orange active border while in the resize submap.
+-- Game mode (Zerosprey42 F24 / keyboard-mode.sh) owns the border colour while it
+-- is active, so anything that restores a border has to ask what mode we are in
+-- rather than assuming base. Hardcoding C.secondary here is what made game mode
+-- look like it had not applied: the pill and allow_tearing stayed on "game"
+-- while the first submap event snapped the border back to the base teal.
+local function mode_active_border()
+    local f = io.open(os.getenv("HOME") .. "/.local/state/zerosprey42-mode", "r")
+    if not f then return C.secondary end
+    local mode = f:read("l")
+    f:close()
+    if mode == "game" then return C.primary end
+    return C.secondary
+end
+
+-- Visual indicator: thick active border while in the resize submap. border_size,
+-- not the colour, is what distinguishes it -- in game mode both are C.primary.
 hl.on("keybinds.submap", function(name)
     if name == "resize" then
         hl.config({ general = { border_size = 5, col = { active_border = C.primary } } })
     else
-        hl.config({ general = { border_size = border_size, col = { active_border = C.secondary } } })
+        hl.config({ general = { border_size = border_size, col = { active_border = mode_active_border() } } })
     end
 end)
 
@@ -731,6 +789,11 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("udiskie &")
     -- hypridle, hyprpolkitagent, hyprsunset now started via systemd --user services
+    -- Herdr: a persistent agent terminal on DP-2 (ws4), plus the HUD overlay
+    -- that puts the same agents over a fullscreen game on DP-1. The terminal is
+    -- the everyday view; the overlay is for when the game covers the screen.
+    hl.exec_cmd("kitty --class herdr-main herdr")
+    hl.exec_cmd("/home/cjber/scripts/herdr-hud start")
     -- Scratchpad command-center: 3 kittys routed to special:scratch by class.
     hl.exec_cmd("kitty --class scratch-cmd")
     hl.exec_cmd("kitty --class scratch-btm btm")
