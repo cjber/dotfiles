@@ -11,4 +11,3 @@ x-scheme-handler/slack=slack.desktop;
 x-scheme-handler/webcal=google-chrome.desktop;
 
 [Added Associations]
-x-scheme-handler/nebula=nebula-desktop.desktop;
