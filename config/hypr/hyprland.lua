@@ -408,25 +408,6 @@ hl.window_rule({
     opacity         = 1.0,
 })
 
--- Local AzerothCore client (play.sh -> `wine Wow.exe`, class "wow.exe"). Unlike
--- the Steam/Lutris builds above, it matches none of their rules, so Hyprland was
--- tiling it at ~2277x1360 and it dropped fullscreen on every workspace swap. Pin
--- it fullscreen on the ultrawide. NO confine_pointer: it is watched as a
--- spectator while working on DP-2, so the cursor must stay free to leave DP-1.
--- Pair with Config.wtf gxWindow=1, gxMaximize=0 (maximize straddles both mons).
-hl.window_rule({
-    match        = { class = "^wow.exe$" },
-    monitor      = "DP-1",
-    workspace    = 1,
-    float        = true,
-    size         = { 2560, 1440 },   -- 16:9 1440p, YouTube-native, unstretched
-    move         = { 440, 0 },       -- monitor-relative: centers on the 3440-wide ultrawide
-    idle_inhibit = "always",         -- never idle-lock mid-recording while WoW is open
-    opaque       = true,
-    no_blur      = true,
-    opacity      = 1.0,
-})
-
 -- Retail Battle.net (Lutris, wine-staging, prefix ~/Games/battlenet).
 -- Class confirmed empirically as "battle.net.exe" (XWayland); without a rule the
 -- launcher is tiled into the scrolling layout at whatever width is free, which
@@ -443,11 +424,9 @@ hl.window_rule({
 })
 
 -- Retail WoW Classic (launched by the Battle.net above). Classic's binary is
--- WowClassic.exe, so the class is "wowclassic.exe" and it does NOT collide with
--- the "^wow.exe$" AzerothCore rule further up -- retail WoW would, since that is
--- also Wow.exe, so anchor any future retail rule on title as well.
--- confine_pointer is deliberately omitted, matching the AzerothCore rule: the
--- cursor must stay free to reach the Herdr HUD and DP-2 while playing.
+-- WowClassic.exe, so the class is "wowclassic.exe".
+-- confine_pointer is deliberately omitted: the cursor must stay free to reach
+-- the Herdr HUD and DP-2 while playing.
 hl.window_rule({
     match        = { class = "^wowclassic\\.exe$" },
     monitor      = "DP-1",
@@ -561,8 +540,6 @@ hl.bind(mod .. " + SHIFT + semicolon", hl.dsp.exec_cmd('google-chrome-stable --p
 hl.bind(mod .. " + M",              hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind(mod .. " + V",              hl.dsp.exec_cmd("hyprpwcenter"))
 hl.bind(mod .. " + SHIFT + t", hl.dsp.exec_cmd("/home/cjber/scripts/tv-toggle"))
--- Local WoW server (AzerothCore + playerbots): rofi menu, see ~/scripts/wow-menu
-hl.bind(mod .. " + SHIFT + W", hl.dsp.exec_cmd("/home/cjber/scripts/wow-menu"))
 -- rofi kept for power menu; hyprlauncher has no equivalent dmenu plugin yet
 hl.bind(mod .. " + SHIFT + O",      hl.dsp.exec_cmd('rofi -show p -modi p:"rofi-power-menu"'))
 -- hyprsunset: toggle 4000K ↔ 6000K (sunset.service runs at 6000K = neutral)

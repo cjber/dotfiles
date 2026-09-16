@@ -1,0 +1,8 @@
+[Unit]
+Description=Refresh Battle.net game desktop entries when installs change
+
+[Path]
+PathChanged=%h/Games/battlenet/drive_c/ProgramData/Battle.net/Agent/product.db
+
+[Install]
+WantedBy=default.target

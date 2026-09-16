@@ -1,0 +1,217 @@
+#!/usr/bin/env python3
+"""bnet-shortcuts — one Lutris game + desktop entry per installed Battle.net game.
+
+Battle.net itself is Lutris game `battlenet` (prefix ~/Games/battlenet). Each game
+installed inside it gets a sibling Lutris game that runs
+`Battle.net.exe --exec="launch_uid <uid>"` in the same prefix, so it inherits the
+wine/DXVK setup and launches straight into the game. Entries for uninstalled games
+are removed. Idempotent; run by bnet-shortcuts.path whenever product.db changes.
+"""
+
+import shutil
+import sqlite3
+import subprocess
+import tempfile
+import time
+from pathlib import Path
+
+import yaml
+
+HOME = Path.home()
+PREFIX = HOME / "Games/battlenet"
+PRODUCT_DB = PREFIX / "drive_c/ProgramData/Battle.net/Agent/product.db"
+BNET_EXE = "drive_c/Program Files (x86)/Battle.net/Battle.net.exe"
+PGA = HOME / ".local/share/lutris/pga.db"
+LUTRIS_GAMES = HOME / ".config/lutris/games"
+APPS = HOME / ".local/share/applications"
+ICONS = HOME / ".local/share/icons/bnet"
+MARKER = "X-Bnet-Uid"
+
+SKIP_UIDS = {"agent", "battle.net", "bna"}
+NAMES = {
+    "wow": "World of Warcraft",
+    "wow_beta": "World of Warcraft Beta",
+    "wow_ptr": "World of Warcraft PTR",
+    "wow_classic": "WoW Classic",
+    "wow_classic_era": "WoW Classic Era",
+    "wow_classic_anniversary": "WoW Classic Anniversary",
+    "diablo3": "Diablo III",
+    "fenris": "Diablo IV",
+    "osi": "Diablo II: Resurrected",
+    "prometheus": "Overwatch 2",
+    "hs_beta": "Hearthstone",
+    "s1": "StarCraft Remastered",
+    "s2": "StarCraft II",
+    "w3": "Warcraft III: Reforged",
+    "heroes": "Heroes of the Storm",
+}
+# Helper binaries that sit next to the real game exe.
+NOT_GAME = ("launcher", "error", "crash", "uninstall", "helper", "agent", "setup")
+
+
+def varint(b, i):
+    r = s = 0
+    while True:
+        c = b[i]
+        i += 1
+        r |= (c & 0x7F) << s
+        s += 7
+        if c < 0x80:
+            return r, i
+
+
+def fields(b):
+    """Decode one protobuf message into {field: [values]} (no schema needed)."""
+    out, i = {}, 0
+    while i < len(b):
+        key, i = varint(b, i)
+        wire = key & 7
+        if wire == 0:
+            v, i = varint(b, i)
+        elif wire == 2:
+            n, i = varint(b, i)
+            v, i = b[i : i + n], i + n
+        elif wire == 5:
+            v, i = b[i : i + 4], i + 4
+        elif wire == 1:
+            v, i = b[i : i + 8], i + 8
+        else:
+            raise ValueError(f"unsupported wire type {wire}")
+        out.setdefault(key >> 3, []).append(v)
+    return out
+
+
+def installed_games():
+    """uid -> game dir (host path) for every playable product in product.db."""
+    games = {}
+    for raw in fields(PRODUCT_DB.read_bytes()).get(1, []):
+        p = fields(raw)
+        uid = p[1][0].decode()
+        if uid in SKIP_UIDS:
+            continue
+        settings = fields(p[3][0])
+        try:
+            playable = fields(fields(p[4][0])[1][0]).get(2, [0])[0]
+        except (KeyError, IndexError):
+            playable = 0
+        if not playable:  # still downloading, or broken
+            continue
+        path = settings[1][0].decode()  # "C:/Program Files (x86)/World of Warcraft"
+        sub = settings.get(13, [b""])[0].decode()  # "_anniversary_" for WoW flavours
+        game_dir = PREFIX / "drive_c" / path.split(":/", 1)[1] / sub
+        if game_dir.is_dir():
+            games[uid] = game_dir
+    return games
+
+
+def game_exe(game_dir):
+    exes = [
+        e
+        for e in game_dir.glob("*.exe")
+        if not any(w in e.name.lower() for w in NOT_GAME)
+    ]
+    return max(exes, key=lambda e: e.stat().st_size, default=None)
+
+
+def extract_icon(exe, dest):
+    """Largest icon in the exe's resources -> dest PNG. Returns success."""
+    with tempfile.TemporaryDirectory() as tmp:
+        ico = Path(tmp) / "icon.ico"
+        with ico.open("wb") as f:
+            rc = subprocess.run(["wrestool", "-x", "-t", "14", str(exe)], stdout=f,
+                                stderr=subprocess.DEVNULL).returncode
+        if rc or not ico.stat().st_size:
+            return False
+        subprocess.run(["icotool", "-x", "-o", tmp, str(ico)], stderr=subprocess.DEVNULL)
+        pngs = list(Path(tmp).glob("*.png"))
+        if not pngs:
+            return False
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        # icotool names them <exe>_<n>_<w>x<h>x<bpp>.png; pick the largest w*h, then bpp.
+        def size(png):
+            w, h, bpp = map(int, png.stem.rsplit("_", 1)[1].split("x"))
+            return w * h, bpp
+        shutil.copyfile(max(pngs, key=size), dest)
+        return True
+
+
+def desktop_entry(game_id, name, icon, uid):
+    return (
+        "[Desktop Entry]\n"
+        "Type=Application\n"
+        f"Name={name}\n"
+        "Comment=Battle.net game via Lutris\n"
+        f"Icon={icon}\n"
+        f"Exec=env LUTRIS_SKIP_INIT=1 lutris lutris:rungameid/{game_id}\n"
+        "Categories=Game;\n"
+        "Terminal=false\n"
+        f"{MARKER}={uid}\n"
+    )
+
+
+def main():
+    if not PRODUCT_DB.exists():
+        return
+    db = sqlite3.connect(PGA)
+    base = db.execute(
+        "SELECT id, configpath FROM games WHERE slug = 'battlenet' AND installed = 1"
+    ).fetchone()
+    if not base:
+        raise SystemExit("no installed Lutris game with slug 'battlenet'")
+    base_id, base_config = base
+    base_yml = yaml.safe_load((LUTRIS_GAMES / f"{base_config}.yml").read_text())
+    APPS.mkdir(parents=True, exist_ok=True)
+
+    # Battle.net's own entry, with its real icon.
+    bnet_icon = ICONS / "battle.net.png"
+    if not bnet_icon.exists():
+        extract_icon(PREFIX / BNET_EXE, bnet_icon)
+    icon = bnet_icon if bnet_icon.exists() else "lutris"
+    (APPS / f"net.lutris.battlenet-{base_id}.desktop").write_text(
+        desktop_entry(base_id, "Battle.net", icon, "battle.net")
+    )
+
+    games = installed_games()
+    for uid, game_dir in games.items():
+        slug = "battlenet-" + uid.replace("_", "-")
+        name = NAMES.get(uid, uid.replace("_", " ").title())
+        row = db.execute("SELECT id FROM games WHERE slug = ?", (slug,)).fetchone()
+        if row:
+            game_id = row[0]
+        else:
+            game_id = db.execute(
+                "INSERT INTO games (name, slug, platform, runner, directory, installed,"
+                " installed_at, configpath) VALUES (?, ?, 'Windows', 'wine', ?, 1, ?, ?)",
+                (name, slug, str(PREFIX), int(time.time()), slug),
+            ).lastrowid
+            db.commit()
+        cfg = yaml.safe_load(yaml.safe_dump(base_yml))
+        cfg["game"]["exe"] = BNET_EXE
+        cfg["game"]["args"] = f'--exec="launch_uid {uid}"'
+        (LUTRIS_GAMES / f"{slug}.yml").write_text(yaml.safe_dump(cfg, sort_keys=False))
+
+        icon_path = ICONS / f"{uid}.png"
+        exe = game_exe(game_dir)
+        if not icon_path.exists() and exe:
+            extract_icon(exe, icon_path)
+        icon = icon_path if icon_path.exists() else "lutris"
+        (APPS / f"net.lutris.{slug}-{game_id}.desktop").write_text(
+            desktop_entry(game_id, name, icon, uid)
+        )
+
+    # Drop entries for games no longer installed.
+    for desktop in APPS.glob("net.lutris.battlenet-*.desktop"):
+        uid = next((l.split("=", 1)[1] for l in desktop.read_text().splitlines()
+                    if l.startswith(f"{MARKER}=")), None)
+        if uid is None or uid == "battle.net" or uid in games:
+            continue
+        slug = "battlenet-" + uid.replace("_", "-")
+        db.execute("DELETE FROM games WHERE slug = ?", (slug,))
+        db.commit()
+        (LUTRIS_GAMES / f"{slug}.yml").unlink(missing_ok=True)
+        (ICONS / f"{uid}.png").unlink(missing_ok=True)
+        desktop.unlink()
+
+
+if __name__ == "__main__":
+    main()

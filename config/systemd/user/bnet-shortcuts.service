@@ -1,0 +1,6 @@
+[Unit]
+Description=Sync Battle.net game desktop entries (Lutris)
+
+[Service]
+Type=oneshot
+ExecStart=%h/scripts/bnet-shortcuts
