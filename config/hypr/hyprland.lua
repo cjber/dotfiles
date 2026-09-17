@@ -433,17 +433,31 @@ hl.window_rule({
 -- straddles DP-1 + DP-2, as with Ascension above.
 -- confine_pointer is deliberately omitted: the cursor must stay free to reach
 -- DP-2 while playing.
+--
+-- suppress_event = "fullscreen" is the fix for the window dropping to a narrow
+-- tiled column mid-session. Every compositor-side producer was ruled out by
+-- measurement: hyprctl reload, an autoreload from a content change, switching
+-- workspaces away and back, and a window opening or closing on the workspace
+-- all leave fullscreen intact, and the colresize hooks below already bail on a
+-- fullscreen window. What remains is the client: fullscreen was held as
+-- fullscreenClient=2, i.e. by WoW's own request, and a client that withdraws
+-- it hands the window to the scrolling layout, which sizes it as a column
+-- (3440px -> 2277px, measured). Suppressing the event means the request never
+-- lands, instead of being undone after the fact; `fullscreen = true` above
+-- still puts it fullscreen, and mod+slash still works, because both are
+-- compositor-side.
 hl.window_rule({
-    match        = { class = "^wow(classic|b)\\.exe$" },
-    monitor      = "DP-1",
-    workspace    = 1,
-    float        = false,
-    fullscreen   = true,
-    idle_inhibit = "always",
-    immediate    = true,
-    opaque       = true,
-    no_blur      = true,
-    opacity      = 1.0,
+    match          = { class = "^wow(classic|b)\\.exe$" },
+    monitor        = "DP-1",
+    workspace      = 1,
+    float          = false,
+    fullscreen     = true,
+    suppress_event = "fullscreen",
+    idle_inhibit   = "always",
+    immediate      = true,
+    opaque         = true,
+    no_blur        = true,
+    opacity        = 1.0,
 })
 
 --------------------------------------------------------------------
