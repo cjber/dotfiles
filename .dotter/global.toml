@@ -29,6 +29,7 @@ has_gui = true
 "zshrc" = "~/.zshrc"
 "scripts/wt_cleanup.sh" = "~/scripts/wt_cleanup.sh"
 "scripts/zellij_plugins.sh" = "~/scripts/zellij_plugins.sh"
+"scripts/hypr-fullscreen-watch" = "~/scripts/hypr-fullscreen-watch"
 "config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
 "scripts/controller_inhibit.sh" = "~/scripts/controller_inhibit.sh"

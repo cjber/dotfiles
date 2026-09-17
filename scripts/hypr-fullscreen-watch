@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+"""Record what precedes a window losing fullscreen.
+
+The fullscreen drop on DP-1 is not reproducible on demand: a config reload,
+workspace switch and window open/close all leave it alone. So instead of
+guessing, keep a ring buffer of Hyprland's event stream and dump it the moment
+a `fullscreen>>0` arrives, together with every window's geometry. The next
+occurrence then names its own cause instead of being "random".
+
+Delete this once the cause is known; it is diagnosis, not config.
+"""
+
+import collections
+import datetime
+import json
+import os
+import socket
+import subprocess
+import sys
+
+LOG = os.path.expanduser("~/.local/state/hypr-fullscreen-watch.log")
+RING = 60
+
+
+def now() -> str:
+    return datetime.datetime.now().isoformat(timespec="milliseconds")
+
+
+def sock_path(name: str) -> str:
+    sig = os.environ["HYPRLAND_INSTANCE_SIGNATURE"]
+    runtime = os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")
+    return f"{runtime}/hypr/{sig}/{name}"
+
+
+def clients() -> str:
+    out = subprocess.run(["hyprctl", "clients", "-j"], capture_output=True, text=True).stdout
+    try:
+        rows = json.loads(out)
+    except json.JSONDecodeError:
+        return "  <hyprctl clients unreadable>"
+    return "\n".join(
+        f'  {c.get("class"):<16} ws{c["workspace"]["id"]:<4} fs={c["fullscreen"]} '
+        f'fsClient={c["fullscreenClient"]} size={c["size"]} at={c["at"]}'
+        for c in rows
+    )
+
+
+def main() -> int:
+    # It takes no arguments and never exits on its own, so an exploratory
+    # `--help` silently becomes a second watcher appending to the same log.
+    if len(sys.argv) > 1:
+        print(f"usage: {os.path.basename(sys.argv[0])}  (no arguments; logs to {LOG})", file=sys.stderr)
+        return 2
+
+    ring: collections.deque[str] = collections.deque(maxlen=RING)
+    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    s.connect(sock_path(".socket2.sock"))
+    with open(LOG, "a", buffering=1) as log:
+        log.write(f"\n=== watcher started {now()} ===\n{clients()}\n")
+        buf = b""
+        while True:
+            chunk = s.recv(8192)
+            if not chunk:
+                log.write(f"{now()} event socket closed\n")
+                return 1
+            buf += chunk
+            while b"\n" in buf:
+                line, buf = buf.split(b"\n", 1)
+                event = line.decode(errors="replace")
+                ring.append(f"{now()} {event}")
+                if event.startswith("fullscreen>>0"):
+                    log.write(f"\n--- FULLSCREEN LOST {now()} ---\n")
+                    log.write("preceding events:\n")
+                    for entry in ring:
+                        log.write(f"  {entry}\n")
+                    log.write(f"windows at that moment:\n{clients()}\n")
+                    # socket2 does not report dispatches, and the suspects are
+                    # all dispatches (a waybar click running `colresize all
+                    # 0.333`, a stray mod+f). Hyprland's own log does record
+                    # them, so carry its tail along.
+                    log.write("compositor log tail:\n")
+                    with open(sock_path("hyprland.log"), errors="replace") as hl:
+                        tail = collections.deque(hl, maxlen=120)
+                    for entry in tail:
+                        log.write(f"  {entry.rstrip()}\n")
+
+
+if __name__ == "__main__":
+    sys.exit(main())
