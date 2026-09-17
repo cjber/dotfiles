@@ -33,7 +33,6 @@ has_gui = true
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
 "scripts/controller_inhibit.sh" = "~/scripts/controller_inhibit.sh"
 "config/systemd/user/controller-inhibit.service" = "~/.config/systemd/user/controller-inhibit.service"
-"scripts/herdr-hud" = "~/scripts/herdr-hud"
 "config/quickshell" = "~/.config/quickshell"
 "scripts/claude-rc.sh" = "~/scripts/claude-rc.sh"
 "config/systemd/user/claude-rc@.service" = "~/.config/systemd/user/claude-rc@.service"

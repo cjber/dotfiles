@@ -432,7 +432,7 @@ hl.window_rule({
 -- gxMaximize=0) so the rule below is what makes them fullscreen; gxMaximize=1
 -- straddles DP-1 + DP-2, as with Ascension above.
 -- confine_pointer is deliberately omitted: the cursor must stay free to reach
--- the Herdr HUD and DP-2 while playing.
+-- DP-2 while playing.
 hl.window_rule({
     match        = { class = "^wow(classic|b)\\.exe$" },
     monitor      = "DP-1",
@@ -446,10 +446,6 @@ hl.window_rule({
     opacity      = 1.0,
 })
 
--- Persistent Herdr terminal on the vertical monitor (see Autostart). ws4 is
--- DP-2, and arrange_ws4 below sizes it once anything else joins it there.
-hl.window_rule({ match = { class = "^herdr-main$" }, workspace = 4 })
-
 --------------------------------------------------------------------
 -- ws4 auto-arrange (vertical monitor):
 --   1 win  → fullscreen (via scrolling.fullscreen_on_one_column)
@@ -460,6 +456,11 @@ local function arrange_ws4()
     local wins = hl.get_workspace_windows(4) or {}
     local n = #wins
     if n <= 1 then return end
+    -- Same guard as arrange_dp1: colresize would un-fullscreen a fullscreen
+    -- window here too, so leave the workspace alone while one is up.
+    for _, w in ipairs(wins) do
+        if (w.fullscreen or 0) ~= 0 then return end
+    end
     if n == 2 then
         -- Bottom window is always the tall one, regardless of stack order.
         local top, bottom = wins[1], wins[2]
@@ -495,9 +496,14 @@ local function arrange_dp1()
     local ws = hl.get_active_workspace()
     if not ws or ws.id < 1 or ws.id > 3 then return end
     local wins = hl.get_workspace_windows(ws.id) or {}
-    if #wins == 1 then
-        hl.dispatch(hl.dsp.layout("colresize 0.667"))
-    end
+    if #wins ~= 1 then return end
+    -- A fullscreen solo window is not a column to cap: colresize implicitly
+    -- takes it out of fullscreen and tiles it at 66%. WoW sits alone on a DP-1
+    -- workspace, so without this guard EVERY workspace.active into 1-3 (and any
+    -- window open/close there, e.g. a Battle.net helper) un-fullscreened it.
+    -- Read as "randomly drops to tiled mode"; it was neither random nor a WoW bug.
+    if (wins[1].fullscreen or 0) ~= 0 then return end
+    hl.dispatch(hl.dsp.layout("colresize 0.667"))
 end
 
 local function on_dp1(w) return w and w.workspace and w.workspace.id >= 1 and w.workspace.id <= 3 end
@@ -767,13 +773,6 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("udiskie &")
     -- hypridle, hyprpolkitagent, hyprsunset now started via systemd --user services
-    -- Herdr: a persistent agent terminal on DP-2 (ws4). DP-2 is always visible
-    -- even with a fullscreen game on DP-1, which is why the quickshell HUD
-    -- overlay (still ported in config/quickshell/herdr-hud) is not started or
-    -- bound to anything -- it was a viewport onto this same session and the
-    -- second monitor makes it redundant. Re-enable by binding
-    -- `~/scripts/herdr-hud toggle` if that ever stops being true.
-    hl.exec_cmd("kitty --class herdr-main herdr")
     -- Scratchpad command-center: 3 kittys routed to special:scratch by class.
     hl.exec_cmd("kitty --class scratch-cmd")
     hl.exec_cmd("kitty --class scratch-btm btm")
