@@ -292,3 +292,9 @@ trust_level = "trusted"
 [projects."/home/cjber/.claude/jobs/7d36ab1e/tmp"]
 trust_level = "trusted"
 
+[projects."/home/cjber/.claude/jobs/f9066e3c/tmp/plan"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/agl/fastbrowse"]
+trust_level = "trusted"
+
