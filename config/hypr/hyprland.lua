@@ -423,12 +423,18 @@ hl.window_rule({
     center = true,
 })
 
--- Retail WoW Classic (launched by the Battle.net above). Classic's binary is
--- WowClassic.exe, so the class is "wowclassic.exe".
+-- Retail WoW Classic and the Classic beta (both launched by the Battle.net
+-- above). Live Classic's binary is WowClassic.exe and the beta's is WowB.exe,
+-- so the classes are "wowclassic.exe" and "wowb.exe" -- the beta is a separate
+-- binary and was silently unmatched by a wowclassic-only regex, which left it
+-- in Blizzard's exclusive-fullscreen path where XWayland minimises it on every
+-- focus loss. Both clients must run *windowed* (Config.wtf gxWindow=1,
+-- gxMaximize=0) so the rule below is what makes them fullscreen; gxMaximize=1
+-- straddles DP-1 + DP-2, as with Ascension above.
 -- confine_pointer is deliberately omitted: the cursor must stay free to reach
 -- the Herdr HUD and DP-2 while playing.
 hl.window_rule({
-    match        = { class = "^wowclassic\\.exe$" },
+    match        = { class = "^wow(classic|b)\\.exe$" },
     monitor      = "DP-1",
     workspace    = 1,
     float        = false,
