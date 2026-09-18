@@ -3,8 +3,9 @@
 
 Battle.net itself is Lutris game `battlenet` (prefix ~/Games/battlenet). Each game
 installed inside it gets a sibling Lutris game that runs
-`Battle.net.exe --exec="launch_uid <uid>"` in the same prefix, so it inherits the
-wine/DXVK setup and launches straight into the game. Entries for uninstalled games
+`Battle.net.exe --exec="launch_uid <uid>"` in the same prefix and launches straight
+into the game. Game ymls hold only the `game:` section; wine/DXVK/env settings live
+once in ~/.config/lutris/runners/wine.yml, so the entries can't drift apart. Entries for uninstalled games
 are removed. Idempotent; run by bnet-shortcuts.path whenever product.db changes.
 """
 
@@ -35,6 +36,7 @@ NAMES = {
     "wow_classic": "WoW Classic",
     "wow_classic_era": "WoW Classic Era",
     "wow_classic_anniversary": "WoW Classic Anniversary",
+    "wow_classic_beta": "WoW Classic Beta",
     "diablo3": "Diablo III",
     "fenris": "Diablo IV",
     "osi": "Diablo II: Resurrected",
@@ -185,9 +187,8 @@ def main():
                 (name, slug, str(PREFIX), int(time.time()), slug),
             ).lastrowid
             db.commit()
-        cfg = yaml.safe_load(yaml.safe_dump(base_yml))
-        cfg["game"]["exe"] = BNET_EXE
-        cfg["game"]["args"] = f'--exec="launch_uid {uid}"'
+        cfg = {"game": {**base_yml["game"], "exe": BNET_EXE,
+                        "args": f'--exec="launch_uid {uid}"'}}
         (LUTRIS_GAMES / f"{slug}.yml").write_text(yaml.safe_dump(cfg, sort_keys=False))
 
         icon_path = ICONS / f"{uid}.png"
