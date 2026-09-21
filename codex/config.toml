@@ -298,3 +298,12 @@ trust_level = "trusted"
 [projects."/home/cjber/drive/agl/fastbrowse"]
 trust_level = "trusted"
 
+[projects."/home/cjber/drive/agl/fastbrowse-site"]
+trust_level = "trusted"
+
+[projects."/home/cjber/.claude/jobs/fd1640c8/tmp"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/proj/skillup-forever"]
+trust_level = "trusted"
+
