@@ -319,3 +319,6 @@ trust_level = "trusted"
 [projects."/home/cjber/drive/proj/ferry-forever"]
 trust_level = "trusted"
 
+[projects."/home/cjber/.claude/jobs/0d1cb065/tmp"]
+trust_level = "trusted"
+
