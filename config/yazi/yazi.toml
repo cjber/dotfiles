@@ -22,6 +22,9 @@ extract = [
 	{ run = 'unar "$1"', desc = "Extract here", for = "unix" },
 	{ run = 'unar "%1"', desc = "Extract here", for = "windows" },
 ]
+view = [
+	{ run = 'swayimg "$@"', orphan = true, desc = "swayimg", for = "linux" },
+]
 play = [
 	{ run = 'mpv "$@"', orphan = true, for = "unix" },
 	{ run = 'mpv "%1"', orphan = true, for = "windows" },
@@ -44,7 +47,7 @@ rules = [
 	{ url = "*.csv", use = "visidata" },
 
 	{ mime = "text/*",          use = [ "edit", "reveal" ] },
-	{ mime = "image/*",         use = [ "open", "reveal" ] },
+	{ mime = "image/*",         use = [ "view", "open", "reveal" ] },
 	{ mime = "{audio,video}/*", use = [ "play", "reveal" ] },
 	{ mime = "inode/x-empty",   use = [ "edit", "reveal" ] },
 
