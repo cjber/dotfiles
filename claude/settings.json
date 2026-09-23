@@ -188,6 +188,16 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/local-gate-guard.py",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PostToolUse": [
