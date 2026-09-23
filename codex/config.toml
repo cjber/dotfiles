@@ -331,3 +331,6 @@ trust_level = "trusted"
 [projects."/home/cjber/drive/proj/sift"]
 trust_level = "trusted"
 
+[projects."/home/cjber/skills"]
+trust_level = "trusted"
+
