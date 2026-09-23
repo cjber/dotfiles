@@ -51,6 +51,10 @@ hl.monitor({
     mode     = "3440x1440@143.92",
     position = "1440x560",
     scale    = 1,
+    -- VRR only while a window is fullscreen (games): vsync stays off, so this is
+    -- what stops tearing, and the desktop never flickers between refresh rates.
+    -- WoW's cap (wow-force-windowed) sits at 141, inside the range.
+    vrr      = 2,
 })
 hl.monitor({
     output    = "DP-2",
