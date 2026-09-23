@@ -281,7 +281,7 @@ keepRemoteControlAwakeWhilePluggedIn = true
 
 [tui.model_availability_nux]
 "gpt-5.6-sol" = 4
-gpt-6-astra = 3
+gpt-6-astra = 4
 
 [projects."/home/cjber/drive/agl/agent-deck"]
 trust_level = "trusted"
@@ -326,5 +326,8 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/cjber/drive/proj/shortest-path-forever"]
+trust_level = "trusted"
+
+[projects."/home/cjber/drive/proj/sift"]
 trust_level = "trusted"
 
