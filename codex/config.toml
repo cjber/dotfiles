@@ -279,6 +279,9 @@ conversationDetailMode = "STEPS_COMMANDS"
 ambient-suggestions-enabled = true
 keepRemoteControlAwakeWhilePluggedIn = true
 
+[tui]
+screen_reader_detection_done = true
+
 [tui.model_availability_nux]
 "gpt-5.6-sol" = 4
 gpt-6-astra = 4
@@ -332,5 +335,8 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/cjber/skills"]
+trust_level = "trusted"
+
+[projects."/home/cjber/.claude/jobs/2e0fbb8e/tmp/addons/skillup-forever"]
 trust_level = "trusted"
 
