@@ -795,7 +795,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("kitty --class scratch-cmd")
     hl.exec_cmd("kitty --class scratch-btm btm")
     hl.exec_cmd("kitty --class scratch-nvtop nvtop -P -i")
-    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+    -- wofd (Work Orders Forever) captures the game with grim, so it starts only once systemd
+    -- has WAYLAND_DISPLAY; its unit restarts it if it dies.
+    hl.exec_cmd("sh -c 'dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user start wofd'")
     hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"')
     hl.exec_cmd("gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'")
 end)
