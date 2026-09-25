@@ -801,3 +801,14 @@ hl.on("hyprland.start", function()
     hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"')
     hl.exec_cmd("gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'")
 end)
+
+-- Cua Driver Hyprland plugin: gives cua-driver agents their own input seats and cursor.
+-- Built from trycua/cua libs/cua-driver/hyprland-plugin for this exact Hyprland ABI; after a
+-- Hyprland upgrade the module refuses to load until rebuilt. `enabled` only reconciles the
+-- input sockets on a config reload, hence the reload after loading. pcall keeps the key
+-- harmless whenever the plugin is absent.
+local cua_plugin = "/home/cjber/.local/lib/cua/hyprland/cua-hyprland-plugin.so"
+pcall(hl.config, { plugin = { cua = { enabled = true } } })
+hl.on("hyprland.start", function()
+    hl.exec_cmd("sh -c '[ -f " .. cua_plugin .. " ] && hyprctl plugin load " .. cua_plugin .. " && hyprctl reload'")
+end)
