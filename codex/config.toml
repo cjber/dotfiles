@@ -361,3 +361,9 @@ trust_level = "trusted"
 [projects."/home/cjber/drive/proj/open-poker-bot"]
 trust_level = "trusted"
 
+[projects."/home/cjber/drive/proj/wowaddon"]
+trust_level = "trusted"
+
+[projects."/home/cjber/.shippable-batch/nebula"]
+trust_level = "trusted"
+
