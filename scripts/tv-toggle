@@ -55,22 +55,41 @@ else
   # OSD popup on/off repeatedly. This is a TV-side setting, not fixable in software.
   hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"3840x2160@119.88Hz\", position=\"4880x0\", scale=1.60 })" >/dev/null
   sleep 2  # let the HDMI handshake settle
-  # Mirror the TV onto DP-1 so the game is visible from the desk
-  wl-mirror --fullscreen-output DP-1 "$TV" {LOCK_FD}>&- >/dev/null 2>&1 &
-  # Kill any running Steam first so it re-detects the TV at 4K instead of
-  # reusing its cached 1600x900 Big Picture resolution from the desk monitor.
-  pkill -f "steam" 2>/dev/null || true
-  sleep 1
-  steam steam://open/bigpicture {LOCK_FD}>&- >/dev/null 2>&1 &
-  # Poll for the Big Picture window (title "Steam Big Picture Mode"), then send it to ws5.
-  win=""
-  for _ in $(seq 1 60); do  # ~15s: Big Picture is slow to map when Steam was in tray
-    win=$(hyprctl clients -j | jq -r '.[] | select(.title|test("Big Picture";"i")) | .address' | head -1)
-    [ -n "$win" ] && break
-    sleep 0.25
-  done
-  [ -n "$win" ] && hyprctl eval "hl.dispatch(hl.dsp.focus({ window = \"$win\" })); hl.dispatch(hl.dsp.window.move({ workspace = 5 }))" >/dev/null
-  hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = 5 }))' >/dev/null
+  # WoW already running (Lutris/Battle.net, class wowb.exe or wowclassic.exe):
+  # send it to the TV and play it with a controller there, instead of Big
+  # Picture. No mirror: the desk stays usable. Toggling off pulls ws5 back to
+  # ws1, where the wow window rule wants it anyway.
+  wow=$(hyprctl clients -j | jq -r '[.[] | select(.class|test("^wow(classic|b)\\.exe$"))][0] | "\(.address) \(.fullscreen)"' 2>/dev/null)
+  if [ -n "$wow" ] && [ "$wow" != "null null" ]; then
+    addr=${wow% *}
+    # Move by selector, not by focus: focus({ window = "0x..." }) does not find
+    # the window and the move would then take whatever is focused.
+    hyprctl eval "hl.dispatch(hl.dsp.window.move({ workspace = 5, window = \"address:$addr\" }))" >/dev/null
+    hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = 5 }))' >/dev/null
+    sleep 0.3
+    # The move can drop fullscreen; the dispatch toggles, so only send it when off.
+    fs=$(hyprctl clients -j | jq -r ".[] | select(.address==\"$addr\") | .fullscreen")
+    [ "$fs" = "0" ] && hyprctl eval 'hl.dispatch(hl.dsp.window.fullscreen({ mode = "fullscreen" }))' >/dev/null
+    mode="WoW → TV"
+  else
+    # Mirror the TV onto DP-1 so the game is visible from the desk
+    wl-mirror --fullscreen-output DP-1 "$TV" {LOCK_FD}>&- >/dev/null 2>&1 &
+    # Kill any running Steam first so it re-detects the TV at 4K instead of
+    # reusing its cached 1600x900 Big Picture resolution from the desk monitor.
+    pkill -f "steam" 2>/dev/null || true
+    sleep 1
+    steam steam://open/bigpicture {LOCK_FD}>&- >/dev/null 2>&1 &
+    # Poll for the Big Picture window (title "Steam Big Picture Mode"), then send it to ws5.
+    win=""
+    for _ in $(seq 1 60); do  # ~15s: Big Picture is slow to map when Steam was in tray
+      win=$(hyprctl clients -j | jq -r '.[] | select(.title|test("Big Picture";"i")) | .address' | head -1)
+      [ -n "$win" ] && break
+      sleep 0.25
+    done
+    [ -n "$win" ] && hyprctl eval "hl.dispatch(hl.dsp.window.move({ workspace = 5, window = \"address:$win\" }))" >/dev/null
+    hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = 5 }))' >/dev/null
+    mode="Big Picture → TV"
+  fi
   # Audio: the hdmi-surround profile becomes available only after the HDMI
   # link is fully negotiated. Poll for up to 10s before giving up.
   for _ in $(seq 1 20); do
@@ -80,6 +99,9 @@ else
     fi
     sleep 0.5
   done
+  # The HDMI sink comes back at 0% after a profile switch; the soundbar sets the level.
+  pactl set-sink-mute "$TV_SINK" 0 2>/dev/null
+  pactl set-sink-volume "$TV_SINK" 100% 2>/dev/null
   move_streams "$TV_SINK"
-  notify-send -a tv "TV on — 4K120" "Big Picture → TV, audio → soundbar"
+  notify-send -a tv "TV on — 4K120" "$mode, audio → soundbar"
 fi
