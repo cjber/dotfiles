@@ -51,15 +51,15 @@ link_skill_directory() {
 
 link_skill_directory "$DOTFILES_DIR/claude/skills/dev" "$HOME/.agents/skills/dev"
 link_skill_directory "$DOTFILES_DIR/claude/skills/dev" "$HOME/.codex/skills/dev"
-# codex/skills/pr is a SEPARATE, codex-flavoured skill, not a stale copy of the
-# Claude one - it stays vendored here and is deliberately not unified.
-link_skill_directory "$DOTFILES_DIR/codex/skills/pr" "$HOME/.codex/skills/pr"
 
 # Shared skills: one clone, linked into every agent that reads a skills dir.
 if [ -n "$SKILLS_REPO" ]; then
-    for shared_skill in pr deadcode; do
-        link_skill_directory "$SKILLS_REPO/$shared_skill" "$HOME/.claude/skills/$shared_skill"
-        link_skill_directory "$SKILLS_REPO/$shared_skill" "$HOME/.agents/skills/$shared_skill"
+    for skill_source in "$SKILLS_REPO"/*; do
+        [ -f "$skill_source/SKILL.md" ] || continue
+        shared_skill=$(basename -- "$skill_source")
+        for agent in .claude .codex .agents; do
+            link_skill_directory "$skill_source" "$HOME/$agent/skills/$shared_skill"
+        done
     done
 fi
 
