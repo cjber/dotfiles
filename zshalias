@@ -19,17 +19,6 @@ alias cpr='rsync -a --progress --partial --append-verify'
 alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs -r tldr"
 alias wt="git worktree"
 alias cc='claude agents'
-# kxa: unified KXM agent overview (Pi + Claude Code peers) for the agl monorepo.
-# kxl: the same pool as a plain list. Local hub, project rooted at ~/drive/agl.
-alias kxa='KXM_PROJECT=agl kxm dash'
-# kxl: readable list of live/finished harness sessions (hides the transient
-# cli-/tui- observer rows every kxm command creates).
-function kxl() {
-  KXM_PROJECT=agl kxm peer list --include-offline --json |
-    jq -r '.agents[]
-      | select((.name | startswith("cli-") or startswith("tui-")) | not)
-      | [.presence, .name, (.model // "-"), .purpose] | @tsv'
-}
 alias cz='ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic ANTHROPIC_AUTH_TOKEN=$(pass show zai/api_key) API_TIMEOUT_MS=3000000 claude'
 alias g='git'
 alias gfp='git fp'
