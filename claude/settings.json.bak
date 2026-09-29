@@ -244,7 +244,7 @@
     {
       "type": "regex",
       "pattern": "\\b(?<id>NEBULA-[A-Z0-9]+)\\b",
-      "url": "https://agent-labs-f4.sentry.io/issues/?query={id}",
+      "url": "https://<org>.sentry.io/issues/?query={id}",
       "label": "Sentry {id}"
     }
   ],

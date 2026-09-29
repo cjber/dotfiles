@@ -63,11 +63,11 @@ When opening a new tmux window, detect the repo's dev command and start it in a 
 
 | Detected | Dev command | Note |
 |---|---|---|
-| `bun.lockb` present, **or** `package.json` with `"packageManager": "bun@…"` | `bun dev` (or `bun start` if no `dev` script) | nebula-cli, nebula-desktop |
-| `package.json` with a `dev` script | `pnpm dev` | Next.js (nebula-web, nebula-docs), most Node monorepos |
-| `package.json` with `expo` dep and a `start` script | `pnpm start` | nebula-mobile |
+| `bun.lockb` present, **or** `package.json` with `"packageManager": "bun@…"` | `bun dev` (or `bun start` if no `dev` script) | CLI, desktop |
+| `package.json` with a `dev` script | `pnpm dev` | Next.js web/docs apps, most Node monorepos |
+| `package.json` with `expo` dep and a `start` script | `pnpm start` | mobile app |
 | `Makefile` with a `dev` target | `make dev` | python services wrapping uv/uvicorn |
-| `pyproject.toml` with `uvicorn`/`fastapi` in deps | `uv run uvicorn <module>:app --reload` (module from `[tool.uvicorn]` or `main.py`) | nebula backend |
+| `pyproject.toml` with `uvicorn`/`fastapi` in deps | `uv run uvicorn <module>:app --reload` (module from `[tool.uvicorn]` or `main.py`) | Python backend |
 | None of the above | skip the split — just open the shell tab |
 
 Check bun *before* pnpm — some repos have both lockfiles in transition and bun is the actual tool.
@@ -157,7 +157,7 @@ a local checkout useful), and rewrites the worktree's `.env` to point at the clo
 
 Beware the interaction with `pass`: environment variables rank **above** `.env` in
 Nebula's settings loader, so a `DATABASE_URL` exported into the shell would silently
-override the clone. That is why `nebula/local-development` no longer carries
+override the clone. That is why the local-development secrets entry no longer carries
 `DATABASE_URL` or `DBOS_DATABASE_URL`.
 
 ## Prune merged worktrees

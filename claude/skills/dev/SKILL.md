@@ -29,7 +29,7 @@ gh pr list --base main --state open \
 
 ## 0. Resolve the checkouts
 
-- With no repository scope supplied, run `nebula` and `nebula-desktop` only. Do not start nebula-web. Add web (browser), mobile, CLI, or other repositories only when the user explicitly asks for them.
+- With no repository scope supplied, run the backend and desktop repositories only. Do not start the web app. Add web (browser), mobile, CLI, or other repositories only when the user explicitly asks for them.
 - If the user explicitly narrows the repository scope, run only that scope. Include any additional repositories they explicitly name.
 - Resolve each repository's intended worktree from the active conversation, current working directory, named PR branches, and associated sibling worktrees. Prefer an explicitly discussed or currently active feature worktree over the root checkout.
 - Fetch `origin/main` and update every selected feature branch to latest `main` before launch when the user asks for current-main testing. Preserve its history with the repository's normal merge/rebase policy; never rewrite a published branch without explicit authorization.
@@ -80,16 +80,16 @@ Same detection table as `/wt`'s auto-start step — check in this order at the t
 
 | Detected | Dev command | Note |
 |---|---|---|
-| `pyproject.toml` with `uvicorn`/`fastapi` in deps AND a `uv run dev` script (check `[project.scripts]`) | `uv run dev` | nebula backend — the documented development command |
+| `pyproject.toml` with `uvicorn`/`fastapi` in deps AND a `uv run dev` script (check `[project.scripts]`) | `uv run dev` | Python backend — the documented development command |
 | `pyproject.toml` with `uvicorn`/`fastapi`, no packaged script | `uv run uvicorn <module>:app --reload` | module from `[tool.uvicorn]` or `main.py` |
 | `Makefile` with a `dev` target | `make dev` | python services wrapping uv/uvicorn |
-| `bun.lockb` present, or `package.json` with `"packageManager": "bun@…"` | `bun run dev` if present; otherwise `bun run dev:desktop`; otherwise `bun run start` | nebula-cli, nebula-desktop |
-| `package.json` with `expo` dep and a `dev` script | run `pnpm dev` through the exact pinned pnpm version (Corepack, or the `npx` fallback above) | nebula-mobile |
-| `package.json` with a `dev` script | run `pnpm dev` through the exact pinned pnpm version (Corepack, or the `npx` fallback above) | Next.js (nebula-web, nebula-docs) |
+| `bun.lockb` present, or `package.json` with `"packageManager": "bun@…"` | `bun run dev` if present; otherwise `bun run dev:desktop`; otherwise `bun run start` | CLI, desktop |
+| `package.json` with `expo` dep and a `dev` script | run `pnpm dev` through the exact pinned pnpm version (Corepack, or the `npx` fallback above) | mobile app |
+| `package.json` with a `dev` script | run `pnpm dev` through the exact pinned pnpm version (Corepack, or the `npx` fallback above) | Next.js web/docs apps |
 
 Check bun before pnpm - some repos carry both lockfiles mid-transition.
 
-For nebula specifically, also confirm local Postgres and Redis are reachable first:
+For the backend specifically, also confirm local Postgres and Redis are reachable first:
 
 ```bash
 psql -h 127.0.0.1 -U postgres -d postgres -c '\q'
@@ -137,8 +137,8 @@ Report every started service and how to inspect its logs. If any repository fail
 
 ## Desktop against the local backend
 
-Current desktop `main` renders its own UI (no embedded nebula-web bundle), so
-only the API base needs pointing. From `nebula-desktop/apps/desktop`, after the
+Current desktop `main` renders its own UI (no embedded web bundle), so
+only the API base needs pointing. From `apps/desktop` in the desktop repo, after the
 backend readiness check passes:
 
 ```bash
@@ -146,19 +146,19 @@ NEBULA_API_BASE="http://127.0.0.1:<backend SERVER_PORT>" bun run dev
 ```
 
 `scripts/dev.ts` gives each worktree its own renderer/CDP ports and an isolated
-`NEBULA_HOME` (`<worktree>/.nebula`, seeded from `~/.nebula`), and adds
+`APP_HOME` (`<worktree>/.app`, seeded from `~/.app`), and adds
 `--ozone-platform=x11` on Linux. It signs in with the installed app's session
-(shared `~/.nebula` auth), which only exists on a database that already has
+(shared `~/.app` auth), which only exists on a database that already has
 that user; on a fresh database use the demo account auto-login below. Ready = log line `[main] config: apiBase=http://127.0.0.1:...`
 plus `POST /auth/device/token` and `GET /workspaces` returning 200 in the backend log.
 
 If the desktop root checkout is not on a clean `main`, use a detached worktree
-(`git worktree add --detach ~/.worktrees/nebula-desktop/<name> origin/main`)
+(`git worktree add --detach ~/.worktrees/<repo>/<name> origin/main`)
 rather than resetting it.
 
 ## Backend + Zero on the existing local infra
 
-Infra is the system unit `nebula-compose.service` (docker compose postgres :5432
+Infra is the system unit `app-compose.service` (docker compose postgres :5432
 with `wal_level=logical`, redis :6379). Secrets come from `pass` via `.envrc`, so
 run every backend command through `direnv exec .`. Do not use a `dev-cluster`
 for this: its Postgres lacks logical WAL and it has no Zero.
@@ -208,7 +208,7 @@ deploy enables against the same Cognito dev pool the local `.envrc` uses:
 1. Append to the worktree's `.env` (never commit), then (re)start the backend:
    ```
    E2E_LOGIN_ENABLED=true
-   E2E_LOGIN_EMAIL_DOMAIN=nebula-ci.internal
+   E2E_LOGIN_EMAIL_DOMAIN=example.internal
    ```
    `E2E_LOGIN_SECRET` already comes from `.envrc`. The domain is deliberately
    undeliverable and must match `deploy/overlays/dev/backend-config.env`.
@@ -216,7 +216,7 @@ deploy enables against the same Cognito dev pool the local `.envrc` uses:
    ```bash
    direnv exec . bash -c 'curl -s -X POST localhost:4242/auth/test-login \
      -H "Content-Type: application/json" -H "X-E2E-Login-Secret: $E2E_LOGIN_SECRET" \
-     -d "{\"email\":\"demo@nebula-ci.internal\"}"' > "$tmp/login.json"
+     -d "{\"email\":\"demo@example.internal\"}"' > "$tmp/login.json"
    ```
 3. Clear the only two onboarding gates (`apps/desktop/src/renderer/src/gates/decide-gate.ts`):
    profile needs first/last name + username, workspace needs any workspace.
@@ -236,11 +236,11 @@ deploy enables against the same Cognito dev pool the local `.envrc` uses:
    ```
    `NEBULA_AUTH_TOKEN` wins over the on-disk envelope and never writes it
    (`packages/auth/src/internal/token-store.ts`), so the installed app's shared
-   sign-in in `~/.nebula` is untouched. Spawned daemons inherit it. It has no
+   sign-in in `~/.app` is untouched. Spawned daemons inherit it. It has no
    refresh token - mint a new one when it expires.
 
 Do not write the demo session into the envelope: worktree dev runs share the
-installed app's `~/.nebula` auth file (`NEBULA_AUTH_HOME`, #2444) unless
+installed app's `~/.app` auth file (`APP_AUTH_HOME`) unless
 `NEBULA_DEV_NO_SEED=1`. Launch the desktop only after steps 1-3; a launch
 before onboarding was satisfied exited silently with code 0 in testing.
 

@@ -11,7 +11,7 @@ health report covering the last 12 hours.
 
 **No MCP servers.** Every source is hit directly over its REST API with `curl`
 (or `gh` for GitHub). Credentials come from the repo's git-ignored `.env`
-(`/home/cjber/drive/agl/nebula/.env`) — never hard-code secrets in this file.
+(`/path/to/app/.env`) — never hard-code secrets in this file.
 
 **PostHog and Metabase `interaction_evaluation` are intentionally not
 queried** — see "Retired sources" below.
@@ -28,12 +28,12 @@ queried** — see "Retired sources" below.
 | Source | Value |
 |--------|-------|
 | Sentry region | `https://us.sentry.io` |
-| Sentry org slug | `agent-labs-f4` (`$SENTRY_ORG_SLUG`) |
-| Sentry project | `nebula` (`$SENTRY_PROJECT`) |
+| Sentry org slug | `<org-slug>` (`$SENTRY_ORG_SLUG`) |
+| Sentry project | `<project>` (`$SENTRY_PROJECT`) |
 | Langfuse host | `https://us.cloud.langfuse.com` (`$LANGFUSE_HOST`) — use the **PROD** key pair |
-| Metabase URL | `https://metabase.nebula.gg` (`$EVAL_CRED_METABASE_URL`) |
-| Metabase database id | **`2`** (`nebula-read-only`) — NOT 40 |
-| GitHub repo | `agent-labs-dev/nebula` |
+| Metabase URL | `https://<metabase-host>` (`$EVAL_CRED_METABASE_URL`) |
+| Metabase database id | **`2`** (`<db-label>`) — NOT 40 |
+| GitHub repo | `<org>/<repo>` |
 
 ### Retired sources (do not query — checked 2026-07-20)
 
@@ -46,7 +46,7 @@ queried** — see "Retired sources" below.
   again. If a working key ever lands, user activity / signup funnel /
   billing / top-of-funnel traffic sections can be reinstated.
 - **Metabase `interaction_evaluation`**: confirmed dead, not just delayed —
-  tracked in [nebula#5778](https://github.com/agent-labs-dev/nebula/issues/5778)
+  tracked upstream
   (table unfed since PR #3568). Don't query it or report it as a gap; the
   GitHub issue is the source of truth until that's fixed.
 
@@ -60,10 +60,10 @@ its config from GCP Secret Manager (`NEBULA_SECRET_SOURCE=gcp` in `.envrc`), so
 the repo `.env` holds only a handful of local vars and none of the keys below.
 
 ```bash
-cd /home/cjber/drive/agl/nebula
+cd /path/to/app
 set -a
 # shellcheck disable=SC2046
-eval "$(pass show nebula/local-development | grep -E '^(LANGFUSE_HOST|LANGFUSE_PUBLIC_KEY_PROD|LANGFUSE_SECRET_KEY_PROD|SENTRY_AUTH_TOKEN|SENTRY_ORG_SLUG|SENTRY_PROJECT|METABASE_API_KEY|EVAL_CRED_METABASE_URL)=' | sed -E 's/^([A-Z_]+)=\"?(.*[^\"])\"?$/\1=\2/')"
+eval "$(pass show <pass-entry> | grep -E '^(LANGFUSE_HOST|LANGFUSE_PUBLIC_KEY_PROD|LANGFUSE_SECRET_KEY_PROD|SENTRY_AUTH_TOKEN|SENTRY_ORG_SLUG|SENTRY_PROJECT|METABASE_API_KEY|EVAL_CRED_METABASE_URL)=' | sed -E 's/^([A-Z_]+)=\"?(.*[^\"])\"?$/\1=\2/')"
 set +a
 FROM=$(date -u -d '12 hours ago' +%Y-%m-%dT%H:%M:%SZ)
 NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
@@ -112,7 +112,7 @@ large, untracked, currently-active issue as an action item to file. Also
 sanity-check the top *active* issue's latest event tags
 (`GET /api/0/issues/{id}/events/latest/` → `.tags`) for `environment` before
 treating it as a production problem — `environment=local` / `sentry.purpose=
-migration` means it's dev-machine noise, not prod (see nebula#5807).
+migration` means it's dev-machine noise, not prod (see the tracking issue).
 
 ### Langfuse (REST — Basic auth, PROD key pair)
 
@@ -185,7 +185,7 @@ GROUP BY status ORDER BY total DESC
 
 ### GitHub (`gh` CLI)
 ```bash
-gh issue list --repo agent-labs-dev/nebula --state open --limit 100 \
+gh issue list --repo <org>/<repo> --state open --limit 100 \
   --json number,title,labels,createdAt,updatedAt
 ```
 Group by label; flag P0/P1/bug and issues with no update in 30+ days.

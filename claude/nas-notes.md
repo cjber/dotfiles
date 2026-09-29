@@ -9,12 +9,12 @@ live in `~/code/handoff/`.
   Keep parallelism low: at most one subagent at a time, no concurrent heavy
   test or build runs.
 - The Postgres and Redis already running here belong to other services. Never
-  connect to them. For nebula, use an isolated stack:
+  connect to them. For the app, use an isolated stack:
   `uv run dev-cluster up --runtime docker`, then `uv run dev-cluster run -- <cmd>`,
   and `uv run dev-cluster down` when the work is done.
 - Poll CI with one-off `gh pr checks <n>` calls. Long background
   `sleep` + `--watch` loops have been killed here mid-run.
-- `~/code/nebula` may be in use by another session. Work in a separate
+- `~/code/<repo>` may be in use by another session. Work in a separate
   worktree (`git worktree add ~/code/wt-<slug> <branch>`) and remove it once
   its PR merges.
 - The share marks new files executable. `core.fileMode false` is set

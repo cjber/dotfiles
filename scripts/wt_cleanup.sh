@@ -32,7 +32,7 @@ FRESHEN=/home/cjber/.claude/skills/wt/freshen.sh
 WORKTREES_ROOT="$HOME/.worktrees"
 
 # Repo map from a local, gitignored config that populates REPOS, e.g.:
-#   REPOS[/home/cjber/drive/agl/nebula]=nebula
+#   REPOS[/path/to/app]=app
 declare -A REPOS=()
 CONF="${XDG_CONFIG_HOME:-$HOME/.config}/wt-cleanup/repos.conf"
 if [[ -f "$CONF" ]]; then
