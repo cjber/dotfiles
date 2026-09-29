@@ -263,6 +263,7 @@ NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/cjber/.codex/plugins/cache/opena
 CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
 
 [features]
+hooks = true
 js_repl = false
 
 [shell_environment_policy]
