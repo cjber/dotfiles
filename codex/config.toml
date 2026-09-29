@@ -225,7 +225,7 @@ trusted_hash = "sha256:8d18faa5ca081c2bac19419dc718208718bccc7577c7e4aa7da1e96a5
 trusted_hash = "sha256:ef7168bac791e89fc673afb2d3af25daed0eab971605a82532763d1d1540be2f"
 
 [hooks.state."/home/cjber/.codex/hooks.json:session_start:0:0"]
-trusted_hash = "sha256:b0219a2ed2480bab58df22f8bb6b21a76bda88b190d89f05e856a6b70ed09405"
+trusted_hash = "sha256:35383da9cecdc23fa2f5d16fd33c129dc6a3b6b5cb38622b273ef785d4dc657c"
 
 [hooks.state."/home/cjber/.codex/hooks.json:user_prompt_submit:0:0"]
 trusted_hash = "sha256:d3e6b1a065c794ab702ae14b691d480db6cf14a3ed3fb64d6dd38e5c13942c30"
