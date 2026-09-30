@@ -158,8 +158,6 @@ export COMPOSIO_INSTALL_DIR="/home/cjber/.composio"
 export PATH="$COMPOSIO_INSTALL_DIR:$PATH"
 export PATH=$PATH:$HOME/.maestro/bin
 
-# Kiln persistent frecency repository picker (`kz`, and `z` if unclaimed).
-eval "$(kiln shell-init)"
 
 # >>> Codex installer >>>
 export PATH="/home/cjber/.local/bin:$PATH"
