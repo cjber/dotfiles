@@ -1,7 +1,7 @@
 approvals_reviewer = "user"
 service_tier = "default"
-model = "gpt-6-astra"
-model_reasoning_effort = "medium"
+model = "gpt-6.1-sol"
+model_reasoning_effort = "low"
 model_verbosity = "low"
 model_auto_compact_token_limit = 200000
 model_auto_compact_token_limit_scope = "total"
@@ -9,6 +9,7 @@ model_context_window = 272000
 tool_output_token_limit = 8000
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
+web_search = "live"
 
 [projects."/home/cjber/drive/agl/parallax"]
 trust_level = "trusted"
@@ -286,6 +287,7 @@ screen_reader_detection_done = true
 [tui.model_availability_nux]
 "gpt-5.6-sol" = 4
 gpt-6-astra = 4
+"gpt-6.1-sol" = 4
 
 [projects."/home/cjber/drive/agl/agent-deck"]
 trust_level = "trusted"
