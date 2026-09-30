@@ -163,9 +163,6 @@ enabled = true
 [plugins."codex-app-tools@openai-bundled"]
 enabled = true
 
-[plugins."sites@openai-bundled"]
-enabled = true
-
 [plugins."browser@openai-bundled"]
 enabled = true
 
@@ -191,6 +188,12 @@ enabled = true
 enabled = true
 
 [plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."code-review@openai-bundled"]
 enabled = true
 
 [hooks.state]
@@ -244,23 +247,24 @@ trusted_hash = "sha256:958a01ca81663cb24359a312fce7f103351a413b878c7f3066c9daa02
 url = "https://developers.openai.com/mcp"
 
 [mcp_servers.node_repl]
+args = []
 command = "/usr/lib/chatgpt/resources/cua_node/bin/node_repl"
-startup_timeout_sec = 120.0
+startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.818.41705"
-BROWSER_USE_TINYSKY_ENABLED = "0"
-CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
-CODEX_HOME = "/home/cjber/.codex"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
 NODE_REPL_NODE_MODULE_DIRS = "/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
 NODE_REPL_NODE_PATH = "/usr/lib/chatgpt/resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/home/cjber/.codex:/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/cjber/.codex/plugins/cache/openai-bundled/browser/26.818.41705/scripts/browser-service.mjs"}'
+CODEX_HOME = "/home/cjber/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.928.20755"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/cjber/.codex/plugins/cache/openai-bundled/browser/26.928.20755/scripts/browser-service.mjs"}'
+CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
 
 [mcp_servers.posthog]
 url = "https://mcp.posthog.com/mcp"
@@ -289,6 +293,7 @@ external-agent-import-sync-enabled = true
 conversationDetailMode = "STEPS_COMMANDS"
 ambient-suggestions-enabled = true
 keepRemoteControlAwakeWhilePluggedIn = true
+followUpQueueMode = "queue"
 
 [tui]
 screen_reader_detection_done = true
@@ -386,4 +391,7 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/cjber/drive"]
+trust_level = "trusted"
+
+[projects."/home/cjber/Documents/Codex/2026-09-30/test"]
 trust_level = "trusted"
