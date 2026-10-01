@@ -49,7 +49,8 @@ has_gui = true
 # self-supervises but has no reboot persistence of its own.
 "config/systemd/user/codex-rc.service" = "~/.config/systemd/user/codex-rc.service"
 "config/systemd/user/codex-rc.timer" = "~/.config/systemd/user/codex-rc.timer"
-"scripts/harden-auth.sh" = "~/scripts/harden-auth.sh"
+"config/systemd/user/kiln-serve.service" = "~/.config/systemd/user/kiln-serve.service"
+"scripts/harden-auth.sh" ="~/scripts/harden-auth.sh"
 "scripts/aur-malware-scan.sh" = "~/scripts/aur-malware-scan.sh"
 "config/systemd/user/aur-malware-scan.service" = "~/.config/systemd/user/aur-malware-scan.service"
 "scripts/fix-nic" = "~/scripts/fix-nic"

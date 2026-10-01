@@ -1,0 +1,13 @@
+[Unit]
+Description=kiln phone server (localhost:7437, reached through Tailscale Serve)
+Documentation=https://github.com/cjber/kiln
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/kiln serve
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
