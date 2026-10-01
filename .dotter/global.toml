@@ -35,6 +35,11 @@ has_gui = true
 "config/systemd/user/bnet-shortcuts.path" = "~/.config/systemd/user/bnet-shortcuts.path"
 "config/systemd/user/wt-cleanup.service" = "~/.config/systemd/user/wt-cleanup.service"
 "config/systemd/user/wt-cleanup.timer" = "~/.config/systemd/user/wt-cleanup.timer"
+# The HOME-scope counterpart to the root paccache/container timers: uv cache,
+# agent-CLI state and runaway logs. See scripts/disk-hygiene.sh for the why.
+"scripts/disk-hygiene.sh" = "~/scripts/disk-hygiene.sh"
+"config/systemd/user/disk-hygiene.service" = "~/.config/systemd/user/disk-hygiene.service"
+"config/systemd/user/disk-hygiene.timer" = "~/.config/systemd/user/disk-hygiene.timer"
 "scripts/controller_inhibit.sh" = "~/scripts/controller_inhibit.sh"
 "config/systemd/user/controller-inhibit.service" = "~/.config/systemd/user/controller-inhibit.service"
 "scripts/claude-rc.sh" = "~/scripts/claude-rc.sh"
@@ -151,6 +156,11 @@ has_gui = false
 # Disables the internal Intel BT adapter so the UGreen BT6.0 dongle is the
 # default. Needs `sudo udevadm control --reload` after deploying.
 "etc/udev/rules.d/81-disable-intel-bluetooth.rules" = { target = "/etc/udev/rules.d/81-disable-intel-bluetooth.rules", type = "template" }
+# Disk-hygiene ceilings. The mount is 954G, so journald's 10%-of-filesystem
+# default soft-caps at 4G, and paccache's default -rk3 let the package cache
+# reach 22G. Both are root-owned; deployed by the root pass.
+"etc/conf.d/pacman-contrib" = { target = "/etc/conf.d/pacman-contrib", type = "template" }
+"etc/systemd/journald.conf.d/00-size.conf" = { target = "/etc/systemd/journald.conf.d/00-size.conf", type = "template" }
 
 # macOS (cross-platform only)
 [macos.files]

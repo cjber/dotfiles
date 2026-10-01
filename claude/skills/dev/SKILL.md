@@ -135,6 +135,13 @@ Poll each service using its own readiness surface for a few seconds before decla
 
 Report every started service and how to inspect its logs. If any repository fails to start or become ready, report the partial stack explicitly rather than declaring `$dev` complete.
 
+## Desktop stability for this user
+
+Launch desktop with `NEBULA_DEV_FREEZE=1` while the user tests it. They explicitly
+want no automatic reloads or Electron restarts during implementation. Keep their
+current window stable, finish all edits and checks, then refresh once at the end.
+Do not repeatedly reopen the app to verify intermediate changes.
+
 ## Desktop against the local backend
 
 Current desktop `main` renders its own UI (no embedded web bundle), so

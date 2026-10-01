@@ -1,0 +1,21 @@
+[Unit]
+Description=Daily home-scope disk hygiene (uv cache, agent-CLI state, runaway logs)
+Documentation=man:paccache(8)
+
+[Service]
+Type=oneshot
+ExecStart=%h/scripts/disk-hygiene.sh
+Nice=10
+
+# Log to a file, NOT just journald. This unit deletes unattended, so its output
+# is the only audit trail — and journald capture of user runs here is unreliable
+# (documented in wt-cleanup.service: a manual run produced no user-journal
+# entries at all while an earlier timer run was captured in full). append: not
+# truncate:, so history survives across runs.
+StandardOutput=append:%h/.local/state/disk-hygiene.log
+StandardError=append:%h/.local/state/disk-hygiene.log
+
+# Deliberately unhardened. `uv` and the agent CLIs resolve $HOME and the network
+# normally, and wt-cleanup.service records that a namespacing directive here
+# silently breaks ssh config resolution for every git/uv fetch. Nothing in this
+# unit runs setuid, so NoNewPrivileges buys nothing and risks a silent no-op.

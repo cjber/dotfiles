@@ -1,0 +1,4 @@
+# Keep only the latest cached version of installed packages, and remove
+# everything for uninstalled ones. The weekly paccache.timer was still using
+# the default -rk3, which let /var/cache/pacman/pkg reach 22G.
+PACCACHE_ARGS="-rk1 -ruk0"
