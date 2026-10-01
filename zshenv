@@ -32,3 +32,6 @@ export PNPM_HOME="$HOME/.local/share/pnpm"
 path+=$PNPM_HOME/bin
 {{#if has_gui}}path+=$HOME/.TinyTeX/bin/x86_64-linux
 {{/if}}path+=$HOME/scripts
+
+# Machine-local credentials and shell additions stay outside Dotter.
+[[ -r "$HOME/.zshenv.local" ]] && source "$HOME/.zshenv.local"

@@ -79,11 +79,6 @@ has_gui = true
 "config/mako" = "~/.config/mako"
 "config/topgrade.toml" = "~/.config/topgrade.toml"
 "config/mimeapps.list" = "~/.config/mimeapps.list"
-"claude/skills/commit" = "~/.claude/skills/commit"
-"claude/skills/wt" = "~/.claude/skills/wt"
-"claude/skills/grilling" = "~/.claude/skills/grilling"
-"claude/skills/monitor" = "~/.claude/skills/monitor"
-"claude/skills/dev" = "~/.claude/skills/dev"
 "claude/settings.json" = "~/.claude/settings.json"
 "claude/CLAUDE.md" = "~/.claude/CLAUDE.md"
 "codex/config.toml" = "~/.codex/config.toml"
@@ -120,11 +115,6 @@ has_gui = false
 "config/systemd/user/dotfiles-sync.service" = "~/.config/systemd/user/dotfiles-sync.service"
 "config/systemd/user/dotfiles-sync.timer" = "~/.config/systemd/user/dotfiles-sync.timer"
 "config/topgrade.toml" = "~/.config/topgrade.toml"
-"claude/skills/commit" = "~/.claude/skills/commit"
-"claude/skills/wt" = "~/.claude/skills/wt"
-"claude/skills/grilling" = "~/.claude/skills/grilling"
-"claude/skills/monitor" = "~/.claude/skills/monitor"
-"claude/skills/dev" = "~/.claude/skills/dev"
 
 # Root-owned system config. NOT in local.toml's package list, because these
 # targets are outside $HOME and need root. Deploy them on their own, via the
@@ -177,8 +167,3 @@ has_gui = false
 "zshalias" = "~/.zshalias"
 "zshenv" = "~/.zshenv"
 "zshrc" = "~/.zshrc"
-"claude/skills/commit" = "~/.claude/skills/commit"
-"claude/skills/wt" = "~/.claude/skills/wt"
-"claude/skills/grilling" = "~/.claude/skills/grilling"
-"claude/skills/monitor" = "~/.claude/skills/monitor"
-"claude/skills/dev" = "~/.claude/skills/dev"

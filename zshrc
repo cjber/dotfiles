@@ -1,5 +1,5 @@
 source /usr/share/zsh-antidote/antidote.zsh
-antidote load
+[[ -o zle && -t 0 && -t 1 ]] && antidote load
 
 source ~/.zshalias
 
@@ -64,8 +64,10 @@ SAVEHIST=100000
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#5c6370,bold,underline"
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#bb9af7,bold,underline"
 
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+if [[ -o zle && -t 0 && -t 1 ]]; then
+    source /usr/share/fzf/key-bindings.zsh
+    source /usr/share/fzf/completion.zsh
+fi
 
 # zvm_bindkey vicmd '/' fzf-history-widget
 
@@ -79,7 +81,9 @@ function lf() {
 	rm -f -- "$tmp"
 }
 
-eval "$(starship init zsh)"
+if [[ -o zle && -t 0 && -t 1 && "$TERM" != dumb ]]; then
+    eval "$(starship init zsh)"
+fi
 
 # microsandbox needs libkrun on LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"

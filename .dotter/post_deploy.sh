@@ -11,10 +11,7 @@
 # it is itself root, so root must be authorised in /etc/sudoers.
 set -u
 
-# Dotter expands source directories, including directory symlinks, into links
-# for each contained file. Codex discovers symlinked skill directories but can
-# omit a real directory containing a symlinked SKILL.md, so install portable
-# skills as whole-directory links after Dotter has reconciled its file cache.
+# Keep skill directories whole so all agents discover the same shared source.
 DOTFILES_DIR=$(pwd -P)
 
 # Skills shared publicly at github.com/cjber/skills are NOT vendored into this
@@ -49,8 +46,14 @@ link_skill_directory() {
     fi
 }
 
-link_skill_directory "$DOTFILES_DIR/claude/skills/dev" "$HOME/.agents/skills/dev"
-link_skill_directory "$DOTFILES_DIR/claude/skills/dev" "$HOME/.codex/skills/dev"
+# Existing shared skills belong to kiln; only bootstrap missing directories.
+for skill in commit wt grilling monitor dev; do
+    if [ ! -e "$HOME/.agents/skills/$skill" ]; then
+        link_skill_directory "$DOTFILES_DIR/claude/skills/$skill" "$HOME/.agents/skills/$skill"
+    fi
+    link_skill_directory "$HOME/.agents/skills/$skill" "$HOME/.claude/skills/$skill"
+    link_skill_directory "$HOME/.agents/skills/$skill" "$HOME/.codex/skills/$skill"
+done
 
 # Shared skills: one clone, linked into every agent that reads a skills dir.
 if [ -n "$SKILLS_REPO" ]; then

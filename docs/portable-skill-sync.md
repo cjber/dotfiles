@@ -1,9 +1,10 @@
 # Portable skill sync
 
-Dotter deploys the canonical `dev` skill body to Claude, Codex, and the shared
-`~/.agents` skill directory. Its post-deploy hook installs the Codex and shared
-copies as whole-directory symlinks because Codex skill discovery supports that
-layout, while Dotter's normal directory expansion creates per-file symlinks.
+Skills use whole-directory links through `~/.agents/skills`, with Claude and
+Codex adapters. Kiln owns existing shared skill directories. Dotter does not
+manage individual files inside those directories; its post-deploy hook only
+bootstraps missing bundled skills and links adapters.
+
 Personal skills live in the shared `~/skills` clone. The post-deploy hook links
 those directories into Claude, Codex, and `~/.agents`; do not maintain agent-specific
 copies of the same skill. In particular, `pr`, `issue`, and `review` have one

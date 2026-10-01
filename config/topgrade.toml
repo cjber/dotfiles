@@ -412,6 +412,8 @@ disable = ["gcloud", "helm", "claude_code_plugins"]
 
 # containers = ["archlinux-latest"]
 [containers]
+# Built locally by Nebula; there is no registry image to pull.
+ignored_containers = ["nebula-eval-sandbox:*"]
 # Specify the containers to ignore while updating (Wildcard supported)
 # ignored_containers = ["ghcr.io/rancher-sandbox/rancher-desktop/rdx-proxy:latest", "docker.io*"]
 # Specify the runtime to use for containers (default: "docker", allowed values: "docker", "podman")

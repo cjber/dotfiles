@@ -560,6 +560,18 @@ hl.on("workspace.active", function(ws)
     if ws and ws.name == "special:scratch" then snap_scratch() end
 end)
 
+-- Keyring/password prompts inherit the workspace of whatever asked for the
+-- secret; when that is a scratch kitty they open hidden on special:scratch
+-- and block the caller. Pull them onto the visible workspace and focus them.
+hl.on("window.open", function(w)
+    if not w or w.class ~= "gcr-prompter" then return end
+    local ws = hl.get_active_workspace()
+    if ws and w.workspace and w.workspace.id ~= ws.id then
+        hl.dispatch(hl.dsp.window.move({ window = w, workspace = ws.id }))
+    end
+    hl.dispatch(hl.dsp.focus({ window = w }))
+end)
+
 --------------------------------------------------------------------
 -- Binds: apps
 --------------------------------------------------------------------
