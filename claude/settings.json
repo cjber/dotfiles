@@ -17,7 +17,7 @@
       "Bash(gcloud auth print-access-token:*)",
       "Bash(gcloud auth print-identity-token:*)",
       "Bash(gcloud auth application-default print-access-token:*)",
-      "Bash(gcloud iam service-accounts keys create:*)",
+      "Bash(gcloud iam service-accounts keys create:*)"
     ],
     "defaultMode": "bypassPermissions"
   },
