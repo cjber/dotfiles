@@ -85,6 +85,8 @@ has_gui = true
 # to one target, so each harness gets an in-repo symlink to it.
 "claude/CLAUDE.md" = "~/.claude/CLAUDE.md"
 "codex/AGENTS.md" = "~/.codex/AGENTS.md"
+"pi/AGENTS.md" = "~/.pi/agent/AGENTS.md"
+"pi/APPEND_SYSTEM.md" = "~/.pi/agent/APPEND_SYSTEM.md"
 "codex/config.toml" = "~/.codex/config.toml"
 "codex/deep.config.toml" = "~/.codex/deep.config.toml"
 "codex/economy.config.toml" = "~/.codex/economy.config.toml"
