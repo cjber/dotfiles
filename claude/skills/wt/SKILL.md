@@ -7,7 +7,7 @@ description: "Creates an isolated git worktree on a cb/-prefixed branch off fres
 
 Spin up a feature worktree on a `cb/`-prefixed branch off `origin/main`, then `cd` into it so the rest of the session works against the isolated copy.
 
-Backed by **plain `git worktree`** — no external tool. The unmaintained `worktree`/`worktree-bin` crate and `gwq` were both dropped: the crate deleted the local `main` branch on `remove --delete-branch`, and gwq re-invokes `git` from PATH and dies silently in Claude Code's PATH-stripped pipeline subshells. Plain `git worktree` is the single source of truth here — it never touches a branch you don't name, and it's what `prune.sh` already uses.
+Backed by **plain `git worktree`**: it never touches a branch you don't name, and it's what `prune.sh` uses. External worktree managers were dropped because they deleted the local `main` on `remove --delete-branch`, or re-invoked `git` from PATH and died silently in PATH-stripped pipeline subshells.
 
 ## The two hard invariants
 
@@ -84,7 +84,7 @@ If the user invoked `/wt <feature> --no-dev` (or context says no server is wante
 
 The single hard invariant restated (invariant 2 above): **`main` must always stay checked out in the primary repo dir, and must never be deleted, moved, or relocated to a worktree.**
 
-- **Never run `gh pr merge --delete-branch` or any branch delete from inside a worktree.** The old crate deleted the local `main` ref this way; even with plain git, deleting a branch while standing in its worktree is the footgun. Do merges and branch deletion **from the main checkout** (`/home/cjber/drive/agl/<repo>`), never from `~/.worktrees/...`. `gh pr merge` acts on the remote PR regardless of cwd, so there is no reason to run it from a worktree.
+- **Never run `gh pr merge --delete-branch` or any branch delete from inside a worktree.** Deleting a branch while standing in its worktree can drop the local `main` ref. Do merges and branch deletion **from the main checkout** (`/home/cjber/drive/agl/<repo>`), never from `~/.worktrees/...`. `gh pr merge` acts on the remote PR regardless of cwd, so there is no reason to run it from a worktree.
 - **Don't delete the remote branch by hand.** GitHub auto-deletes the PR head branch on merge (repo setting). Locally you just `git fetch --prune` to drop the now-stale remote-tracking ref — see the prune flow.
 - **Recovery — missing `main`:** `git branch main origin/main` from the primary dir restores it.
 - **Recovery — missing whole `.git`** (repo shows "not a git repository", working tree intact): re-init in place without losing the working tree —
@@ -97,9 +97,8 @@ The single hard invariant restated (invariant 2 above): **`main` must always sta
 ## Keep the main checkout fresh and on `main`
 
 `freshen.sh` is the enforcement arm of invariant 2, and the answer to "is my local
-`main` stale?" — never assume it is current, because a checkout drifts silently and
-then every grep, diff, and `origin/main` branch base is wrong. (A stale checkout
-has already produced a confident-but-false "this code still references X".)
+`main` stale?" - never assume it is current: a checkout drifts silently and
+then every grep, diff, and `origin/main` branch base is wrong.
 
 ```bash
 bash /home/cjber/.claude/skills/wt/freshen.sh /home/cjber/drive/agl/<repo>   # arg defaults to $PWD
@@ -173,7 +172,7 @@ bash /home/cjber/.claude/skills/wt/prune.sh /home/cjber/drive/agl/<repo>
 (The repo-path argument is optional; it defaults to `$PWD`. The script is idempotent — safe to run before every worktree create.)
 
 What the script enforces:
-- **GitHub-authoritative merged detection, ONE `gh` call.** A branch is removable iff its name is in the `gh pr list --state merged` head set, or it is a literal fast-forward ancestor of `origin/main` (no-PR local branch). No tree-equivalence heuristics — the old `git cherry` approach flagged unmerged branches as merged. Per-branch `gh pr view` calls get secondary-rate-limited to empty; never do that either.
+- **GitHub-authoritative merged detection, ONE `gh` call.** A branch is removable iff its name is in the `gh pr list --state merged` head set, or it is a literal fast-forward ancestor of `origin/main` (no-PR local branch). No tree-equivalence heuristics: they flag unmerged branches as merged. Per-branch `gh pr view` calls get secondary-rate-limited to empty; never do that either.
 - **Open-PR guard:** a branch with an open PR is always kept, even if a same-named merged PR exists.
 - **Three main-safety guards:** refuses to run from a worktree, skips the main checkout dir, skips `main`/`master`.
 - **Skip rules** (worktree kept if any apply): dirty working tree, open PR, not a `cb/` branch, directory missing, not merged.
@@ -182,14 +181,12 @@ What the script enforces:
 
 The scheduled `wt-cleanup.timer` (systemd user timer) runs the same `prune.sh` across every repo listed in `~/.config/wt-cleanup/repos.conf`, so the manual and automatic paths share one implementation.
 
-**`wt-cleanup.timer` is the ONLY worktree timer — do not add a second.** It absorbed
-the former `worktree-prune.{sh,service,timer}` (retired 2026-08-11), which fired 13
-minutes later over the same tree using weaker `git ls-remote` "branch gone" detection
-with no open-PR guard. Two timers racing one tree meant whichever ran first decided
-the outcome, so no behaviour could be attributed to either. Per repo the survivor now
-does: **freshen → prune → orphan-dir sweep**, then one **stale-`.venv` reap** across
-`~/.worktrees` (30+ days untouched; only the venv goes, `uv sync` rebuilds it — this
-is what prevents the btrfs-METADATA ENOSPC that motivated the original script).
+**`wt-cleanup.timer` is the ONLY worktree timer, so do not add a second.** Two
+timers racing one tree make behaviour unattributable, since whichever runs first
+decides the outcome. Per repo the timer does: **freshen → prune → orphan-dir
+sweep**, then one **stale-`.venv` reap** across `~/.worktrees` (30+ days
+untouched; only the venv goes, `uv sync` rebuilds it, which prevents the
+btrfs-METADATA ENOSPC that motivated the reap).
 
 It also **auto-discovers** any repo owning a worktree but missing from `repos.conf`,
 by asking each worktree for its own primary checkout. A hand-maintained list silently
@@ -230,14 +227,3 @@ bash /home/cjber/.claude/skills/wt/freshen.sh /home/cjber/drive/agl/<repo>
 ```
 
 `wt` is aliased to `git worktree` in `~/.zshalias`, so `wt list` / `wt add` / `wt remove` / `wt prune` all work interactively as plain git-worktree subcommands.
-
-## Gotchas
-
-- **Worktrees live at `~/.worktrees/<repo>/cb-<feature>`** — nowhere else. If you find worktrees under a repo-local `.worktrees/`, a sibling `<repo>-worktrees/`, or a job tmp dir, they're strays from before this convention; relocate new work to `~/.worktrees` and let `prune.sh` retire the merged ones.
-- **`git worktree add` bases the branch on whatever ref you pass.** Always pass `origin/main` explicitly (`-b cb/<feature> origin/main`) — omitting it bases on the current HEAD, which is usually not `main`.
-- **The Bash tool preserves CWD across calls**, so a plain `cd "$wt"` is enough to follow the worktree — no shell-function or path arithmetic needed.
-- **Always use the `cb/` prefix** on the branch (the prune tooling only touches `cb/*`).
-- **Every ignored root `.env*` file must be copied in** after `git worktree add` (step 4) — git worktree only materializes tracked files, so untracked env files don't come along. Use the Git-discovered loop; do not restore a fixed filename list.
-- **Never merge or delete branches from inside a worktree.** `gh pr merge --delete-branch` (or any branch delete) run from a worktree is the footgun that can drop the local `main` ref. Always `cd` to the main checkout first; `gh pr merge` works on the remote PR from anywhere, so the worktree buys you nothing.
-- **Pruning is gh-authoritative, not a guess.** Use `prune.sh` — a merged worktree is removed only when its branch name is in the one-call `gh pr list --state merged` head set (or the branch is a literal ancestor of `origin/main`). The old tree-equivalence/`git cherry` heuristic produced false positives on still-open, far-ahead branches, and per-branch `gh pr view` calls get rate-limited to empty — never resurrect either.
-- **If a repo's `.git` disappears** ("not a git repository") the working tree is usually intact — restore in place with the re-init recipe in [Never move `main` off the main dir](#never-move-main-off-the-main-dir) rather than re-cloning.

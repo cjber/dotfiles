@@ -37,10 +37,9 @@ resolving dependencies between decisions one at a time.
 ## When to reach for it
 
 - Before a non-trivial plan or PR where the spec has real ambiguity.
-- When a planning skill (`/issue`, `/improve`) would otherwise have to
+- When a planning skill (`/issue`, `/wayfinder`) would otherwise have to
   guess at intent - grill first, then plan against the answers.
 - When the user explicitly asks to be grilled / have a plan poked at.
 
-Skip it for tasks with one obvious interpretation; per `feedback_skip_
-askquestion_when_obvious`, if there's a clear default just state it and
-proceed.
+Skip it for tasks with one obvious interpretation: if there's a clear
+default, state it and proceed.

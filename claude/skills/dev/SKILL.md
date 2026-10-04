@@ -76,7 +76,7 @@ Stop an existing dev process before updating its repository or dependencies, the
 
 ## 3. Detect the dev command
 
-Same detection table as `/wt`'s auto-start step — check in this order at the target dir root:
+Detect the dev command from the table below, checked in this order at the target dir root (an expanded version of `/wt`'s auto-start step):
 
 | Detected | Dev command | Note |
 |---|---|---|
@@ -249,7 +249,7 @@ deploy enables against the same Cognito dev pool the local `.envrc` uses:
 Do not write the demo session into the envelope: worktree dev runs share the
 installed app's `~/.app` auth file (`APP_AUTH_HOME`) unless
 `NEBULA_DEV_NO_SEED=1`. Launch the desktop only after steps 1-3; a launch
-before onboarding was satisfied exited silently with code 0 in testing.
+before onboarding was satisfied exited silently with code 0.
 
 ## Coordinating paired worktrees
 
