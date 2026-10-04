@@ -1,6 +1,6 @@
 ---
 name: monitor
-description: Health overview skill — queries Sentry, Langfuse, Metabase, and GitHub from the command line (curl + gh, credentials from the repo .env) to produce a consolidated health report for the last 12 hours.
+description: Health overview skill — queries Sentry, Langfuse, Metabase, and GitHub from the command line (curl + gh, credentials from pass) to produce a consolidated health report for the last 12 hours.
 allowed-tools: Bash, Read
 ---
 
@@ -10,8 +10,8 @@ Queries Sentry, Langfuse, Metabase, and GitHub to produce a consolidated
 health report covering the last 12 hours.
 
 **No MCP servers.** Every source is hit directly over its REST API with `curl`
-(or `gh` for GitHub). Credentials come from the repo's git-ignored `.env`
-(`/path/to/app/.env`) — never hard-code secrets in this file.
+(or `gh` for GitHub). Credentials come from the `pass` store (Step 0), never
+hard-coded in this file.
 
 **PostHog and Metabase `interaction_evaluation` are intentionally not
 queried** — see "Retired sources" below.
@@ -20,10 +20,10 @@ queried** — see "Retired sources" below.
 
 - `curl`, `jq`, and `gh` on PATH (all present on this machine; install missing
   ones with `paru -S <pkg>`). `gh` must be authenticated (`gh auth status`).
-- The repo `.env` must contain the credential vars listed below. They are read
-  at runtime; nothing is stored in the skill.
+- The credential vars listed below come from the `pass` store (Step 0). They are
+  read at runtime; nothing is stored in the skill.
 
-## Static Configuration (verified 2026-07-09)
+## Static Configuration
 
 | Source | Value |
 |--------|-------|
@@ -35,20 +35,16 @@ queried** — see "Retired sources" below.
 | Metabase database id | **`2`** (`<db-label>`) — NOT 40 |
 | GitHub repo | `<org>/<repo>` |
 
-### Retired sources (do not query — checked 2026-07-20)
+### Retired sources (do not query)
 
 - **PostHog**: `EVAL_CRED_POSTHOG_API_KEY` is a narrowly-scoped *eval* key
   that returns **403 on every project endpoint** (`events`, `insights`,
-  `query`, `error_tracking`). This has been true on every run since
-  2026-07-09 with no fix in sight — a personal key with `query:read` +
-  `insight:read` scopes on project `224690` would unblock it, but until one
-  is added to `.env`, don't spend a query round-trip confirming the 403
-  again. If a working key ever lands, user activity / signup funnel /
-  billing / top-of-funnel traffic sections can be reinstated.
-- **Metabase `interaction_evaluation`**: confirmed dead, not just delayed —
-  tracked upstream
-  (table unfed since PR #3568). Don't query it or report it as a gap; the
-  GitHub issue is the source of truth until that's fixed.
+  `query`, `error_tracking`). Don't spend a query round-trip confirming the
+  403. A personal key with `query:read` + `insight:read` scopes on project
+  `224690` would unblock it; if one lands, the user activity / signup funnel
+  / billing / top-of-funnel traffic sections can be reinstated.
+- **Metabase `interaction_evaluation`**: dead, not just delayed (table unfed;
+  tracked by its GitHub issue). Don't query it or report it as a gap.
 
 ## Step 0 — Load credentials
 
@@ -91,11 +87,10 @@ curl -s -G -H "Authorization: Bearer $SENTRY_AUTH_TOKEN" \
 ```
 
 2. **Top issues by volume** (`sort=freq` with `statsPeriod=24h` still returns
-each issue's **lifetime** `count`, not a 24h-scoped count — confirmed
-2026-07-20. Always pull `lastSeen` alongside it and treat anything not seen
-in the last 24h as dormant, not active, no matter how large its lifetime
-count is — a stale issue with a huge lifetime count (e.g. one that fired
-constantly for months and stopped) will otherwise look like today's biggest
+each issue's **lifetime** `count`, not a 24h-scoped count. Always pull
+`lastSeen` alongside it and treat anything not seen in the last 24h as
+dormant, not active, no matter how large its lifetime count is: a stale
+issue with a huge lifetime count will otherwise look like today's biggest
 problem):
 ```bash
 curl -s -G -H "Authorization: Bearer $SENTRY_AUTH_TOKEN" \
