@@ -365,6 +365,15 @@ hl.window_rule({
     opacity         = 1.0,
 })
 
+-- The Witcher 3 (GOG, non-Steam Steam shortcut). Force it fullscreen on the TV:
+-- left alone it sizes itself to whichever monitor it opened on.
+hl.window_rule({
+    match      = { class = "^steam_app_2364352895$" },
+    monitor    = "HDMI-A-1",
+    workspace  = 5,
+    fullscreen = true,
+})
+
 -- Ascension (non-Steam Steam shortcut, GE-Proton). It matches the generic
 -- "^steam_app_" rule above, which parks games on ws5 — that workspace is bound
 -- to HDMI-A-1 (the TV), so with the TV off the client lands wherever Hyprland

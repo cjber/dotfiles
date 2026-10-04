@@ -42,6 +42,7 @@ if hyprctl monitors | grep -q "Monitor $TV"; then
   # Pull remaining windows back from ws5 to DP-1
   hyprctl eval 'for _,w in ipairs(hl.get_workspace_windows(5) or {}) do hl.dispatch(hl.dsp.focus({ window = w })); hl.dispatch(hl.dsp.window.move({ workspace = 1 })) end' >/dev/null
   hyprctl eval "hl.monitor({ output=\"$TV\", disabled=true })" >/dev/null
+  xrandr --output DP-1 --primary 2>/dev/null
   hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = 1 }))' >/dev/null
   pactl set-card-profile "$TV_CARD" off
   sleep 0.3
@@ -55,6 +56,9 @@ else
   # OSD popup on/off repeatedly. This is a TV-side setting, not fixable in software.
   hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"3840x2160@119.88Hz\", position=\"4880x0\", scale=1.60 })" >/dev/null
   sleep 2  # let the HDMI handshake settle
+  # Games under XWayland build their resolution list from the X primary
+  # output, so make that the TV or they top out at DP-1's 3440x1440.
+  xrandr --output "$TV" --primary 2>/dev/null
   # WoW already running (Lutris/Battle.net, class wowb.exe or wowclassic.exe):
   # send it to the TV and play it with a controller there, instead of Big
   # Picture. No mirror: the desk stays usable. Toggling off pulls ws5 back to
