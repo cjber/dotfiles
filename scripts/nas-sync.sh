@@ -21,10 +21,10 @@ mirror() { tar chf - -C "$1" . | ssh "$nas" "rm -rf '$2' && mkdir -p '$2' && tar
 # put <remote-dir> <local-file>...: copy files into a remote dir.
 put() { local d=$1; shift; tar chf - "$@" | ssh "$nas" "mkdir -p '$d' && tar xf - -C '$d'"; }
 
-say "claude: CLAUDE.md, skills, statusline"
+say "claude: steering file, skills, statusline"
 mirror ~/.claude/skills "$rhome/.claude/skills"
 (cd ~/.claude && put "$rhome/.claude" statusline.py subagent-statusline.py)
-# The global CLAUDE.md plus the facts only true on the NAS.
+# The global steering file (agents/AGENTS.md) plus the facts only true on the NAS.
 cat ~/.claude/CLAUDE.md ~/dotfiles/claude/nas-notes.md >"$tmp/CLAUDE.md"
 (cd "$tmp" && put "$rhome/.claude" CLAUDE.md)
 
