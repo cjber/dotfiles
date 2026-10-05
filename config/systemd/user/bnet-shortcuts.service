@@ -1,5 +1,8 @@
 [Unit]
 Description=Sync Battle.net game desktop entries (Lutris)
+# An install writes product.db in bursts; the default start limit then fails
+# this unit and the path unit that triggers it, and the entries stop updating.
+StartLimitIntervalSec=0
 
 [Service]
 Type=oneshot

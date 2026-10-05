@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# bnet-tv: restart Battle.net on the Hisense TV with sound on the soundbar, for
+# playing from the sofa with a controller. Bound to SUPER+SHIFT+B.
+#
+# It keeps running for as long as Battle.net does. The window rules in
+# hyprland.lua open the launcher on whichever workspace is focused and WoW on
+# DP-1, so each Battle.net or WoW window is sent to the TV as it appears. Each
+# window is sent once: one moved back to the desk by hand stays there.
+# `bnet-tv watch` only does that part, for a Battle.net that is already running.
+#
+# Controller support is the GamePadEnable CVar, which wow-force-windowed sets
+# when Lutris starts Battle.net.
+
+set -uo pipefail
+
+TV_WS=5
+WRAPPER='^lutris-wrapper: Battle\.net'
+WINDOWS='^(battle\.net|wow(classic|b))\.exe$'
+PIDFILE=${XDG_RUNTIME_DIR:-/tmp}/bnet-tv.pid
+
+dispatch() { hyprctl eval "hl.dispatch($1)" >/dev/null; }
+bnet_running() { pgrep -f "$WRAPPER" >/dev/null; }
+
+# A second run replaces the first one's watcher instead of racing it.
+old=$(cat "$PIDFILE" 2>/dev/null)
+grep -qs bnet-tv "/proc/$old/cmdline" && kill "$old"
+echo $$ >"$PIDFILE"
+
+"$HOME/scripts/tv-toggle" on
+
+if [ "${1:-}" != watch ]; then
+  # Every process of a Battle.net session is a child of its Lutris wrapper, and
+  # ends when the session's wineserver does. Killing the launcher or the wrapper
+  # directly leaves the Wine services behind without a server.
+  for wrapper in $(pgrep -f "$WRAPPER"); do
+    pkill -P "$wrapper" -x wineserver
+  done
+  for _ in $(seq 1 40); do
+    bnet_running || break
+    sleep 0.25
+  done
+
+  dispatch "hl.dsp.focus({ workspace = $TV_WS })"
+  LUTRIS_SKIP_INIT=1 setsid lutris lutris:rungame/battlenet >/dev/null 2>&1 &
+  notify-send -a tv "Battle.net → TV" "audio → soundbar, controller on"
+
+  for _ in $(seq 1 120); do  # Lutris takes a while to start the launcher
+    bnet_running && break
+    sleep 0.5
+  done
+fi
+
+sent=" "
+while bnet_running; do
+  while read -r addr class; do
+    case $sent in *" $addr "*) continue ;; esac
+    sent+="$addr "
+    dispatch "hl.dsp.window.move({ workspace = $TV_WS, window = \"address:$addr\" })"
+    dispatch "hl.dsp.focus({ workspace = $TV_WS })"
+    [ "$class" = battle.net.exe ] && continue
+    # The move can drop fullscreen; the dispatch toggles, so only send it when off.
+    sleep 0.3
+    fs=$(hyprctl clients -j | jq -r ".[] | select(.address==\"$addr\") | .fullscreen")
+    [ "$fs" = 0 ] && dispatch "hl.dsp.window.fullscreen({ mode = \"fullscreen\", window = \"address:$addr\" })"
+  done < <(hyprctl clients -j | jq -r --arg re "$WINDOWS" --argjson ws "$TV_WS" \
+    '.[] | select(.class | test($re)) | select(.workspace.id != $ws) | "\(.address) \(.class)"')
+  sleep 1
+done

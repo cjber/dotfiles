@@ -55,6 +55,7 @@ has_gui = true
 "config/systemd/user/aur-malware-scan.service" = "~/.config/systemd/user/aur-malware-scan.service"
 "scripts/fix-nic" = "~/scripts/fix-nic"
 "scripts/tv-toggle" = "~/scripts/tv-toggle"
+"scripts/bnet-tv" = "~/scripts/bnet-tv"
 "config/systemd/user/aur-malware-scan.timer" = "~/.config/systemd/user/aur-malware-scan.timer"
 # The timer that runs dotter deploy + git sync. Tracked so a fresh clone can
 # start the mechanism that keeps itself up to date.

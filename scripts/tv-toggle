@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # tv-toggle — bring the Hisense Frame TV up at 4K120 with sound on the soundbar,
 # or drop it and send sound back to the desk. Bound to SUPER+SHIFT+T.
+# `tv-toggle on` only ever brings the TV and soundbar up, and starts nothing on
+# it: for callers that put their own window there (bnet-tv).
 # ponytail: hardcoded sink/card names — they're stable PCI paths on this box;
 # if the GPU/audio moves slot, update TV_SINK/DESK_SINK (see `pactl list short sinks`).
 
@@ -26,7 +28,9 @@ move_streams() {  # move every active stream onto $1 so the switch is immediate
   done
 }
 
-if hyprctl monitors | grep -q "Monitor $TV"; then
+tv_up() { hyprctl monitors | grep -q "Monitor $TV"; }
+
+if tv_up && [ "${1:-}" != on ]; then
   # TV is on -> pull its windows back to DP-1, drop the output, sound to desk
   # Kill wl-mirror first so DP-1 is fully restored
   pkill wl-mirror 2>/dev/null || true
@@ -54,8 +58,12 @@ else
   # FreeSync must be OFF on the TV itself — if on, it interferes with Instant
   # Game Response, causing the TV to spam the "Optimized for game settings"
   # OSD popup on/off repeatedly. This is a TV-side setting, not fixable in software.
-  hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"3840x2160@119.88Hz\", position=\"4880x0\", scale=1.60 })" >/dev/null
-  sleep 2  # let the HDMI handshake settle
+  # A config reload drops this runtime-only rule and leaves the TV at 60 Hz,
+  # scale 1, so `on` reapplies it when the TV is up but not in this mode.
+  if ! hyprctl monitors -j | jq -e ".[] | select(.name==\"$TV\") | .refreshRate > 100 and .scale > 1.5" >/dev/null; then
+    hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"3840x2160@119.88Hz\", position=\"4880x0\", scale=1.60 })" >/dev/null
+    sleep 2  # let the HDMI handshake settle
+  fi
   # Games under XWayland build their resolution list from the X primary
   # output, so make that the TV or they top out at DP-1's 3440x1440.
   xrandr --output "$TV" --primary 2>/dev/null
@@ -64,7 +72,9 @@ else
   # Picture. No mirror: the desk stays usable. Toggling off pulls ws5 back to
   # ws1, where the wow window rule wants it anyway.
   wow=$(hyprctl clients -j | jq -r '[.[] | select(.class|test("^wow(classic|b)\\.exe$"))][0] | "\(.address) \(.fullscreen)"' 2>/dev/null)
-  if [ -n "$wow" ] && [ "$wow" != "null null" ]; then
+  if [ "${1:-}" = on ]; then
+    :
+  elif [ -n "$wow" ] && [ "$wow" != "null null" ]; then
     addr=${wow% *}
     # Move by selector, not by focus: focus({ window = "0x..." }) does not find
     # the window and the move would then take whatever is focused.
@@ -107,5 +117,5 @@ else
   pactl set-sink-mute "$TV_SINK" 0 2>/dev/null
   pactl set-sink-volume "$TV_SINK" 100% 2>/dev/null
   move_streams "$TV_SINK"
-  notify-send -a tv "TV on — 4K120" "$mode, audio → soundbar"
+  [ "${1:-}" = on ] || notify-send -a tv "TV on — 4K120" "$mode, audio → soundbar"
 fi

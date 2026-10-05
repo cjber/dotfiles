@@ -591,6 +591,7 @@ hl.bind(mod .. " + SHIFT + semicolon", hl.dsp.exec_cmd('google-chrome-stable --p
 hl.bind(mod .. " + M",              hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind(mod .. " + V",              hl.dsp.exec_cmd("hyprpwcenter"))
 hl.bind(mod .. " + SHIFT + t", hl.dsp.exec_cmd("/home/cjber/scripts/tv-toggle"))
+hl.bind(mod .. " + SHIFT + b", hl.dsp.exec_cmd("/home/cjber/scripts/bnet-tv"))
 -- rofi kept for power menu; hyprlauncher has no equivalent dmenu plugin yet
 hl.bind(mod .. " + SHIFT + O",      hl.dsp.exec_cmd('rofi -show p -modi p:"rofi-power-menu"'))
 -- hyprsunset: toggle 4000K ↔ 6000K (sunset.service runs at 6000K = neutral)
