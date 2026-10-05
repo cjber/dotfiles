@@ -21,6 +21,9 @@ TV=HDMI-A-1
 TV_CARD=alsa_card.pci-0000_01_00.1
 TV_SINK=alsa_output.pci-0000_01_00.1.hdmi-surround
 DESK_SINK=alsa_output.pci-0000_0d_00.6.analog-stereo
+# Present while the TV is on. hyprland.lua reads it as it loads, to keep the TV
+# in its mode (or off) across reloads and to send WoW to the TV.
+TV_FLAG=${XDG_RUNTIME_DIR:-/tmp}/tv-on
 
 move_streams() {  # move every active stream onto $1 so the switch is immediate
   pactl list short sink-inputs | cut -f1 | while read -r i; do
@@ -46,6 +49,8 @@ if tv_up && [ "${1:-}" != on ]; then
   # Pull remaining windows back from ws5 to DP-1
   hyprctl eval 'for _,w in ipairs(hl.get_workspace_windows(5) or {}) do hl.dispatch(hl.dsp.focus({ window = w })); hl.dispatch(hl.dsp.window.move({ workspace = 1 })) end' >/dev/null
   hyprctl eval "hl.monitor({ output=\"$TV\", disabled=true })" >/dev/null
+  rm -f "$TV_FLAG"
+  hyprctl reload >/dev/null
   xrandr --output DP-1 --primary 2>/dev/null
   hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = 1 }))' >/dev/null
   pactl set-card-profile "$TV_CARD" off
@@ -64,6 +69,8 @@ else
     hyprctl eval "hl.monitor({ output=\"$TV\", disabled=false, mode=\"3840x2160@119.88Hz\", position=\"4880x0\", scale=1.60 })" >/dev/null
     sleep 2  # let the HDMI handshake settle
   fi
+  touch "$TV_FLAG"
+  hyprctl reload >/dev/null
   # Games under XWayland build their resolution list from the X primary
   # output, so make that the TV or they top out at DP-1's 3440x1440.
   xrandr --output "$TV" --primary 2>/dev/null

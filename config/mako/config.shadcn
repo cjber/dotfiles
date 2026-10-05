@@ -66,3 +66,8 @@ on-notify=exec mpv /usr/share/sounds/freedesktop/stereo/camera-shutter.oga --rea
 
 [mode=do-not-disturb]
 invisible=1
+
+# Set by hyprland.lua while a game window exists.
+[mode=game]
+invisible=1
+on-notify=none

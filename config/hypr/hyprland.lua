@@ -67,6 +67,21 @@ hl.monitor({
 -- enables/disables it on demand. A static declaration with scale=1 conflicts
 -- with the toggle's scale=1.60, causing a double-reconfigure that prevents
 -- the TV from locking onto the 119.88Hz signal (flicker until power-cycle).
+--
+--
+-- A reload drops the toggle's runtime rule, which would turn a TV that is off
+-- back on, and leave one that is on at 60 Hz and scale 1. So the toggle keeps
+-- a flag file while the TV is on and reloads after switching it. With the flag
+-- the TV is declared here with exactly the toggle's values, so the reload
+-- changes nothing for it; without the flag it is declared off.
+local tv_flag = io.open((os.getenv("XDG_RUNTIME_DIR") or "") .. "/tv-on")
+local tv_on = tv_flag ~= nil
+if tv_flag then tv_flag:close() end
+if tv_on then
+    hl.monitor({ output = "HDMI-A-1", mode = "3840x2160@119.88Hz", position = "4880x0", scale = 1.60 })
+else
+    hl.monitor({ output = "HDMI-A-1", disabled = true })
+end
 
 --------------------------------------------------------------------
 -- Look & feel
@@ -447,6 +462,9 @@ hl.window_rule({
 -- confine_pointer is deliberately omitted: the cursor must stay free to reach
 -- DP-2 while playing.
 --
+-- With the TV up the client opens there instead. It has to be born on the TV:
+-- moving a running client between monitors can hang it in the resize.
+--
 -- suppress_event = "fullscreen" is the fix for the window dropping to a narrow
 -- tiled column mid-session. Every compositor-side producer was ruled out by
 -- measurement: hyprctl reload, an autoreload from a content change, switching
@@ -461,8 +479,8 @@ hl.window_rule({
 -- compositor-side.
 hl.window_rule({
     match          = { class = "^wow(classic|b)\\.exe$" },
-    monitor        = "DP-1",
-    workspace      = 1,
+    monitor        = tv_on and "HDMI-A-1" or "DP-1",
+    workspace      = tv_on and 5 or 1,
     float          = false,
     fullscreen     = true,
     suppress_event = "fullscreen",
@@ -568,6 +586,25 @@ end
 hl.on("workspace.active", function(ws)
     if ws and ws.name == "special:scratch" then snap_scratch() end
 end)
+
+-- Notifications stay hidden and silent while a game window exists (mako's
+-- "game" mode), so nothing draws over a fullscreen game. `closing` is the
+-- window a close event is for, which is still listed while its handler runs.
+local function is_game(w)
+    local class = w and w.class or ""
+    return class:find("^steam_app_") or class == "gamescope" or class:find("^wow%a*%.exe$")
+end
+local function sync_game_mode(closing)
+    for _, w in ipairs(hl.get_windows() or {}) do
+        if is_game(w) and not (closing and w.address == closing.address) then
+            hl.exec_cmd("makoctl mode -a game")
+            return
+        end
+    end
+    hl.exec_cmd("makoctl mode -r game")
+end
+hl.on("window.open", function() sync_game_mode() end)
+hl.on("window.close", sync_game_mode)
 
 -- Keyring/password prompts inherit the workspace of whatever asked for the
 -- secret; when that is a scratch kitty they open hidden on special:scratch
