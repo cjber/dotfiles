@@ -23,23 +23,35 @@ fi
 
 unit="agent-heavy-$(cat /proc/sys/kernel/random/uuid)"
 cleanup() {
+    if [[ -n ${runner:-} ]]; then
+        kill "$runner" 2>/dev/null || true
+        wait "$runner" 2>/dev/null || true
+    fi
     systemctl --user stop "$unit.service" >/dev/null 2>&1 || true
 }
-trap cleanup EXIT
+trap 'cleanup' EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM HUP
 
 # Preserve the caller's environment without putting credential values in argv.
 environment=()
 while IFS= read -r -d '' entry; do
-    environment+=("--setenv=${entry%%=*}")
+    name=${entry%%=*}
+    if [[ $name =~ ^[a-zA-Z_][a-zA-Z_0-9]*$ ]]; then
+        environment+=("--setenv=$name")
+    fi
 done < <(env -0)
 
-systemd-run --user --unit="$unit" --wait --pipe --collect --quiet \
+systemd-run --user --unit="$unit" --wait --pipe --collect \
     --service-type=exec --same-dir --expand-environment=no \
     --property=KillMode=control-group --property=TimeoutStopSec=10s \
     --property=MemoryHigh=8G --property=MemoryMax=12G \
     --property=MemorySwapMax=2G --property=OOMPolicy=kill --nice=10 \
-    "${environment[@]}" --setenv=AGENT_HEAVY_ACTIVE=1 -- "$@" 9>&- &
+    "${environment[@]}" --setenv=AGENT_HEAVY_ACTIVE=1 -- "$@" <&0 9>&- &
 runner=$!
-wait "$runner"
+status=0
+wait "$runner" || status=$?
+runner=
+trap - EXIT
+cleanup
+exit "$status"

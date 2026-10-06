@@ -44,8 +44,9 @@ memory, and out of checked-in files that teammates share.
 - On this Linux workstation, run memory-heavy checks, builds and temporary E2E
   stacks through `~/scripts/agent-heavy COMMAND [ARGS...]`. It queues one job
   across all sessions, limits memory and swap, and stops remaining child
-  processes when the command exits. Run coupled server/client checks together
-  inside one invocation; nested invocations would wait on their own lock.
+  processes in its systemd unit when the command exits. Containers need explicit
+  cleanup. Run coupled server/client checks together inside one invocation;
+  nested invocations are rejected.
 - Use `--no-daemon` for agent Gradle builds. Reuse an existing development stack
   or emulator when compatible. Start a temporary stack only for the check that
   needs it, with cleanup on exit and cancellation. Confirm owned processes and
