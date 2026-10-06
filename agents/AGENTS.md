@@ -39,6 +39,22 @@ memory, and out of checked-in files that teammates share.
   rule to any subagent that writes files.
 - Production is read-only for agents: no writes, and decrypting counts as one.
 
+### Local resource ownership
+
+- On this Linux workstation, run memory-heavy checks, builds and temporary E2E
+  stacks through `~/scripts/agent-heavy COMMAND [ARGS...]`. It queues one job
+  across all sessions, limits memory and swap, and stops remaining child
+  processes in its systemd unit when the command exits. Containers need explicit
+  cleanup. Run coupled server/client checks together inside one invocation;
+  nested invocations are rejected.
+- Use `--no-daemon` for agent Gradle builds. Reuse an existing development stack
+  or emulator when compatible. Start a temporary stack only for the check that
+  needs it, with cleanup on exit and cancellation. Confirm owned processes and
+  containers have stopped before reporting completion.
+- Keep user-requested persistent dev servers outside the temporary-job runner.
+  Record how to stop them. Stop only resources owned by the current task; process
+  age or an orphaned parent alone does not prove a process is unused.
+
 ### Writing
 
 - Hyphens, commas and colons only: no em or en dashes in anything written.

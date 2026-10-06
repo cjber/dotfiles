@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if (( $# == 0 )); then
+    echo 'Usage: agent-heavy COMMAND [ARGUMENTS...]' >&2
+    exit 2
+fi
+if [[ ${AGENT_HEAVY_ACTIVE:-} == 1 ]]; then
+    echo 'Already inside agent-heavy; run the command directly.' >&2
+    exit 2
+fi
+
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=$XDG_RUNTIME_DIR/bus}"
+systemctl --user show-environment >/dev/null
+
+# All agent sessions share the lock; only the supervisor holds its descriptor.
+exec 9>"$XDG_RUNTIME_DIR/agent-heavy.lock"
+if ! flock -n 9; then
+    echo 'Waiting for another heavy agent job to finish...' >&2
+    flock 9
+fi
+
+unit="agent-heavy-$(cat /proc/sys/kernel/random/uuid)"
+cleanup() {
+    if [[ -n ${runner:-} ]]; then
+        kill "$runner" 2>/dev/null || true
+        wait "$runner" 2>/dev/null || true
+    fi
+    systemctl --user stop "$unit.service" >/dev/null 2>&1 || true
+}
+trap 'cleanup' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM HUP
+
+# Preserve the caller's environment without putting credential values in argv.
+environment=()
+while IFS= read -r -d '' entry; do
+    name=${entry%%=*}
+    if [[ $name =~ ^[a-zA-Z_][a-zA-Z_0-9]*$ ]]; then
+        environment+=("--setenv=$name")
+    fi
+done < <(env -0)
+
+systemd-run --user --unit="$unit" --wait --pipe --collect \
+    --service-type=exec --same-dir --expand-environment=no \
+    --property=KillMode=control-group --property=TimeoutStopSec=10s \
+    --property=MemoryHigh=8G --property=MemoryMax=12G \
+    --property=MemorySwapMax=2G --property=OOMPolicy=kill --nice=10 \
+    "${environment[@]}" --setenv=AGENT_HEAVY_ACTIVE=1 -- "$@" <&0 9>&- &
+runner=$!
+status=0
+wait "$runner" || status=$?
+runner=
+trap - EXIT
+cleanup
+exit "$status"
