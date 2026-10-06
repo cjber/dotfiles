@@ -47,6 +47,7 @@ memory, and out of checked-in files that teammates share.
 
 ### Approach
 
+- Nebula supports desktop, mobile and CLI. Web is no longer a supported platform. Scope Nebula implementation and verification to the supported clients unless explicitly asked to work on web.
 - Take the obvious default and proceed; ask only when the answer changes what
   gets built. Prefer the simple, direct plan, and remove what is unused.
 - Fix a bug where the wrong value is first produced, then audit what depended on
