@@ -1,0 +1,16 @@
+# kiln settings. Delete a line to use its default.
+
+# Leaves an attached session and returns to the list (tmux key syntax).
+detach_key = "C-q"
+
+# A one-line bar at the bottom of an attached session: working / waiting / idle.
+status_bar = true
+
+# Rank new-session directories with zoxide and record the ones kiln opens.
+zoxide = true
+
+# The command each agent starts with. Set one to [] to hide it from `n`.
+[agents]
+claude = ["/home/cjber/scripts/agent-session", "claude"]
+codex = ["/home/cjber/scripts/agent-session", "codex"]
+pi = ["/home/cjber/scripts/agent-session", "pi"]
