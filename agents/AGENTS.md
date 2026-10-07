@@ -60,6 +60,8 @@ memory, and out of checked-in files that teammates share.
   Record how to stop them. Stop only resources owned by the current task; process
   age or an orphaned parent alone does not prove a process is unused.
 
+- Switching UI tabs must preserve page height and scroll position. Reserve space for the tallest panel responsively and cover this with browser checks.
+
 ### Writing
 
 - Hyphens, commas and colons only: no em or en dashes in anything written.
