@@ -1,0 +1,9 @@
+[Unit]
+Description=Agent sessions and heavy jobs
+
+[Slice]
+MemoryHigh=12G
+MemoryMax=16G
+MemorySwapMax=3G
+CPUWeight=50
+IOWeight=50

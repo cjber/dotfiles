@@ -1,0 +1,12 @@
+[Unit]
+Description=Temporary agent task containers
+
+[Slice]
+MemoryHigh=4G
+MemoryMax=6G
+MemorySwapMax=2G
+CPUWeight=50
+IOWeight=50
+
+[Install]
+WantedBy=slices.target

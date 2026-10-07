@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ ${AGENT_HEAVY_ACTIVE:-} != 1 || -z ${AGENT_HEAVY_UNIT:-} ]]; then
+    echo 'Run agent-container inside agent-heavy.' >&2
+    exit 2
+fi
+options=()
+while (($# > 0)) && [[ $1 != -- ]]; do
+    options+=("$1")
+    shift
+done
+if (($# < 2)); then
+    echo 'Usage: agent-container [DOCKER RUN OPTIONS...] -- IMAGE [COMMAND...]' >&2
+    exit 2
+fi
+shift
+limit=$(systemctl show agent-containers.slice -p MemoryMax --value)
+if [[ ! $limit =~ ^[0-9]+$ ]] || ((limit > 6 * 1024 * 1024 * 1024)); then
+    echo 'Install the bounded system agent-containers.slice before starting containers.' >&2
+    exit 2
+fi
+exec docker run "${options[@]}" --cgroup-parent=agent-containers.slice \
+    --memory=2g --memory-swap=3g --cpus=4 --rm \
+    --label="agent-heavy.unit=$AGENT_HEAVY_UNIT" "$@"
