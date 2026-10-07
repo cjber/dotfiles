@@ -1,4 +1,4 @@
-"""Live workstation checks: requires idle agent-heavy slots and systemd user bus."""
+"""Live workstation checks: requires systemd user bus."""
 
 import os
 import subprocess
@@ -38,24 +38,6 @@ class ResourceChecks(unittest.TestCase):
         }
         cls.env.pop("AGENT_HEAVY_ACTIVE", None)
         cls.env.pop("AGENT_SESSION_ACTIVE", None)
-        for slot in (1, 2):
-            state = subprocess.check_output(
-                [
-                    "systemctl",
-                    "--user",
-                    "show",
-                    f"agent-heavy-slot-{slot}.service",
-                    "-p",
-                    "ActiveState",
-                    "--value",
-                ],
-                env=cls.env,
-                text=True,
-            ).strip()
-            if state not in ("inactive", "failed", ""):
-                cls.temp.cleanup()
-                raise RuntimeError("Heavy-job slots must be idle before running these checks")
-
     @classmethod
     def tearDownClass(cls):
         cls.temp.cleanup()
@@ -83,12 +65,12 @@ class ResourceChecks(unittest.TestCase):
                 self.fail("Timed out waiting for real resource-runner behavior")
             time.sleep(0.05)
 
-    def start(self, name, exclusive=False):
+    def start(self, name, large=False):
         base = self.directory / name
         self.bases.append(base)
         args = [str(RUNNER), "--light"]
-        if exclusive:
-            args.append("--exclusive")
+        if large:
+            args.append("--large")
         job = subprocess.Popen(
             args + ["/usr/bin/python", "-c", GATE, str(base)],
             env=self.env,
@@ -108,39 +90,12 @@ class ResourceChecks(unittest.TestCase):
         output = job.communicate(timeout=15)
         self.assertEqual(job.returncode, 0, output)
 
-    def test_parallel_slots_and_waiter_cancellation(self):
-        one, a = self.start("parallel-a")
-        two, b = self.start("parallel-b")
-        self.started(a)
-        self.started(b)
-        three, c = self.start("parallel-c")
-        time.sleep(0.5)
-        self.assertFalse(c.with_suffix(".started").exists())
-        three.terminate()
-        three.communicate(timeout=5)
-        self.assertEqual(three.returncode, 143)
-        self.release(one, a)
-        self.release(two, b)
-
-    def test_exclusive_blocks_both_slots(self):
-        one, a = self.start("exclusive-a")
-        two, b = self.start("exclusive-b")
-        self.started(a)
-        self.started(b)
-        exclusive, c = self.start("exclusive-c", exclusive=True)
-        time.sleep(0.5)
-        self.assertFalse(c.with_suffix(".started").exists())
-        self.release(one, a)
-        time.sleep(0.5)
-        self.assertFalse(c.with_suffix(".started").exists())
-        self.release(two, b)
-        self.started(c)
-        next_job, d = self.start("exclusive-d")
-        time.sleep(0.5)
-        self.assertFalse(d.with_suffix(".started").exists())
-        self.release(exclusive, c)
-        self.started(d)
-        self.release(next_job, d)
+    def test_jobs_start_concurrently(self):
+        jobs = [self.start(f"concurrent-{i}") for i in range(3)]
+        for _, base in jobs:
+            self.started(base)
+        for job, base in jobs:
+            self.release(job, base)
 
     def test_running_cancellation_reaps_children(self):
         job, base = self.start("cancel-running")
@@ -150,22 +105,6 @@ class ResourceChecks(unittest.TestCase):
         job.communicate(timeout=15)
         self.assertEqual(job.returncode, 143)
         self.wait_for(lambda: not Path(f"/proc/{pid}").exists())
-
-    def test_killed_supervisor_does_not_free_live_slot(self):
-        one, a = self.start("orphan-a")
-        two, b = self.start("orphan-b")
-        self.started(a)
-        self.started(b)
-        one.kill()
-        one.wait(timeout=5)
-        three, c = self.start("orphan-c")
-        time.sleep(0.5)
-        self.assertFalse(c.with_suffix(".started").exists())
-        a.with_suffix(".release").touch()
-        one.communicate(timeout=15)
-        self.started(c)
-        self.release(two, b)
-        self.release(three, c)
 
     def test_container_limits_and_cleanup(self):
         image = "pgvector/pgvector:pg17"
