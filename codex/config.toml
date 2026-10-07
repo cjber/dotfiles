@@ -247,24 +247,23 @@ trusted_hash = "sha256:958a01ca81663cb24359a312fce7f103351a413b878c7f3066c9daa02
 url = "https://developers.openai.com/mcp"
 
 [mcp_servers.node_repl]
-args = []
 command = "/usr/lib/chatgpt/resources/cua_node/bin/node_repl"
-startup_timeout_sec = 120
+startup_timeout_sec = 120.0
 
 [mcp_servers.node_repl.env]
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.928.20755"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
+CODEX_HOME = "/home/cjber/.codex"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
 NODE_REPL_NODE_MODULE_DIRS = "/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
 NODE_REPL_NODE_PATH = "/usr/lib/chatgpt/resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/home/cjber/.codex:/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
-CODEX_HOME = "/home/cjber/.codex"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
-BROWSER_USE_TINYSKY_ENABLED = "1"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.928.20755"
 NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/cjber/.codex/plugins/cache/openai-bundled/browser/26.928.20755/scripts/browser-service.mjs"}'
-CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
 
 [mcp_servers.posthog]
 url = "https://mcp.posthog.com/mcp"
@@ -273,6 +272,9 @@ default_tools_approval_mode = "writes"
 [mcp_servers.stripe]
 url = "https://mcp.stripe.com"
 default_tools_approval_mode = "writes"
+
+[mcp_servers.vercel]
+url = "https://mcp.vercel.com"
 
 [features]
 hooks = true
