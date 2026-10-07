@@ -2,11 +2,11 @@
 set -euo pipefail
 
 mode=normal
-exclusive=0
+large=0
 while (($# > 0)); do
     case $1 in
-    --exclusive)
-        exclusive=1
+    --large)
+        large=1
         shift
         ;;
     --light)
@@ -14,7 +14,7 @@ while (($# > 0)); do
         shift
         ;;
     --help)
-        echo 'Usage: agent-heavy [--light] [--exclusive] COMMAND [ARGS...]'
+        echo 'Usage: agent-heavy [--light] [--large] COMMAND [ARGS...]'
         exit 0
         ;;
     --)
@@ -27,7 +27,7 @@ done
 if [[ $mode == light ]]; then
     high=1
     max=2
-elif ((exclusive)); then
+elif ((large)); then
     high=8
     max=12
 else
@@ -35,7 +35,7 @@ else
     max=6
 fi
 if (($# == 0)); then
-    echo 'Usage: agent-heavy [--light] [--exclusive] COMMAND [ARGS...]' >&2
+    echo 'Usage: agent-heavy [--light] [--large] COMMAND [ARGS...]' >&2
     exit 2
 fi
 if [[ ${AGENT_HEAVY_ACTIVE:-} == 1 ]] || [[ $(cat /proc/self/cgroup) == */agent-work.slice/* ]]; then
@@ -70,68 +70,7 @@ trap cleanup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM HUP
 
-# Shared access interoperates with the previous runner's exclusive lock.
-# Only the supervisor holds descriptors; subprocesses must not retain them.
-exec 9>"$XDG_RUNTIME_DIR/agent-heavy.lock"
-while ! flock -sn 9; do
-    [[ ${legacy_wait:-} == 1 ]] || echo 'Waiting for the previous heavy runner...' >&2
-    legacy_wait=1
-    sleep 1
-done
-exec 7>"$XDG_RUNTIME_DIR/agent-heavy-admission.lock"
-while ! flock -n 7; do sleep 1; done
-# An exclusive job holds both slots. Named units also keep a slot busy if
-# SIGKILL removes its supervisor without running the EXIT trap.
-slot_busy() {
-    local state
-    state=$(systemctl --user show "agent-heavy-slot-$1.service" -p ActiveState --value)
-    [[ $state != inactive && $state != failed && -n $state ]]
-}
-while :; do
-    if ((exclusive)); then
-        exec 6>"$XDG_RUNTIME_DIR/agent-heavy-slot-1.lock"
-        exec 5>"$XDG_RUNTIME_DIR/agent-heavy-slot-2.lock"
-        if flock -n 6 && flock -n 5 && ! slot_busy 1 && ! slot_busy 2; then
-            slot=1
-            break
-        fi
-        flock -u 6
-        flock -u 5
-    else
-        if slot_busy 1 && [[ $(systemctl --user show agent-heavy-slot-1.service -p Description --value) == *exclusive=1 ]]; then
-            sleep 1
-            continue
-        fi
-        for slot in 1 2; do
-            exec 6>"$XDG_RUNTIME_DIR/agent-heavy-slot-$slot.lock"
-            if flock -n 6 && ! slot_busy "$slot"; then break 2; fi
-        done
-    fi
-    [[ ${slot_wait:-} == 1 ]] || echo 'Waiting for a heavy-job slot...' >&2
-    slot_wait=1
-    sleep 1
-done
-service="agent-heavy-slot-$slot.service"
-# Swap occupancy is not pressure. Check actual stalls and available RAM.
-while :; do
-    available=$(awk '/^MemAvailable:/ {print $2}' /proc/meminfo)
-    pressure=$(awk '/^some / {split($2, a, "="); print a[2]}' /proc/pressure/memory)
-    reserved=0
-    for running_slot in 1 2; do
-        if slot_busy "$running_slot"; then
-            properties=$(systemctl --user show "agent-heavy-slot-$running_slot.service" -p MemoryHigh -p MemoryCurrent)
-            unused=$(awk -F= '$1 == "MemoryHigh" {high=$2} $1 == "MemoryCurrent" {current=$2} END {print int((high > current ? high-current : 0)/1024)}' <<<"$properties")
-            reserved=$((reserved + unused))
-        fi
-    done
-    if awk -v available="$((available - reserved))" -v required="$(((high + 1) * 1048576))" \
-        -v pressure="$pressure" 'BEGIN {exit !(available >= required && pressure < 2)}'; then
-        break
-    fi
-    [[ ${pressure_wait:-} == 1 ]] || echo "Waiting for memory headroom (job needs $((high + 1)) GiB available, memory PSI some below 2%)..." >&2
-    pressure_wait=1
-    sleep 2
-done
+service="$unit.service"
 
 # Preserve the caller's environment without putting credential values in argv.
 environment=()
@@ -142,24 +81,15 @@ while IFS= read -r -d '' entry; do
     fi
 done < <(env -0)
 
-# Affinity bounds tools that size worker pools from available CPUs.
-cpus=$(/usr/bin/python -c 'import os,sys; cpus=sorted(os.sched_getaffinity(0)); half=max(1,len(cpus)//2); selected=cpus if sys.argv[2]=="1" else (cpus[:half] if sys.argv[1]=="1" else cpus[half:]); print(",".join(map(str,selected)))' "$slot" "$exclusive")
 started=1
 systemd-run --user --unit="$service" --slice=agent-work.slice --wait --pipe --collect \
     --service-type=exec --same-dir --expand-environment=no \
-    --property="Description=Agent heavy job exclusive=$exclusive" --property=KillMode=control-group --property=TimeoutStopSec=10s \
+    --property="Description=Agent heavy job" --property=KillMode=control-group --property=TimeoutStopSec=10s \
     --property="MemoryHigh=${high}G" --property="MemoryMax=${max}G" \
     --property=MemorySwapMax=1G --property=OOMPolicy=kill --property=RuntimeMaxSec=2h \
     --property="ExecStopPost=$HOME/scripts/agent-job-report" --nice=10 \
-    "${environment[@]}" --setenv=AGENT_HEAVY_ACTIVE=1 --setenv="AGENT_HEAVY_UNIT=$unit" -- taskset --cpu-list "$cpus" "$@" <&0 5>&- 6>&- 7>&- 9>&- &
+    "${environment[@]}" --setenv=AGENT_HEAVY_ACTIVE=1 --setenv="AGENT_HEAVY_UNIT=$unit" -- "$@" <&0 &
 runner=$!
-# Keep admission serialized until the new unit publishes its reservation.
-while kill -0 "$runner" 2>/dev/null; do
-    if slot_busy "$slot"; then break; fi
-    sleep 0.05
-done
-flock -u 7
-exec 7>&-
 status=0
 wait "$runner" || status=$?
 runner=
