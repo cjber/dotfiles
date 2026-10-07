@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+group=$(awk -F: '$1 == "0" {print $3}' /proc/self/cgroup)
+directory="/sys/fs/cgroup$group"
+state="${XDG_STATE_HOME:-$HOME/.local/state}/agent-heavy"
+mkdir -p "$state"
+peak=$(cat "$directory/memory.peak")
+swap=$(cat "$directory/memory.swap.peak")
+oom=$(awk '$1 == "oom_kill" {print $2}' "$directory/memory.events")
+printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$(date -Is)" "$AGENT_HEAVY_UNIT" \
+    "$peak" "$swap" "$oom" "${SERVICE_RESULT:-unknown}" >>"$state/jobs.tsv"
+printf 'Resources: memory peak %s bytes, swap peak %s bytes, OOM kills %s, result %s\n' \
+    "$peak" "$swap" "$oom" "${SERVICE_RESULT:-unknown}" >&2
+
+# Also runs when a supervisor is killed and cannot execute its own cleanup.
+if command -v docker >/dev/null; then
+    if containers=$(docker ps -aq --filter "label=agent-heavy.unit=$AGENT_HEAVY_UNIT"); then
+        for container in $containers; do
+            docker rm -f "$container" >/dev/null || echo "Failed to remove task container $container" >&2
+        done
+    else
+        echo "Could not check container cleanup for $AGENT_HEAVY_UNIT" >&2
+    fi
+fi

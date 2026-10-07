@@ -29,6 +29,13 @@ has_gui = true
 "zshrc" = "~/.zshrc"
 "scripts/wt_cleanup.sh" = "~/scripts/wt_cleanup.sh"
 "scripts/agent-heavy" = "~/scripts/agent-heavy"
+"scripts/agent-session" = "~/scripts/agent-session"
+"scripts/agent-container" = "~/scripts/agent-container"
+"scripts/agent-job-report" = "~/scripts/agent-job-report"
+"config/systemd/user/agent.slice" = "~/.config/systemd/user/agent.slice"
+"config/systemd/user/agent-work.slice" = "~/.config/systemd/user/agent-work.slice"
+"config/systemd/user/agent-sessions.slice" = "~/.config/systemd/user/agent-sessions.slice"
+"config/kiln/config.toml" = "~/.config/kiln/config.toml"
 "config/gradle/gradle.properties" = "~/.gradle/gradle.properties"
 "scripts/zellij_plugins.sh" = "~/scripts/zellij_plugins.sh"
 "scripts/hypr-fullscreen-watch" = "~/scripts/hypr-fullscreen-watch"
@@ -152,6 +159,7 @@ has_gui = false
 "etc/pam.d/sudo" = { target = "/etc/pam.d/sudo", type = "template" }
 "etc/ssh/sshd_config.d/10-hardening.conf" = { target = "/etc/ssh/sshd_config.d/10-hardening.conf", type = "template" }
 "etc/systemd/system/beszel-hub.service" = { target = "/etc/systemd/system/beszel-hub.service", type = "template" }
+"etc/systemd/system/agent-containers.slice" = { target = "/etc/systemd/system/agent-containers.slice", type = "template" }
 # Disables the internal Intel BT adapter so the UGreen BT6.0 dongle is the
 # default. Needs `sudo udevadm control --reload` after deploying.
 "etc/udev/rules.d/81-disable-intel-bluetooth.rules" = { target = "/etc/udev/rules.d/81-disable-intel-bluetooth.rules", type = "template" }

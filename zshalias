@@ -3,7 +3,13 @@ alias kk="kiln"
 alias nb="nebula-ai"
 alias rm="rm -i"
 alias upd='topgrade'
+{{#if has_gui}}
+alias codex="~/scripts/agent-session codex --search --dangerously-bypass-approvals-and-sandbox"
+alias claude="~/scripts/agent-session claude"
+alias pi="~/scripts/agent-session pi"
+{{else}}
 alias codex="codex --search --dangerously-bypass-approvals-and-sandbox"
+{{/if}}
 alias bat="bat -P --style=numbers --theme base16-256"
 alias wa='wowaddon'
 alias empty='trash-empty'

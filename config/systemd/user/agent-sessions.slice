@@ -1,0 +1,7 @@
+[Unit]
+Description=Interactive coding agent sessions
+
+[Slice]
+MemoryHigh=8G
+MemoryMax=10G
+MemorySwapMax=2G

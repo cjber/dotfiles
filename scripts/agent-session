@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if (($# == 0)); then
+    echo 'Usage: agent-session COMMAND [ARGS...]' >&2
+    exit 2
+fi
+# Subsessions already inherit the session limits.
+if [[ ${AGENT_SESSION_ACTIVE:-} == 1 ]]; then exec "$@"; fi
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=$XDG_RUNTIME_DIR/bus}"
+export AGENT_SESSION_ACTIVE=1
+exec systemd-run --user --scope --quiet --collect --slice=agent-sessions.slice \
+    --unit="agent-session-$(cat /proc/sys/kernel/random/uuid)" \
+    --property=MemoryHigh=3G --property=MemoryMax=6G --property=MemorySwapMax=512M \
+    --property=OOMPolicy=kill -- "$@"
