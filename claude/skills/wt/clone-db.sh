@@ -41,7 +41,7 @@ SOURCE_DB=${SOURCE_DB%%\?*}
 # Postgres caps identifiers at 63 bytes. Truncate the feature half, never the
 # `wt_` prefix, so a long feature name cannot produce a database prune.sh
 # declines to recognise.
-SLUG=$(printf '%s' "$FEATURE" | tr -c 'a-zA-Z0-9' '_' | tr 'A-Z' 'a-z' | cut -c1-59)
+SLUG=$(printf '%s' "$FEATURE" | tr -c 'a-zA-Z0-9' '_' | tr '[:upper:]' '[:lower:]' | cut -c1-59)
 TARGET_DB="wt_$SLUG"
 
 if [ "$SOURCE_DB" = "$TARGET_DB" ]; then
