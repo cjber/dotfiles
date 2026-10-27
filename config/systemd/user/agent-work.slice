@@ -1,7 +1,0 @@
-[Unit]
-Description=Parallel heavy agent jobs
-
-[Slice]
-MemoryHigh=12G
-MemoryMax=14G
-MemorySwapMax=2G
