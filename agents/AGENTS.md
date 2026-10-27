@@ -38,6 +38,7 @@ memory, and out of checked-in files that teammates share.
   `command rm -- <path>`. Delete named paths only, never a glob, and pass this
   rule to any subagent that writes files.
 - Production is read-only for agents: no writes, and decrypting counts as one.
+- For Nebula local credential access, use the gcloud dev credentials and Secret Manager project `nebula-dev-494607`. Check dev credentials before asking for reauthentication; default gcloud configuration may point to production.
 
 ### Local resource ownership
 
@@ -54,6 +55,13 @@ memory, and out of checked-in files that teammates share.
   age or an orphaned parent alone does not prove a process is unused.
 
 - Switching UI tabs must preserve page height and scroll position. Reserve space for the tallest panel responsively and cover this with browser checks.
+
+### Browser work
+
+- Use the `fastbrowse` skill for every browser task. File every fastbrowse problem
+  encountered in its issue tracker with run evidence, reproduction steps and the
+  observed status. Check for duplicates and distinguish suspected causes from
+  verified bugs.
 
 ### Writing
 
