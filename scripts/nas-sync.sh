@@ -8,14 +8,19 @@
 set -euo pipefail
 
 nas=nas
-rhome=/home/cillian
+# The NAS user's git identity lives in an untracked env file:
+# NAS_GIT_EMAIL and NAS_SIGNING_KEY (a key file name in the NAS's ~/.ssh).
+# shellcheck source=/dev/null
+. ~/.config/nas-sync.env
+: "${NAS_GIT_EMAIL:?}" "${NAS_SIGNING_KEY:?}"
 say() { printf '\033[1m%s\033[0m\n' "$*"; }
 # The NAS login shell is bash; -l puts ~/.local/bin (claude, gh, uv) on PATH.
 rsh() { ssh "$nas" "bash -lc $(printf '%q' "$1")" 2>&1 | grep -v -e 'post-quantum' -e 'store now' -e 'openssh.com/pq' || true; }
+rhome=$(ssh "$nas" 'printf %s "$HOME"')
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
-# The NAS's rsync is a restricted wrapper that rejects every path (so does its
-# scp), so files travel as tar over ssh. -h dereferences skill symlinks.
+# rsync and scp do not work against the NAS, so files travel as tar over ssh.
+# -h dereferences skill symlinks.
 # mirror <local-dir> <remote-dir>: replace the remote dir with the local one.
 mirror() { tar chf - -C "$1" . | ssh "$nas" "rm -rf '$2' && mkdir -p '$2' && tar xf - -C '$2'"; }
 # put <remote-dir> <local-file>...: copy files into a remote dir.
@@ -41,7 +46,7 @@ rsh 'claude plugin marketplace add https://github.com/ComposioHQ/composio-plugin
 say "claude: nebula memory (both ways, newer file wins)"
 # NAS worktrees of ~/code/nebula all resolve to this one project memory dir.
 lmem=~/.claude/projects/-home-cjber-drive-agl-nebula/memory
-rmem=$rhome/.claude/projects/-home-cillian-code-nebula/memory
+rmem=$rhome/.claude/projects/$(printf %s "$rhome/code/nebula" | tr / -)/memory
 tar cf - -C "$lmem" . | ssh "$nas" "mkdir -p '$rmem' && tar xf - --keep-newer-files -C '$rmem' 2>/dev/null; true"
 ssh "$nas" "tar cf - -C '$rmem' ." | tar xf - --keep-newer-files -C "$lmem" 2>/dev/null || true
 # Both sides append to the index, so newer-wins would drop the other side's
@@ -76,10 +81,11 @@ mirror ~/.codex/rules "$rhome/.codex/rules"
 mirror ~/.codex/skills "$rhome/.codex/skills"
 
 say "git: global identity + ssh signing"
-rsh 'git config --global user.name cjber
-     git config --global user.email cillian@nebula.gg
+rsh "git config --global user.name cjber
+     git config --global user.email $(printf '%q' "$NAS_GIT_EMAIL")
+     git config --global user.signingkey ~/.ssh/$(printf '%q' "$NAS_SIGNING_KEY")
+"'
      git config --global gpg.format ssh
-     git config --global user.signingkey ~/.ssh/cjber_nebula_ed25519.pub
      git config --global gpg.ssh.allowedSignersFile ~/.ssh/cjber_allowed_signers
      git config --global commit.gpgsign true
      git config --global tag.gpgsign true
@@ -116,7 +122,7 @@ rsh 'cd ~ && jq ".projects[\"$HOME/code/nebula\"].hasTrustDialogAccepted = true"
      systemctl --user enable claude-rc@nebula >/dev/null 2>&1 && systemctl --user restart claude-rc@nebula'
 
 say "timer: daily prune of merged worktrees"
-# A user timer, not cron: the NAS's /var/spool/cron is not writable by cillian.
+# A user timer, not cron: the NAS user cannot write the NAS's /var/spool/cron.
 # prune.sh only, never freshen.sh: ~/code/nebula can be checked out on a branch
 # by a live session, and freshen would move it to main underneath that session.
 cat >"$tmp/wt-prune.service" <<'EOF'

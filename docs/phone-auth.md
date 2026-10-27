@@ -102,7 +102,7 @@ unharden-sudo     # restores /etc/sudoers.pre-harden.bak
   running as you in *any* terminal can reuse a timestamp minted in another —
   which is exactly the "malicious dependency silently becomes root" path being
   closed. Add `Defaults timestamp_type=global` to trade that back.
-- **`/etc/sudoers` is edited directly, not via a drop-in.** On `barry`,
+- **`/etc/sudoers` is edited directly, not via a drop-in.** On the desktop,
   `@includedir /etc/sudoers.d` was commented out, so the directory was never
   read and `/etc/sudoers.d/00_cjber` was dead config. A drop-in would have been
   silently ignored while `NOPASSWD` stayed live. The includedir is restored, but
