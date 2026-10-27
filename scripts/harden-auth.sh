@@ -193,7 +193,7 @@ info "escape hatch at /usr/local/bin/unharden-sudo (reach it with 'su -')"
 # ---------------------------------------------------------------------------
 # 7. Rewrite /etc/sudoers.
 #
-#    Edited DIRECTLY rather than via a drop-in because on barry
+#    Edited DIRECTLY rather than via a drop-in because on the desktop
 #    `@includedir /etc/sudoers.d` was COMMENTED OUT - the directory was never
 #    read, so /etc/sudoers.d/00_cjber was dead config and a drop-in would have
 #    been silently ignored while NOPASSWD stayed live. The includedir is

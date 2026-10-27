@@ -1,7 +1,7 @@
 
 ## This machine: the NAS
 
-You are running on cjber's NAS (user `cillian`, home `/home/cillian`), usually
+You are running on cjber's NAS, usually
 as a background session handed off while the main PC is off. Handoff briefs
 live in `~/code/handoff/`.
 

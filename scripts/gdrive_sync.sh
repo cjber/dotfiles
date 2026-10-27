@@ -21,6 +21,13 @@ REMOTE_DRIVE=gdrive:drive
 
 EXCLUDE_FILE=$HOME/scripts/exclude.txt
 
+# Host-specific NAS settings, shared with restic-backup.sh.
+BACKUP_ENV="${RESTIC_BACKUP_ENV:-$HOME/.config/restic/backup.env}"
+# shellcheck source=/dev/null  # host-specific path, resolved at runtime
+if [ -r "$BACKUP_ENV" ]; then . "$BACKUP_ENV"; else echo "missing $BACKUP_ENV" >&2; exit 1; fi
+: "${NAS_SSH:?}" "${HA_STATUS_PATH:?}"
+SYNC_STATUS_PATH="$(dirname "$HA_STATUS_PATH")/sync_status.json"
+
 if pgrep -fl rclone; then exit 1; fi
 
 /usr/bin/rclone sync "$LOCAL_DRIVE" $REMOTE_DRIVE \
@@ -42,6 +49,6 @@ print(json.dumps({
     'last_run': datetime.datetime.now().astimezone().isoformat(),
     'exit_code': $SYNC_EXIT,
 }))
-" | ssh cillian@192.168.0.64 "cat > /volume1/docker/homeassistant/config/sync_status.json" >/dev/null 2>&1
+" | ssh "$NAS_SSH" "cat > $SYNC_STATUS_PATH" >/dev/null 2>&1
 
 exit $SYNC_EXIT

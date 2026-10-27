@@ -1,4 +1,4 @@
-# Disk encryption + Secure Boot plan (`barry`)
+# Disk encryption + Secure Boot plan
 
 Status: **plan only, not executed.** This cannot be done safely in place; it is
 a backup-first, scheduled operation with a real chance of an unbootable system
@@ -8,7 +8,7 @@ partway through.
 
 | | |
 |---|---|
-| Root | `/dev/nvme0n1p2`, btrfs, subvol `@`, UUID `9638e766-3efc-44d0-a3e0-5e5002064ab0` |
+| Root | `/dev/nvme0n1p2`, btrfs, subvol `@` |
 | Size / used | 954 G / 652 G used, 281 G free (70 %) |
 | Subvolumes | `@`, `@home`, `@log`, `@pkg`, `@swap`, `@.snapshots`, + 8 timeshift snapshots |
 | ESP | `/dev/nvme0n1p1`, vfat, **512 M, 445 M used — 67 M free (88 %)** |
@@ -26,12 +26,12 @@ RMA, resale, a burglar, someone booting a USB stick. It does **nothing** against
 a running system, a malicious dependency, or a remote attacker — those are what
 the sudo hardening addresses.
 
-`barry` is a desktop that lives at one address. The realistic FDE payoff here is
+The desktop lives at one address. The realistic FDE payoff here is
 "the drive leaves the house without me". That is genuine but modest, and it costs
 a passphrase at every boot plus a nontrivial migration.
 
 **The laptop is the machine that actually needs this.** A laptop leaves the
-building. If effort is limited, encrypt the laptop first and treat `barry` as
+building. If effort is limited, encrypt the laptop first and treat the desktop as
 optional. That machine was not inspected here — it needs its own survey before
 any of this applies to it.
 
@@ -134,7 +134,7 @@ menu is theatre — anyone with physical access turns it off.
    merits today and is a prerequisite for everything else.
 2. **Survey the laptop and encrypt that first** — it is the machine with the real
    exposure.
-3. `barry` phases 1–2 only if you are willing to spend an evening on a reinstall.
+3. Desktop phases 1–2 only if you are willing to spend an evening on a reinstall.
 4. Phases 3–4 last, and only together. TPM2 without Secure Boot weakens the
    guarantee; Secure Boot without the NVIDIA signing hook breaks graphics.
 

@@ -17,6 +17,13 @@ dotter deploy >>"$LOGFILE" 2>&1 || log "WARN: dotter deploy returned non-zero"
 
 # 2. Commit any local changes.
 git add -A
+# The remote is public: refuse to publish anything gitleaks flags, and fail
+# closed when gitleaks itself is missing or errors.
+if ! git diff --cached --quiet && ! gitleaks git --staged --no-banner --redact . >>"$LOGFILE" 2>&1; then
+    git reset -q
+    log "ERROR: gitleaks flagged staged changes or failed; nothing committed"
+    exit 1
+fi
 if ! git diff --cached --quiet; then
     git commit -S -q -m "chore(dotfiles): auto-sync $(hostname) $(date '+%Y-%m-%d %H:%M')" >>"$LOGFILE" 2>&1 || {
         log "ERROR: signed commit failed"

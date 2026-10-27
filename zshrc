@@ -142,7 +142,8 @@ alias nas-sync=~/dotfiles/scripts/nas-sync.sh
 # pasted image. Upload the clipboard image (or the given files) to the NAS and
 # put the NAS path(s) on the clipboard; paste that into the session instead.
 function cnp() {
-	local dir=/home/cillian/code/handoff/img paths=() f name
+	local dir paths=() f name
+	dir="$(ssh nas 'printf %s "$HOME"')/code/handoff/img" || return 1
 	if (( $# == 0 )); then
 		name="clip-$(date +%Y%m%d-%H%M%S).png"
 		wl-paste --type image/png 2>/dev/null | ssh nas "mkdir -p $dir && cat > $dir/$name" 2>/dev/null || { echo "cnp: no image on the clipboard" >&2; return 1; }

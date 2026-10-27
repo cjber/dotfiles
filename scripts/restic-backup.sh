@@ -89,10 +89,8 @@ except Exception:
 # sensor history -- HA restores and runs fine without it), HA's own native
 # backups under config/backups, and regenerable TTS cache.
 #
-# Transferred with tar over ssh rather than rsync: the UGREEN's sshd runs a
-# ForceCommand wrapper that puts rsync into daemon mode, so rsync-over-ssh
-# fails with "invalid path" for every path on that box. Needs `sudo` remotely
-# because config/.cloud is root-owned 0600.
+# Transferred with tar over ssh, because rsync over ssh does not work against
+# the NAS. Some config files are root-owned, so the remote tar runs as root.
 #
 # Extracted into a .new directory and swapped, so files deleted on the NAS
 # stop appearing in the mirror -- a plain extract would accumulate forever.
@@ -115,9 +113,8 @@ if [ -n "$HA_CONFIG_PATH" ]; then
       -C '$HA_CONFIG_PATH' ." 2>>"$LOGFILE" \
     | tar -xf - -C "$HA_MIRROR.new" 2>>"$LOGFILE"
   ha_exit=${PIPESTATUS[0]}
-  # .storage holds the entity registry and every integration's credentials --
-  # a mirror without it would restore to an empty HA, so treat its absence as
-  # a failed transfer rather than publishing a useless snapshot.
+  # A mirror without .storage would restore to an empty HA, so treat its
+  # absence as a failed transfer rather than publishing a useless snapshot.
   if [ "$ha_exit" -eq 0 ] && [ -d "$HA_MIRROR.new/.storage" ]; then
     rm -rf "$HA_MIRROR"
     mv "$HA_MIRROR.new" "$HA_MIRROR"

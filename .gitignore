@@ -10,3 +10,12 @@
 # Git worktrees live here. An auto-sync `git add -A` committed one as a
 # submodule gitlink (mode 160000), which left the repo permanently dirty.
 .claude/worktrees/
+
+# Backups and credential material never belong in a public repo.
+*.bak
+*.pem
+*.key
+id_*
+rclone.conf
+auth.json
+hosts.yml
