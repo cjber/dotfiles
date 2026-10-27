@@ -41,19 +41,15 @@ memory, and out of checked-in files that teammates share.
 
 ### Local resource ownership
 
-- Run checks and builds directly. For a memory-heavy job, `~/scripts/agent-heavy
-  COMMAND [ARGS...]` adds resource limits and cleanup. Use `--light` for jobs
-  needing at most 2 GiB and `--large` for large builds. Jobs start immediately.
-  `~/scripts/agent-container [DOCKER OPTIONS] -- IMAGE [COMMAND]` inside the job
-  supplies bounded containers with automatic cleanup. See
-  `~/dotfiles/docs/agent-resources.md` for limits and Docker integration.
+- Run checks and builds directly. Manage temporary process and container cleanup
+  in the task that starts them.
 - New coding sessions use `~/scripts/agent-session COMMAND [ARGS...]` through
   kiln and Linux shell aliases. Their child processes inherit session limits.
 - Use `--no-daemon` for agent Gradle builds. Reuse an existing development stack
   or emulator when compatible. Start a temporary stack only for the check that
   needs it, with cleanup on exit and cancellation. Confirm owned processes and
   containers have stopped before reporting completion.
-- Keep user-requested persistent dev servers outside the temporary-job runner.
+- Keep user-requested persistent dev servers outside temporary check processes.
   Record how to stop them. Stop only resources owned by the current task; process
   age or an orphaned parent alone does not prove a process is unused.
 

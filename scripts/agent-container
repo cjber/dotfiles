@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-if [[ ${AGENT_HEAVY_ACTIVE:-} != 1 || -z ${AGENT_HEAVY_UNIT:-} ]]; then
-    echo 'Run agent-container inside agent-heavy.' >&2
-    exit 2
-fi
 options=()
 while (($# > 0)) && [[ $1 != -- ]]; do
     options+=("$1")
@@ -21,4 +17,4 @@ if [[ ! $limit =~ ^[0-9]+$ ]] || ((limit > 6 * 1024 * 1024 * 1024)); then
 fi
 exec docker run "${options[@]}" --cgroup-parent=agent-containers.slice \
     --memory=2g --memory-swap=3g --cpus=4 --rm \
-    --label="agent-heavy.unit=$AGENT_HEAVY_UNIT" "$@"
+    "$@"
