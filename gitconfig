@@ -1,5 +1,5 @@
 [user]
-	email = cillian@nebula.gg
+	email = cjberragan@gmail.com
 	name = cjber
 	signingkey = /home/cjber/.ssh/id_ed25519.pub
 [init]
@@ -40,8 +40,6 @@
 	fp = !git fetch && git pull
 [fetch]
 	prune = true
-[coderabbit]
-	machineId = cli/866e06e3d72848ebae255a8845902f1e
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
@@ -54,3 +52,10 @@
 	format = ssh
 [gpg "ssh"]
 	allowedSignersFile = /home/cjber/.config/git/allowed_signers
+# Work identity and machine-specific values live in untracked files.
+[includeIf "hasconfig:remote.*.url:git@github.com:agent-labs-dev/**"]
+	path = ~/.gitconfig.work
+[includeIf "hasconfig:remote.*.url:https://github.com/agent-labs-dev/**"]
+	path = ~/.gitconfig.work
+[include]
+	path = ~/.gitconfig.local

@@ -38,7 +38,6 @@ memory, and out of checked-in files that teammates share.
   `command rm -- <path>`. Delete named paths only, never a glob, and pass this
   rule to any subagent that writes files.
 - Production is read-only for agents: no writes, and decrypting counts as one.
-- For Nebula local credential access, use the gcloud dev credentials and Secret Manager project `nebula-dev-494607`. Check dev credentials before asking for reauthentication; default gcloud configuration may point to production.
 
 ### Local resource ownership
 

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Dev stack"
-  short_description: "Run the shared main development stack"
-  default_prompt: "Start and verify the scoped development services from each repository main checkout."
