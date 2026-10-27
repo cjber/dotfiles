@@ -27,6 +27,7 @@ RESTIC="/usr/bin/restic"
 
 # Host-specific settings (NAS_SSH, NAS_REPO, GDRIVE_REPO, HA_STATUS_PATH)
 BACKUP_ENV="${RESTIC_BACKUP_ENV:-$HOME/.config/restic/backup.env}"
+# shellcheck source=/dev/null  # host-specific path, resolved at runtime
 if [ -r "$BACKUP_ENV" ]; then . "$BACKUP_ENV"; else echo "missing $BACKUP_ENV" >&2; exit 1; fi
 : "${NAS_SSH:?}" "${NAS_REPO:?}" "${GDRIVE_REPO:?}" "${HA_STATUS_PATH:?}"
 START_EPOCH=$(date +%s)
