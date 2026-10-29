@@ -1,5 +1,5 @@
 [Unit]
-Description=Worktree maintenance (freshen main, prune merged worktrees, reap stale venvs)
+Description=Worktree maintenance (freshen main, prune merged worktrees, reap stale venvs and Rust targets)
 
 [Service]
 Type=oneshot

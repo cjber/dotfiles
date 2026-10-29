@@ -13,7 +13,8 @@
 #   2. sweeps truly-orphan directories under ~/.worktrees/<repo> that git no
 #      longer tracks (leftover after an out-of-band `rm`), scoped strictly to
 #      ~/.worktrees and WITHOUT sudo — it never touches a repo's main checkout.
-# Finally it reaps long-untouched .venv dirs under ~/.worktrees (see below).
+# Finally it reaps long-untouched .venv and Rust target/ dirs under ~/.worktrees
+# (see below).
 #
 # This is the SINGLE worktree maintainer. It absorbed the former
 # worktree-prune.{sh,service,timer}, which ran 13 minutes later over the same
@@ -123,4 +124,34 @@ if [[ -d "$WORKTREES_ROOT" && "$STALE_VENV_DAYS" -gt 0 ]]; then
     done < <(find "$WORKTREES_ROOT" -maxdepth 4 -name .venv -type d -mtime "+$STALE_VENV_DAYS" 2>/dev/null || true)
 fi
 
-log "done. repos=${#REPOS[@]} stale_venvs_dropped=$venvs"
+# 4. Reap Rust target/ dirs in worktrees nobody has built in STALE_TARGET_DAYS.
+#
+# A venv is hundreds of megabytes; a fastbrowse target/ is 2-21 GB, and 23
+# fastbrowse worktrees held 184 GB of target/ out of their 200 GB
+# and filled /home to 100%. The age test is the newest FILE anywhere under
+# target/, not a dir mtime: a dir created by a fresh checkout is new while every
+# artifact inside it is weeks old, and cargo rewrites files deep inside it
+# without touching the top.
+# Only target/ goes; `cargo build` regenerates it. The incremental/ reap below
+# covers builds that opt back in with CARGO_INCREMENTAL=1 (~/.cargo/config.toml
+# turns it off), whose state otherwise grows to half of a live target/.
+STALE_TARGET_DAYS="${STALE_TARGET_DAYS:-3}"
+STALE_INCREMENTAL_DAYS="${STALE_INCREMENTAL_DAYS:-1}"
+targets=0
+incrementals=0
+if [[ -d "$WORKTREES_ROOT" && "$STALE_TARGET_DAYS" -gt 0 ]]; then
+    while IFS= read -r target; do
+        [[ -f "$target/CACHEDIR.TAG" ]] || continue # only cargo's own target dirs
+        if [[ -z "$(find "$target" -type f -newermt "-$STALE_TARGET_DAYS days" -print -quit 2>/dev/null)" ]]; then
+            rm -rf -- "$target" && { log "dropped stale target ($STALE_TARGET_DAYS+ days): $target"; targets=$((targets + 1)); }
+        elif [[ "$STALE_INCREMENTAL_DAYS" -gt 0 ]]; then
+            for inc in "$target"/*/incremental; do
+                [[ -d "$inc" ]] || continue
+                [[ -z "$(find "$inc" -type f -newermt "-$STALE_INCREMENTAL_DAYS days" -print -quit 2>/dev/null)" ]] || continue
+                rm -rf -- "$inc" && { log "dropped stale incremental ($STALE_INCREMENTAL_DAYS+ days): $inc"; incrementals=$((incrementals + 1)); }
+            done
+        fi
+    done < <(find "$WORKTREES_ROOT" -maxdepth 3 -name target -type d -prune 2>/dev/null || true)
+fi
+
+log "done. repos=${#REPOS[@]} stale_venvs_dropped=$venvs stale_targets_dropped=$targets stale_incrementals_dropped=$incrementals"
