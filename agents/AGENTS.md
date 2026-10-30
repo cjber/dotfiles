@@ -38,6 +38,10 @@ memory, and out of checked-in files that teammates share.
   `command rm -- <path>`. Delete named paths only, never a glob, and pass this
   rule to any subagent that writes files.
 - Production is read-only for agents: no writes, and decrypting counts as one.
+- Wait on a process by PID or a background notification. A loop whose `pgrep -f` pattern matches its
+  own command line never ends; pass this rule to any subagent that waits.
+- A push that changes `.github/workflows` needs SSH: the gh token lacks `workflow` scope. In the
+  sandbox, SSH push needs `GIT_SSH_COMMAND=ssh` run unsandboxed.
 
 ### Local resource ownership
 
